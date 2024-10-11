@@ -1,4 +1,4 @@
-targetScope = 'resourceGroup'
+targetScope = 'subscription'
 
 param enableUserAssignedManagedIdentity bool
 param enableVirtualHub bool
