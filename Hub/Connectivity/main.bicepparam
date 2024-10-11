@@ -59,60 +59,24 @@ param ruleCollectionGroups = [
         {
           name: 'DefaultRuleCollection'
           properties: {
-            rules: '' 
+            rules: ''
           }
         }
         {
           name: 'NetworkRuleCollection'
           properties: {
-            rules: '' 
+            rules: ''
           }
         }
         {
           name: 'ApplicationRuleCollection'
           properties: {
-            rules: '' 
+            rules: ''
           }
         }
       ]
     }
   }
-  // {
-  //   name: 'rule-001'
-  //   priority: 5000
-  //   ruleCollections: [
-  //     {
-  //       action: {
-  //         type: 'Allow'
-  //       }
-  //       name: 'collection002'
-  //       priority: 5555
-  //       ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-  //       rules: [
-  //         {
-  //           destinationAddresses: [
-  //             '*'
-  //           ]
-  //           destinationFqdns: []
-  //           destinationIpGroups: []
-  //           destinationPorts: [
-  //             '80'
-  //           ]
-  //           ipProtocols: [
-  //             'TCP'
-  //             'UDP'
-  //           ]
-  //           name: 'rule002'
-  //           ruleType: 'NetworkRule'
-  //           sourceAddresses: [
-  //             '*'
-  //           ]
-  //           sourceIpGroups: []
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // }
 ]
 
 // Site-to-Site VPN Links
@@ -150,9 +114,7 @@ param vpnSiteLinks = [
 
 // Default NSG Rules
 
-param securityRules = [
-  
-]
+param securityRules = []
 
 // Virtual Network Properties
 
@@ -332,11 +294,6 @@ param enableFileCopy = true
 param enableIpConnect = true
 param enableShareableLink = true
 // param enableTunneling = true
-
-
-
-
-
 
 // param hubRoutingPreference = 'None'
 
