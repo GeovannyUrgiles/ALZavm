@@ -217,7 +217,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
         userAssignedIdentity.outputs.resourceId
       ]
     }
-    mode: 'Alert'
+    mode: 'Off' // Alert' | 'Deny'
     ruleCollectionGroups: ruleCollectionGroups
     tier: firewallTier
   }
