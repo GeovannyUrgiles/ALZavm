@@ -281,8 +281,19 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
     name: dnsResolverName
     location: location
     tags: tags
-    inboundEndpoints: inboundEndpoints
-    outboundEndpoints: outboundEndpoints
+    inboundEndpoints: [
+      {
+        name: 'inboundEndpoint'
+        subnetResourceId: inboundEndpoints
+      }
+    ]
+    outboundEndpoints: [
+      {
+        name: 'inboundEndpoint'
+        subnetResourceId: outboundEndpoints
+      }
+    ]
+    
     virtualNetworkResourceId: virtualNetwork.outputs.resourceId
   }
   dependsOn: [

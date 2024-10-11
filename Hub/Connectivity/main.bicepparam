@@ -18,17 +18,28 @@ param enableFirewall = true
 
 param firewallName = 'tcfirewall'
 param firewallPolicyName = 'tcfirewallpol'
-param inboundEndpoints = 'subnetin'
-param outboundEndpoints = 'subnetout'
-param uamiName = 'uami'
-param virtualHubName = 'vwanhub'
-param virtualNetworkName = 'vnet'
-param virtualWanName = 'vwan'
+param inboundEndpoints = [
+  {
+    name: 'inbound'
+    subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${MySubnet}'
+  }
+]
+param outboundEndpoints = [
+  {
+    name: 'outbound'
+    subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${MySubnet}'
+  }
+]
+
+param uamiName = 'tcconwus2mi'
+param virtualHubName = 'tcconwus2hub'
+param virtualNetworkName = 'tcconwus2vnet'
+param virtualWanName = 'tcconwus2vwan'
 param defaultRoutesName = 'DefaultRouteTable'
-param vpnSiteName = 'vpnSite'
-param resourceGroupNetworkName = 'resourceGroupNetwork'
-param bastionName = 'bastion'
-param dnsResolverName = 'dnsResolver'
+param vpnSiteName = 'tcconwus2site'
+param resourceGroupNetworkName = 'tcconwus2networkrg'
+param bastionName = 'tcconwus2bh'
+param dnsResolverName = 'tcconwus2dns'
 
 // Firewall Policy Groups and Rules
 
@@ -39,6 +50,18 @@ param ruleCollectionGroups = [
       ruleCollections: [
         {
           name: 'DefaultRuleCollection'
+          properties: {
+            rules: securityRules
+          }
+        }
+        {
+          name: 'NetworkRuleCollection'
+          properties: {
+            rules: securityRules
+          }
+        }
+        {
+          name: 'ApplicationRuleCollection'
           properties: {
             rules: securityRules
           }
@@ -310,8 +333,4 @@ param lock = {
   name: 'ProtectedResource'
 }
 
-
-
 // param vpnGatewayScaleUnit = 1
-
-
