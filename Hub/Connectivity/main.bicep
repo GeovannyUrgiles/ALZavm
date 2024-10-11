@@ -128,7 +128,7 @@ module resourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' 
 // User Assigned Managed Identity
 
 module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = if (enableUserAssignedManagedIdentity == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'userAssignedIdentityDeployment'
   params: {
     name: uamiName
@@ -143,7 +143,7 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
 // Virtual WAN
 
 module virtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirtualWan == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'virtualWanDeployment'
   params: {
     name: virtualWanName
@@ -162,7 +162,7 @@ module virtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirt
 // Virtual WAN Hub
 
 module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirtualHub == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'virtualHubDeployment'
   params: {
     addressPrefix: addressSpace[0]
@@ -204,7 +204,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
 // Firewall Policy
 
 module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'firewallPolicyDeployment'
   params: {
     name: firewallPolicyName
@@ -229,7 +229,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
 // Azure Firewall
 
 module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'azureFirewallDeployment'
   params: {
     name: firewallName
@@ -251,7 +251,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 // VPN Site
 
 module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'vpnSiteDeployment'
   params: {
     name: vpnSiteName
@@ -278,7 +278,7 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
 // Network Security Group
 
 module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = if (enableVirtualNetworkGroup == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'networkSecurityGroupDeployment'
   params: {
     name: 'nnsgmax001'
@@ -294,7 +294,7 @@ module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.
 // Virtual Network
 
 module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (enableVirtualNetwork == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'virtualNetworkDeployment'
   params: {
     name: virtualNetworkName
@@ -332,7 +332,7 @@ module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (
 // DNS Private Resolver
 
 module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupNetworkName)
   name: 'DnsResolverDeployment'
   params: {
     name: dnsResolverName
