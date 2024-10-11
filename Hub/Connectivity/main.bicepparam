@@ -57,7 +57,7 @@ param ruleCollectionGroups = [
     properties: {
       ruleCollections: [
         {
-          name: 'DefaultRuleCollection'
+          name: 'DNATRuleCollection'
           properties: {
             rules: ''
           }
