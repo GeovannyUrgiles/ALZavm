@@ -120,10 +120,26 @@ param subnets = [
   {
     addressPrefix: '10.1.2.0/24'
     name: 'DnsInbound'
+    delegations: [
+      {
+        name: 'DnsInboundDelegation'
+        properties: {
+          serviceName: 'Microsoft.Network/dnsResolvers'
+        }
+      }
+    ]
   }
   {
     addressPrefix: '10.1.3.0/24'
     name: 'DnsOutbound'
+    delegations: [
+      {
+        name: 'DnsOutboundDelegation'
+        properties: {
+          serviceName: 'Microsoft.Network/dnsResolvers'
+        }
+      }
+    ]
   }
 ]
 
@@ -303,7 +319,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
 
 param tags = {
   Environment: 'Non-Prod'
-  'hidden-title': 'This is visible in the resource name'
+  'hidden-title': 'Wassup bitches! :-)'
   Role: 'DeploymentValidation'
 }
 
