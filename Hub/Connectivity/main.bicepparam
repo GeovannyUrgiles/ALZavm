@@ -19,6 +19,7 @@ param enableFirewall = false
 
 param firewallName = 'tcfirewall'
 param firewallPolicyName = 'tcfirewallpol'
+param firewallTier = 'Premium'
 
 // var inboundSubnetName = subnets[2].name
 // var outboundSubnetName = subnets[3].name
@@ -362,7 +363,7 @@ param enableShareableLink = true
 
 
 
-param firewallTier = 'Standard'
+
 
 // param hubRoutingPreference = 'None'
 
