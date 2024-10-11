@@ -95,7 +95,7 @@ module resourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' =
     name: resourceGroupNetworkName
     tags: tags
     location: primaryRegionName
-    lock: lock
+    // lock: lock
     roleAssignments: roleAssignmentsNetwork
   }
 }
@@ -107,7 +107,7 @@ module resourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' =
     name: resourceGroupBastionName
     tags: tags
     location: primaryRegionName
-    lock: lock
+    // lock: lock
     roleAssignments: roleAssignmentsBastion
   }
 }
@@ -118,7 +118,7 @@ module resourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' 
   params: {
     name: resourceGroupPrivateDnsName
     tags: tags
-    lock: lock
+    // lock: lock
     roleAssignments: roleAssignmentsPrivateDns
   }
 }
