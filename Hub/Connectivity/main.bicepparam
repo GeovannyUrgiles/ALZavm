@@ -116,6 +116,14 @@ param subnets = [
   {
     addressPrefix: '10.1.1.0/24'
     name: 'AzureBastionSubnet'
+    delegations: [
+      {
+        name: 'AzureBastionDelegation'
+        properties: {
+          serviceName: 'Microsoft.Network/azureBastionHosts'
+        }
+      }
+    ]
   }
   {
     addressPrefix: '10.1.2.0/24'
