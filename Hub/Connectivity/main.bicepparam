@@ -319,7 +319,7 @@ param numberOfPublicIPs = 1
 
 // param privateIPAllocationMethod = 'Dynamic'
 
-param scaleUnits = 1
+param scaleUnits = 2
 
 param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
 
