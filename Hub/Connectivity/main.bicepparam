@@ -151,34 +151,7 @@ param vpnSiteLinks = [
 // Default NSG Rules
 
 param securityRules = [
-  {
-    name: 'Deny-All-Inbound'
-    properties: {
-      access: 'Deny'
-      destinationAddressPrefix: '*'
-      destinationPortRange: '*'
-      direction: 'Inbound'
-      priority: 4095
-      protocol: '*'
-      sourceAddressPrefix: '*'
-      sourcePortRange: '*'
-    }
-  }
-  {
-    name: 'Allow-AzureCloud-Tcp'
-    properties: {
-      access: 'Allow'
-      destinationAddressPrefix: 'AzureCloud'
-      destinationPortRange: '443'
-      direction: 'Outbound'
-      priority: 250
-      protocol: 'Tcp'
-      sourceAddressPrefixes: [
-        addressPrefixes[0]
-      ]
-      sourcePortRange: '*'
-    }
-  }
+  
 ]
 
 // Virtual Network Properties
