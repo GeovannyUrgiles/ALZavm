@@ -52,31 +52,31 @@ param dnsResolverName = 'conwus2dns'
 // Firewall Policy Groups and Rules
 
 param ruleCollectionGroups = [
-  {
-    name: 'DefaultRuleCollectionGroup'
-    properties: {
-      ruleCollections: [
-        {
-          name: 'DNATRuleCollection'
-          properties: {
-            rules: ''
-          }
-        }
-        {
-          name: 'NetworkRuleCollection'
-          properties: {
-            rules: ''
-          }
-        }
-        {
-          name: 'ApplicationRuleCollection'
-          properties: {
-            rules: ''
-          }
-        }
-      ]
-    }
-  }
+  // {
+  //   name: 'DefaultRuleCollectionGroup'
+  //   properties: {
+  //     ruleCollections: [
+  //       {
+  //         name: 'DNATRuleCollection'
+  //         properties: {
+  //           rules: ''
+  //         }
+  //       }
+  //       {
+  //         name: 'NetworkRuleCollection'
+  //         properties: {
+  //           rules: ''
+  //         }
+  //       }
+  //       {
+  //         name: 'ApplicationRuleCollection'
+  //         properties: {
+  //           rules: ''
+  //         }
+  //       }
+  //     ]
+  //   }
+  // }
 ]
 
 // Site-to-Site VPN Links
