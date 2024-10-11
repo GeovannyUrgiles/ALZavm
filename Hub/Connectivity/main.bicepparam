@@ -208,26 +208,26 @@ param subnets = [
 // Role Assignments for Resource Groups
 
 param roleAssignmentsNetwork = [
-  {
-    // Network Team
-    name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
-    principalId: '<principalId>'
-    principalType: 'ServicePrincipal'
-    roleDefinitionIdOrName: 'Owner'
-  }
-  {
-    // Security Team
-    name: '<name>'
-    principalId: '<principalId>'
-    principalType: 'ServicePrincipal'
-    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-  }
-  {
-    // Neudesic Engineering
-    principalId: '<principalId>'
-    principalType: 'ServicePrincipal'
-    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-  }
+  // {
+  //   // Network Team
+  //   name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
+  //   principalId: '<principalId>'
+  //   principalType: 'ServicePrincipal'
+  //   roleDefinitionIdOrName: 'Owner'
+  // }
+  // {
+  //   // Security Team
+  //   name: '<name>'
+  //   principalId: '<principalId>'
+  //   principalType: 'ServicePrincipal'
+  //   roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  // }
+  // {
+  //   // Neudesic Engineering
+  //   principalId: '<principalId>'
+  //   principalType: 'ServicePrincipal'
+  //   roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+  // }
 ]
 
 param roleAssignmentsBastion = [
