@@ -245,6 +245,8 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
   }
   dependsOn: [
     resourceGroupNetwork
+    virtualHub
+    firewallPolicy
   ]
 }
 
@@ -272,6 +274,8 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
   }
   dependsOn: [
     resourceGroupNetwork
+    virtualWan
+    virtualHub
   ]
 }
 
