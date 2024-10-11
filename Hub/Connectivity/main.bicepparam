@@ -303,8 +303,11 @@ param dnsPrivateResolver = []
 param enableFileCopy = true
 param enableIpConnect = true
 param enableShareableLink = true
-// param enableTunneling = true
+// param privateIPAllocationMethod = 'Dynamic'
+param scaleUnits = 2
 
+
+// param enableTunneling = true
 // param hubRoutingPreference = 'None'
 
 param location = 'westus2'
@@ -314,12 +317,9 @@ param secondaryRegionName = 'eastus2'
 param numberOfPublicIPs = 1
 
 // param onPremDnsServer = ''
-
 // param preferredRoutingGateway = ''
 
-// param privateIPAllocationMethod = 'Dynamic'
 
-param scaleUnits = 2
 
 param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
 
