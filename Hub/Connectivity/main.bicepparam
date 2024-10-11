@@ -124,20 +124,20 @@ param addressPrefixes = [
 
 param subnets = [
   {
+    addressPrefix: '10.1.0.0/24'
     name: 'GatewaySubnet'
-    subnetPrefix: '10.1.0.0/24'
   }
   {
+    addressPrefix: '10.1.1.0/24'
     name: 'AzureBastionSubnet'
-    subnetPrefix: '10.1.1.0/24'
   }
   {
+    addressPrefix: '10.1.2.0/24'
     name: 'DnsInbound'
-    subnetPrefix: '10.1.2.0/24'
   }
   {
+    addressPrefix: '10.1.3.0/24'
     name: 'DnsOutbound'
-    subnetPrefix: '10.1.3.0/24'
   }
 ]
 
