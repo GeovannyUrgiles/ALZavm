@@ -6,13 +6,13 @@ param enableAzureFirewall = true
 param enableDnsResolver = true
 param enablePrivatDnsZones = true
 param enableUserAssignedManagedIdentity = true
-param enableVirtualHub = true
+param enableVirtualHub = false
 param enableVirtualNetwork = true
 param enableVirtualNetworkGroup = true
 param enableVirtualWan = true
-param enableVpnSite = true
+param enableVpnSite = false
 param enableBastion = true
-param enableFirewall = true
+param enableFirewall = false
 // param enableRecoveryServiceVault = true
 
 // Resource Names
