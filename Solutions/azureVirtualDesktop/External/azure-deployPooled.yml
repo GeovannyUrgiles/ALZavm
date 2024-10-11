@@ -1,0 +1,50 @@
+trigger: none
+name: Prod AVD Pooled External
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  azureServiceConnection: 'TenantRoot-ESLZ'
+  location: 'westus'
+  templateFile: 'Pooled/main.bicep'
+  subscription: 'Production'
+  action: 'what-if'
+pool:
+  vmImage: $(vmImageName)
+
+stages:
+- stage: 'nbbwus_what_if'
+  displayName: 'NBBWUS - Bicep What-if'
+  jobs:
+  - job: 'what_if'
+    displayName: 'Run Bicep'
+    steps:
+      - task: AzureCLI@2
+        displayName: "Deploy Bicep Code"
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            pwd
+            az deployment sub $(action) --location $(location) --template-file $(templateFile) --subscription $(subscription) 
+- stage: 'nbbwus_create'
+  displayName: 'NBBWUS - Bicep Create'
+  jobs:
+  - deployment: 'NBBWUS_create'
+    environment: 'Production'
+    variables:
+      action: 'create'     
+    strategy:
+     runOnce:
+        deploy:
+           steps:
+            - checkout: self
+            - task: AzureCLI@2
+              displayName: "Deploy Bicep Code"
+              inputs:
+                azureSubscription: $(azureServiceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  pwd
+                  az deployment sub $(action) --location $(location) --template-file $(templateFile) --subscription $(subscription) 

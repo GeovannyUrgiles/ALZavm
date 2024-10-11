@@ -1,0 +1,28 @@
+trigger: none
+name: Core AV
+
+variables:
+  vmImageName: 'windows-latest'
+  azureServiceConnection: 'Azure ARM Connection'
+  location: 'centralus'
+  subscriptionid: 'fc5bf9c0-ac3b-4e10-932f-2937bb605927'
+  lawname: "f9corcusavdlaw01"
+  rglaw: 'f9corcusavdrg01'
+  rgname: 'f9corcusavdrg01'
+pool:
+  vmImage: $(vmImageName)
+
+stages:
+- stage: 'InstallInsights'
+  displayName: InstallInsights'
+  jobs:
+  - job: 'install'
+    displayName: 'Run Script'
+    steps:
+      - task: AzurePowerShell@5
+        inputs:
+          azureSubscription: '$(azureServiceConnection)'
+          ScriptType: 'FilePath'
+          ScriptPath: 'installinsights.ps1'
+          ScriptArguments: '-ResourceGroup $(rgname) -LawName $(lawname) -SubscriptionId $(subscriptionid) -rgLaw $(rglaw)'
+          azurePowerShellVersion: 'LatestVersion'

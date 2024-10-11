@@ -1,0 +1,28 @@
+trigger: none
+name: Core AVD Personal
+
+variables:
+  vmImageName: 'windows-latest'
+  azureServiceConnection: 'Azure ARM Connection'
+  location: 'centralus'
+  subscription: 'Core-CUS'
+  vm: 'f9avdper-0'
+  rgname: 'f9corcusavdrg01'
+  hostpool: 'f9corcusavdperhp'
+pool:
+  vmImage: $(vmImageName)
+
+stages:
+- stage: 'JoinHostpool'
+  displayName: JoinHostpool'
+  jobs:
+  - job: 'join'
+    displayName: 'Run Script'
+    steps:
+      - task: AzurePowerShell@5
+        inputs:
+          azureSubscription: '$(azureServiceConnection)'
+          ScriptType: 'FilePath'
+          ScriptPath: 'joinhostpool.ps1'
+          ScriptArguments: '-vm $(vm) -rgname $(rgname) -hostpool $(hostpool)'
+          azurePowerShellVersion: 'LatestVersion'

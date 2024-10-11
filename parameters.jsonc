@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    
+      //   "exampleString": {
+    //     "value": "test string"
+    //   },
+
+    //   "exampleInt": {
+    //     "value": 4
+    //   },
+    // Bastions
+      "deployCoreBastion": {
+        "value": false
+      },
+    // Domain Controllers
+      "deployCoreDomainControllers": {
+        "value": false
+      },
+        "ouToJoin": {
+        "value": ""
+      },
+      "ouPath": {
+        "value": ""
+      },
+      
+    //   "exampleArray": {
+    //     "value": [
+    //       "value 1",
+    //       "value 2"
+    //     ]
+    //   },
+    
+    // Global Tags
+      "tags": {
+        "value": {
+          "company": "src",
+          "product": "robots"
+        }
+      }
+    }
+  }

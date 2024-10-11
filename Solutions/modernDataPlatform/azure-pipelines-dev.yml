@@ -1,0 +1,45 @@
+# Colorado Springs Utilites Infra pipeline
+# There are (4) yaml files, one for each environment (dev, test, qa, prod)
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+variables:
+  azureServiceConnection: 'ServiceConnection'
+  location: 'WestUS2'
+  locationShort: 'wus2'
+  templateFile: 'csu-modules/main.bicep'
+  parametersFile: 'csu-modules/main-dev.bicepparam'
+  subscriptionId: '5fd55dd9-d76e-48b3-86f5-66638a425f9c'
+  dataResourceGroupName: 'da-dev-wus2-rg'
+  
+  # action: 'what-if'
+  action: 'create'     
+
+pool:
+  # vmImage: ubuntu-latest
+  vmImage: 'windows-latest'
+
+stages:
+- stage: 'MDP'
+  displayName: 'Deploy MDP'
+  jobs:
+  - deployment: 'Deploy_MDP'
+    environment: 'Dev'
+    timeoutInMinutes: '360'
+    strategy:
+     runOnce:
+        deploy:
+           steps:
+            - checkout: self
+            - task: AzureCLI@2
+              displayName: "Deploy MDP Resources"
+              inputs:
+                azureSubscription: $(azureServiceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  pwd
+                  az account set --subscription $(subscriptionId)
+                  az deployment sub $(action) --location $(location) --template-file $(templateFile) --parameters $(parametersFile)

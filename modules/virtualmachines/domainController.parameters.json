@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adminLogin": {
+        "value": "adminLogin"
+      },
+      "adminPassword": {
+        "reference": {
+          "keyVault": {
+            "id": "/subscriptions/a15395c1-b0d6-410e-84e0-08fde8583b67/resourceGroups/rg-name/providers/Microsoft.KeyVault/vaults/vault-name"
+          },
+          "secretName": "adminPassword"
+        }
+      },
+      "domainAdminLogin": {
+        "value": "domainAdminLogin"
+      },
+      "domainAdminPassword": {
+        "reference": {
+          "keyVault": {
+            "id": "/subscriptions/a15395c1-b0d6-410e-84e0-08fde8583b67/resourceGroups/rg-name/providers/Microsoft.KeyVault/vaults/vault-name"
+          },
+          "secretName": "domainAdminPassword"
+        }
+      }
+    }
+  }
