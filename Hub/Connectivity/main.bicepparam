@@ -21,21 +21,7 @@ param firewallName = 'tcfirewall'
 param firewallPolicyName = 'tcfirewallpol'
 param firewallTier = 'Premium'
 
-// var inboundSubnetName = subnets[2].name
-// var outboundSubnetName = subnets[3].name
 
-// param inboundEndpoints = [
-//   {
-//     name: 'inbound'
-//     subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${inboundSubnetName}'
-//   }
-// ]
-// param outboundEndpoints = [
-//   {
-//     name: 'outbound'
-//     subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnets.name[4]}'
-//   }
-// ]
 
 param uamiName = 'conwus2mi'
 param virtualHubName = 'conwus2hub'

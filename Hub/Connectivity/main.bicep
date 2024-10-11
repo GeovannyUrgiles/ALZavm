@@ -61,10 +61,8 @@ param allowBranchToBranchTraffic bool
 // param onPremDnsServer string
 param dnsFirewallProxy array
 param dnsPrivateResolver array
-// param inboundEndpoints string
-// param outboundEndpoints string
 
-// aram tenantId string = tenant().tenantId
+// param tenantId string = tenant().tenantId
 
 param primaryRegionName string
 param secondaryRegionName string
@@ -317,7 +315,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
 // Private DNS Zones
 
 module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (enablePrivatDnsZones == true) {
-  scope: resourceGroup(resourceGroupDnsZones.name)
+  scope: resourceGroup(resourceGroupPrivateDnsName)
   name: 'privateDnsZonesDeployment'
   params: {
     name: privatelinkDnsZoneNames[0]
@@ -355,7 +353,6 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
         subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
       }
     ]
-    
     virtualNetworkResourceId: virtualNetwork.outputs.resourceId
   }
   dependsOn: [
@@ -366,7 +363,7 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
 // Azure Bastion Host
 
 module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBastion == true) {
-  scope: resourceGroup(resourceGroupBastion.name)
+  scope: resourceGroup(resourceGroupBastionName)
   name: 'AzureBastionDeployment'
   params: {
     name: bastionName
