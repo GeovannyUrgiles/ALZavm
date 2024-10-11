@@ -347,12 +347,12 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
         subnetResourceId: virtualNetwork.outputs.subnetResourceIds[2]
       }
     ]
-    outboundEndpoints: [
-      {
-        name: 'inboundEndpoint'
-        subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
-      }
-    ]
+    // outboundEndpoints: [
+    //   {
+    //     name: 'OutboundEndpoint'
+    //     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
+    //   }
+    // ]
     virtualNetworkResourceId: virtualNetwork.outputs.resourceId
   }
   dependsOn: [
