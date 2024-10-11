@@ -228,27 +228,27 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
 
 // Azure Firewall
 
-module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall == true) {
-  scope: resourceGroup(resourceGroupNetworkName)
-  name: 'azureFirewallDeployment'
-  params: {
-    name: firewallName
-    tags: tags
-    firewallPolicyId: firewallPolicy.outputs.resourceId
-    hubIPAddresses: {
-      publicIPs: {
-        count: numberOfPublicIPs
-      }
-    }
-    location: primaryRegionName
-    virtualHubId: virtualHub.outputs.resourceId
-  }
-  dependsOn: [
-    resourceGroupNetwork
-    virtualHub
-    firewallPolicy
-  ]
-}
+// module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall == true) {
+//   scope: resourceGroup(resourceGroupNetworkName)
+//   name: 'azureFirewallDeployment'
+//   params: {
+//     name: firewallName
+//     tags: tags
+//     firewallPolicyId: firewallPolicy.outputs.resourceId
+//     hubIPAddresses: {
+//       publicIPs: {
+//         count: numberOfPublicIPs
+//       }
+//     }
+//     location: primaryRegionName
+//     virtualHubId: virtualHub.outputs.resourceId
+//   }
+//   dependsOn: [
+//     resourceGroupNetwork
+//     virtualHub
+//     firewallPolicy
+//   ]
+// }
 
 // VPN Site
 
