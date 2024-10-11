@@ -92,7 +92,7 @@ param lock object
 
 module resourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' = {
   scope: subscription(subscriptionId)
-  name: 'resourceGroupDeployment'
+  name: 'resourceGroupNetworkDeployment'
   params: {
     name: resourceGroupNetworkName
     tags: tags
@@ -104,7 +104,7 @@ module resourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' =
 
 module resourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = {
   scope: subscription(subscriptionId)
-  name: 'resourceGroupDeployment'
+  name: 'resourceGroupBastionDeployment'
   params: {
     name: resourceGroupBastionName
     tags: tags
@@ -115,8 +115,8 @@ module resourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' =
 }
 
 module resourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
-  scope: subscription(resourceGroupPrivateDnsName)
-  name: 'resourceGroupDeployment'
+  scope: subscription(subscriptionId)
+  name: 'resourceGroupDnsZonesDeployment'
   params: {
     name: resourceGroupPrivateDnsName
     tags: tags
@@ -291,7 +291,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
 // Private DNS Zones
 
 module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (enablePrivatDnsZones == true) {
-  scope: resourceGroup(resourceGroupNetwork.name)
+  scope: resourceGroup(resourceGroupDnsZones.name)
   name: 'privateDnsZonesDeployment'
   params: {
     name: privatelinkDnsZoneNames[0]
