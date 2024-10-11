@@ -357,7 +357,7 @@ param dnsPrivateResolver = []
 param enableFileCopy = true
 param enableIpConnect = true
 param enableShareableLink = true
-param enableTunneling = true
+// param enableTunneling = true
 
 
 
@@ -376,11 +376,11 @@ param numberOfPublicIPs = 1
 
 // param preferredRoutingGateway = ''
 
-param privateIPAllocationMethod = 'Dynamic'
+// param privateIPAllocationMethod = 'Dynamic'
 
 param scaleUnits = 1
 
-param subscriptionId = ''
+param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
 
 // Default Tags
 
