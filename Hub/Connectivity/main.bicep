@@ -305,11 +305,12 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
     location: location
     tags: tags
     addressPrefixes: addressPrefixes
-    dnsServers: ((enableFirewall == true) ? dnsFirewallProxy : dnsPrivateResolver)
+    dnsServers: [] // ((enableFirewall == true) ? dnsFirewallProxy : dnsPrivateResolver)
     subnets: subnets
   }
   dependsOn: [
     resourceGroupNetwork
+    networkSecurityGroup
   ]
 }
 
