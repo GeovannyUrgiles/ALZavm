@@ -346,13 +346,13 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
     inboundEndpoints: [
       {
         name: 'inboundEndpoint'
-        subnetResourceId: virtualNetwork.outputs.subnetNames[2]
+        subnetResourceId: virtualNetwork.outputs.subnetResourceIds[2]
       }
     ]
     outboundEndpoints: [
       {
         name: 'inboundEndpoint'
-        subnetResourceId: virtualNetwork.outputs.subnetNames[3]
+        subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
       }
     ]
     
