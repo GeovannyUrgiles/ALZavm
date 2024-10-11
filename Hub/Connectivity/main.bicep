@@ -328,7 +328,7 @@ module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (
     ]
   }
   dependsOn: [
-    resourceGroupNetwork
+    virtualNetwork
   ]
 }
 
@@ -356,6 +356,7 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
     virtualNetworkResourceId: virtualNetwork.outputs.resourceId
   }
   dependsOn: [
+    privateDnsZones
     virtualNetwork
   ]
 }
