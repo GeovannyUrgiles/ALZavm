@@ -135,6 +135,9 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
     tags: tags
     location: primaryRegionName
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // Virtual WAN
@@ -151,6 +154,9 @@ module virtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirt
     tags: tags
     type: virtualWanSku // 'Basic' | Standard
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // Virtual WAN Hub
@@ -190,6 +196,9 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
     ]
     location: primaryRegionName
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // Firewall Policy
@@ -212,6 +221,9 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     ruleCollectionGroups: ruleCollectionGroups
     tier: firewallTier
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // Azure Firewall
@@ -231,6 +243,9 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
     location: primaryRegionName
     virtualHubId: virtualHub.outputs.resourceId
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // VPN Site
@@ -255,6 +270,9 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
     }
     vpnSiteLinks: vpnSiteLinks
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // Network Security Group
@@ -268,6 +286,9 @@ module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.
     location: location
     securityRules: securityRules
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // Virtual Network
@@ -303,6 +324,9 @@ module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (
       }
     ]
   }
+  dependsOn: [
+    resourceGroupNetwork
+  ]
 }
 
 // DNS Private Resolver
