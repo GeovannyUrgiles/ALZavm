@@ -33,7 +33,7 @@ param defaultRoutesName string
 param firewallName string
 param firewallPolicyName string
 
-param addressSpace array
+param addressPrefixes array
 param subnets array
 param securityRules array
 
@@ -165,7 +165,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
   scope: resourceGroup(resourceGroupNetworkName)
   name: 'virtualHubDeployment'
   params: {
-    addressPrefix: addressSpace[0]
+    addressPrefix: '10.0.0.0/23' // addressPrefix
     name: virtualHubName
     virtualWanId: virtualWan.outputs.resourceId
     hubRouteTables: [
@@ -300,7 +300,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
     name: virtualNetworkName
     location: location
     tags: tags
-    addressPrefixes: addressSpace
+    addressPrefixes: addressPrefixes
     dnsServers: ((enableFirewall == true) ? dnsFirewallProxy : dnsPrivateResolver)
     subnets: subnets
   }

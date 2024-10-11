@@ -173,7 +173,7 @@ param securityRules = [
       priority: 250
       protocol: 'Tcp'
       sourceAddressPrefixes: [
-        addressSpace[0]
+        addressPrefixes[0]
       ]
       sourcePortRange: '*'
     }
@@ -182,26 +182,26 @@ param securityRules = [
 
 // Virtual Network Properties
 
-param addressSpace = [
-  '10.0.0.0/16'
+param addressPrefixes = [
+  '10.1.0.0/18'
 ]
 
 param subnets = [
   {
     name: 'GatewaySubnet'
-    subnetPrefix: '10.0.0.0/24'
+    subnetPrefix: '10.1.0.0/24'
   }
   {
     name: 'AzureBastionSubnet'
-    subnetPrefix: '10.0.1.0/24'
+    subnetPrefix: '10.1.1.0/24'
   }
   {
     name: 'DnsInbound'
-    subnetPrefix: '10.0.2.0/24'
+    subnetPrefix: '10.1.2.0/24'
   }
   {
     name: 'DnsOutbound'
-    subnetPrefix: '10.0.3.0/24'
+    subnetPrefix: '10.1.3.0/24'
   }
 ]
 
