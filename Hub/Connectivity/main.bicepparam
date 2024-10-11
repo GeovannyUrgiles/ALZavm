@@ -13,33 +13,40 @@ param enableVirtualWan = true
 param enableVpnSite = true
 param enableBastion = true
 param enableFirewall = true
+// param enableRecoveryServiceVault = true
 
 // Resource Names
 
 param firewallName = 'tcfirewall'
 param firewallPolicyName = 'tcfirewallpol'
-param inboundEndpoints = [
-  {
-    name: 'inbound'
-    subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${MySubnet}'
-  }
-]
-param outboundEndpoints = [
-  {
-    name: 'outbound'
-    subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${MySubnet}'
-  }
-]
 
-param uamiName = 'tcconwus2mi'
-param virtualHubName = 'tcconwus2hub'
-param virtualNetworkName = 'tcconwus2vnet'
-param virtualWanName = 'tcconwus2vwan'
+// var inboundSubnetName = subnets[2].name
+// var outboundSubnetName = subnets[3].name
+
+// param inboundEndpoints = [
+//   {
+//     name: 'inbound'
+//     subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${inboundSubnetName}'
+//   }
+// ]
+// param outboundEndpoints = [
+//   {
+//     name: 'outbound'
+//     subnetResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupNetworkName}/providers/Microsoft.Network/virtualNetworks/${virtualNetworkName}/subnets/${subnets.name[4]}'
+//   }
+// ]
+
+param uamiName = 'conwus2mi'
+param virtualHubName = 'conwus2hub'
+param virtualNetworkName = 'conwus2vnet'
+param virtualWanName = 'conwus2vwan'
 param defaultRoutesName = 'DefaultRouteTable'
-param vpnSiteName = 'tcconwus2site'
-param resourceGroupNetworkName = 'tcconwus2networkrg'
-param bastionName = 'tcconwus2bh'
-param dnsResolverName = 'tcconwus2dns'
+param vpnSiteName = 'conwus2site'
+param resourceGroupNetworkName = 'conwus2networkrg'
+param resourceGroupBastionName = 'conwus2bastionrg'
+param resourceGroupPrivateDnsName = 'conwus2privdnsrg'
+param bastionName = 'conwus2bh'
+param dnsResolverName = 'conwus2dns'
 
 // Firewall Policy Groups and Rules
 
@@ -51,19 +58,19 @@ param ruleCollectionGroups = [
         {
           name: 'DefaultRuleCollection'
           properties: {
-            rules: securityRules
+            rules: '' 
           }
         }
         {
           name: 'NetworkRuleCollection'
           properties: {
-            rules: securityRules
+            rules: '' 
           }
         }
         {
           name: 'ApplicationRuleCollection'
           properties: {
-            rules: securityRules
+            rules: '' 
           }
         }
       ]
@@ -181,14 +188,26 @@ param addressSpace = [
 
 param subnets = [
   {
+    name: 'GatewaySubnet'
+    subnetPrefix: '10.0.0.0/24'
+  }
+  {
     name: 'AzureBastionSubnet'
-    subnetPrefix: '10.1.0.0/24'
+    subnetPrefix: '10.0.1.0/24'
+  }
+  {
+    name: 'DnsInbound'
+    subnetPrefix: '10.0.2.0/24'
+  }
+  {
+    name: 'DnsOutbound'
+    subnetPrefix: '10.0.3.0/24'
   }
 ]
 
 // Role Assignments for Resource Groups
 
-param roleAssignments = [
+param roleAssignmentsNetwork = [
   {
     // Network Team
     name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
@@ -211,68 +230,113 @@ param roleAssignments = [
   }
 ]
 
-// Private DNS Zones - Deploy only what's required
+param roleAssignmentsBastion = [
+  {
+    // Network Team
+    name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'Owner'
+  }
+  {
+    // Security Team
+    name: '<name>'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  }
+  {
+    // Neudesic Engineering
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+  }
+]
+
+param roleAssignmentsPrivateDns = [
+  {
+    // Network Team
+    name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'Owner'
+  }
+  {
+    // Security Team
+    name: '<name>'
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+  }
+  {
+    // Neudesic Engineering
+    principalId: '<principalId>'
+    principalType: 'ServicePrincipal'
+    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+  }
+]
+
+// Private DNS Zones. Deploy only what's required
 
 param privatelinkDnsZoneNames = [
-  // Index:
-  'pbidedicated.windows.net' // 01
-  'botplinks.botframework.com' // 02
-  'bottoken.botframework.com' // 03
-  'privatelinks.aznbcontent.net' // 04
-  'privatelinks.notebooks.azure.net' // 05
-  'privatelink.adf.azure.com' // 06
-  'privatelink.azure-automation.net' // 07
-  'privatelink.azurecr.io' // 08
-  'privatelink.azurewebsites.net' // 09
-  'privatelink.azurestaticapps.net' // 11
-  'privatelink.analysis.windows.net' // 12
-  'privatelink.azurehdinsight.net' // 13
-  'privatelink.azure-api.net' // 14
-  'privatelink.azconfig.io' // 15
-  'privatelink.azure-devices.net' // 16
-  'privatelink.azuresynapse.net' // 17
-  'privatelink.agentsvc.azure-automation.net' // 18
-  'privatelink.batch.azure.com' // 19
-  'privatelink.blob.core.windows.net' // 20
-  'privatelink.cassandra.cosmos.azure.com' // 21
-  'privatelink.cognitiveservices.azure.com' // 22
-  'privatelink.database.windows.net' // 23
-  'privatelink.datafactory.azure.net' // 24
-  'privatelink.dev.azuresynapse.net' // 25
-  'privatelink.developer.azure-api.net' // 26
-  'privatelink.dfs.core.windows.net' // 27
-  'privatelink.digitaltwins.azure.net' // 28
-  'privatelink.documents.azure.com' // 29
-  'privatelink.eventgrid.azure.net' // 30
-  'privatelink.file.core.windows.net' // 31
-  'privatelink.guestconfiguration.azure.com' // 32
-  'privatelink.his.arc.azure.com' // 33
-  'privatelink.monitor.azure.com' // 34
-  'privatelink.mongo.cosmos.azure.com' // 35
-  'privatelink.mysql.database.azure.com' // 36
-  'privatelink.mariadb.database.azure.com' // 37
-  'privatelink.managedhsm.azure.net' // 38
-  'privatelink.media.azure.net' // 40
-  'privatelink.ods.opinsights.azure.com' // 42
-  'privatelink.oms.opinsights.azure.com' // 43
-  'privatelink.postgres.database.azure.com' // 44
-  'privatelink.purview.azure.com' // 45
-  'privatelink.purviewstudio.azure.com' // 46
-  'privatelink.prod.migration.windowsazure.com' // 47
-  'privatelink.pbidedicated.windows.net' // 48
-  'privatelink.queue.core.windows.net' // 50
-  'privatelink.redis.cache.windows.net' // 51
-  'privatelink.redisenterprise.cache.azure.net' // 52
-  'privatelink.search.windows.net' // 54
-  'privatelink.service.signalr.net' // 55
-  'privatelink.servicebus.windows.net' // 56
-  'privatelink.sql.azuresynapse.net' // 57
-  'privatelink.table.core.windows.net' // 58
-  'privatelink.table.cosmos.azure.com' // 59
-  'privatelink.tip1.powerquery.microsoft.com' // 60
-  'privatelink.vaultcore.azure.net' // 61
-  'privatelink.web.core.windows.net' // 62
-  'privatelink.gremlin.cosmos.azure.com' // 63
+  'pbidedicated.windows.net'
+  'botplinks.botframework.com'
+  'bottoken.botframework.com'
+  'privatelinks.aznbcontent.net'
+  'privatelinks.notebooks.azure.net'
+  'privatelink.adf.azure.com'
+  'privatelink.azure-automation.net'
+  'privatelink.azurecr.io'
+  'privatelink.azurewebsites.net'
+  'privatelink.azurestaticapps.net'
+  'privatelink.analysis.windows.net'
+  'privatelink.azurehdinsight.net'
+  'privatelink.azure-api.net'
+  'privatelink.azconfig.io'
+  'privatelink.azure-devices.net'
+  'privatelink.azuresynapse.net'
+  'privatelink.agentsvc.azure-automation.net'
+  'privatelink.batch.azure.com'
+  'privatelink.blob.core.windows.net'
+  'privatelink.cassandra.cosmos.azure.com'
+  'privatelink.cognitiveservices.azure.com'
+  'privatelink.database.windows.net'
+  'privatelink.datafactory.azure.net'
+  'privatelink.dev.azuresynapse.net'
+  'privatelink.developer.azure-api.net'
+  'privatelink.dfs.core.windows.net'
+  'privatelink.digitaltwins.azure.net'
+  'privatelink.documents.azure.com'
+  'privatelink.eventgrid.azure.net'
+  'privatelink.file.core.windows.net'
+  'privatelink.guestconfiguration.azure.com'
+  'privatelink.his.arc.azure.com'
+  'privatelink.monitor.azure.com'
+  'privatelink.mongo.cosmos.azure.com'
+  'privatelink.mysql.database.azure.com'
+  'privatelink.mariadb.database.azure.com'
+  'privatelink.managedhsm.azure.net'
+  'privatelink.media.azure.net'
+  'privatelink.ods.opinsights.azure.com'
+  'privatelink.oms.opinsights.azure.com'
+  'privatelink.postgres.database.azure.com'
+  'privatelink.purview.azure.com'
+  'privatelink.purviewstudio.azure.com'
+  'privatelink.prod.migration.windowsazure.com'
+  'privatelink.pbidedicated.windows.net'
+  'privatelink.queue.core.windows.net'
+  'privatelink.redis.cache.windows.net'
+  'privatelink.redisenterprise.cache.azure.net'
+  'privatelink.search.windows.net'
+  'privatelink.service.signalr.net'
+  'privatelink.servicebus.windows.net'
+  'privatelink.sql.azuresynapse.net'
+  'privatelink.table.core.windows.net'
+  'privatelink.table.cosmos.azure.com'
+  'privatelink.tip1.powerquery.microsoft.com'
+  'privatelink.vaultcore.azure.net'
+  'privatelink.web.core.windows.net'
+  'privatelink.gremlin.cosmos.azure.com'
 ]
 
 // VWAN Properties
@@ -295,8 +359,8 @@ param enableIpConnect = true
 param enableShareableLink = true
 param enableTunneling = true
 
-// param enableRecoveryServiceVault = true
-// param enableVPNGateway = true
+
+
 
 param firewallTier = 'Standard'
 

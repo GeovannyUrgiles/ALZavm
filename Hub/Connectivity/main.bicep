@@ -27,6 +27,8 @@ param bastionName string
 param dnsResolverName string
 param vpnSiteName string
 param resourceGroupNetworkName string
+param resourceGroupBastionName string
+param resourceGroupPrivateDnsName string
 param defaultRoutesName string
 param firewallName string
 param firewallPolicyName string
@@ -59,8 +61,8 @@ param allowBranchToBranchTraffic bool
 // param onPremDnsServer string
 param dnsFirewallProxy array
 param dnsPrivateResolver array
-param inboundEndpoints string
-param outboundEndpoints string
+// param inboundEndpoints string
+// param outboundEndpoints string
 
 // aram tenantId string = tenant().tenantId
 
@@ -75,13 +77,15 @@ param enableFileCopy bool
 param enableIpConnect bool
 param enableShareableLink bool
 
-param enableTunneling bool
-param privateIPAllocationMethod string
+// param enableTunneling bool
+// param privateIPAllocationMethod string
 param scaleUnits int
 
 param privatelinkDnsZoneNames array
 
-param roleAssignments array
+param roleAssignmentsNetwork array
+param roleAssignmentsBastion array
+param roleAssignmentsPrivateDns array
 param lock object
 
 // Resource Groups
@@ -94,7 +98,31 @@ module resourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' =
     tags: tags
     location: primaryRegionName
     lock: lock
-    roleAssignments: roleAssignments
+    roleAssignments: roleAssignmentsNetwork
+  }
+}
+
+module resourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = {
+  scope: subscription(subscriptionId)
+  name: 'resourceGroupDeployment'
+  params: {
+    name: resourceGroupBastionName
+    tags: tags
+    location: primaryRegionName
+    lock: lock
+    roleAssignments: roleAssignmentsBastion
+  }
+}
+
+module resourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
+  scope: subscription(subscriptionId)
+  name: 'resourceGroupDeployment'
+  params: {
+    name: resourceGroupPrivateDnsName
+    tags: tags
+    location: primaryRegionName
+    lock: lock
+    roleAssignments: roleAssignmentsPrivateDns
   }
 }
 
@@ -284,13 +312,13 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
     inboundEndpoints: [
       {
         name: 'inboundEndpoint'
-        subnetResourceId: inboundEndpoints
+        subnetResourceId: virtualNetwork.outputs.subnetNames[2]
       }
     ]
     outboundEndpoints: [
       {
         name: 'inboundEndpoint'
-        subnetResourceId: outboundEndpoints
+        subnetResourceId: virtualNetwork.outputs.subnetNames[3]
       }
     ]
     
