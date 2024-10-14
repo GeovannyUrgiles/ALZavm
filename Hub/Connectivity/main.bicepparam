@@ -11,7 +11,7 @@ param enableVirtualNetwork = true
 param enableVirtualNetworkGroup = true
 param enableVirtualWan = true
 param enableVpnSite = false
-param enableBastion = true
+param enableBastion = false
 param enableFirewall = false
 // param enableRecoveryServiceVault = true
 
