@@ -172,25 +172,25 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
       }
     ]
     hubVirtualNetworkConnections: [
-      // {
-        // name: 'connection1'
-        // remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
-        // routingConfiguration: {
-          // associatedRouteTable: {
-          //   id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
-          // }
-          // propagatedRouteTables: {
-          //   ids: [
-          //     {
-          //       id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
-          //     }
-          //   ]
-          //   labels: [
-          //     'default'
-          //   ]
-          // }
-        // }
-      // }
+      {
+        name: 'connection1'
+        remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
+        routingConfiguration: {
+          associatedRouteTable: {
+            id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
+          }
+          propagatedRouteTables: {
+            ids: [
+              {
+                id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
+              }
+            ]
+            labels: [
+              'none'
+            ]
+          }
+        }
+      }
     ]
     location: primaryRegionName
   }
