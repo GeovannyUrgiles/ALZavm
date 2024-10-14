@@ -341,12 +341,12 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
     name: dnsResolverName
     location: location
     tags: tags
-    // inboundEndpoints: [
-    //   {
-    //     name: 'inboundEndpoint'
-    //     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[2]
-    //   }
-    // ]
+    inboundEndpoints: [
+      {
+        name: 'inboundEndpoint'
+        subnetResourceId: virtualNetwork.outputs.subnetResourceIds[2]
+      }
+    ]
     // outboundEndpoints: [
     //   {
     //     name: 'OutboundEndpoint'

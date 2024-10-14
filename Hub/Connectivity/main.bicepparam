@@ -21,8 +21,6 @@ param firewallName = 'tcfirewall'
 param firewallPolicyName = 'tcfirewallpol'
 param firewallTier = 'Premium'
 
-
-
 param uamiName = 'conwus2mi'
 param virtualHubName = 'conwus2hub'
 param virtualNetworkName = 'conwus2vnet'
@@ -116,35 +114,18 @@ param subnets = [
   {
     addressPrefix: '10.1.1.0/24'
     name: 'AzureBastionSubnet'
-    delegations: [
-      {
-        properties: {
-          serviceName: 'Microsoft.Network/azureBastionHosts'
-        }
-      }
-    ]
+    delegation: 'Microsoft.Network/azureBastionSubnets'
   }
   {
     addressPrefix: '10.1.2.0/24'
     name: 'DnsInbound'
-    delegations: [
-      {
-        properties: {
-          serviceName: 'Microsoft.Network/dnsResolvers'
-        }
-      }
-    ]
+    delegation: 'Microsoft.Network/dnsResolvers'
   }
   {
     addressPrefix: '10.1.3.0/24'
     name: 'DnsOutbound'
-    delegations: [
-      {
-        properties: {
-          serviceName: 'Microsoft.Network/dnsResolvers'
-        }
-      }
-    ]
+    delegation: 'Microsoft.Network/dnsResolvers'
+    // networkSecurityGroupResourceId: 'Microsoft.Network/networkSecurityGroups/MyNSG'
   }
 ]
 
@@ -303,7 +284,6 @@ param enableShareableLink = true
 // param privateIPAllocationMethod = 'Dynamic'
 param scaleUnits = 2
 
-
 // param enableTunneling = true
 // param hubRoutingPreference = 'None'
 
@@ -315,8 +295,6 @@ param numberOfPublicIPs = 1
 
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
-
-
 
 param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
 
