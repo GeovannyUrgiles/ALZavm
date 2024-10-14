@@ -177,7 +177,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
         name: 'connection1'
         remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
         routingConfiguration: {
-          group: 'none'
+          groupName: 'bingo'
           associatedRouteTable: {
             id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
           }
