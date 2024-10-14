@@ -31,7 +31,7 @@ param defaultRoutesName = 'DefaultRouteTable'
 param vpnSiteName = 'conwus2site'
 param resourceGroupName_Network = 'conwus2networkrg'
 param resourceGroupName_Bastion = 'conwus2bastionrg'
-param resourceGroupName_PrivateDns = 'conwus2privdnsrg'
+param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 
