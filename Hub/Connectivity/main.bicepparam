@@ -11,7 +11,7 @@ param enableVirtualNetwork = true
 param enableVirtualNetworkGroup = true
 param enableVirtualWan = true
 param enableVpnSite = false
-param enableBastion = false
+param enableBastion = true
 param enableFirewall = false
 // param enableRecoveryServiceVault = true
 
@@ -114,7 +114,7 @@ param subnets = [
   {
     addressPrefix: '10.1.1.0/24'
     name: 'AzureBastionSubnet'
-    delegation: 'Microsoft.Network/azureBastionSubnets'
+    // delegation: 'Microsoft.Network/azureBastionSubnet'
   }
   {
     addressPrefix: '10.1.2.0/24'
