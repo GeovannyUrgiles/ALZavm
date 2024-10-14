@@ -314,11 +314,11 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
 
 // Private DNS Zones
 
-module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (enablePrivatDnsZones == true) {
+module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivatDnsZones == true) {
   scope: resourceGroup(resourceGroupName_PrivateDns)
-  name: 'privateDnsZonesDeployment'
+  name: '${privatelinkDnsZoneName}Deployment'
   params: {
-    name: privatelinkDnsZoneNames[0]
+    name: privatelinkDnsZoneName
     tags: tags
     virtualNetworkLinks: [
       {
@@ -331,7 +331,7 @@ module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (
     virtualNetwork
   ]
 }
-
+]
 // DNS Private Resolver
 
 module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver == true) {
