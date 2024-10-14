@@ -118,7 +118,6 @@ param subnets = [
     name: 'AzureBastionSubnet'
     delegations: [
       {
-        name: 'AzureBastionDelegation'
         properties: {
           serviceName: 'Microsoft.Network/azureBastionHosts'
         }
