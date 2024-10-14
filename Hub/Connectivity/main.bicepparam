@@ -327,7 +327,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
 
 param tags = {
   Environment: 'Non-Prod'
-  'hidden-title': 'Wassup bitches! :-)'
+  'hidden-title': 'v1.0.0'
   Role: 'DeploymentValidation'
 }
 
