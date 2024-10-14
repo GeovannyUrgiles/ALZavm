@@ -3,7 +3,7 @@ using 'main.bicep'
 // Deployment Options
 
 param enableAzureFirewall = true
-param enableDnsResolver = false
+param enableDnsResolver = true
 param enablePrivatDnsZones = true
 param enableUserAssignedManagedIdentity = true
 param enableVirtualHub = false

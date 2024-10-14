@@ -335,32 +335,32 @@ module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [for
 
 // DNS Private Resolver
 
-// module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver == true) {
-//   scope: resourceGroup(resourceGroupName_Network)
-//   name: 'DnsResolverDeployment'
-//   params: {
-//     name: dnsResolverName
-//     location: location
-//     tags: tags
-//     inboundEndpoints: [
-//       {
-//         name: 'inboundEndpoint'
-//         subnetResourceId: virtualNetwork.outputs.subnetResourceIds[2]
-//       }
-//     ]
-//     // outboundEndpoints: [
-//     //   {
-//     //     name: 'OutboundEndpoint'
-//     //     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
-//     //   }
-//     // ]
-//     virtualNetworkResourceId: virtualNetwork.outputs.resourceId
-//   }
-//   dependsOn: [
-//     privateDnsZones
-//     virtualNetwork
-//   ]
-// }
+module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver == true) {
+  scope: resourceGroup(resourceGroupName_Network)
+  name: 'DnsResolverDeployment'
+  params: {
+    name: dnsResolverName
+    location: location
+    tags: tags
+    inboundEndpoints: [
+      {
+        name: 'inboundEndpoint'
+        subnetResourceId: virtualNetwork.outputs.subnetResourceIds[2]
+      }
+    ]
+    // outboundEndpoints: [
+    //   {
+    //     name: 'OutboundEndpoint'
+    //     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
+    //   }
+    // ]
+    virtualNetworkResourceId: virtualNetwork.outputs.resourceId
+  }
+  dependsOn: [
+    privateDnsZones
+    virtualNetwork
+  ]
+}
 
 // Azure Bastion Host
 
