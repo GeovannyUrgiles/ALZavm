@@ -3,15 +3,15 @@ using 'main.bicep'
 // Deployment Options
 
 param enableAzureFirewall = true
-param enableDnsResolver = true
+param enableDnsResolver = false
 param enablePrivatDnsZones = true
 param enableUserAssignedManagedIdentity = true
-param enableVirtualHub = false
+param enableVirtualHub = true
 param enableVirtualNetwork = true
 param enableVirtualNetworkGroup = true
 param enableVirtualWan = true
 param enableVpnSite = false
-param enableBastion = true
+param enableBastion = false
 param enableFirewall = false
 // param enableRecoveryServiceVault = true
 
