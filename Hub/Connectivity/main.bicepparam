@@ -130,7 +130,6 @@ param subnets = [
     name: 'DnsInbound'
     delegations: [
       {
-        name: 'DnsInboundDelegation'
         properties: {
           serviceName: 'Microsoft.Network/dnsResolvers'
         }
@@ -142,7 +141,6 @@ param subnets = [
     name: 'DnsOutbound'
     delegations: [
       {
-        name: 'DnsOutboundDelegation'
         properties: {
           serviceName: 'Microsoft.Network/dnsResolvers'
         }
