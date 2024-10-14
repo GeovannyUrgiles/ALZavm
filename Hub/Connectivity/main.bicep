@@ -172,10 +172,10 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
       }
     ]
     hubVirtualNetworkConnections: [
-      {
-        name: 'connection1'
-        remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
-        routingConfiguration: {
+      // {
+        // name: 'connection1'
+        // remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
+        // routingConfiguration: {
           // associatedRouteTable: {
           //   id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
           // }
@@ -189,8 +189,8 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
           //     'default'
           //   ]
           // }
-        }
-      }
+        // }
+      // }
     ]
     location: primaryRegionName
   }
