@@ -166,25 +166,23 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
     addressPrefix: '10.0.0.0/23' // addressPrefix
     name: virtualHubName
     virtualWanId: virtualWan.outputs.resourceId
-    
     hubRouteTables: [
       {
         name: defaultRoutesName
       }
-    ]
+   ]
     hubVirtualNetworkConnections: [
       {
         name: 'connection1'
         remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
         routingConfiguration: {
-          groupName: 'bingo'
           associatedRouteTable: {
-            id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
+            id: '${resourceGroupNetwork.outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
           }
           propagatedRouteTables: {
             ids: [
               {
-                id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
+                id: '${resourceGroupNetwork.outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
               }
             ]
             labels: [

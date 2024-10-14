@@ -28,7 +28,7 @@ resource hubVirtualNetworkConnections 'Microsoft.Network/virtualHubs/hubVirtualN
   properties: {
     routingConfiguration: {
       associatedRouteTable: {
-        id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanHubName, 'defaultRouteTable')
+        id:  resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanHubName, 'defaultRouteTable')
       }
       propagatedRouteTables: {
         ids: [
