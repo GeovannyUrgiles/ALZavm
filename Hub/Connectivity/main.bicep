@@ -166,6 +166,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
     addressPrefix: '10.0.0.0/23' // addressPrefix
     name: virtualHubName
     virtualWanId: virtualWan.outputs.resourceId
+    
     hubRouteTables: [
       {
         name: defaultRoutesName
@@ -176,6 +177,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
         name: 'connection1'
         remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
         routingConfiguration: {
+          group: 'none'
           associatedRouteTable: {
             id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualWanName, defaultRoutesName)
           }
