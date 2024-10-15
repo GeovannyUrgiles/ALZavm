@@ -52,7 +52,7 @@ param ruleCollectionGroups = [
   {
     ruleCollectionType: 'FirewallPolicyNatRuleCollection'
     action: {
-      type: 'Dnat'
+      type: 'DNAT'
     }
     rules: []
     name: 'DefaultNatCollection'
