@@ -40,24 +40,24 @@ param dnsResolverName = 'conwus2dns'
 // Firewall Policy Groups and Rules
 
 param ruleCollectionGroups = [
-  {
-    ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-    action: {
-      type: 'Allow'
-    }
-    rules: []
-    name: 'DefaultCollection'
-    priority: 1000
-  }
-  {
-    ruleCollectionType: 'FirewallPolicyNatRuleCollection'
-    action: {
-      type: 'DNAT'
-    }
-    rules: []
-    name: 'DefaultNatCollection'
-    priority: 1000
-  }
+  // {
+  //   ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+  //   action: {
+  //     type: 'Allow'
+  //   }
+  //   rules: []
+  //   name: 'DefaultCollection'
+  //   priority: 1000
+  // }
+  // {
+  //   ruleCollectionType: 'FirewallPolicyNatRuleCollection'
+  //   action: {
+  //     type: 'DNAT'
+  //   }
+  //   rules: []
+  //   name: 'DefaultNatCollection'
+  //   priority: 1000
+  // }
 ]
 
 // Site-to-Site VPN Links
