@@ -234,7 +234,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     //   ]
     // }
     // mode: mode 
-    ruleCollectionGroups: ruleCollectionGroups
+    // ruleCollectionGroups: ruleCollectionGroups
     tier: 'Standard' // tier
   }
   dependsOn: [
@@ -297,7 +297,7 @@ module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.
     scope: resourceGroup(resourceGroupName_Network)
     name: 'nsg${subnet.name}Deployment'
     params: {
-      name: '${subnet.name}-nsg'
+      name: toLower('${subnet.name}-nsg')
       tags: tags
       location: location[0]
       securityRules: securityRules
