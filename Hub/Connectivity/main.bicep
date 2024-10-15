@@ -7,7 +7,7 @@ param enableVirtualHub bool
 param enableVirtualWan bool
 param enableAzureFirewall bool
 param enableVpnSite bool
-param enableVirtualNetworkGroup bool
+param enableNetworkSecurityGroups bool
 param enablePrivatDnsZones bool
 param enableDnsResolver bool
 param enableVirtualNetwork bool
@@ -293,7 +293,7 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
 
 // Network Security Group
 
-module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in subnets: if (enableVirtualNetworkGroup == true) {
+module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in subnets: if (enableNetworkSecurityGroups == true) {
     scope: resourceGroup(resourceGroupName_Network)
     name: 'nsg${subnet.name}Deployment'
     params: {
