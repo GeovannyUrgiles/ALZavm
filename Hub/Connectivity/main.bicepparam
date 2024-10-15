@@ -15,6 +15,12 @@ param enableBastion = false
 param enableFirewall = false
 // param enableRecoveryServiceVault = true
 
+// Paired Regions
+param location = [
+  'westus2' // Primary Region
+  'eastus2' // Secondary Region
+]
+
 // Resource Names
 
 param firewallName = 'tcfirewall'
@@ -96,9 +102,17 @@ param vpnSiteLinks = [
   }
 ]
 
+// Azure Firewall Properties
+
+param skuName = 'Standard' // Standard | Premium
+
 // Default NSG Rules
 
 param securityRules = []
+
+// Virtual WAN Properties
+
+param addressPrefix = '10.0.0.0/23'
 
 // Virtual Network Properties
 
@@ -126,6 +140,16 @@ param subnets = [
     name: 'DnsOutbound'
     delegation: 'Microsoft.Network/dnsResolvers'
     // networkSecurityGroupResourceId: 'Microsoft.Network/networkSecurityGroups/MyNSG'
+  }
+]
+
+// Spoke Virtual Networks for Hub Virtual Network Connections
+
+param spokes = [
+  {
+    subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
+    resourceGroupName: 'conwus2spokerg'
+    virtualNetworkName: 'conwus2spokevnet'
   }
 ]
 
@@ -200,11 +224,11 @@ param roleAssignmentsPrivateDns = [
   // }
 ]
 
-// Private DNS Zones. Deploy only what's required
+// Private DNS Zones. This is not a complete list. Deploy only what's required
 
 param privatelinkDnsZoneNames = [
-  'pbidedicated.windows.net'
-  'botplinks.botframework.com'
+  //'pbidedicated.windows.net'
+  //'botplinks.botframework.com'
   // 'bottoken.botframework.com'
   // 'privatelinks.aznbcontent.net'
   // 'privatelinks.notebooks.azure.net'
@@ -221,7 +245,7 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.azuresynapse.net'
   // 'privatelink.agentsvc.azure-automation.net'
   // 'privatelink.batch.azure.com'
-  // 'privatelink.blob.core.windows.net'
+  'privatelink.blob.core.windows.net'
   // 'privatelink.cassandra.cosmos.azure.com'
   // 'privatelink.cognitiveservices.azure.com'
   // 'privatelink.database.windows.net'
@@ -232,10 +256,10 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.digitaltwins.azure.net'
   // 'privatelink.documents.azure.com'
   // 'privatelink.eventgrid.azure.net'
-  // 'privatelink.file.core.windows.net'
+  'privatelink.file.core.windows.net'
   // 'privatelink.guestconfiguration.azure.com'
   // 'privatelink.his.arc.azure.com'
-  // 'privatelink.monitor.azure.com'
+  'privatelink.monitor.azure.com'
   // 'privatelink.mongo.cosmos.azure.com'
   // 'privatelink.mysql.database.azure.com'
   // 'privatelink.mariadb.database.azure.com'
@@ -258,14 +282,14 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.table.core.windows.net'
   // 'privatelink.table.cosmos.azure.com'
   // 'privatelink.tip1.powerquery.microsoft.com'
-  // 'privatelink.vaultcore.azure.net'
+  'privatelink.vaultcore.azure.net'
   // 'privatelink.web.core.windows.net'
   // 'privatelink.gremlin.cosmos.azure.com'
 ]
 
 // VWAN Properties
 
-param virtualWanSku = 'Standard'
+param virtualWanSku = 'Standard' // Basic | Standard | Premium
 
 // VWAN Hub Properties
 
@@ -281,15 +305,10 @@ param dnsPrivateResolver = []
 param enableFileCopy = true
 param enableIpConnect = true
 param enableShareableLink = true
-// param privateIPAllocationMethod = 'Dynamic'
 param scaleUnits = 2
 
 // param enableTunneling = true
 // param hubRoutingPreference = 'None'
-
-param location = 'westus2'
-param primaryRegionName = 'westus2'
-param secondaryRegionName = 'eastus2'
 
 param numberOfPublicIPs = 1
 

@@ -1,5 +1,7 @@
 targetScope = 'subscription'
 
+// Deployment Boolean Parameters
+
 param enableUserAssignedManagedIdentity bool
 param enableVirtualHub bool
 param enableVirtualWan bool
@@ -12,11 +14,18 @@ param enableVirtualNetwork bool
 param enableFirewall bool
 param enableBastion bool
 
-param location string
+// Virtual Hub Connectivity
+
+param spokes array
+
+// Deployment Options
+
+param location array
 param tags object
 
 param subscriptionId string
-// param coreCAFPrefixes string
+
+// Resource Names
 
 param virtualNetworkName string
 param virtualWanName string
@@ -26,67 +35,70 @@ param uamiName string
 param bastionName string
 param dnsResolverName string
 param vpnSiteName string
-param resourceGroupName_Network string
-param resourceGroupName_Bastion string
-param resourceGroupName_PrivateDns string
-param defaultRoutesName string
+
 param firewallName string
 param firewallPolicyName string
 
-param addressPrefixes array
-param subnets array
-param securityRules array
+// Resource Group Parameters
 
-// VPN Gateway Site-to-Site
-
-param vpnSiteLinks array
-
-param ruleCollectionGroups array
-param disableVpnEncryption bool
-// param bgpSettings int
-// param vpnGatewayScaleUnit int
-
-// Virtual WAN
-
-param allowVnetToVnetTraffic bool
-param allowBranchToBranchTraffic bool
-
-// Virtual WAN Hub
-
-// param preferredRoutingGateway string
-// param hubRoutingPreference string
-
-// Azure DNS 
-
-// param onPremDnsServer string
-param dnsFirewallProxy array
-param dnsPrivateResolver array
-
-// param tenantId string = tenant().tenantId
-
-param primaryRegionName string
-param secondaryRegionName string
-
-param firewallTier string
-param numberOfPublicIPs int
-
-param disableCopyPaste bool
-param enableFileCopy bool
-param enableIpConnect bool
-param enableShareableLink bool
-
-// param enableTunneling bool
-// param privateIPAllocationMethod string
-param scaleUnits int
-
-param privatelinkDnsZoneNames array
-
+param resourceGroupName_Network string
+param resourceGroupName_Bastion string
+param resourceGroupName_PrivateDns string
 param roleAssignmentsNetwork array
 param roleAssignmentsBastion array
 param roleAssignmentsPrivateDns array
 param lock object
 
-// Resource Groups
+// Virtual Network Parameters
+
+param addressPrefixes array
+param subnets array
+param securityRules array
+// param onPremDnsServer string
+param dnsFirewallProxy array
+param dnsPrivateResolver array
+
+// VPN Gateway Site-to-Site
+
+param vpnSiteLinks array
+
+// Virtual WAN
+
+param addressPrefix string
+param allowVnetToVnetTraffic bool
+param allowBranchToBranchTraffic bool
+
+// Virtual WAN Hub Routing
+
+param defaultRoutesName string
+// param preferredRoutingGateway string
+// param hubRoutingPreference string
+
+// Azure Firewall Parameters
+
+param firewallTier string
+param numberOfPublicIPs int
+// param enableTunneling bool
+// param privateIPAllocationMethod string
+param scaleUnits int
+param ruleCollectionGroups array
+param disableVpnEncryption bool
+// param bgpSettings int
+// param vpnGatewayScaleUnit int
+
+// Private DNS Parameters
+
+param privatelinkDnsZoneNames array
+
+// Bastion Parameters
+
+param skuName string
+param disableCopyPaste bool
+param enableFileCopy bool
+param enableIpConnect bool
+param enableShareableLink bool
+
+// Network Resource Group Deployment
 
 module resourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' = {
   scope: subscription(subscriptionId)
@@ -94,11 +106,13 @@ module resourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' =
   params: {
     name: resourceGroupName_Network
     tags: tags
-    location: primaryRegionName
+    location: location[0]
     // lock: lock
     roleAssignments: roleAssignmentsNetwork
   }
 }
+
+// Bastion  Resource Group Deployment
 
 module resourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = {
   scope: subscription(subscriptionId)
@@ -106,11 +120,13 @@ module resourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' =
   params: {
     name: resourceGroupName_Bastion
     tags: tags
-    location: primaryRegionName
+    location: location[0]
     // lock: lock
     roleAssignments: roleAssignmentsBastion
   }
 }
+
+// Private DNS Resource Group Deployment
 
 module resourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
   scope: subscription(subscriptionId)
@@ -131,7 +147,7 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
   params: {
     name: uamiName
     tags: tags
-    location: primaryRegionName
+    location: location[0]
   }
   dependsOn: [
     resourceGroupNetwork
@@ -148,9 +164,9 @@ module virtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirt
     allowBranchToBranchTraffic: allowBranchToBranchTraffic
     allowVnetToVnetTraffic: allowVnetToVnetTraffic
     disableVpnEncryption: disableVpnEncryption
-    location: location
+    location: location[0]
     tags: tags
-    type: virtualWanSku // 'Basic' | Standard
+    type: virtualWanSku
   }
   dependsOn: [
     resourceGroupNetwork
@@ -163,7 +179,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
   scope: resourceGroup(resourceGroupName_Network)
   name: 'virtualHubDeployment'
   params: {
-    addressPrefix: '10.0.0.0/23' // addressPrefix
+    addressPrefix: addressPrefix
     name: virtualHubName
     virtualWanId: virtualWan.outputs.resourceId
     hubRouteTables: [
@@ -171,10 +187,10 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
         name: defaultRoutesName
       }
    ]
-    hubVirtualNetworkConnections: [
+    hubVirtualNetworkConnections: [ // for spoke in spokes: {
       {
-        name: 'connection1'
-        remoteVirtualNetworkId: virtualNetwork.outputs.resourceId
+        name: '${virtualNetworkName}-to-${virtualHubName}'
+        remoteVirtualNetworkId: virtualNetwork.outputs.resourceId // /subscription/${spoke.sub}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
         routingConfiguration: {
           associatedRouteTable: {
             id: '${resourceGroupNetwork.outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
@@ -192,7 +208,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
         }
       }
     ]
-    location: primaryRegionName
+    location: location[0]
   }
   dependsOn: [
     resourceGroupNetwork
@@ -209,7 +225,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     tags: tags
     allowSqlRedirect: true
     autoLearnPrivateRanges: 'Enabled'
-    location: primaryRegionName
+    location: location[0]
     managedIdentities: {
       userAssignedResourceIds: [
         userAssignedIdentity.outputs.resourceId
@@ -238,7 +254,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
 //         count: numberOfPublicIPs
 //       }
 //     }
-//     location: primaryRegionName
+//     location: location[0]
 //     virtualHubId: virtualHub.outputs.resourceId
 //   }
 //   dependsOn: [
@@ -255,7 +271,7 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
   name: 'vpnSiteDeployment'
   params: {
     name: vpnSiteName
-    location: primaryRegionName
+    location: location[0]
     tags: tags
     virtualWanId: virtualWan.outputs.resourceId
     deviceProperties: {
@@ -285,7 +301,7 @@ module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.
   params: {
     name: 'nnsgmax001'
     tags: tags
-    location: location
+    location: location[0]
     securityRules: securityRules
   }
   dependsOn: [
@@ -300,7 +316,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
   name: 'virtualNetworkDeployment'
   params: {
     name: virtualNetworkName
-    location: location
+    location: location[0]
     tags: tags
     addressPrefixes: addressPrefixes
     dnsServers: [] // ((enableFirewall == true) ? dnsFirewallProxy : dnsPrivateResolver)
@@ -340,7 +356,7 @@ module dnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDn
   name: 'DnsResolverDeployment'
   params: {
     name: dnsResolverName
-    location: location
+    location: location[0]
     tags: tags
     inboundEndpoints: [
       {
@@ -369,34 +385,18 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
   name: 'AzureBastionDeployment'
   params: {
     name: bastionName
-    location: location
+    location: location[0]
+    virtualNetworkResourceId: virtualNetwork.outputs.resourceId
     tags: tags
     disableCopyPaste: disableCopyPaste
     enableIpConnect: enableIpConnect
     enableFileCopy: enableFileCopy
     scaleUnits: scaleUnits
     enableShareableLink: enableShareableLink
-    virtualNetworkResourceId: virtualNetwork.outputs.resourceId
-    skuName: 'Standard'
+    
+    skuName: skuName
   }
   dependsOn: [
     virtualNetwork
   ]
 }
-
-// Virtual Network Connections initiated from VWAN
-
-// module coreHubToCore 'network/virtualWanHubPeering.bicep' = {
-//   scope: resourceGroup(vwanHubSubscriptionIds[0], '${vwanHubCAFPrefixes[0]}networkrg')
-//   name: '${coreCAFPrefixes}hub-to-${coreCAFPrefixes}vnet'
-//   params: {
-//     coreSubscriptionIds: coreSubscriptionIds
-//     virtualNetworkSpokeName: virtualNetworkCore.outputs.virtualNetworkNameCore
-//     virtualWanHubName: '${coreCAFPrefixes}hub'
-//     virtualNetworkSpokeId: virtualNetworkCore.outputs.virtualNetworkIdCore
-//     location: coreLocations
-//   }
-//   dependsOn: [
-//     virtualNetworkCore
-//   ]
-// }
