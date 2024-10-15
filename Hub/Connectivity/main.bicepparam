@@ -23,9 +23,9 @@ param location = [
 
 // Resource Names
 
-param firewallName = 'tcfirewall'
-param firewallPolicyName = 'tcfirewallpol'
-param firewallTier = 'Premium'
+param firewallName = 'conwus2azfw'
+param firewallPolicyName = 'conwus2azfwpol'
+param firewallTier = 'Premium' // Standard | Premium
 
 param uamiName = 'conwus2mi'
 param virtualHubName = 'conwus2hub'
