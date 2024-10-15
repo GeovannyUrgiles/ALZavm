@@ -295,7 +295,7 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
 
 module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in subnets: if (enableVirtualNetworkGroup == true) {
     scope: resourceGroup(resourceGroupName_Network)
-    name: 'nsg${subnet}Deployment'
+    name: 'nsg${subnet.name}Deployment'
     params: {
       name: '${subnet.name}-nsg'
       tags: tags
