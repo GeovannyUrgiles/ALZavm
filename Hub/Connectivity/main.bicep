@@ -227,11 +227,11 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     // allowSqlRedirect: true
     // autoLearnPrivateRanges: 'Enabled'
     location: location[0]
-    managedIdentities: {
-      userAssignedResourceIds: [
-        userAssignedIdentity.outputs.resourceId
-      ]
-    }
+    // managedIdentities: {
+    //   userAssignedResourceIds: [
+    //     userAssignedIdentity.outputs.resourceId
+    //   ]
+    // }
     mode: mode 
     ruleCollectionGroups: ruleCollectionGroups
     tier: 'Standard' // firewallTier
@@ -249,7 +249,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
   params: {
     name: firewallName
     tags: tags
-    // firewallPolicyId: firewallPolicy.outputs.resourceId
+    firewallPolicyId: firewallPolicy.outputs.resourceId
     hubIPAddresses: {
       publicIPs: {
         count: numberOfPublicIPs
