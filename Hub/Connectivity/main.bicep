@@ -224,8 +224,8 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
   params: {
     name: firewallPolicyName
     tags: tags
-    allowSqlRedirect: true
-    autoLearnPrivateRanges: 'Enabled'
+    // allowSqlRedirect: true
+    // autoLearnPrivateRanges: 'Enabled'
     location: location[0]
     managedIdentities: {
       userAssignedResourceIds: [
