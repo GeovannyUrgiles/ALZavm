@@ -25,7 +25,7 @@ param location = [
 
 param firewallName = 'conwus2azfw'
 param firewallPolicyName = 'conwus2azfwpol'
-param firewallTier = 'Premium' // Standard | Premium
+param tier = 'Standard' // Standard | Premium
 param mode = 'Off' // Alert' | 'Deny'
 
 param uamiName = 'conwus2mi'

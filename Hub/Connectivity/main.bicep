@@ -76,7 +76,7 @@ param defaultRoutesName string
 
 // Azure Firewall Parameters
 
-param firewallTier string
+param tier string
 param numberOfPublicIPs int
 // param enableTunneling bool
 // param privateIPAllocationMethod string
@@ -234,7 +234,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     // }
     // mode: mode 
     ruleCollectionGroups: ruleCollectionGroups
-    tier: 'Standard' // firewallTier
+    tier: 'Standard' // tier
   }
   dependsOn: [
     virtualHub
