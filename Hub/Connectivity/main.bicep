@@ -11,8 +11,8 @@ param enableNetworkSecurityGroups bool
 param enablePrivatDnsZones bool
 param enableDnsResolver bool
 param enableVirtualNetwork bool
-param enableFirewall bool
 param enableBastion bool
+param enableOperationalInsightsName bool
 
 // Virtual Hub Connectivity
 
@@ -35,7 +35,7 @@ param uamiName string
 param bastionName string
 param dnsResolverName string
 param vpnSiteName string
-
+param operationalInsightsName string
 param firewallName string
 param firewallPolicyName string
 
@@ -155,6 +155,17 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
   ]
 }
 
+// Operational Insights
+
+module workspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsightsName == true) {
+  scope: resourceGroup(resourceGroupName_Network)
+  name: 'workspaceDeployment'
+  params: {
+    name: operationalInsightsName
+    location: location[0]
+  }
+}
+
 // Virtual WAN
 
 module virtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirtualWan == true) {
@@ -219,22 +230,24 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
 
 // Firewall Policy
 
-module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall == true) {
+module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
   scope: resourceGroup(resourceGroupName_Network)
   name: 'firewallPolicyDeployment'
   params: {
     name: firewallPolicyName
     tags: tags
-    // allowSqlRedirect: true
-    // autoLearnPrivateRanges: 'Enabled'
+    allowSqlRedirect:  (tier == 'Premium') ? true : false
+    autoLearnPrivateRanges: (tier == 'Premium') ? 'Enabled' : 'Disabled'
     location: location[0]
-    // managedIdentities: {
-    //   userAssignedResourceIds: [
-    //     userAssignedIdentity.outputs.resourceId
-    //   ]
-    // }
-    // mode: mode 
-    // ruleCollectionGroups: ruleCollectionGroups
+    managedIdentities: (tier == 'Premium') ? {
+      userAssignedResourceIds: [
+        userAssignedIdentity.outputs.resourceId
+      ]
+    } : {
+      userAssignedResourceIds: []
+    }
+    mode: mode 
+    ruleCollectionGroups: ruleCollectionGroups
     tier: tier
   }
   dependsOn: [
@@ -244,7 +257,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
 
 // Azure Firewall
 
-module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall == true) {
+module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall) {
   scope: resourceGroup(resourceGroupName_Network)
   name: 'azureFirewallDeployment'
   params: {
@@ -263,6 +276,24 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
     firewallPolicy
   ]
 }
+
+// VPN Gateway Site-to-Site
+
+// resource virtualwangateways2s 'Microsoft.Network/vpnGateways@2021-05-01' = {
+//   scope: resourceGroup(resourceGroupName_Network)
+//   name: '${vwanHubName}s2sgw'
+//   location: location
+//   properties: {
+//     vpnGatewayScaleUnit: vpnGatewayScaleUnit
+//     isRoutingPreferenceInternet: false
+//     bgpSettings: {
+//       asn: bgpSettings
+//     }
+//     virtualHub: {
+//       id: virtualHub.outputs.resourceId
+//     }
+//   }
+// }
 
 // VPN Site
 

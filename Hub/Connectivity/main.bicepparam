@@ -12,10 +12,11 @@ param enableNetworkSecurityGroups = true
 param enableVirtualWan = true
 param enableVpnSite = true
 param enableBastion = false
-param enableFirewall = false
+param enableOperationalInsightsName = true
 // param enableRecoveryServiceVault = true
 
 // Paired Regions
+
 param location = [
   'westus2' // Primary Region
   'eastus2' // Secondary Region
@@ -35,12 +36,13 @@ param resourceGroupName_Bastion = 'conwus2bastionrg'
 param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
+param operationalInsightsName = 'conwus2oi'
 
 // Firewall Policy Groups and Rules
 
 param ruleCollectionGroups = [
   {
-    name: 'rule-001'
+    name: 'DefaultNetworkRuleCollectionGroup'
     priority: 5000
     ruleCollections: [
       {
@@ -50,28 +52,7 @@ param ruleCollectionGroups = [
         name: 'collection002'
         priority: 5555
         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-        rules: [
-          {
-            destinationAddresses: [
-              '*'
-            ]
-            destinationFqdns: []
-            destinationIpGroups: []
-            destinationPorts: [
-              '80'
-            ]
-            ipProtocols: [
-              'TCP'
-              'UDP'
-            ]
-            name: 'rule002'
-            ruleType: 'NetworkRule'
-            sourceAddresses: [
-              '*'
-            ]
-            sourceIpGroups: []
-          }
-        ]
+        rules: []
       }
     ]
   }
@@ -81,7 +62,7 @@ param ruleCollectionGroups = [
 
 param vpnSiteLinks = [
   {
-    name: 'Datacenter1'
+    name: 'Country1'
     properties: {
       bgpProperties: {
         asn: 65010
@@ -95,7 +76,7 @@ param vpnSiteLinks = [
     }
   }
   {
-    name: 'Datacenter2'
+    name: 'Acquisition2'
     properties: {
       bgpProperties: {
         asn: 65020
@@ -157,6 +138,11 @@ param subnets = [
 // Spoke Virtual Networks for Hub Virtual Network Connections
 
 param spokes = [
+  {
+    subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
+    resourceGroupName: 'conwus2spokerg'
+    virtualNetworkName: 'conwus2spokevnet'
+  }
   {
     subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
     resourceGroupName: 'conwus2spokerg'
