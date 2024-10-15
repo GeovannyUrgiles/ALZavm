@@ -29,7 +29,6 @@ param uamiName = 'conwus2mi'
 param virtualHubName = 'conwus2hub'
 param virtualNetworkName = 'conwus2vnet'
 param virtualWanName = 'conwus2vwan'
-param defaultRoutesName = 'Default' // Default | None
 param vpnSiteName = 'conwus2site'
 param resourceGroupName_Network = 'conwus2networkrg'
 param resourceGroupName_Bastion = 'conwus2bastionrg'
@@ -302,11 +301,12 @@ param privatelinkDnsZoneNames = [
 // VWAN Properties
 
 param virtualWanSku = 'Standard' // Basic | Standard | Premium
+param defaultRoutesName = 'Default' // Default | None
 
 // VWAN Hub Properties
 
-param allowBranchToBranchTraffic = true /*TODO*/
-param allowVnetToVnetTraffic = true /*TODO*/
+param allowBranchToBranchTraffic = true
+param allowVnetToVnetTraffic = true
 
 // Azure Bastion Properties
 
