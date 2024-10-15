@@ -187,8 +187,9 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
       {
         name: defaultRoutesName
       }
-   ]
-    hubVirtualNetworkConnections: [ // for spoke in spokes: {
+    ]
+    hubVirtualNetworkConnections: [
+      // for spoke in spokes: {
       {
         name: '${virtualNetworkName}-to-${virtualHubName}'
         remoteVirtualNetworkId: virtualNetwork.outputs.resourceId // /subscription/${spoke.sub}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
@@ -292,19 +293,20 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
 
 // Network Security Group
 
-module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = if (enableVirtualNetworkGroup == true) {
-  scope: resourceGroup(resourceGroupName_Network)
-  name: 'networkSecurityGroupDeployment'
-  params: {
-    name: 'nnsgmax001'
-    tags: tags
-    location: location[0]
-    securityRules: securityRules
+module networkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in subnets: if (enableVirtualNetworkGroup == true) {
+    scope: resourceGroup(resourceGroupName_Network)
+    name: 'nsg${subnet}Deployment'
+    params: {
+      name: '${subnet.name}-nsg'
+      tags: tags
+      location: location[0]
+      securityRules: securityRules
+    }
+    dependsOn: [
+      resourceGroupNetwork
+    ]
   }
-  dependsOn: [
-    resourceGroupNetwork
-  ]
-}
+]
 
 // Virtual Network
 
@@ -327,23 +329,23 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (en
 
 // Private DNS Zones
 
-module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivatDnsZones == true) {
-  scope: resourceGroup(resourceGroupName_PrivateDns)
-  name: '${privatelinkDnsZoneName}Deployment'
-  params: {
-    name: privatelinkDnsZoneName
-    tags: tags
-    virtualNetworkLinks: [
-      {
-        registrationEnabled: false
-        virtualNetworkResourceId: virtualNetwork.outputs.resourceId
-      }
+module privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [ for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivatDnsZones == true) {
+    scope: resourceGroup(resourceGroupName_PrivateDns)
+    name: '${privatelinkDnsZoneName}Deployment'
+    params: {
+      name: privatelinkDnsZoneName
+      tags: tags
+      virtualNetworkLinks: [
+        {
+          registrationEnabled: false
+          virtualNetworkResourceId: virtualNetwork.outputs.resourceId
+        }
+      ]
+    }
+    dependsOn: [
+      virtualNetwork
     ]
   }
-  dependsOn: [
-    virtualNetwork
-  ]
-}
 ]
 
 // DNS Private Resolver
@@ -390,7 +392,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
     enableFileCopy: enableFileCopy
     scaleUnits: scaleUnits
     enableShareableLink: enableShareableLink
-    
+
     skuName: skuName
   }
   dependsOn: [
