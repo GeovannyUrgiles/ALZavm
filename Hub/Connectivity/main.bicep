@@ -237,7 +237,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     tier: 'Standard' // firewallTier
   }
   dependsOn: [
-    resourceGroupNetwork
+    virtualHub
   ]
 }
 
@@ -259,8 +259,6 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
     virtualHubId: virtualHub.outputs.resourceId
   }
   dependsOn: [
-    resourceGroupNetwork
-    virtualHub
     firewallPolicy
   ]
 }
@@ -288,8 +286,6 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite ==
     vpnSiteLinks: vpnSiteLinks
   }
   dependsOn: [
-    resourceGroupNetwork
-    virtualWan
     virtualHub
   ]
 }

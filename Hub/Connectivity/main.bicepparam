@@ -43,6 +43,44 @@ param dnsResolverName = 'conwus2dns'
 // Firewall Policy Groups and Rules
 
 param ruleCollectionGroups = [
+  
+      {
+        name: 'rule-001'
+        priority: 5000
+        ruleCollections: [
+          {
+            action: {
+              type: 'Allow'
+            }
+            name: 'collection002'
+            priority: 5555
+            ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+            rules: [
+              {
+                destinationAddresses: [
+                  '*'
+                ]
+                destinationFqdns: []
+                destinationIpGroups: []
+                destinationPorts: [
+                  '80'
+                ]
+                ipProtocols: [
+                  'TCP'
+                  'UDP'
+                ]
+                name: 'rule002'
+                ruleType: 'NetworkRule'
+                sourceAddresses: [
+                  '*'
+                ]
+                sourceIpGroups: []
+              }
+            ]
+          }
+        ]
+      }
+    
   // {
   //   name: 'DefaultRuleCollectionGroup'
   //   properties: {
