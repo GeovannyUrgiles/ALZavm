@@ -233,7 +233,7 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
     //   ]
     // }
     // mode: mode 
-    // ruleCollectionGroups: ruleCollectionGroups
+    ruleCollectionGroups: ruleCollectionGroups
     tier: 'Standard' // firewallTier
   }
   dependsOn: [
