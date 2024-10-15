@@ -203,7 +203,7 @@ module virtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirt
               }
             ]
             labels: [
-              'none'
+              defaultRoutesName
             ]
           }
         }

@@ -25,9 +25,6 @@ param location = [
 
 param firewallName = 'conwus2azfw'
 param firewallPolicyName = 'conwus2azfwpol'
-param tier = 'Standard' // Standard | Premium
-param mode = 'Off' // Alert' | 'Deny'
-
 param uamiName = 'conwus2mi'
 param virtualHubName = 'conwus2hub'
 param virtualNetworkName = 'conwus2vnet'
@@ -99,6 +96,9 @@ param vpnSiteLinks = [
 // Azure Firewall Properties
 
 param skuName = 'Standard' // Standard | Premium
+
+param tier = 'Standard' // Standard | Premium
+param mode = 'Off' // Alert' | 'Deny'
 
 // Default NSG Rules
 
