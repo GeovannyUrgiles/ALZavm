@@ -85,6 +85,7 @@ param ruleCollectionGroups array
 param disableVpnEncryption bool
 // param bgpSettings int
 // param vpnGatewayScaleUnit int
+param mode string
 
 // Private DNS Parameters
 
@@ -231,9 +232,9 @@ module firewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (en
         userAssignedIdentity.outputs.resourceId
       ]
     }
-    mode: 'Off' // Alert' | 'Deny'
+    mode: mode 
     ruleCollectionGroups: ruleCollectionGroups
-    tier: firewallTier
+    tier: 'Standard' // firewallTier
   }
   dependsOn: [
     resourceGroupNetwork
@@ -248,7 +249,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
   params: {
     name: firewallName
     tags: tags
-    firewallPolicyId: firewallPolicy.outputs.resourceId
+    // firewallPolicyId: firewallPolicy.outputs.resourceId
     hubIPAddresses: {
       publicIPs: {
         count: numberOfPublicIPs

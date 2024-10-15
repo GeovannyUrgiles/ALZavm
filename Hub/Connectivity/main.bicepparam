@@ -26,6 +26,7 @@ param location = [
 param firewallName = 'conwus2azfw'
 param firewallPolicyName = 'conwus2azfwpol'
 param firewallTier = 'Premium' // Standard | Premium
+param mode = 'Off' // Alert' | 'Deny'
 
 param uamiName = 'conwus2mi'
 param virtualHubName = 'conwus2hub'
@@ -315,7 +316,7 @@ param numberOfPublicIPs = 1
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
 
-param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
+param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Subscription ID
 
 // Default Tags
 
