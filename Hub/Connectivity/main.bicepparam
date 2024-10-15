@@ -10,7 +10,7 @@ param enableVirtualHub = true
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableVirtualWan = true
-param enableVpnSite = false
+param enableVpnSite = true
 param enableBastion = false
 param enableFirewall = false
 // param enableRecoveryServiceVault = true
@@ -41,41 +41,41 @@ param dnsResolverName = 'conwus2dns'
 
 param ruleCollectionGroups = [
   {
-        name: 'rule-001'
-        priority: 5000
-        ruleCollections: [
+    name: 'rule-001'
+    priority: 5000
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'collection002'
+        priority: 5555
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: [
           {
-            action: {
-              type: 'Allow'
-            }
-            name: 'collection002'
-            priority: 5555
-            ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-            rules: [
-              {
-                destinationAddresses: [
-                  '*'
-                ]
-                destinationFqdns: []
-                destinationIpGroups: []
-                destinationPorts: [
-                  '80'
-                ]
-                ipProtocols: [
-                  'TCP'
-                  'UDP'
-                ]
-                name: 'rule002'
-                ruleType: 'NetworkRule'
-                sourceAddresses: [
-                  '*'
-                ]
-                sourceIpGroups: []
-              }
+            destinationAddresses: [
+              '*'
             ]
+            destinationFqdns: []
+            destinationIpGroups: []
+            destinationPorts: [
+              '80'
+            ]
+            ipProtocols: [
+              'TCP'
+              'UDP'
+            ]
+            name: 'rule002'
+            ruleType: 'NetworkRule'
+            sourceAddresses: [
+              '*'
+            ]
+            sourceIpGroups: []
           }
         ]
       }
+    ]
+  }
 ]
 
 // Site-to-Site VPN Links
