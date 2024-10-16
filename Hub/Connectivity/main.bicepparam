@@ -151,7 +151,7 @@ param virtualNetwork = {
       networkSecurityGroupResourceId: ''
     }
     {
-      name: toLower('${virtualNetworkName}-PrivateEndpintsSn')
+      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
       addressPrefix: '10.1.1.0/24'
       delegation: ''
       networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}PrivateEndpointSn-nsg')
