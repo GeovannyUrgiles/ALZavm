@@ -404,7 +404,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
     location: location[0]
     tags: tags
     addressPrefixes: virtualNetwork.prefixes
-    dnsServers: [] // ((enableFirewall == true) ? dnsFirewallProxy : dnsPrivateResolver)
+    dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
     subnets: [for subnet in virtualNetwork.subnets: {
       name: subnet.name
       addressPrefix: subnet.addressPrefix
