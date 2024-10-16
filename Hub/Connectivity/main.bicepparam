@@ -13,6 +13,7 @@ param enableVirtualWan = true
 param enableVpnSite = true
 param enableBastion = false
 param enableOperationalInsightsName = true
+param enableVpnGateway = true
 // param enableRecoveryServiceVault = true
 
 // Paired Regions
@@ -31,6 +32,7 @@ param virtualHubName = 'conwus2hub'
 param virtualNetworkName = 'conwus2vnet'
 param virtualWanName = 'conwus2vwan'
 param vpnSiteName = 'conwus2site'
+param vpnGatewayName = 'conwus2vpngw'
 param resourceGroupName_Network = 'conwus2networkrg'
 param resourceGroupName_Bastion = 'conwus2bastionrg'
 param resourceGroupName_PrivateDns = 'conwus2dnsrg'
@@ -94,9 +96,19 @@ param vpnSiteLinks = [
 // Azure Firewall Properties
 
 param skuName = 'Standard' // Standard | Premium
+@allowed([
+  'Standard'
+  'Premium'
+])
+param tier = 'Standard'
 
-param tier = 'Standard' // Standard | Premium
-param mode = 'Off' // Alert' | 'Deny'
+@allowed([
+  'Off'
+  'Alert'
+  'Deny'
+])
+param mode = 'Off' // Alert and Deny are Premium SKU features
+
 
 // Default NSG Rules
 
