@@ -55,7 +55,7 @@ param lock object
 
 param virtualNetwork object
 param addressPrefixes array
-param subnets array
+//param subnets array
 param securityRules array
 // param onPremDnsServer string
 param dnsFirewallProxy array
@@ -378,7 +378,7 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
 
 // Network Security Group
 
-module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in subnets: if (enableNetworkSecurityGroups) {
+module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in virtualNetwork.subnets: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network)
     name: 'nsg${subnet.name}Deployment'
     params: {

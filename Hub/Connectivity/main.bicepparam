@@ -20,8 +20,6 @@ param enableBastion = false
 param enableOperationalInsightsName = true
 // param enableRecoveryServiceVault = true
 
-
-
 // Paired Regions
 
 param location = [
@@ -117,76 +115,43 @@ param vpnSiteLinks = [
 // Azure Firewall Properties
 
 param skuName = 'Standard' // Standard | Premium
-@allowed([
-  'Standard'
-  'Premium'
-])
 param tier = 'Standard'
 
-@allowed([
-  'Off'
-  'Alert'
-  'Deny'
-])
 param mode = 'Off' // Alert and Deny are Premium SKU features
 param numberOfPublicIPs = 1
 
 // Virtual Network Properties
 
+param addressPrefixes = []
+
 param virtualNetwork = {
-  name: 'microservices-vnet'
-  prefixes: ['10.8.0.0/16']
+  name: virtualNetworkName
+  prefixes: [
+    '10.1.0.0/18'
+  ]
   subnets: [
     {
-      name: 'microservices-snet'
-      prefix: '10.8.0.0/27'
+      name: 'GatewaySubnet'
+      addressPrefix: '10.1.0.0/24'
+      delegation: 'Microsoft.Network/vpnGateways'
+    }
+    {
+      name: 'AzureBastionSubnet'
+      addressPrefix: '10.1.1.0/24'
+      delegation: 'Microsoft.Network/bastionHosts'
+    }
+    {
+      name: 'DnsInbound'
+      addressPrefix: '10.1.2.0/24'
+      delegation: 'Microsoft.Network/dnsResolvers'
+    }
+    {
+      name: 'DnsOutbound'
+      addressPrefix: '10.1.3.0/24'
+      delegation: 'Microsoft.Network/dnsResolvers'
     }
   ]
 }
-
-param addressPrefixes = [
-  '10.1.0.0/18'
-]
-
-// param sku = {
-//   nonprod: {
-//     name: 'B1'
-//     tier: 'Basic'
-//     size: 'B1'
-//     family: 'B'
-//     capacity: 1
-//   }
-//   prod: {
-//     name: 'P0v3'
-//     tier: 'Premium0V3'
-//     size: 'P0v3'
-//     family: 'Pv3'
-//     capacity: 1
-//   }
-// }
-
-param subnets = [
-  {
-    addressPrefix: '10.1.0.0/24'
-    name: 'GatewaySubnet'
-  }
-  {
-    addressPrefix: '10.1.1.0/24'
-    name: 'AzureBastionSubnet'
-    // delegation: 'Microsoft.Network/azureBastionSubnet'
-  }
-  {
-    addressPrefix: '10.1.2.0/24'
-    name: 'DnsInbound'
-    delegation: 'Microsoft.Network/dnsResolvers'
-  }
-  {
-    addressPrefix: '10.1.3.0/24'
-    name: 'DnsOutbound'
-    delegation: 'Microsoft.Network/dnsResolvers'
-    // networkSecurityGroupResourceId: 'Microsoft.Network/networkSecurityGroups/${name}-MyNSG'
-  }
-]
 
 // Default NSG Rules
 
@@ -195,16 +160,7 @@ param securityRules = []
 // Virtual WAN Properties
 
 param addressPrefix = '10.0.0.0/23'
-@allowed([
-  'Basic'
-  'Standard'
-  'Premium'
-])
 param virtualWanSku = 'Standard'
-@allowed([
-  'Default'
-  'None'
-])
 param defaultRoutesName = 'Default' // Default | None
 
 // VWAN Hub Properties
@@ -375,13 +331,9 @@ param scaleUnits = 2
 // param enableTunneling = true
 // param hubRoutingPreference = 'None'
 
-
-
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
 
 param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Subscription ID
-
-
 
 // param vpnGatewayScaleUnit = 1
