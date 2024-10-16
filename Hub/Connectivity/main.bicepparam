@@ -134,22 +134,25 @@ param virtualNetwork = {
       name: 'GatewaySubnet'
       addressPrefix: '10.1.0.0/24'
       delegation: ''
+      networkSecurityGroupResourceId: ''
     }
     {
       name: 'AzureBastionSubnet'
       addressPrefix: '10.1.1.0/24'
       delegation: ''
-      
+      networkSecurityGroupResourceId: ''
     }
     {
       name: 'DnsInbound'
       addressPrefix: '10.1.2.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
+      networkSecurityGroupResourceId: ''
     }
     {
       name: 'DnsOutbound'
       addressPrefix: '10.1.3.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
+      networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/DnsInbound-nsg'
     }
   ]
 }
