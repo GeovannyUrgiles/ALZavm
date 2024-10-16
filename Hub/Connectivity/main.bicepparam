@@ -1,5 +1,9 @@
 using 'main.bicep'
 
+// Version
+
+var version = 'v1.0.0'
+
 // Deployment Options
 
 param enableUserAssignedManagedIdentity = true
@@ -7,14 +11,16 @@ param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enablePrivatDnsZones = true
-param enableVirtualWan = true
-param enableVirtualHub = true
-param enableVpnGateway = true
-param enableVpnSite = true
-param enableAzureFirewall = true
+param enableVirtualWan = false
+param enableVirtualHub = false
+param enableVpnGateway = false
+param enableVpnSite = false
+param enableAzureFirewall = false
 param enableBastion = false
 param enableOperationalInsightsName = true
 // param enableRecoveryServiceVault = true
+
+
 
 // Paired Regions
 
@@ -39,6 +45,21 @@ param firewallPolicyName = 'conwus2azfwpol'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oi'
+
+// Default Tags
+
+param tags = {
+  Environment: 'Non-Prod'
+  'hidden-title': version
+  Role: 'DeploymentValidation'
+}
+
+// Resource Group Lock
+
+param lock = {
+  kind: 'CanNotDelete'
+  name: 'ProtectedResource'
+}
 
 // Firewall Policy Groups and Rules
 
@@ -108,21 +129,41 @@ param tier = 'Standard'
   'Deny'
 ])
 param mode = 'Off' // Alert and Deny are Premium SKU features
-
-
-// Default NSG Rules
-
-param securityRules = []
-
-// Virtual WAN Properties
-
-param addressPrefix = '10.0.0.0/23'
+param numberOfPublicIPs = 1
 
 // Virtual Network Properties
+
+param virtualNetwork = {
+  name: 'microservices-vnet'
+  prefixes: ['10.8.0.0/16']
+  subnets: [
+    {
+      name: 'microservices-snet'
+      prefix: '10.8.0.0/27'
+    }
+  ]
+}
 
 param addressPrefixes = [
   '10.1.0.0/18'
 ]
+
+// param sku = {
+//   nonprod: {
+//     name: 'B1'
+//     tier: 'Basic'
+//     size: 'B1'
+//     family: 'B'
+//     capacity: 1
+//   }
+//   prod: {
+//     name: 'P0v3'
+//     tier: 'Premium0V3'
+//     size: 'P0v3'
+//     family: 'Pv3'
+//     capacity: 1
+//   }
+// }
 
 param subnets = [
   {
@@ -143,9 +184,33 @@ param subnets = [
     addressPrefix: '10.1.3.0/24'
     name: 'DnsOutbound'
     delegation: 'Microsoft.Network/dnsResolvers'
-    // networkSecurityGroupResourceId: 'Microsoft.Network/networkSecurityGroups/MyNSG'
+    // networkSecurityGroupResourceId: 'Microsoft.Network/networkSecurityGroups/${name}-MyNSG'
   }
 ]
+
+// Default NSG Rules
+
+param securityRules = []
+
+// Virtual WAN Properties
+
+param addressPrefix = '10.0.0.0/23'
+@allowed([
+  'Basic'
+  'Standard'
+  'Premium'
+])
+param virtualWanSku = 'Standard'
+@allowed([
+  'Default'
+  'None'
+])
+param defaultRoutesName = 'Default' // Default | None
+
+// VWAN Hub Properties
+
+param allowBranchToBranchTraffic = true
+param allowVnetToVnetTraffic = true
 
 // Spoke Virtual Networks for Hub Virtual Network Connections
 
@@ -296,16 +361,6 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.gremlin.cosmos.azure.com'
 ]
 
-// VWAN Properties
-
-param virtualWanSku = 'Standard' // Basic | Standard | Premium
-param defaultRoutesName = 'Default' // Default | None
-
-// VWAN Hub Properties
-
-param allowBranchToBranchTraffic = true
-param allowVnetToVnetTraffic = true
-
 // Azure Bastion Properties
 
 param disableCopyPaste = true
@@ -320,26 +375,13 @@ param scaleUnits = 2
 // param enableTunneling = true
 // param hubRoutingPreference = 'None'
 
-param numberOfPublicIPs = 1
+
 
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
 
 param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Subscription ID
 
-// Default Tags
 
-param tags = {
-  Environment: 'Non-Prod'
-  'hidden-title': 'v1.0.0'
-  Role: 'DeploymentValidation'
-}
-
-// Resource Group Lock
-
-param lock = {
-  kind: 'CanNotDelete'
-  name: 'ProtectedResource'
-}
 
 // param vpnGatewayScaleUnit = 1
