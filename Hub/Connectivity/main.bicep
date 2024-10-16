@@ -40,6 +40,7 @@ param operationalInsightsName string
 param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
+param nsgSuffix string
 
 // Resource Group Parameters
 
@@ -376,13 +377,13 @@ module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
   ]
 }
 
-// Network Security Group
+// Network Security Groups
 
 module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in virtualNetwork.subnets: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network)
     name: 'nsg${subnet.name}Deployment'
     params: {
-      name: toLower('${subnet.name}-nsg')
+      name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: location[0]
       securityRules: securityRules
@@ -402,7 +403,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
     name: virtualNetworkName
     location: location[0]
     tags: tags
-    addressPrefixes: addressPrefixes
+    addressPrefixes: virtualNetwork.prefixes
     dnsServers: [] // ((enableFirewall == true) ? dnsFirewallProxy : dnsPrivateResolver)
     subnets: [for subnet in virtualNetwork.subnets: {
       name: subnet.name

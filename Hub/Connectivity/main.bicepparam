@@ -43,6 +43,8 @@ param firewallPolicyName = 'conwus2azfwpol'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oi'
+param nsgSuffix = '-nsg'
+// param nicSuffix = '-nic'
 
 // Default Tags
 
