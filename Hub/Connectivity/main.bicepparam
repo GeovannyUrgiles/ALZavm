@@ -2,18 +2,18 @@ using 'main.bicep'
 
 // Deployment Options
 
-param enableAzureFirewall = true
-param enableDnsResolver = false
-param enablePrivatDnsZones = true
 param enableUserAssignedManagedIdentity = true
-param enableVirtualHub = true
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
+param enableDnsResolver = false
+param enablePrivatDnsZones = true
 param enableVirtualWan = true
+param enableVirtualHub = true
+param enableVpnGateway = true
 param enableVpnSite = true
+param enableAzureFirewall = true
 param enableBastion = false
 param enableOperationalInsightsName = true
-param enableVpnGateway = true
 // param enableRecoveryServiceVault = true
 
 // Paired Regions
@@ -25,17 +25,17 @@ param location = [
 
 // Resource Names
 
-param firewallName = 'conwus2azfw'
-param firewallPolicyName = 'conwus2azfwpol'
-param uamiName = 'conwus2mi'
-param virtualHubName = 'conwus2hub'
-param virtualNetworkName = 'conwus2vnet'
-param virtualWanName = 'conwus2vwan'
-param vpnSiteName = 'conwus2site'
-param vpnGatewayName = 'conwus2vpngw'
 param resourceGroupName_Network = 'conwus2networkrg'
 param resourceGroupName_Bastion = 'conwus2bastionrg'
 param resourceGroupName_PrivateDns = 'conwus2dnsrg'
+param uamiName = 'conwus2mi'
+param virtualNetworkName = 'conwus2vnet'
+param virtualWanName = 'conwus2vwan'
+param virtualHubName = 'conwus2hub'
+param vpnSiteName = 'conwus2vpnsite'
+param vpnGatewayName = 'conwus2vpngw'
+param firewallName = 'conwus2azfw'
+param firewallPolicyName = 'conwus2azfwpol'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oi'
@@ -60,7 +60,7 @@ param ruleCollectionGroups = [
   }
 ]
 
-// Site-to-Site VPN Links
+// VPN Site Links
 
 param vpnSiteLinks = [
   {
