@@ -116,10 +116,24 @@ param vpnSiteLinks = [
 
 // Azure Firewall Properties
 
-param skuName = 'Standard' // Standard | Premium
+@allowed([
+  'Standard'
+  'Premium'
+])
+
+param skuName = 'Standard'
+@allowed([
+  'Standard'
+  'Premium'
+])
 param tier = 'Standard'
 
-param mode = 'Off' // Alert and Deny are Premium SKU features
+@allowed([
+  'Alert'
+  'Deny'
+  'Off'
+])
+param mode = 'Off'
 param numberOfPublicIPs = 1
 
 // Virtual Network Properties
