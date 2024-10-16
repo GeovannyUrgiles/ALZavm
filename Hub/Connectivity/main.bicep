@@ -408,6 +408,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
     subnets: [for subnet in virtualNetwork.subnets: {
       name: subnet.name
       addressPrefix: subnet.addressPrefix
+      delegation: subnet.delegation
       // networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${subnet.name}-nsg'
       }
     ]
