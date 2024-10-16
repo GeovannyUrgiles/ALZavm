@@ -124,8 +124,6 @@ param numberOfPublicIPs = 1
 
 // Virtual Network Properties
 
-param addressPrefixes = []
-
 param virtualNetwork = {
   name: virtualNetworkName
   prefixes: [
@@ -135,12 +133,13 @@ param virtualNetwork = {
     {
       name: 'GatewaySubnet'
       addressPrefix: '10.1.0.0/24'
-      delegation: 'Microsoft.Network/vpnGateways'
+      delegation: ''
     }
     {
       name: 'AzureBastionSubnet'
       addressPrefix: '10.1.1.0/24'
-      delegation: 'Microsoft.Network/bastionHosts'
+      delegation: ''
+      
     }
     {
       name: 'DnsInbound'

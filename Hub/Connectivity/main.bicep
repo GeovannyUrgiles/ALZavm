@@ -55,7 +55,7 @@ param lock object
 // Virtual Network Parameters
 
 param virtualNetwork object
-param addressPrefixes array
+
 //param subnets array
 param securityRules array
 // param onPremDnsServer string
