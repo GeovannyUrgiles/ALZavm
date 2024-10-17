@@ -8,7 +8,7 @@ param enableVirtualWan bool
 param enableAzureFirewall bool
 param enableVpnSite bool
 param enableNetworkSecurityGroups bool
-param enablePrivatDnsZones bool
+param enablePrivateDnsZones bool
 param enableDnsResolver bool
 param enableVirtualNetwork bool
 param enableBastion bool
@@ -40,7 +40,12 @@ param operationalInsightsName string
 param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
+
+param keyVaultName string
 param nsgSuffix string
+
+param enablePurgeProtection bool
+param enableRbacAuthorization bool
 
 // Resource Group Parameters
 
@@ -77,6 +82,8 @@ param allowBranchToBranchTraffic bool
 param defaultRoutesName string
 // param preferredRoutingGateway string
 // param hubRoutingPreference string
+
+param vpnConnections object
 
 // Azure Firewall Parameters
 
@@ -241,6 +248,36 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     name: vpnGatewayName
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: location[0]
+    vpnConnections: [
+      {
+        connectionBandwidth: vpnConnections.connectionBandwidth
+        enableBgp: vpnConnections.enableBgp
+        enableInternetSecurity: vpnConnections.enableInternetSecurity
+        enableRateLimiting: vpnConnections.enableRateLimiting
+        name: vpnConnections.name
+        remoteVpnSiteResourceId: vpnConnections.modVpnSite.outputs.resourceId
+        routingWeight: vpnConnections.routingWeight
+        useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
+        usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
+        vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
+        vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
+        sharedKey: vpnConnections.sharedKey
+        dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
+        vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
+        ipsecPolicies: [
+          {
+            saDataSizeKilobytes: vpnConnections.saDataSizeKilobytes
+            saLifeTimeSeconds: vpnConnections.saLifeTimeSeconds
+            ipsecEncryption: vpnConnections.ipsecEncryption
+            ipsecIntegrity: vpnConnections.ipsecIntegrity
+            ikeEncryption: vpnConnections.ikeEncryption
+            ikeIntegrity: vpnConnections.ikeIntegrity
+            dhGroup: vpnConnections.dhGroup
+            pfsGroup: vpnConnections.pfsGroup
+          }
+        ]
+      }
+    ]
   }
   dependsOn: [
     modVirtualHub
@@ -352,7 +389,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // VPN Site for VWAN-to-VWAN connections
 
-module vpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
+module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
   scope: resourceGroup(resourceGroupName_Network)
   name: 'vpnSiteDeployment'
   params: {
@@ -394,6 +431,8 @@ module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group
   }
 ]
 
+
+
 // Virtual Network
 
 module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (enableVirtualNetwork) {
@@ -403,7 +442,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
     name: virtualNetworkName
     location: location[0]
     tags: tags
-    addressPrefixes: virtualNetwork.prefixes
+    addressPrefixes: virtualNetwork.addressPrefixes
     dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
     subnets: [for subnet in virtualNetwork.subnets: {
       name: subnet.name
@@ -420,7 +459,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
 
 // Private DNS Zones
 
-module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [ for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivatDnsZones) {
+module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [ for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
     scope: resourceGroup(resourceGroupName_PrivateDns)
     name: '${privatelinkDnsZoneName}Deployment'
     params: {
@@ -489,4 +528,77 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
   dependsOn: [
     modVirtualNetwork
   ]
+}
+
+// Key Vault
+
+module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
+  scope: resourceGroup(resourceGroupName_Bastion)
+  name: 'vaultDeployment'
+  params: {
+    name: keyVaultName
+    accessPolicies: []
+    diagnosticSettings: [
+      {
+        logCategoriesAndGroups: [
+          {
+            category: 'AzurePolicyEvaluationDetails'
+          }
+          {
+            category: 'AuditEvent'
+          }
+        ]
+        metricCategories: [
+          {
+            category: 'AllMetrics'
+          }
+        ]
+        name: 'customSetting'
+        workspaceResourceId: modWorkspace.outputs.resourceId
+      }
+    ]
+    enablePurgeProtection: enablePurgeProtection //false
+    enableRbacAuthorization: enableRbacAuthorization //false
+    keys: []
+    location: location[0]
+    lock: {}
+    publicNetworkAccess: 'Disabled'
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Deny'
+      ipRules: []
+      virtualNetworkRules: []
+    }
+    privateEndpoints: [
+      {
+        customDnsConfigs: []
+        ipConfigurations: [
+          {
+            name: 'ipConfig'
+            properties: {
+              groupId: 'vault'
+              memberName: 'default'
+              privateIPAllocationMethod: 'Dynamic'
+              privateIPAddress: ''
+            }
+          }
+        ]
+        privateDnsZoneGroup: {
+          privateDnsZoneGroupConfigs: [
+            {
+              privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+            }
+          ]
+        }
+        roleAssignments: []
+        subnetResourceId: modVirtualNetwork.outputs.subnetResourceIds[1]
+        tags: tags
+      }
+      
+    ]
+    roleAssignments: []
+    secrets: []
+    softDeleteRetentionInDays: 7
+    tags: tags
+  }
 }

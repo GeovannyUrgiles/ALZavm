@@ -10,7 +10,7 @@ param enableUserAssignedManagedIdentity = true
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
-param enablePrivatDnsZones = true
+param enablePrivateDnsZones = true
 param enableVirtualWan = true
 param enableVirtualHub = true
 param enableVpnGateway = true
@@ -43,7 +43,12 @@ param firewallPolicyName = 'conwus2azfwpol'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oi'
-param nsgSuffix = '-nsg'
+param keyVaultName = 'conwus2kv'
+
+// Key Vault Properties
+
+param enablePurgeProtection = true
+param enableRbacAuthorization = true
 // param nicSuffix = '-nic'
 
 // Default Tags
@@ -57,8 +62,8 @@ param tags = {
 // Resource Group Lock
 
 param lock = {
-  kind: 'CanNotDelete'
   name: 'ProtectedResource'
+  kind: 'CanNotDelete'
 }
 
 // Firewall Policy Groups and Rules
@@ -72,7 +77,7 @@ param ruleCollectionGroups = [
         action: {
           type: 'Allow'
         }
-        name: 'collection002'
+        name: 'DefaultNetworkRuleCollection'
         priority: 5555
         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
         rules: []
@@ -85,7 +90,7 @@ param ruleCollectionGroups = [
 
 param vpnSiteLinks = [
   {
-    name: 'Country1'
+    name: 'dataCenter1'
     properties: {
       bgpProperties: {
         asn: 65010
@@ -98,49 +103,50 @@ param vpnSiteLinks = [
       }
     }
   }
-  {
-    name: 'Acquisition2'
-    properties: {
-      bgpProperties: {
-        asn: 65020
-        bgpPeeringAddress: '2.2.2.2'
-      }
-      ipAddress: '5.6.7.8'
-      linkProperties: {
-        linkProviderName: 'customerName'
-        linkSpeedInMbps: 5
-      }
-    }
-  }
 ]
+
+// VPN Site-to-Site Connections
+
+param vpnConnections = {
+  name: 'Connection1'
+  connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+  enableBgp: false
+  enableInternetSecurity: true
+  enableRateLimiting: false
+  routingWeight: 0
+  useLocalAzureIpAddress: false
+  usePolicyBasedTrafficSelectors: false
+  vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
+  vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+  sharedKey: 'ThievingCat10!'
+  dpdTimeoutSeconds: 0
+  vpnGatewayCustomBgpAddresses: []
+  ipsecPolicies: [
+    {
+      saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+      saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
+      ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
+      ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+      ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
+      ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+      dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
+      pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
+    }
+  ]
+}
 
 // Azure Firewall Properties
 
-@allowed([
-  'Standard'
-  'Premium'
-])
-
-param skuName = 'Standard'
-@allowed([
-  'Standard'
-  'Premium'
-])
-param tier = 'Standard'
-
-@allowed([
-  'Alert'
-  'Deny'
-  'Off'
-])
-param mode = 'Off'
+param skuName = 'Standard' // Standard | Premium
+param tier = 'Standard' // Standard | Premium
+param mode = 'Off' // Alert | Deny | Off
 param numberOfPublicIPs = 1
 
 // Virtual Network Properties
 
 param virtualNetwork = {
   name: virtualNetworkName
-  prefixes: [
+  addressPrefixes: [
     '10.1.0.0/18'
   ]
   subnets: [
@@ -171,8 +177,9 @@ param virtualNetwork = {
   ]
 }
 
-// Default NSG Rules
+// Network Security Group Properties
 
+param nsgSuffix = '-nsg'
 param securityRules = []
 
 // Virtual WAN Properties
