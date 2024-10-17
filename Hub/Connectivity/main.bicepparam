@@ -18,7 +18,9 @@ param enableVpnSite = true
 param enableAzureFirewall = false
 param enableBastion = false
 param enableOperationalInsightsName = true
+param enableKeyVault = true
 // param enableRecoveryServiceVault = true
+
 
 // Paired Regions
 

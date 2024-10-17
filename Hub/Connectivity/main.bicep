@@ -575,16 +575,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
         customDnsConfigs: []
         privateLinkServiceConnectionName: 'privateLinkServiceConnectionName'
         customNetworkInterfaceName: 'customNetworkInterfaceName'
-        ipConfigurations: [
-          // {
-          //   name: 'ipConfig'
-          //   properties: {
-          //     groupId: 'vault'
-          //     memberName: 'default'
-          //     privateIPAddress: ''
-          //   }
-          // }
-        ]
+        ipConfigurations: []
         privateDnsZoneGroup: {
           privateDnsZoneGroupConfigs: [
             {
