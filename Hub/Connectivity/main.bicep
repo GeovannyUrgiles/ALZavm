@@ -525,7 +525,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
 // Key Vault
 
 module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
-  scope: resourceGroup(resourceGroupName_Bastion)
+  scope: resourceGroup(resourceGroupName_Network)
   name: 'vaultDeployment'
   params: {
     name: keyVaultName
@@ -563,9 +563,10 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
     }
     privateEndpoints: [
       {
+        tags: tags
         customDnsConfigs: []
-        privateLinkServiceConnectionName: 'privateLinkServiceConnectionName'
-        customNetworkInterfaceName: 'customNetworkInterfaceName'
+        name: 'kvprivatelink'
+        customNetworkInterfaceName: keyVaultName
         ipConfigurations: []
         privateDnsZoneGroup: {
           privateDnsZoneGroupConfigs: [
@@ -576,7 +577,6 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
         }
         roleAssignments: []
         subnetResourceId: modVirtualNetwork.outputs.subnetResourceIds[1]
-        tags: tags
       }
       
     ]
