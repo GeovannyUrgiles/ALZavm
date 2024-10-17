@@ -275,19 +275,25 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         sharedKey: vpnConnections.sharedKey
         dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
         vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
-        ipsecPolicies: [
-          {
-            // lifetimeSeconds: 27000
-            // datasizeKilobytes: 102400000
-            // lifetimeKilobytes: 102400000
-            ipsecEncryption: vpnConnections.ipsecEncryption
+        ipsecEncryption: vpnConnections.ipsecEncryption
             ipsecIntegrity: vpnConnections.ipsecIntegrity
             ikeEncryption: vpnConnections.ikeEncryption
             ikeIntegrity: vpnConnections.ikeIntegrity
             dhGroup: vpnConnections.dhGroup
             pfsGroup: vpnConnections.pfsGroup
-          }
-        ]
+        // ipsecPolicies: [
+        //   {
+        //     // lifetimeSeconds: 27000
+        //     // datasizeKilobytes: 102400000
+        //     // lifetimeKilobytes: 102400000
+        //     ipsecEncryption: vpnConnections.ipsecEncryption
+        //     ipsecIntegrity: vpnConnections.ipsecIntegrity
+        //     ikeEncryption: vpnConnections.ikeEncryption
+        //     ikeIntegrity: vpnConnections.ikeIntegrity
+        //     dhGroup: vpnConnections.dhGroup
+        //     pfsGroup: vpnConnections.pfsGroup
+        //   }
+        // ]
       }
     ]
   }
