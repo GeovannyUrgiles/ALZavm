@@ -90,14 +90,15 @@ param vpnConnections object
 
 param tier string
 param numberOfPublicIPs int
-// param enableTunneling bool
-// param privateIPAllocationMethod string
 param scaleUnits int
 param ruleCollectionGroups array
 param disableVpnEncryption bool
+param mode string
 // param bgpSettings int
 // param vpnGatewayScaleUnit int
-param mode string
+// param enableTunneling bool
+// param privateIPAllocationMethod string
+
 
 // Private DNS Parameters
 
@@ -234,6 +235,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
       }
     ]
     location: location[0]
+    tags: tags
   }
   dependsOn: [
     modResourceGroupNetwork
@@ -249,6 +251,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     name: vpnGatewayName
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: location[0]
+    tags: tags
     vpnConnections: [
       {
         connectionBandwidth: vpnConnections.connectionBandwidth
@@ -256,7 +259,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         enableInternetSecurity: vpnConnections.enableInternetSecurity
         enableRateLimiting: vpnConnections.enableRateLimiting
         name: vpnConnections.name
-        remoteVpnSiteResourceId: vpnConnections.modVpnSite.outputs.resourceId
+        remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
         routingWeight: vpnConnections.routingWeight
         useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
         usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
@@ -369,24 +372,6 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
     modFirewallPolicy
   ]
 }
-
-// VPN Gateway Site-to-Site
-
-// resource virtualwangateways2s 'Microsoft.Network/vpnGateways@2021-05-01' = {
-//   scope: resourceGroup(resourceGroupName_Network)
-//   name: '${vwanHubName}s2sgw'
-//   location: location
-//   properties: {
-//     vpnGatewayScaleUnit: vpnGatewayScaleUnit
-//     isRoutingPreferenceInternet: false
-//     bgpSettings: {
-//       asn: bgpSettings
-//     }
-//     virtualHub: {
-//       id: virtualHub.outputs.resourceId
-//     }
-//   }
-// }
 
 // VPN Site for VWAN-to-VWAN connections
 
