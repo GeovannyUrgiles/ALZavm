@@ -44,6 +44,8 @@ param vpnGatewayName string
 
 param keyVaultName string
 param nsgSuffix string
+param peSuffix string
+param nicSuffix string
 
 param enablePurgeProtection bool
 param enableRbacAuthorization bool
@@ -564,8 +566,8 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
       {
         tags: tags
         customDnsConfigs: []
-        name: '${keyVaultName}-pe'
-        customNetworkInterfaceName: '${keyVaultName}-nic'
+        name: '${keyVaultName}${peSuffix}'
+        customNetworkInterfaceName: '${keyVaultName}${nicSuffix}'
         ipConfigurations: []
         privateDnsZoneGroup: {
           privateDnsZoneGroupConfigs: [

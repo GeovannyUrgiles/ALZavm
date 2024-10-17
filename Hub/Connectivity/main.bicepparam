@@ -11,8 +11,8 @@ param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enablePrivateDnsZones = true
-param enableVirtualWan = true
-param enableVirtualHub = true
+param enableVirtualWan = false
+param enableVirtualHub = false
 param enableVpnGateway = false
 param enableVpnSite = false
 param enableAzureFirewall = false
@@ -21,6 +21,9 @@ param enableOperationalInsightsName = true
 param enableKeyVault = true
 // param enableRecoveryServiceVault = true
 
+// Subscription(s)
+
+param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Subscription ID
 
 // Paired Regions
 
@@ -51,7 +54,10 @@ param keyVaultName = 'conwus2kv'
 
 param enablePurgeProtection = true
 param enableRbacAuthorization = true
-// param nicSuffix = '-nic'
+param peSuffix = '${nameSeparator}pe'
+param nicSuffix = '${nameSeparator}nic'
+param nameSeparator = '-'
+
 
 // Default Tags
 
@@ -375,6 +381,6 @@ param scaleUnits = 2
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
 
-param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Subscription ID
+
 
 // param vpnGatewayScaleUnit = 1
