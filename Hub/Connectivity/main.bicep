@@ -175,9 +175,11 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsightsName) {
   scope: resourceGroup(resourceGroupName_Network)
   name: 'workspaceDeployment'
+  
   params: {
     name: operationalInsightsName
     location: location[0]
+    tags: tags
   }
 }
 
