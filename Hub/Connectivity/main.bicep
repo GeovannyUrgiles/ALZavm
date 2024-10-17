@@ -249,6 +249,33 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
   ]
 }
 
+// VPN Site for VWAN-to-VWAN connections
+
+module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
+  scope: resourceGroup(resourceGroupName_Network)
+  name: 'vpnSiteDeployment'
+  params: {
+    name: vpnSiteName
+    location: location[0]
+    tags: tags
+    virtualWanId: modVirtualWan.outputs.resourceId
+    deviceProperties: {
+      linkSpeedInMbps: 0
+    }
+    o365Policy: {
+      breakOutCategories: {
+        allow: true
+        default: true
+        optimize: true
+      }
+    }
+    vpnSiteLinks: vpnSiteLinks
+  }
+  dependsOn: [
+    modVirtualHub
+  ]
+}
+
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
 module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
@@ -259,13 +286,19 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: location[0]
     tags: tags
+    vpnGatewayScaleUnit: 1
+    enableBgpRouteTranslationForNat: false
+    enableTelemetry: false
+    //vpnConnections: vpnConnections
     vpnConnections: [
       {
+        name: 'country1'
+        properties:{
         connectionBandwidth: vpnConnections.connectionBandwidth
         enableBgp: vpnConnections.enableBgp
         enableInternetSecurity: vpnConnections.enableInternetSecurity
         enableRateLimiting: vpnConnections.enableRateLimiting
-        name: vpnConnections.name
+        // name: vpnConnections.name
         remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
         routingWeight: vpnConnections.routingWeight
         useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
@@ -275,26 +308,23 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         sharedKey: vpnConnections.sharedKey
         dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
         vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
-        ipsecEncryption: vpnConnections.ipsecEncryption
+        ipsecPolicies: [
+          {
+
+            // lifetimeSeconds: 27000
+            // datasizeKilobytes: 102400000
+            // lifetimeKilobytes: 102400000
+            ipsecEncryption: vpnConnections.ipsecEncryption
             ipsecIntegrity: vpnConnections.ipsecIntegrity
             ikeEncryption: vpnConnections.ikeEncryption
             ikeIntegrity: vpnConnections.ikeIntegrity
             dhGroup: vpnConnections.dhGroup
             pfsGroup: vpnConnections.pfsGroup
-        // ipsecPolicies: [
-        //   {
-        //     // lifetimeSeconds: 27000
-        //     // datasizeKilobytes: 102400000
-        //     // lifetimeKilobytes: 102400000
-        //     ipsecEncryption: vpnConnections.ipsecEncryption
-        //     ipsecIntegrity: vpnConnections.ipsecIntegrity
-        //     ikeEncryption: vpnConnections.ikeEncryption
-        //     ikeIntegrity: vpnConnections.ikeIntegrity
-        //     dhGroup: vpnConnections.dhGroup
-        //     pfsGroup: vpnConnections.pfsGroup
-        //   }
-        // ]
+          }
+        
+        ]
       }
+    }
     ]
   }
   dependsOn: [
@@ -384,33 +414,6 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
   }
   dependsOn: [
     modFirewallPolicy
-  ]
-}
-
-// VPN Site for VWAN-to-VWAN connections
-
-module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
-  scope: resourceGroup(resourceGroupName_Network)
-  name: 'vpnSiteDeployment'
-  params: {
-    name: vpnSiteName
-    location: location[0]
-    tags: tags
-    virtualWanId: modVirtualWan.outputs.resourceId
-    deviceProperties: {
-      linkSpeedInMbps: 0
-    }
-    o365Policy: {
-      breakOutCategories: {
-        allow: true
-        default: true
-        optimize: true
-      }
-    }
-    vpnSiteLinks: vpnSiteLinks
-  }
-  dependsOn: [
-    modVirtualHub
   ]
 }
 
