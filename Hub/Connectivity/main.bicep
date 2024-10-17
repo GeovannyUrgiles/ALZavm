@@ -270,7 +270,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
         ipsecPolicies: [
           {
-            saDataSizeKilobytes: vpnConnections.saDataSizeKilobytes
+            // saDataSizeKilobytes: vpnConnections.saDataSizeKilobytes
             saLifeTimeSeconds: vpnConnections.saLifeTimeSeconds
             ipsecEncryption: vpnConnections.ipsecEncryption
             ipsecIntegrity: vpnConnections.ipsecIntegrity
