@@ -125,8 +125,8 @@ param vpnConnections = {
   vpnGatewayCustomBgpAddresses: []
   ipsecPolicies: [
     {
-      saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
-      saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
+      DataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+      LifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
       ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
       ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
       ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
