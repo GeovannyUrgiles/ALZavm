@@ -207,6 +207,13 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
     addressPrefix: addressPrefix
     name: virtualHubName
     virtualWanId: modVirtualWan.outputs.resourceId
+    preferredRoutingGateway: 'None' // ExpressRoute
+    allowBranchToBranchTraffic: allowBranchToBranchTraffic
+    internetToFirewall: false
+    privateToFirewall: false
+
+    enableTelemetry: false
+
     hubRouteTables: [
       {
         name: defaultRoutesName
@@ -271,7 +278,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         ipsecPolicies: [
           {
             // saDataSizeKilobytes: vpnConnections.saDataSizeKilobytes
-            saLifeTimeSeconds: vpnConnections.saLifeTimeSeconds
+            // saLifeTimeSeconds: vpnConnections.saLifeTimeSeconds
             ipsecEncryption: vpnConnections.ipsecEncryption
             ipsecIntegrity: vpnConnections.ipsecIntegrity
             ikeEncryption: vpnConnections.ikeEncryption

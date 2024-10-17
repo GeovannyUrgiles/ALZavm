@@ -1,3 +1,41 @@
+{
+  name: 'conwus2hub'
+  id: '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/virtualHubs/conwus2hub'
+  etag: 'W/"f10a83a7-74f8-42e6-8882-c3011be047a5"'
+  type: 'Microsoft.Network/virtualHubs'
+  location: 'westus2'
+  tags: {
+    Environment: 'Non-Prod'
+    'hidden-title': 'v1.0.0'
+    Role: 'DeploymentValidation'
+    CostCenter: 'Thieving Cat Corporate'
+  }
+  properties: {
+    provisioningState: 'Succeeded'
+    virtualHubRouteTableV2s: []
+    addressPrefix: '10.0.0.0/23'
+    virtualRouterAsn: 65515
+    virtualRouterIps: [
+      '10.0.0.69'
+      '10.0.0.68'
+    ]
+    routeTable: {
+      routes: []
+    }
+    securityProviderName: ''
+    virtualWan: {
+      id: '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/virtualWans/conwus2vwan'
+    }
+    sku: 'Standard'
+    routingState: 'Provisioned'
+    allowBranchToBranchTraffic: true
+    preferredRoutingGateway: 'ExpressRoute'
+  }
+}
+
+
+
+
 param vpnGateways_conwus2vpngw_name string = 'conwus2vpngw'
 param virtualHubs_conwus2hub_externalid string = '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/virtualHubs/conwus2hub'
 param vpnSites_conwus2vpnsite_externalid string = '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/vpnSites/conwus2vpnsite'
