@@ -292,14 +292,18 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     //vpnConnections: vpnConnections
     vpnConnections: [
       {
-        name: 'country1'
-        properties:{
+        name: vpnConnections.name
+        id: modVpnSite.outputs.resourceId
+        vpnSiteLink: {
+            id: '${modVpnSite.outputs.resourceId}/vpnSiteLinks/${vpnSiteLinks[0].name}'
+          }
+        vpnGatewayResourceId: modVirtualHub.outputs.resourceId
+        remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+        properties: {
         connectionBandwidth: vpnConnections.connectionBandwidth
         enableBgp: vpnConnections.enableBgp
         enableInternetSecurity: vpnConnections.enableInternetSecurity
         enableRateLimiting: vpnConnections.enableRateLimiting
-        // name: vpnConnections.name
-        remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
         routingWeight: vpnConnections.routingWeight
         useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
         usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
