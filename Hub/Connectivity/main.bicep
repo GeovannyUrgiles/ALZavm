@@ -25,7 +25,7 @@ param spokes array
 param subscriptionId string
 param location array
 param tags object
-
+param nameSeparator string
 
 // Resource Names
 
@@ -514,7 +514,6 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
     enableFileCopy: enableFileCopy
     scaleUnits: scaleUnits
     enableShareableLink: enableShareableLink
-
     skuName: skuName
   }
   dependsOn: [
@@ -565,8 +564,8 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
       {
         tags: tags
         customDnsConfigs: []
-        name: 'kvprivatelink'
-        customNetworkInterfaceName: keyVaultName
+        name: '${keyVaultName}-pe'
+        customNetworkInterfaceName: '${keyVaultName}-nic'
         ipConfigurations: []
         privateDnsZoneGroup: {
           privateDnsZoneGroupConfigs: [
@@ -578,7 +577,6 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
         roleAssignments: []
         subnetResourceId: modVirtualNetwork.outputs.subnetResourceIds[1]
       }
-      
     ]
     roleAssignments: []
     secrets: []
