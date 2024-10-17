@@ -6,15 +6,15 @@ var version = 'v1.0.0'
 
 // Deployment Options
 
-param enableUserAssignedManagedIdentity = true
+param enableUserAssignedManagedIdentity = false
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enablePrivateDnsZones = true
 param enableVirtualWan = true
 param enableVirtualHub = true
-param enableVpnGateway = true
-param enableVpnSite = true
+param enableVpnGateway = false
+param enableVpnSite = false
 param enableAzureFirewall = false
 param enableBastion = false
 param enableOperationalInsightsName = true
@@ -64,8 +64,14 @@ param tags = {
 // Resource Group Lock
 
 param lock = {
-  name: 'ProtectedResource'
+  delete: {
+  name: 'Do Not Delete'
   kind: 'CanNotDelete'
+  }
+  readonly: {
+  name: 'Marked as ReadOnly'
+  kind: 'ReadOnly'
+  }
 }
 
 // Firewall Policy Groups and Rules
@@ -92,17 +98,25 @@ param ruleCollectionGroups = [
 
 param vpnSiteLinks = [
   {
-    name: 'dataCenter1'
+    name: 'dataCenter1' // Data Center or other Remote Site Name
     properties: {
       bgpProperties: {
-        asn: 65010
-        bgpPeeringAddress: '1.1.1.1'
+        asn: 65010 // BGP Autonomous System Number
+        bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
       }
-      ipAddress: '1.2.3.4'
+      ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
       linkProperties: {
-        linkProviderName: 'customerName'
-        linkSpeedInMbps: 5
+        linkProviderName: 'customerName' // Client Name
+        linkSpeedInMbps: 5 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+        vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+        remoteSite: {
+          addressSpace: ''
+        }
+        privateAddress: {
+          addressSpace: ''
+        }
       }
+      vpnLinkConnectionMode: 'Default'
     }
   }
 ]
@@ -110,7 +124,7 @@ param vpnSiteLinks = [
 // VPN Site-to-Site Connections
 
 param vpnConnections = {
-  name: 'Connection1'
+  name: 'Connection1' // Connection Name
   connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
   enableBgp: false
   enableInternetSecurity: true

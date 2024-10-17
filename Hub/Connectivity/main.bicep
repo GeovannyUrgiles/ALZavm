@@ -207,13 +207,12 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
     addressPrefix: addressPrefix
     name: virtualHubName
     virtualWanId: modVirtualWan.outputs.resourceId
-    // preferredRoutingGateway: 'None' // ExpressRoute
+    sku: 'Standard' // Standard | Basic
     allowBranchToBranchTraffic: allowBranchToBranchTraffic
     internetToFirewall: false
     privateToFirewall: false
-
+    preferredRoutingGateway: 'ExpressRoute' // ExpressRoute
     enableTelemetry: false
-
     hubRouteTables: [
       {
         name: defaultRoutesName
@@ -259,8 +258,10 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     location: location[0]
     tags: tags
     virtualWanId: modVirtualWan.outputs.resourceId
+    vpnSiteLinks: vpnSiteLinks
     deviceProperties: {
-      linkSpeedInMbps: 0
+      deviceVendor: 'Cisco'
+      linkSpeedInMbps: 100
     }
     o365Policy: {
       breakOutCategories: {
@@ -269,7 +270,6 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
         optimize: true
       }
     }
-    vpnSiteLinks: vpnSiteLinks
   }
   dependsOn: [
     modVirtualHub
@@ -289,7 +289,6 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     vpnGatewayScaleUnit: 1
     enableBgpRouteTranslationForNat: false
     enableTelemetry: false
-    //vpnConnections: vpnConnections
     vpnConnections: [
       {
         name: vpnConnections.name
@@ -313,21 +312,6 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
         vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
         ipsecPolicies: vpnConnections.ipsecPolicies
-        // ipsecPolicies: [
-        //   {
-
-        //     // lifetimeSeconds: 27000
-        //     // datasizeKilobytes: 102400000
-        //     // lifetimeKilobytes: 102400000
-        //     ipsecEncryption: vpnConnections.ipsecEncryption
-        //     ipsecIntegrity: vpnConnections.ipsecIntegrity
-        //     ikeEncryption: vpnConnections.ikeEncryption
-        //     ikeIntegrity: vpnConnections.ikeIntegrity
-        //     dhGroup: vpnConnections.dhGroup
-        //     pfsGroup: vpnConnections.pfsGroup
-        //   }
-        
-        // ]
       }
     }
     ]
