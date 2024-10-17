@@ -201,7 +201,7 @@ param virtualNetwork = {
 
 // Network Security Group Properties
 
-param nsgSuffix = '-nsg'
+param nsgSuffix = '${nameSeparator}nsg'
 param securityRules = []
 
 // Virtual WAN Properties
