@@ -14,6 +14,7 @@ param enableVirtualNetwork bool
 param enableBastion bool
 param enableOperationalInsightsName bool
 param enableVpnGateway bool
+param enableKeyVault bool
 
 // Virtual Hub Connectivity
 
@@ -532,7 +533,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
 
 // Key Vault
 
-module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
+module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
   scope: resourceGroup(resourceGroupName_Bastion)
   name: 'vaultDeployment'
   params: {
@@ -557,8 +558,8 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
         workspaceResourceId: modWorkspace.outputs.resourceId
       }
     ]
-    enablePurgeProtection: enablePurgeProtection //false
-    enableRbacAuthorization: enableRbacAuthorization //false
+    enablePurgeProtection: enablePurgeProtection
+    enableRbacAuthorization: enableRbacAuthorization
     keys: []
     location: location[0]
     lock: {}
@@ -572,16 +573,17 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = {
     privateEndpoints: [
       {
         customDnsConfigs: []
+        privateLinkServiceConnectionName: 'privateLinkServiceConnectionName'
+        customNetworkInterfaceName: 'customNetworkInterfaceName'
         ipConfigurations: [
-          {
-            name: 'ipConfig'
-            properties: {
-              groupId: 'vault'
-              memberName: 'default'
-              privateIPAllocationMethod: 'Dynamic'
-              privateIPAddress: ''
-            }
-          }
+          // {
+          //   name: 'ipConfig'
+          //   properties: {
+          //     groupId: 'vault'
+          //     memberName: 'default'
+          //     privateIPAddress: ''
+          //   }
+          // }
         ]
         privateDnsZoneGroup: {
           privateDnsZoneGroupConfigs: [
