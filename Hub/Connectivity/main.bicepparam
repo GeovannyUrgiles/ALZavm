@@ -47,7 +47,7 @@ param firewallName = 'conwus2azfw'
 param firewallPolicyName = 'conwus2azfwpol'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
-param operationalInsightsName = 'conwus2oi'
+param operationalInsightsName = 'conwus2oiw'
 param keyVaultName = 'conwus2kv'
 
 // Key Vault Properties
