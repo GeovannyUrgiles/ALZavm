@@ -473,9 +473,9 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
     name: virtualNetworkName
     location: locations[0]
     tags: tags
-    addressPrefixes: virtualNetwork.addressPrefixes[0]
+    addressPrefixes: virtualNetwork.addressPrefixes
     dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-    subnets: [for subnet in virtualNetwork.subnets[0]: {
+    subnets: [for subnet in virtualNetwork.subnets: {
       name: subnet.name
       addressPrefix: subnet.addressPrefix
       delegation: subnet.delegation
