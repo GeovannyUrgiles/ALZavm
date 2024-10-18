@@ -181,6 +181,9 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = i
     location: location[0]
     tags: tags
   }
+  dependsOn: [
+    modResourceGroupNetwork
+  ]
 }
 
 // Virtual WAN
@@ -594,4 +597,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
     softDeleteRetentionInDays: 7
     tags: tags
   }
+  dependsOn: [
+    modResourceGroupNetwork
+  ]
 }
