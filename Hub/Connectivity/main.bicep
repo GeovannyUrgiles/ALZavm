@@ -280,6 +280,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       {
         name: 'dataCenter1' // Data Center or other Remote Site Name
         id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+        vpnLinkConnectionMode: 'Default' // Default | HighPerformance
         properties: {
           vpnLinkConnectionMode: 'Default' // Default | HighPerformance
           bgpProperties: {
