@@ -276,7 +276,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       ]
     // monkey: 'monkey'
     virtualWanId: modVirtualWan.outputs.resourceId
-    vpnSiteLinks: vpnSiteLinks
+    vpnSiteLinks: vpnSiteLinks[0]
     deviceProperties: {
       deviceVendor: 'Cisco'
       linkSpeedInMbps: 100
