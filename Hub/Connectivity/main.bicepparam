@@ -32,6 +32,11 @@ param locations = [
   'eastus2' // Secondary Region
 ]
 
+param locationsShort = [
+  'wus2' // Primary Region
+  'eus2' // Secondary Region
+]
+
 // Resource Names
 
 param resourceGroupName_Network = 'conwus2networkrg'
