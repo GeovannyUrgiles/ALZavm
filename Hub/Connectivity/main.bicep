@@ -294,7 +294,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
         properties: {
           // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
           bgpProperties: {
-            asn: 65515 // BGP Autonomous System Number
+            asn: 65010 // BGP Autonomous System Number
             bgpPeeringAddress: '1.1.1.1'
           }
           ipAddress: '2.2.2.2' // Remote VPN Gateway IP Address or FQDN
@@ -328,7 +328,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     location: locations[0]
     tags: tags
     bgpSettings: {
-      asn: 65010
+      asn: 65515
       peerweight: 0
      }
      vpnGatewayScaleUnit: vpnGatewayScaleUnit
