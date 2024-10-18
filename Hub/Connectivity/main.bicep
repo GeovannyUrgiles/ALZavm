@@ -339,14 +339,14 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: locations[0]
     tags: tags
-    bgpSettings: {
-      asn: 65010
-      bgpPeeringAddress: '10.0.0.20'
-      bgpPeeringAddressType: 'IPv4'
-    }
-    vpnGatewayScaleUnit: 1
-    enableBgpRouteTranslationForNat: false
-    enableTelemetry: false
+    // bgpSettings: {
+    //   asn: 65010
+    //   bgpPeeringAddress: '10.0.0.20'
+    //   bgpPeeringAddressType: 'IPv4'
+    // }
+    // vpnGatewayScaleUnit: 1
+    // enableBgpRouteTranslationForNat: false
+    // enableTelemetry: false
     vpnConnections: [
       // {
         //name: vpnConnections.name
