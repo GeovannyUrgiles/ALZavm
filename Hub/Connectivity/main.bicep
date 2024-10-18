@@ -279,25 +279,30 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
   name: 'vpnSiteDeployment'
   params: {
     name: vpnSiteName
+    virtualWanId: modVirtualWan.outputs.resourceId
     location: locations[0]
     tags: tags
     addressPrefixes: [
-        // '10.100.100.0/24'
-        // '10.101.101.0/24'
-      ]
-    virtualWanId: modVirtualWan.outputs.resourceId
+      (enableVpnSite) ? addressPrefix : null
+      (enableVpnSite) ? virtualNetwork.addressPrefixes[0] : null
+    ]
+    o365Policy: {
+      breakOutCategories: {
+        allow: true
+        default: true
+        optimize: true
+      }
+    }
     vpnSiteLinks: [ 
       //vpnSiteLinks[0]
-
       {
         name: 'azureSite1' 
         id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/azureSite1'
         properties: {
-          vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+          // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
           bgpProperties: {
             asn: 65010 // BGP Autonomous System Number
             bgpPeeringAddress: '10.0.0.20'
-            bgpPeeringAddressType: 'IPv4' // IPv4 | IPv6
           }
           ipAddress: publicIpAddress.outputs.ipAddress // Remote VPN Gateway IP Address or FQDN
           linkProperties: {
@@ -306,22 +311,15 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
             // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
           }
         }
-
       //type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
       }
     ]
     //
-    deviceProperties: {
-      // deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
-      // linkSpeedInMbps: 100
-    }
-    o365Policy: {
-      breakOutCategories: {
-        allow: true
-        default: true
-        optimize: true
-      }
-    }
+    // deviceProperties: {
+    //   // deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
+    //   // linkSpeedInMbps: 100
+    // }
+    
   }
   dependsOn: [
     publicIpAddress
@@ -339,40 +337,32 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: locations[0]
     tags: tags
-    // bgpSettings: {
-    //   asn: 65010
-    //   bgpPeeringAddress: '10.0.0.20'
-    //   bgpPeeringAddressType: 'IPv4'
-    // }
+    bgpSettings: {
+      asn: 65010
+      peerweight: 0
+     }
     // vpnGatewayScaleUnit: 1
     // enableBgpRouteTranslationForNat: false
     // enableTelemetry: false
     vpnConnections: [
-      // {
-        //name: vpnConnections.name
-        // id: '${modVpnSite.outputs.resourceId}/vpnConnections/${vpnConnections.name}' // /subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnConnections/${vpnConnections.name}
-        // vpnSiteLink: {
-        //     id: '${modVpnSite.outputs.resourceId}/vpnSiteLinks/${vpnSiteLinks[0].name}'
-        //   }
-        //vpnGatewayResourceId: modVirtualHub.outputs.resourceId
-        //remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
-        // connectionBandwidth: vpnConnections.connectionBandwidth
-        // properties: {
-        // connectionBandwidth: vpnConnections.connectionBandwidth
-        // enableBgp: vpnConnections.enableBgp
-        // enableInternetSecurity: vpnConnections.enableInternetSecurity
-        // enableRateLimiting: vpnConnections.enableRateLimiting
-        // routingWeight: vpnConnections.routingWeight
-        // useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
-        // usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
-        // vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
+      {
+        name: vpnConnections.name
+        connectionBandwidth: vpnConnections.connectionBandwidth
+        enableBgp: vpnConnections.enableBgp
+        enableInternetSecurity: vpnConnections.enableInternetSecurity
+        enableRateLimiting: vpnConnections.enableRateLimiting
+        routingWeight: vpnConnections.routingWeight
+        useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
+        usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
+        vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
+
         // vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
         // sharedKey: vpnConnections.sharedKey
         // dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
         // vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
         // ipsecPolicies: vpnConnections.ipsecPolicies
-    //   }
-    // }
+
+     }
     ]
   }
   dependsOn: [
