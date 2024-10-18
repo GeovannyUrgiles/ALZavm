@@ -344,7 +344,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
         vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
 
-        remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+        // remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
         
         vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
         sharedKey: vpnConnections.sharedKey
