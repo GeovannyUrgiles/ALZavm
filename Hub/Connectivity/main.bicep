@@ -262,6 +262,15 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
   ]
 }
 
+module publicIpAddress 'br/public:avm/res/network/public-ip-address:0.6.0' = if (enableVpnSite) {
+  scope: resourceGroup(string(resourceGroupName_Network[0]))
+  name: 'publicIpAddressDeployment'
+  params: {
+    name: 'npiamin001'
+    location: locations[0]
+  }
+}
+
 // VPN Site for VWAN-to-VWAN connections
 
 module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
@@ -271,12 +280,14 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     name: vpnSiteName
     location: locations[0]
     tags: tags
+    ipAddress: publicIpAddress.outputs.ipAddress
     addressPrefixes: [
-        '10.100.100.0/24'
-        '10.101.101.0/24'
+        // '10.100.100.0/24'
+        // '10.101.101.0/24'
       ]
     virtualWanId: modVirtualWan.outputs.resourceId
-    vpnSiteLinks: [
+    vpnSiteLinks: [ 
+      vpnSiteLinks[0]
       // {
       //   name: 'dataCenter1' // Data Center or other Remote Site Name
       //   id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
@@ -296,10 +307,10 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       // type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
       // }
     ]
-    //vpnSiteLinks[0]
+    //
     deviceProperties: {
-      deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
-      linkSpeedInMbps: 100
+      // deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
+      // linkSpeedInMbps: 100
     }
     o365Policy: {
       breakOutCategories: {
