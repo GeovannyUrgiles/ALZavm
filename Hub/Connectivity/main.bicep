@@ -328,7 +328,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     location: locations[0]
     tags: tags
     bgpSettings: {
-      asn: 65515
+      asn: 65010
       peerweight: 0
      }
      vpnGatewayScaleUnit: vpnGatewayScaleUnit
@@ -473,9 +473,9 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
     name: virtualNetworkName
     location: locations[0]
     tags: tags
-    addressPrefixes: virtualNetwork.addressPrefixes
+    addressPrefixes: virtualNetwork.addressPrefixes[0]
     dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-    subnets: [for subnet in virtualNetwork.subnets: {
+    subnets: [for subnet in virtualNetwork.subnets[0]: {
       name: subnet.name
       addressPrefix: subnet.addressPrefix
       delegation: subnet.delegation

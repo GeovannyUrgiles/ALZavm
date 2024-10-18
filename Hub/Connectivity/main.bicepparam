@@ -177,6 +177,21 @@ param numberOfPublicIPs = 1
 
 // Virtual Network Properties
 
+// param virtualNetwork = [
+//   {
+//     name: virtualNetworkName
+//     addressPrefixes: [
+//       '10.1.0.0/18'
+//     ]
+//   }
+//   {
+//     name: virtualNetworkName
+//     addressPrefixes: [
+//     '10.2.0.0/18'
+//     ]
+//   }
+// ]
+
 param virtualNetwork = {
   name: virtualNetworkName
   addressPrefixes: [
