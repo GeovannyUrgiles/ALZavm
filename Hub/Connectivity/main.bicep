@@ -183,7 +183,6 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsights) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'workspaceDeployment'
-  
   params: {
     name: operationalInsightsName
     location: locations[0]
@@ -237,9 +236,9 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
     ]
     hubVirtualNetworkConnections: [
       // for RemoteSpoke in RemoteSpokes: {
-      {
+      (enableVirtualNetwork) ? {
         name: '${virtualNetworkName}-to-${virtualHubName}'
-        remoteVirtualNetworkId: modVirtualNetwork.outputs.resourceId // /subscription/${spoke.sub}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+        remoteVirtualNetworkId: modVirtualNetwork.outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
         routingConfiguration: {
           associatedRouteTable: {
             id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
@@ -255,6 +254,8 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
             ]
           }
         }
+      } : {
+
       }
     ]
   }
@@ -263,19 +264,10 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
   ]
 }
 
-module publicIpAddress 'br/public:avm/res/network/public-ip-address:0.6.0' = if (enableVpnSite) {
-  scope: resourceGroup(string(resourceGroupName_Network[0]))
-  name: 'publicIpAddressDeployment'
-  params: {
-    name: publicIpAddressName01
-    location: locations[0]
-  }
-}
-
 // VPN Site for VWAN-to-VWAN connections
 
 module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
-  scope: resourceGroup(string(resourceGroupName_Network[0]))
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'vpnSiteDeployment'
   params: {
     name: vpnSiteName
@@ -295,24 +287,22 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     }
     vpnSiteLinks: [ 
       //vpnSiteLinks[0]
-      {
+      (enableVpnSite) ? {
         name: 'azureSite1' 
         id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/azureSite1'
         properties: {
           // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
           bgpProperties: {
             asn: 65010 // BGP Autonomous System Number
-            bgpPeeringAddress: '10.0.0.20'
+            bgpPeeringAddress: '1.1.1.1'
           }
-          ipAddress: publicIpAddress.outputs.ipAddress // Remote VPN Gateway IP Address or FQDN
+          ipAddress: '2.2.2.2' // Remote VPN Gateway IP Address or FQDN
           linkProperties: {
             linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
             linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-            // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
           }
         }
-      //type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
-      }
+      } : {}
     ]
     //
     // deviceProperties: {
@@ -322,7 +312,6 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     
   }
   dependsOn: [
-    publicIpAddress
     modVirtualHub
   ]
 }
@@ -330,7 +319,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
 module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
-  scope: (resourceGroup(string(resourceGroupName_Network[0])))
+  scope: (resourceGroup(resourceGroupName_Network[0]))
   name: 'vpnGatewayDeployment'
   params: {
     name: vpnGatewayName
@@ -341,26 +330,25 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
       asn: 65010
       peerweight: 0
      }
-    // vpnGatewayScaleUnit: 1
-    // enableBgpRouteTranslationForNat: false
-    // enableTelemetry: false
     vpnConnections: [
       {
-        // name: vpnConnections.name
-        // connectionBandwidth: vpnConnections.connectionBandwidth
-        // enableBgp: vpnConnections.enableBgp
-        // enableInternetSecurity: vpnConnections.enableInternetSecurity
-        // enableRateLimiting: vpnConnections.enableRateLimiting
-        // routingWeight: vpnConnections.routingWeight
-        // useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
-        // usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
-        // vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
+        name: vpnConnections.name
+        connectionBandwidth: vpnConnections.connectionBandwidth
+        enableBgp: vpnConnections.enableBgp
+        enableInternetSecurity: vpnConnections.enableInternetSecurity
+        enableRateLimiting: vpnConnections.enableRateLimiting
+        routingWeight: vpnConnections.routingWeight
+        useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
+        usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
+        vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
 
-        // vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
-        // sharedKey: vpnConnections.sharedKey
-        // dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
-        // vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
-        // ipsecPolicies: vpnConnections.ipsecPolicies
+        remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+        
+        vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
+        sharedKey: vpnConnections.sharedKey
+        dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
+        vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
+        ipsecPolicies: vpnConnections.ipsecPolicies
 
      }
     ]

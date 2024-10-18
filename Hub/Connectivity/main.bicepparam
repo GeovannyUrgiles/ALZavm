@@ -134,7 +134,7 @@ param vpnSiteLinks = [
         // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
-    type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
+    
   }
 ]
 
