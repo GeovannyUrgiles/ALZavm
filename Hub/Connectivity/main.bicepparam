@@ -13,11 +13,11 @@ param enableDnsResolver = false
 param enablePrivateDnsZones = true
 param enableVirtualWan = true
 param enableVirtualHub = true
-param enableVpnGateway = false
 param enableVpnSite = true
+param enableVpnGateway = false
 param enableAzureFirewall = false
 param enableBastion = false
-param enableOperationalInsightsName = true
+param enableOperationalInsights = true
 param enableKeyVault = true
 // param enableRecoveryServiceVault = true
 

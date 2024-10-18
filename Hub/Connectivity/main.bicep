@@ -12,7 +12,7 @@ param enablePrivateDnsZones bool
 param enableDnsResolver bool
 param enableVirtualNetwork bool
 param enableBastion bool
-param enableOperationalInsightsName bool
+param enableOperationalInsights bool
 param enableVpnGateway bool
 param enableKeyVault bool
 
@@ -179,7 +179,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 
 // Operational Insights
 
-module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsightsName) {
+module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsights) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'workspaceDeployment'
   
