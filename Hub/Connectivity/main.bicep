@@ -274,8 +274,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
         '10.100.100.0/24'
         '10.101.101.0/24'
       ]
-    
-    
+    // monkey: 'monkey'
     virtualWanId: modVirtualWan.outputs.resourceId
     vpnSiteLinks: vpnSiteLinks
     deviceProperties: {
