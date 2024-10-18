@@ -27,7 +27,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 // Paired Regions
 
-param location = [
+param locations = [
   'westus2' // Primary Region
   'eastus2' // Secondary Region
 ]
