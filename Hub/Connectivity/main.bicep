@@ -223,7 +223,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
     tags: tags
     addressPrefix: addressPrefix
     virtualWanId: modVirtualWan.outputs.resourceId
-    sku: 'Standard' // Standard | Basic
+    sku: 'Basic' // Standard | Basic
     allowBranchToBranchTraffic: allowBranchToBranchTraffic
     internetToFirewall: false
     privateToFirewall: false
