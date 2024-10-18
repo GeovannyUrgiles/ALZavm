@@ -261,11 +261,18 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     name: vpnSiteName
     location: location[0]
     tags: tags
+    addressPrefixes: [
+        '10.100.100.0/24'
+        '10.101.101.0/24'
+      ]
+    
+    
     virtualWanId: modVirtualWan.outputs.resourceId
     vpnSiteLinks: vpnSiteLinks
     deviceProperties: {
       deviceVendor: 'Cisco'
       linkSpeedInMbps: 100
+      provider: 'Verizon' // Cisco | Juniper | Microsoft | PaloAltoNetworks
     }
     o365Policy: {
       breakOutCategories: {
@@ -296,7 +303,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     vpnConnections: [
       {
         name: vpnConnections.name
-        id: modVpnSite.outputs.resourceId
+        id: '${modVpnSite.outputs.resourceId}/vpnConnections/${vpnConnections.name}' // /subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnConnections/${vpnConnections.name}
         vpnSiteLink: {
             id: '${modVpnSite.outputs.resourceId}/vpnSiteLinks/${vpnSiteLinks[0].name}'
           }
