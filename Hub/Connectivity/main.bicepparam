@@ -190,19 +190,19 @@ param virtualNetwork = {
       name: toLower('${virtualNetworkName}-PrivateEndpointSn')
       addressPrefix: '10.1.1.0/24'
       delegation: ''
-      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-PrivateEndpointSn-nsg')
+      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-PrivateEndpointSn-nsg')
     }
     {
       name: toLower('${virtualNetworkName}-DnsInboundSn')
       addressPrefix: '10.1.2.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
-      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsInboundSn-nsg')
+      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsInboundSn-nsg')
     }
     {
       name: toLower('${virtualNetworkName}-DnsOutboundSn')
       addressPrefix: '10.1.3.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
-      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsOutboundSn-nsg')
+      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsOutboundSn-nsg')
     }
   ]
 }

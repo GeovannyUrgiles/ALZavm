@@ -500,16 +500,16 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
     location: locations[0]
     tags: tags
     inboundEndpoints: [
-      {
+      (enableDnsResolver) ? {
         name: 'inboundEndpoint'
         subnetResourceId: modVirtualNetwork.outputs.subnetResourceIds[2]
-      }
+      } : {}
     ]
     // outboundEndpoints: [
-    //   {
+    //   (enableDnsResolver) ? {
     //     name: 'OutboundEndpoint'
     //     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
-    //   }
+    //   } : {}
     // ]
     virtualNetworkResourceId: modVirtualNetwork.outputs.resourceId
   }
