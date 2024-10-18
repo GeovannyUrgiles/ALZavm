@@ -165,9 +165,9 @@ module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.
 ]
 // User Assigned Managed Identity
 
-module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = if (enableUserAssignedManagedIdentity) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'userAssignedIdentityDeployment'
+module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = [for i in range(0, length(locations)): if (enableUserAssignedManagedIdentity) {
+  scope: resourceGroup(resourceGroupName_Network[i])
+  name: 'userAssignedIdentityDeployment${i}'
   params: {
     name: uamiName
     tags: tags
@@ -177,7 +177,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
     modResourceGroupNetwork
   ]
 }
-
+]
 // Operational Insights
 
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsights) {
@@ -346,15 +346,15 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     // enableTelemetry: false
     vpnConnections: [
       {
-        name: vpnConnections.name
-        connectionBandwidth: vpnConnections.connectionBandwidth
-        enableBgp: vpnConnections.enableBgp
-        enableInternetSecurity: vpnConnections.enableInternetSecurity
-        enableRateLimiting: vpnConnections.enableRateLimiting
-        routingWeight: vpnConnections.routingWeight
-        useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
-        usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
-        vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
+        // name: vpnConnections.name
+        // connectionBandwidth: vpnConnections.connectionBandwidth
+        // enableBgp: vpnConnections.enableBgp
+        // enableInternetSecurity: vpnConnections.enableInternetSecurity
+        // enableRateLimiting: vpnConnections.enableRateLimiting
+        // routingWeight: vpnConnections.routingWeight
+        // useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
+        // usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
+        // vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
 
         // vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
         // sharedKey: vpnConnections.sharedKey
@@ -420,7 +420,7 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
 
     managedIdentities: {
       userAssignedResourceIds: [
-        modUserAssignedIdentity.outputs.resourceId
+        modUserAssignedIdentity[0].outputs.resourceId
       ]
     }
 
