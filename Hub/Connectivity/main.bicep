@@ -462,8 +462,6 @@ module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group
   }
 ]
 
-
-
 // Virtual Network
 
 module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (enableVirtualNetwork) {
