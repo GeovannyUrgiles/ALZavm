@@ -277,24 +277,24 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       ]
     virtualWanId: modVirtualWan.outputs.resourceId
     vpnSiteLinks: [
-      {
-        name: 'dataCenter1' // Data Center or other Remote Site Name
-        id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
-        properties: {
-          vpnLinkConnectionMode: 'Default' // Default | HighPerformance
-          bgpProperties: {
-            asn: 65010 // BGP Autonomous System Number
-            bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
-          }
-          ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
-          linkProperties: {
-            linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
-            linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-            // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
-          }
-        }
-      type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
-      }
+      // {
+      //   name: 'dataCenter1' // Data Center or other Remote Site Name
+      //   id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+      //   properties: {
+      //     vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+      //     bgpProperties: {
+      //       asn: 65010 // BGP Autonomous System Number
+      //       bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
+      //     }
+      //     ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
+      //     linkProperties: {
+      //       linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
+      //       linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+      //       // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+      //     }
+      //   }
+      // type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
+      // }
     ]
     //vpnSiteLinks[0]
     deviceProperties: {
