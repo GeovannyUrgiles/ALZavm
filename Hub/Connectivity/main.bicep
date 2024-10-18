@@ -339,34 +339,40 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     virtualHubResourceId: modVirtualHub.outputs.resourceId
     location: locations[0]
     tags: tags
+    bgpSettings: {
+      asn: 65010
+      bgpPeeringAddress: '10.0.0.20'
+      bgpPeeringAddressType: 'IPv4'
+    }
     vpnGatewayScaleUnit: 1
     enableBgpRouteTranslationForNat: false
     enableTelemetry: false
     vpnConnections: [
-      {
-        name: vpnConnections.name
-        id: '${modVpnSite.outputs.resourceId}/vpnConnections/${vpnConnections.name}' // /subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnConnections/${vpnConnections.name}
-        vpnSiteLink: {
-            id: '${modVpnSite.outputs.resourceId}/vpnSiteLinks/${vpnSiteLinks[0].name}'
-          }
-        vpnGatewayResourceId: modVirtualHub.outputs.resourceId
-        remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
-        properties: {
-        connectionBandwidth: vpnConnections.connectionBandwidth
-        enableBgp: vpnConnections.enableBgp
-        enableInternetSecurity: vpnConnections.enableInternetSecurity
-        enableRateLimiting: vpnConnections.enableRateLimiting
-        routingWeight: vpnConnections.routingWeight
-        useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
-        usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
-        vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
-        vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
-        sharedKey: vpnConnections.sharedKey
-        dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
-        vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
-        ipsecPolicies: vpnConnections.ipsecPolicies
-      }
-    }
+      // {
+        //name: vpnConnections.name
+        // id: '${modVpnSite.outputs.resourceId}/vpnConnections/${vpnConnections.name}' // /subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnConnections/${vpnConnections.name}
+        // vpnSiteLink: {
+        //     id: '${modVpnSite.outputs.resourceId}/vpnSiteLinks/${vpnSiteLinks[0].name}'
+        //   }
+        //vpnGatewayResourceId: modVirtualHub.outputs.resourceId
+        //remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+        // connectionBandwidth: vpnConnections.connectionBandwidth
+        // properties: {
+        // connectionBandwidth: vpnConnections.connectionBandwidth
+        // enableBgp: vpnConnections.enableBgp
+        // enableInternetSecurity: vpnConnections.enableInternetSecurity
+        // enableRateLimiting: vpnConnections.enableRateLimiting
+        // routingWeight: vpnConnections.routingWeight
+        // useLocalAzureIpAddress: vpnConnections.useLocalAzureIpAddress
+        // usePolicyBasedTrafficSelectors: vpnConnections.usePolicyBasedTrafficSelectors
+        // vpnConnectionProtocolType: vpnConnections.vpnConnectionProtocolType
+        // vpnLinkConnectionMode: vpnConnections.vpnLinkConnectionMode
+        // sharedKey: vpnConnections.sharedKey
+        // dpdTimeoutSeconds: vpnConnections.dpdTimeoutSeconds
+        // vpnGatewayCustomBgpAddresses: vpnConnections.vpnGatewayCustomBgpAddresses
+        // ipsecPolicies: vpnConnections.ipsecPolicies
+    //   }
+    // }
     ]
   }
   dependsOn: [
