@@ -104,7 +104,7 @@ param ruleCollectionGroups array
 param disableVpnEncryption bool
 param mode string
 // param bgpSettings int
-// param vpnGatewayScaleUnit int
+param vpnGatewayScaleUnit int
 // param enableTunneling bool
 // param privateIPAllocationMethod string
 
@@ -229,6 +229,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
     privateToFirewall: false
     preferredRoutingGateway: 'ExpressRoute' // ExpressRoute
     enableTelemetry: false
+    virtualRouterAsn: 65515
     hubRouteTables: [
       {
         name: defaultRoutesName
@@ -330,6 +331,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
       asn: 65010
       peerweight: 0
      }
+     vpnGatewayScaleUnit: vpnGatewayScaleUnit
     vpnConnections: [
       {
         name: vpnConnections.name

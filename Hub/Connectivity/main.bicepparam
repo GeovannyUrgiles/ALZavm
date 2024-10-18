@@ -394,4 +394,4 @@ param scaleUnits = 2
 
 
 
-// param vpnGatewayScaleUnit = 1
+param vpnGatewayScaleUnit = 1
