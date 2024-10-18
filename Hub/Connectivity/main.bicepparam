@@ -13,8 +13,8 @@ param enableDnsResolver = false
 param enablePrivateDnsZones = true
 param enableVirtualWan = true
 param enableVirtualHub = true
-param enableVpnSite = true
-param enableVpnGateway = false
+param enableVpnSite = false
+param enableVpnGateway = true
 param enableAzureFirewall = false
 param enableBastion = false
 param enableOperationalInsights = true
@@ -133,6 +133,7 @@ param vpnSiteLinks = [
         // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
+    type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
   }
 ]
 

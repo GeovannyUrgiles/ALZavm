@@ -294,7 +294,9 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       //       // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       //     }
       //   }
+      // type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
       // }
+      
     ]
     //vpnSiteLinks
     deviceProperties: {
