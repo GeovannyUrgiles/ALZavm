@@ -63,6 +63,7 @@ param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oiw'
 param keyVaultName = 'conwus2kv'
+param publicIpAddressName01 = 'conwus2pip01'
 
 // Key Vault Properties
 

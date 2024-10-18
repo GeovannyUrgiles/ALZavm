@@ -43,6 +43,7 @@ param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
 param keyVaultName string
+param publicIpAddressName01 string
 
 // Resource Suffixes
 
@@ -266,7 +267,7 @@ module publicIpAddress 'br/public:avm/res/network/public-ip-address:0.6.0' = if 
   scope: resourceGroup(string(resourceGroupName_Network[0]))
   name: 'publicIpAddressDeployment'
   params: {
-    name: 'npiamin001'
+    name: publicIpAddressName01
     location: locations[0]
   }
 }
@@ -287,7 +288,8 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       ]
     virtualWanId: modVirtualWan.outputs.resourceId
     vpnSiteLinks: [ 
-      vpnSiteLinks[0]
+      //vpnSiteLinks[0]
+      
       // {
       //   name: 'dataCenter1' // Data Center or other Remote Site Name
       //   id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
@@ -321,6 +323,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     }
   }
   dependsOn: [
+    publicIpAddress
     modVirtualHub
   ]
 }
