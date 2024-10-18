@@ -14,7 +14,7 @@ param enablePrivateDnsZones = true
 param enableVirtualWan = false
 param enableVirtualHub = false
 param enableVpnGateway = false
-param enableVpnSite = false
+param enableVpnSite = true
 param enableAzureFirewall = false
 param enableBastion = false
 param enableOperationalInsightsName = true
@@ -89,7 +89,7 @@ param lock = {
   kind: 'CanNotDelete'
   }
   readonly: {
-  name: 'Marked as ReadOnly'
+  name: 'Read Only'
   kind: 'ReadOnly'
   }
 }
