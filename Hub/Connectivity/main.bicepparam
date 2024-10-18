@@ -119,7 +119,9 @@ param ruleCollectionGroups = [
 param vpnSiteLinks = [
   {
     name: 'dataCenter1' // Data Center or other Remote Site Name
+    id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
     properties: {
+      vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
         asn: 65010 // BGP Autonomous System Number
         bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
@@ -130,7 +132,6 @@ param vpnSiteLinks = [
         linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
         // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
-      vpnLinkConnectionMode: 'Default'
     }
   }
 ]
