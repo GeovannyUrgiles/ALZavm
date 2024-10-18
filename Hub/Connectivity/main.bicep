@@ -42,11 +42,15 @@ param operationalInsightsName string
 param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
-
 param keyVaultName string
+
+// Resource Suffixes
+
 param nsgSuffix string
 param peSuffix string
 param nicSuffix string
+
+// Key Vault Properties
 
 param enablePurgeProtection bool
 param enableRbacAuthorization bool
