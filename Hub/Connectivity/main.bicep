@@ -265,7 +265,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
 // VPN Site for VWAN-to-VWAN connections
 
 module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
-  scope: resourceGroup(resourceGroupName_Network[0])
+  scope: resourceGroup(string(resourceGroupName_Network[0]))
   name: 'vpnSiteDeployment'
   params: {
     name: vpnSiteName
@@ -277,28 +277,26 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       ]
     virtualWanId: modVirtualWan.outputs.resourceId
     vpnSiteLinks: [
-      // {
-      //   name: 'dataCenter1' // Data Center or other Remote Site Name
-      //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
-      //   vpnLinkConnectionMode: 'Default' // Default | HighPerformance
-      //   properties: {
-      //     vpnLinkConnectionMode: 'Default' // Default | HighPerformance
-      //     bgpProperties: {
-      //       asn: 65010 // BGP Autonomous System Number
-      //       bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
-      //     }
-      //     ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
-      //     linkProperties: {
-      //       linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
-      //       linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-      //       // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
-      //     }
-      //   }
-      // type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
-      // }
-      
+      {
+        name: 'dataCenter1' // Data Center or other Remote Site Name
+        id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+        properties: {
+          vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+          bgpProperties: {
+            asn: 65010 // BGP Autonomous System Number
+            bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
+          }
+          ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
+          linkProperties: {
+            linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
+            linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+            // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+          }
+        }
+      type: 'Microsoft.Network/vpnSites/vpnSiteLinks'
+      }
     ]
-    //vpnSiteLinks
+    //vpnSiteLinks[0]
     deviceProperties: {
       deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
       linkSpeedInMbps: 100
@@ -319,7 +317,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
 module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
-  scope: resourceGroup(resourceGroupName_Network[0])
+  scope: (resourceGroup(string(resourceGroupName_Network[0])))
   name: 'vpnGatewayDeployment'
   params: {
     name: vpnGatewayName
