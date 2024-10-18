@@ -57,9 +57,10 @@ param enableRbacAuthorization bool
 
 // Resource Group Parameters
 
-param resourceGroupName_Network string
-param resourceGroupName_Bastion string
-param resourceGroupName_PrivateDns string
+param resourceGroupName_Network array
+param resourceGroupName_Bastion array
+param resourceGroupName_PrivateDns array
+
 param roleAssignmentsNetwork array
 param roleAssignmentsBastion array
 param roleAssignmentsPrivateDns array
@@ -125,7 +126,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
   scope: subscription(subscriptionId)
   name: 'resourceGroupNetworkDeployment${i}'
   params: {
-    name: resourceGroupName_Network
+    name: resourceGroupName_Network[i]
     tags: tags
     location: locations[i]
     // lock: lock
@@ -139,7 +140,7 @@ module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0
   scope: subscription(subscriptionId)
   name: 'resourceGroupBastionDeployment${i}'
   params: {
-    name: resourceGroupName_Bastion
+    name: resourceGroupName_Bastion[i]
     tags: tags
     location: locations[i]
     // lock: lock
@@ -153,7 +154,7 @@ module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.
   scope: subscription(subscriptionId)
   name: 'resourceGroupDnsZonesDeployment${i}'
   params: {
-    name: resourceGroupName_PrivateDns
+    name: resourceGroupName_PrivateDns[i]
     tags: tags
     location: locations[i]
     // lock: lock
@@ -164,7 +165,7 @@ module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.
 // User Assigned Managed Identity
 
 module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = if (enableUserAssignedManagedIdentity) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'userAssignedIdentityDeployment'
   params: {
     name: uamiName
@@ -179,7 +180,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 // Operational Insights
 
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = if (enableOperationalInsightsName) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'workspaceDeployment'
   
   params: {
@@ -195,7 +196,7 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = i
 // Virtual WAN
 
 module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirtualWan) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'virtualWanDeployment'
   params: {
     name: virtualWanName
@@ -214,7 +215,7 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
 // Virtual WAN Hub
 
 module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirtualHub) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'virtualHubDeployment'
   params: {
     addressPrefix: addressPrefix
@@ -264,7 +265,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
 // VPN Site for VWAN-to-VWAN connections
 
 module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'vpnSiteDeployment'
   params: {
     name: vpnSiteName
@@ -298,7 +299,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
 module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'vpnGatewayDeployment'
   params: {
     name: vpnGatewayName
@@ -377,7 +378,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
 
 
 module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'firewallPolicyDeployment'
   params: {
     name: firewallPolicyName
@@ -406,7 +407,7 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
 // Azure Firewall
 
 module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'azureFirewallDeployment'
   params: {
     name: firewallName
@@ -428,7 +429,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 // Network Security Groups
 
 module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [ for subnet in virtualNetwork.subnets: if (enableNetworkSecurityGroups) {
-    scope: resourceGroup(resourceGroupName_Network)
+    scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsg${subnet.name}Deployment'
     params: {
       name: toLower('${subnet.name}${nsgSuffix}')
@@ -447,7 +448,7 @@ module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group
 // Virtual Network
 
 module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (enableVirtualNetwork) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'virtualNetworkDeployment'
   params: {
     name: virtualNetworkName
@@ -471,7 +472,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if 
 // Private DNS Zones
 
 module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [ for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
-    scope: resourceGroup(resourceGroupName_PrivateDns)
+    scope: resourceGroup(resourceGroupName_PrivateDns[0])
     name: '${privatelinkDnsZoneName}Deployment'
     params: {
       name: privatelinkDnsZoneName
@@ -492,7 +493,7 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
 // DNS Private Resolver
 
 module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'DnsResolverDeployment'
   params: {
     name: dnsResolverName
@@ -521,7 +522,7 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
 // Azure Bastion Host
 
 module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBastion) {
-  scope: resourceGroup(resourceGroupName_Bastion)
+  scope: resourceGroup(resourceGroupName_Bastion[0])
   name: 'AzureBastionDeployment'
   params: {
     name: bastionName
@@ -543,7 +544,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
 // Key Vault
 
 module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
-  scope: resourceGroup(resourceGroupName_Network)
+  scope: resourceGroup(resourceGroupName_Network[0])
   name: 'vaultDeployment'
   params: {
     name: keyVaultName

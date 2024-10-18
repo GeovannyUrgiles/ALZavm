@@ -39,9 +39,18 @@ param locationsShort = [
 
 // Resource Names
 
-param resourceGroupName_Network = 'conwus2networkrg'
-param resourceGroupName_Bastion = 'conwus2bastionrg'
-param resourceGroupName_PrivateDns = 'conwus2dnsrg'
+param resourceGroupName_Network = [
+  'conwus2networkrg'
+  'coneus2networkrg'
+]
+param resourceGroupName_Bastion = [
+  'conwus2bastionrg'
+  'coneus2bastionrg'
+]
+param resourceGroupName_PrivateDns = [
+  'conwus2dnsrg'
+  'coneus2dnsrg'
+]
 param uamiName = 'conwus2mi'
 param virtualNetworkName = 'conwus2vnet'
 param virtualWanName = 'conwus2vwan'
