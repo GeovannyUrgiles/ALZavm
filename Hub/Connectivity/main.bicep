@@ -271,18 +271,17 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     name: vpnSiteName
     location: locations[0]
     tags: tags
-    // addressPrefixes: [
-    //     '10.100.100.0/24'
-    //     '10.101.101.0/24'
-    //   ]
-    // monkey: 'monkey'
+    addressPrefixes: [
+        '10.100.100.0/24'
+        '10.101.101.0/24'
+      ]
     virtualWanId: modVirtualWan.outputs.resourceId
-    vpnSiteLinks: vpnSiteLinks[0]
-    // deviceProperties: {
-    //   deviceVendor: 'Cisco'
-    //   linkSpeedInMbps: 100
-    //   provider: 'Verizon' // Cisco | Juniper | Microsoft | PaloAltoNetworks
-    // }
+    vpnSiteLinks: vpnSiteLinks
+          deviceProperties: {
+      deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
+      linkSpeedInMbps: 100
+      provider: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
+    }
     o365Policy: {
       breakOutCategories: {
         allow: true
