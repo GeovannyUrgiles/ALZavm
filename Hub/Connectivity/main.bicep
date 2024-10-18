@@ -218,8 +218,10 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'virtualHubDeployment'
   params: {
-    addressPrefix: addressPrefix
     name: virtualHubName
+    location: locations[0]
+    tags: tags
+    addressPrefix: addressPrefix
     virtualWanId: modVirtualWan.outputs.resourceId
     sku: 'Standard' // Standard | Basic
     allowBranchToBranchTraffic: allowBranchToBranchTraffic
@@ -233,7 +235,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
       }
     ]
     hubVirtualNetworkConnections: [
-      // for spoke in spokes: {
+      // for RemoteSpoke in RemoteSpokes: {
       {
         name: '${virtualNetworkName}-to-${virtualHubName}'
         remoteVirtualNetworkId: modVirtualNetwork.outputs.resourceId // /subscription/${spoke.sub}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
@@ -254,8 +256,6 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
         }
       }
     ]
-    location: locations[0]
-    tags: tags
   }
   dependsOn: [
     modResourceGroupNetwork
@@ -280,7 +280,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
           deviceProperties: {
       deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
       linkSpeedInMbps: 100
-      provider: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
+      linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
     }
     o365Policy: {
       breakOutCategories: {
