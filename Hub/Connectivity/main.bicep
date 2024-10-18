@@ -280,7 +280,6 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     deviceProperties: {
       deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
       linkSpeedInMbps: 100
-      // linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
     }
     o365Policy: {
       breakOutCategories: {

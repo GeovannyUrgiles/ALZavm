@@ -126,9 +126,9 @@ param vpnSiteLinks = [
       }
       ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
       linkProperties: {
-        linkProviderName: 'Verizon' // Carrier
+        linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
         linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-        vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+        // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
       vpnLinkConnectionMode: 'Default'
     }
