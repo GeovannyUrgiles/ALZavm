@@ -452,21 +452,22 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 // Network Security Groups
 
 module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
-  for i in range(0, length(locations)) : if (enableNetworkSecurityGroups) {
-  scope: resourceGroup(resourceGroupName_Network[i])
-  name: 'nsgDeployment${i}'
-  params: {
-    resourceGroupName_Network: resourceGroupName_Network[i]
-    subnets: virtualNetwork[i].subnets.subnet.name
-    tags: tags
-    location: locations[i]
-    securityRules: securityRules[i]
-    nsgSuffix: nsgSuffix
+  for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'nsgDeployment${i}'
+    params: {
+      resourceGroupName_Network: resourceGroupName_Network[i]
+      subnets: virtualNetwork[i].subnets.subnet.name
+      tags: tags
+      location: locations[i]
+      securityRules: securityRules[i]
+      nsgSuffix: nsgSuffix
+    }
+    dependsOn: [
+      modResourceGroupNetwork
+    ]
   }
-  dependsOn: [
-    modResourceGroupNetwork
-  ]
-}]
+]
 
 // Virtual Network
 
