@@ -484,7 +484,9 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
           name: subnet.name
           addressPrefix: subnet.addressPrefix
           delegation: subnet.delegation
-          networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}-DnsOutboundSn-nsg') // subnet.networkSecurityGroupResourceId
+          networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
+            ? ''
+            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}-${subnet.name}-${nsgSuffix}') // subnet.networkSecurityGroupResourceId
         }
       ]
     }
