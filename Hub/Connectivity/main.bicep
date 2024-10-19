@@ -457,7 +457,7 @@ module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
     name: 'nsgDeployment${i}'
     params: {
       resourceGroupName_Network: resourceGroupName_Network[i]
-      subnets: virtualNetwork[i].subnets
+      subnets: virtualNetwork[i].subnets.name
       tags: tags
       location: locations[i]
       securityRules: securityRules[i]
