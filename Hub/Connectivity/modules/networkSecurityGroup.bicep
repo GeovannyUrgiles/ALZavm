@@ -6,7 +6,7 @@ param subnetNames array
 param nsgSuffix string
 
 module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnetName in range(0, length(subnetNames)): {
+  for subnetName in first(subnetNames): {
     scope: resourceGroup(resourceGroupName_Network)
     name: 'nsgDeployment${subnetName}'
     params: {
