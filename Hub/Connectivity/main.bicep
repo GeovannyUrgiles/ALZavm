@@ -474,7 +474,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'virtualNetworkDeployment${i}'
     params: {
-      name: virtualNetworkName
+      name: virtualNetwork[i].name
       location: locations[i]
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
@@ -484,7 +484,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
           name: subnet.name
           addressPrefix: subnet.addressPrefix
           delegation: subnet.delegation
-          networkSecurityGroupResourceId: subnet.networkSecurityGroupResourceId
+          networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}-DnsOutboundSn-nsg') // subnet.networkSecurityGroupResourceId
         }
       ]
     }
