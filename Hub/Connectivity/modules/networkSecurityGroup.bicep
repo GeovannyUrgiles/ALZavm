@@ -10,7 +10,7 @@ module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group
     scope: resourceGroup(resourceGroupName_Network)
     name: 'nsgDeployment${subnet}'
     params: {
-      name: subnet // toLower('${first(subnet)})${nsgSuffix}')
+      name: subnet.name // toLower('${first(subnet)})${nsgSuffix}')
       tags: tags
       location: location
       securityRules: securityRules
