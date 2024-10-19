@@ -72,6 +72,7 @@ param lock object
 // Virtual Network Parameters
 
 param virtualNetwork array
+param subnets array
 
 //param subnets array
 param securityRules array
@@ -457,7 +458,7 @@ module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
     name: 'nsgDeployment${i}'
     params: {
       resourceGroupName_Network: resourceGroupName_Network[i]
-      subnets: virtualNetwork[i].subnets
+      subnets: subnets[i]
       tags: tags
       location: locations[i]
       securityRules: securityRules[i]
