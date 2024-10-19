@@ -74,7 +74,6 @@ param peSuffix = '${nameSeparator}pe'
 param nicSuffix = '${nameSeparator}nic'
 param nameSeparator = '-'
 
-
 // Default Tags
 
 param tags = {
@@ -87,12 +86,12 @@ param tags = {
 
 param lock = {
   delete: {
-  name: 'Do Not Delete'
-  kind: 'CanNotDelete'
+    name: 'Do Not Delete'
+    kind: 'CanNotDelete'
   }
   readonly: {
-  name: 'Read Only'
-  kind: 'ReadOnly'
+    name: 'Read Only'
+    kind: 'ReadOnly'
   }
 }
 
@@ -230,63 +229,55 @@ param virtualNetwork = [
       '10.1.0.0/18' // Primary Address Prefix
     ]
     subnets: [
-    {
-      name: 'AzureBastionSubnet'
-      addressPrefix: '10.1.0.0/24'
-      delegation: ''
-      // networkSecurityGroupResourceId: ''
-    }
-    {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
-      addressPrefix: '10.1.1.0/24'
-      delegation: ''
-      // networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-PrivateEndpointSn-nsg')
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
-      addressPrefix: '10.1.2.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-      // networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsInboundSn-nsg')
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
-      addressPrefix: '10.1.3.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-      // networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsOutboundSn-nsg')
-    }
-  ]
+      {
+        name: 'AzureBastionSubnet'
+        addressPrefix: '10.1.0.0/24'
+        delegation: ''
+      }
+      {
+        name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+        addressPrefix: '10.1.1.0/24'
+        delegation: ''
+      }
+      {
+        name: toLower('${virtualNetworkName}-DnsInboundSn')
+        addressPrefix: '10.1.2.0/24'
+        delegation: 'Microsoft.Network/dnsResolvers'
+      }
+      {
+        name: toLower('${virtualNetworkName}-DnsOutboundSn')
+        addressPrefix: '10.1.3.0/24'
+        delegation: 'Microsoft.Network/dnsResolvers'
+      }
+    ]
   }
   {
     name: 'coneus2vnet' // Secondary Virtual Network Name
     addressPrefixes: [
-    '10.2.0.0/18' // Secondary Address Prefix
+      '10.2.0.0/18' // Secondary Address Prefix
     ]
     subnets: [
-    {
-      name: 'AzureBastionSubnet'
-      addressPrefix: '10.1.0.0/24'
-      delegation: ''
-      networkSecurityGroupResourceId: ''
-    }
-    {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
-      addressPrefix: '10.1.1.0/24'
-      delegation: ''
-      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-PrivateEndpointSn-nsg')
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
-      addressPrefix: '10.1.2.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsInboundSn-nsg')
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
-      addressPrefix: '10.1.3.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsOutboundSn-nsg')
-    }
-  ]
+      {
+        name: 'AzureBastionSubnet'
+        addressPrefix: '10.2.0.0/24'
+        delegation: ''
+      }
+      {
+        name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+        addressPrefix: '10.2.1.0/24'
+        delegation: ''
+      }
+      {
+        name: toLower('${virtualNetworkName}-DnsInboundSn')
+        addressPrefix: '10.2.2.0/24'
+        delegation: 'Microsoft.Network/dnsResolvers'
+      }
+      {
+        name: toLower('${virtualNetworkName}-DnsOutboundSn')
+        addressPrefix: '10.2.3.0/24'
+        delegation: 'Microsoft.Network/dnsResolvers'
+      }
+    ]
   }
 ]
 
@@ -471,7 +462,5 @@ param scaleUnits = 2
 
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
-
-
 
 param vpnGatewayScaleUnit = 1
