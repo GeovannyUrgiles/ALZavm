@@ -327,45 +327,47 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
-module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [for i in range(0, length(locations)): if (enableVpnGateway) {
-  scope: (resourceGroup(resourceGroupName_Network[0]))
-  name: 'vpnGatewayDeployment${i}'
-  params: {
-    name: vpnGatewayName
-    virtualHubResourceId: modVirtualHub.outputs.resourceId
-    location: locations[0]
-    tags: tags
-    bgpSettings: {
-      asn: 65515
-      peerweight: 0
-    }
-    vpnGatewayScaleUnit: vpnGatewayScaleUnit
-    vpnConnections: [
-      {
-        name: vpnConnections[i].name
-        connectionBandwidth: vpnConnections[i].connectionBandwidth
-        enableBgp: vpnConnections[i].enableBgp
-        enableInternetSecurity: vpnConnections[i].enableInternetSecurity
-        enableRateLimiting: vpnConnections[i].enableRateLimiting
-        routingWeight: vpnConnections[i].routingWeight
-        useLocalAzureIpAddress: vpnConnections[i].useLocalAzureIpAddress
-        usePolicyBasedTrafficSelectors: vpnConnections[i].usePolicyBasedTrafficSelectors
-        vpnConnectionProtocolType: vpnConnections[i].vpnConnectionProtocolType
-
-        // remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
-
-        vpnLinkConnectionMode: vpnConnections[i].vpnLinkConnectionMode
-        sharedKey: vpnConnections[i].sharedKey
-        dpdTimeoutSeconds: vpnConnections[i].dpdTimeoutSeconds
-        vpnGatewayCustomBgpAddresses: vpnConnections[i].vpnGatewayCustomBgpAddresses
-        ipsecPolicies: vpnConnections[i].ipsecPolicies
+module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
+  for i in range(0, length(locations)): if (enableVpnGateway) {
+    scope: (resourceGroup(resourceGroupName_Network[0]))
+    name: 'vpnGatewayDeployment${i}'
+    params: {
+      name: vpnGatewayName
+      virtualHubResourceId: modVirtualHub.outputs.resourceId
+      location: locations[0]
+      tags: tags
+      bgpSettings: {
+        asn: 65515
+        peerweight: 0
       }
+      vpnGatewayScaleUnit: vpnGatewayScaleUnit
+      vpnConnections: [
+        {
+          name: vpnConnections[i].name
+          connectionBandwidth: vpnConnections[i].connectionBandwidth
+          enableBgp: vpnConnections[i].enableBgp
+          enableInternetSecurity: vpnConnections[i].enableInternetSecurity
+          enableRateLimiting: vpnConnections[i].enableRateLimiting
+          routingWeight: vpnConnections[i].routingWeight
+          useLocalAzureIpAddress: vpnConnections[i].useLocalAzureIpAddress
+          usePolicyBasedTrafficSelectors: vpnConnections[i].usePolicyBasedTrafficSelectors
+          vpnConnectionProtocolType: vpnConnections[i].vpnConnectionProtocolType
+
+          // remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+
+          vpnLinkConnectionMode: vpnConnections[i].vpnLinkConnectionMode
+          sharedKey: vpnConnections[i].sharedKey
+          dpdTimeoutSeconds: vpnConnections[i].dpdTimeoutSeconds
+          vpnGatewayCustomBgpAddresses: vpnConnections[i].vpnGatewayCustomBgpAddresses
+          ipsecPolicies: vpnConnections[i].ipsecPolicies
+        }
+      ]
+    }
+    dependsOn: [
+      modVirtualHub
     ]
   }
-  dependsOn: [
-    modVirtualHub
-  ]
-}]
+]
 
 // Firewall Policy
 
@@ -467,33 +469,35 @@ module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group
 
 // Virtual Network
 
-module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [for i in range(0, length(locations)): if (enableVirtualNetwork) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'virtualNetworkDeployment${i}'
-  params: {
-    name: virtualNetworkName
-    location: locations[0]
-    tags: tags
-    addressPrefixes: virtualNetwork[i].addressPrefixes
-    dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-    subnets: [
-      for subnet in virtualNetwork[i].subnets: {
-        name: subnet.name
-        addressPrefix: subnet.addressPrefix
-        delegation: subnet.delegation
-        networkSecurityGroupResourceId: subnet.networkSecurityGroupResourceId
-      }
+module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'virtualNetworkDeployment${i}'
+    params: {
+      name: virtualNetworkName
+      location: locations[i]
+      tags: tags
+      addressPrefixes: virtualNetwork[i].addressPrefixes
+      dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
+      subnets: [
+        for subnet in virtualNetwork[i].subnets: {
+          name: subnet.name
+          addressPrefix: subnet.addressPrefix
+          delegation: subnet.delegation
+          networkSecurityGroupResourceId: subnet.networkSecurityGroupResourceId
+        }
+      ]
+    }
+    dependsOn: [
+      modNetworkSecurityGroup
     ]
   }
-  dependsOn: [
-    modNetworkSecurityGroup
-  ]
-}
 ]
 
 // Private DNS Zones
 
-module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [ for privatelinkDnsZoneName  in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
+module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
+  for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
     scope: resourceGroup(resourceGroupName_PrivateDns[0])
     name: '${privatelinkDnsZoneName}Deployment'
     params: {
