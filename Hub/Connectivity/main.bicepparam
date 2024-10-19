@@ -13,8 +13,8 @@ param enableDnsResolver = false
 param enablePrivateDnsZones = true
 param enableVirtualWan = true
 param enableVirtualHub = true
-param enableVpnSite = true
-param enableVpnGateway = true
+param enableVpnSite = false
+param enableVpnGateway = false
 param enableAzureFirewall = false
 param enableBastion = false
 param enableOperationalInsights = true
@@ -51,6 +51,7 @@ param resourceGroupName_PrivateDns = [
   'conwus2dnsrg'
   'coneus2dnsrg'
 ]
+
 param uamiName = 'conwus2mi'
 param virtualNetworkName = 'conwus2vnet'
 param virtualWanName = 'conwus2vwan'
@@ -125,7 +126,7 @@ param vpnSiteLinks = [
       vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
         asn: 65010 // BGP Autonomous System Number
-        bgpPeeringAddress: '1.1.1.1' // Remote BGP Peer IP Address
+        bgpPeeringAddress: '10.10.10.1' // Remote BGP Peer IP Address
       }
       ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
       linkProperties: {
@@ -134,39 +135,84 @@ param vpnSiteLinks = [
         // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
-    
+  }
+  {
+    name: 'dataCenter2' // Data Center or other Remote Site Name
+    id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter2'
+    properties: {
+      vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+      bgpProperties: {
+        asn: 65020 // BGP Autonomous System Number
+        bgpPeeringAddress: '10.20.20.1' // Remote BGP Peer IP Address
+      }
+      ipAddress: '1.2.3.5' // Remote VPN Gateway IP Address or FQDN
+      linkProperties: {
+        linkProviderName: 'ATT' // Verizon | ATT | BT | Orange | Vodafone
+        linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+        // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+      }
+    }
   }
 ]
 
 // VPN Site-to-Site Connections
 
-param vpnConnections = {
-  name: 'Connection1' // Connection Name
-  connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-  enableBgp: false
-  enableInternetSecurity: true
-  enableRateLimiting: false
-  routingWeight: 0
-  useLocalAzureIpAddress: false
-  usePolicyBasedTrafficSelectors: false
-  vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
-  vpnLinkConnectionMode: 'Default' // Default | HighPerformance
-  sharedKey: 'ThievingCat10!'
-  dpdTimeoutSeconds: 0
-  vpnGatewayCustomBgpAddresses: []
-  ipsecPolicies: [
-    {
-      saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
-      saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
-      ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
-      ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
-      ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
-      ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
-      dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
-      pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
-    }
-  ]
-}
+param vpnConnections = [
+  {
+    name: 'Connection1' // Connection Name
+    connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+    enableBgp: false
+    enableInternetSecurity: true
+    enableRateLimiting: false
+    routingWeight: 0
+    useLocalAzureIpAddress: false
+    usePolicyBasedTrafficSelectors: false
+    vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
+    vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+    sharedKey: 'Passw0rd!'
+    dpdTimeoutSeconds: 0
+    vpnGatewayCustomBgpAddresses: []
+    ipsecPolicies: [
+      {
+        saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+        saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
+        ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
+        ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
+        ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
+        pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
+      }
+    ]
+  }
+  {
+    name: 'Connection2' // Connection Name
+    connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+    enableBgp: false
+    enableInternetSecurity: true
+    enableRateLimiting: false
+    routingWeight: 0
+    useLocalAzureIpAddress: false
+    usePolicyBasedTrafficSelectors: false
+    vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
+    vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+    sharedKey: 'Passw0rd!'
+    dpdTimeoutSeconds: 0
+    vpnGatewayCustomBgpAddresses: []
+    ipsecPolicies: [
+      {
+        saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+        saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
+        ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
+        ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
+        ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
+        pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
+      }
+    ]
+  }
+]
 
 // Azure Firewall Properties
 
@@ -177,27 +223,45 @@ param numberOfPublicIPs = 1
 
 // Virtual Network Properties
 
-// param virtualNetwork = [
-//   {
-//     name: virtualNetworkName
-//     addressPrefixes: [
-//       '10.1.0.0/18'
-//     ]
-//   }
-//   {
-//     name: virtualNetworkName
-//     addressPrefixes: [
-//     '10.2.0.0/18'
-//     ]
-//   }
-// ]
-
-param virtualNetwork = {
-  name: virtualNetworkName
-  addressPrefixes: [
-    '10.1.0.0/18'
+param virtualNetwork = [
+  {
+    name: 'conwus2vnet' // Primary Virtual Network Name
+    addressPrefixes: [
+      '10.1.0.0/18' // Primary Address Prefix
+    ]
+    subnets: [
+    {
+      name: 'AzureBastionSubnet'
+      addressPrefix: '10.1.0.0/24'
+      delegation: ''
+      networkSecurityGroupResourceId: ''
+    }
+    {
+      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+      addressPrefix: '10.1.1.0/24'
+      delegation: ''
+      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-PrivateEndpointSn-nsg')
+    }
+    {
+      name: toLower('${virtualNetworkName}-DnsInboundSn')
+      addressPrefix: '10.1.2.0/24'
+      delegation: 'Microsoft.Network/dnsResolvers'
+      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsInboundSn-nsg')
+    }
+    {
+      name: toLower('${virtualNetworkName}-DnsOutboundSn')
+      addressPrefix: '10.1.3.0/24'
+      delegation: 'Microsoft.Network/dnsResolvers'
+      networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsOutboundSn-nsg')
+    }
   ]
-  subnets: [
+  }
+  {
+    name: 'coneus2vnet' // Secondary Virtual Network Name
+    addressPrefixes: [
+    '10.2.0.0/18' // Secondary Address Prefix
+    ]
+    subnets: [
     {
       name: 'AzureBastionSubnet'
       addressPrefix: '10.1.0.0/24'
@@ -223,7 +287,8 @@ param virtualNetwork = {
       networkSecurityGroupResourceId: toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkName}-DnsOutboundSn-nsg')
     }
   ]
-}
+  }
+]
 
 // Network Security Group Properties
 
