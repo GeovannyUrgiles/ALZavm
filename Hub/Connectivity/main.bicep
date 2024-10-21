@@ -454,7 +454,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
   for subnet in subnets[0]: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'nsgDeployment${subnet}'
+    name: 'nsgDeployment${subnet.name}'
     params: {
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
@@ -470,10 +470,11 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
 //     name: 'nsgDeployment${i}'
 //     params: {
 //       resourceGroupName_Network: resourceGroupName_Network[i]
-//       subnets: subnets[i]
+//       subnets: subnet
+// virtualNetwork: virtualNetworks
 //       tags: tags
-//       location: locations[i]
-//       securityRules: securityRules[i]
+//       location: locations
+//       securityRules: securityRules
 //       nsgSuffix: nsgSuffix
 //     }
 //     dependsOn: [
