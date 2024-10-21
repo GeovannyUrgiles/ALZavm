@@ -515,32 +515,32 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
 
 // Virtual Network
 
-// module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
-//   for i in range(0, length(locations)): if (enableVirtualNetwork) {
-//     scope: resourceGroup(resourceGroupName_Network[i])
-//     name: 'virtualNetworkDeployment${i}'
-//     params: {
-//       name: virtualNetwork[i].name
-//       location: locations[i]
-//       tags: tags
-//       addressPrefixes: virtualNetwork[i].addressPrefixes
-//       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-//       subnets: [
-//         for subnet in virtualNetwork[i].subnets[i]: {
-//           name: subnet.name
-//           addressPrefix: subnet.addressPrefix
-//           delegation: subnet.delegation
-//           networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
-//             ? ''
-//             : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${subnet.name}${nsgSuffix}') //${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
-//         }
-//       ]
-//     }
-//     dependsOn: [
-//       modNetworkSecurityGroupPrimary
-//     ]
-//   }
-// ]
+module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'virtualNetworkDeployment${i}'
+    params: {
+      name: virtualNetwork[i].name
+      location: locations[i]
+      tags: tags
+      addressPrefixes: virtualNetwork[i].addressPrefixes
+      dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
+      subnets: [
+        for subnet in subnets[i]: {
+          name: subnet.name
+          addressPrefix: subnet.addressPrefix
+          delegation: subnet.delegation
+          networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
+            ? ''
+            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${subnet.name}${nsgSuffix}') //${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
+        }
+      ]
+    }
+    dependsOn: [
+      modNetworkSecurityGroupPrimary
+    ]
+  }
+]
 
 // Private DNS Zones
 
