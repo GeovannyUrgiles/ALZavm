@@ -451,14 +451,14 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 }
 
 // Network Security Groups
-module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'nsgDeployment${subnets[i]}'
+module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
+  for subnet in subnets[0]: if (enableNetworkSecurityGroups) {
+    scope: resourceGroup(resourceGroupName_Network[0])
+    name: 'nsgDeployment${subnet}'
     params: {
-      name: toLower('${subnets[i].name}${nsgSuffix}')
+      name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
-      location: locations[i]
+      location: locations[0]
       securityRules: securityRules
     }
   }
@@ -506,7 +506,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       ]
     }
     dependsOn: [
-      modNetworkSecurityGroup
+      modNetworkSecurityGroupPrimary
     ]
   }
 ]
