@@ -451,9 +451,6 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 }
 
 // Network Security Groups
-
-var x = subnets[0].name
-
 module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [
   for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[i])
