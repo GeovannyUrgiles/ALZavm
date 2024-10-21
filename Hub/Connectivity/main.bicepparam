@@ -6,19 +6,21 @@ var version = 'v1.0.0'
 
 // Deployment Options
 
-param enableUserAssignedManagedIdentity = false
+param enableUserAssignedManagedIdentity = true
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enablePrivateDnsZones = true
+param enableOperationalInsights = true
+param enableKeyVault = true
+
 param enableVirtualWan = false
 param enableVirtualHub = false
 param enableVpnSite = false
 param enableVpnGateway = false
 param enableAzureFirewall = false
 param enableBastion = false
-param enableOperationalInsights = true
-param enableKeyVault = true
+
 // param enableRecoveryServiceVault = true
 
 // Subscription(s)
