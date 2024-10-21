@@ -72,7 +72,7 @@ param lock object
 // Virtual Network Parameters
 
 param virtualNetwork array
-param subnets array
+param subnetsArray array
 
 // Network Security Group Parameters
 
@@ -453,7 +453,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // Network Security Groups
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets[0]: if (enableNetworkSecurityGroups) {
+  for subnet in subnetsArray[0]: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
@@ -526,12 +526,12 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
       subnets: [
         for subnet in subnets[i]: {
-          name: '${virtualNetwork[i].name}-${subnet.name}'
+          name: '${virtualNetwork[i].name}${nameSeparator}${subnet.name}'
           addressPrefix: subnet.addressPrefix
           delegation: subnet.delegation
           networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
             ? ''
-            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
+            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}${nameSeparator}${subnet.name}${nsgSuffix}')
         }
       ]
     }
