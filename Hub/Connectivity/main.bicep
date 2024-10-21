@@ -72,8 +72,8 @@ param lock object
 // Virtual Network Parameters
 
 param virtualNetwork array
-param subnetsArray0 array
-param subnetsArray1 array
+param subnets0 array
+param subnets1 array
 
 // Network Security Group Parameters
 
@@ -377,6 +377,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
 // param userAssignedResourceIds array = [
 //   userAssignedIdentity.outputs.resourceId
 // ]
+// ]
 
 // var formattedUserAssignedIdentities = reduce(
 //   map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
@@ -454,11 +455,11 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // Network Security Groups
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnetsArray0: if (enableNetworkSecurityGroups) {
+  for subnet in subnets0: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: toLower('${virtualNetwork[0]}${subnet.name}${nsgSuffix}')
+      name: toLower('${virtualNetwork[0].name}${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
       securityRules: securityRules
@@ -529,7 +530,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-      subnets: subnetsArray0
+      subnets: subnets0
         
       
     
