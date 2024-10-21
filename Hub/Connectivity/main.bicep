@@ -44,7 +44,7 @@ param operationalInsightsName string
 param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
-param keyVaultName string
+param keyVaultName array
 param publicIpAddressName01 string
 
 // Resource Suffixes
@@ -493,7 +493,6 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
 //   }
 // ]
 
-
 // module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
 //   for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
 //     scope: resourceGroup(resourceGroupName_Network[i])
@@ -555,6 +554,10 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
         {
           registrationEnabled: false
           virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+        }
+        {
+          registrationEnabled: false
+          virtualNetworkResourceId: modVirtualNetwork[1].outputs.resourceId
         }
       ]
     }
@@ -619,67 +622,69 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
 
 // Key Vault
 
-module vault 'br/public:avm/res/key-vault/vault:0.9.0' = if (enableKeyVault) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'vaultDeployment'
-  params: {
-    name: keyVaultName
-    accessPolicies: []
-    diagnosticSettings: [
-      {
-        logCategoriesAndGroups: [
-          {
-            category: 'AzurePolicyEvaluationDetails'
-          }
-          {
-            category: 'AuditEvent'
-          }
-        ]
-        metricCategories: [
-          {
-            category: 'AllMetrics'
-          }
-        ]
-        name: 'customSetting'
-        workspaceResourceId: modWorkspace[0].outputs.resourceId
-      }
-    ]
-    enablePurgeProtection: enablePurgeProtection
-    enableRbacAuthorization: enableRbacAuthorization
-    keys: []
-    location: locations[0]
-    lock: {}
-    publicNetworkAccess: 'Disabled'
-    networkAcls: {
-      bypass: 'AzureServices'
-      defaultAction: 'Deny'
-      ipRules: []
-      virtualNetworkRules: []
-    }
-    privateEndpoints: [
-      {
-        tags: tags
-        customDnsConfigs: []
-        name: '${keyVaultName}${peSuffix}'
-        customNetworkInterfaceName: '${keyVaultName}${nicSuffix}'
-        ipConfigurations: []
-        privateDnsZoneGroup: {
-          privateDnsZoneGroupConfigs: [
+module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
+  for i in range(0, length(locations)): if (enableKeyVault) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'vaultDeployment${i}'
+    params: {
+      name: keyVaultName[i]
+      accessPolicies: []
+      diagnosticSettings: [
+        {
+          logCategoriesAndGroups: [
             {
-              privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones[0].outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+              category: 'AzurePolicyEvaluationDetails'
+            }
+            {
+              category: 'AuditEvent'
             }
           ]
+          metricCategories: [
+            {
+              category: 'AllMetrics'
+            }
+          ]
+          name: 'customSetting'
+          workspaceResourceId: modWorkspace[i].outputs.resourceId
         }
-        roleAssignments: []
-        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[1]
+      ]
+      enablePurgeProtection: enablePurgeProtection
+      enableRbacAuthorization: enableRbacAuthorization
+      keys: []
+      location: locations[0]
+      lock: {}
+      publicNetworkAccess: 'Disabled'
+      networkAcls: {
+        bypass: 'AzureServices'
+        defaultAction: 'Deny'
+        ipRules: []
+        virtualNetworkRules: []
       }
+      privateEndpoints: [
+        {
+          tags: tags
+          customDnsConfigs: []
+          name: '${keyVaultName[i]}${peSuffix}'
+          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}'
+          ipConfigurations: []
+          privateDnsZoneGroup: {
+            privateDnsZoneGroupConfigs: [
+              {
+                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones[0].outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+              }
+            ]
+          }
+          roleAssignments: []
+          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+        }
+      ]
+      roleAssignments: []
+      secrets: []
+      softDeleteRetentionInDays: 7
+      tags: tags
+    }
+    dependsOn: [
+      modResourceGroupNetwork
     ]
-    roleAssignments: []
-    secrets: []
-    softDeleteRetentionInDays: 7
-    tags: tags
   }
-  dependsOn: [
-    modResourceGroupNetwork
-  ]
-}
+]

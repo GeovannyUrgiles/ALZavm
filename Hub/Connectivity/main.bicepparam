@@ -63,7 +63,10 @@ param firewallPolicyName = 'conwus2azfwpol'
 param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oiw'
-param keyVaultName = 'conwus2kv'
+param keyVaultName = [
+  'conwus2kv'
+  'coneus2kv'
+]
 param publicIpAddressName01 = 'conwus2pip01'
 
 // Key Vault Properties
@@ -240,7 +243,7 @@ param virtualNetwork = [
       ]
     }
     {
-     subnets: subnets[1]
+      subnets: subnets[1]
     }
   ]
 ]
