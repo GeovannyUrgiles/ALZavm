@@ -524,16 +524,17 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-      subnets: [
-        for subnet in virtualNetwork[i].subnets: {
-          name: '${virtualNetwork[i].name}${nameSeparator}${subnet.name}'
-          addressPrefix: subnet.addressPrefix
-          delegation: subnet.delegation
-          networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
-            ? ''
-            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}${nameSeparator}${subnet.name}${nsgSuffix}')
-        }
-      ]
+      subnets: subnetsArray[i]
+      // subnets: [
+      //   for subnet in virtualNetwork[i].subnets: {
+      //     name: '${virtualNetwork[i].name}${nameSeparator}${subnet.name}'
+      //     addressPrefix: subnet.addressPrefix
+      //     delegation: subnet.delegation
+      //     networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
+      //       ? ''
+      //       : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}${nameSeparator}${subnet.name}${nsgSuffix}')
+      //   }
+      // ]
     }
     dependsOn: [
       modNetworkSecurityGroupPrimary
