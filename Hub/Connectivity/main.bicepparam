@@ -223,45 +223,52 @@ param numberOfPublicIPs = 1
 // Virtual Network Properties
 
 param virtualNetwork = [
-  {
-    name: 'conwus2vnet' // Primary Virtual Network Name
-    addressPrefixes: [
-      '10.1.0.0/18' // Primary Address Prefix
-    ]
-    subnets: [
-      {
-      name: 'AzureBastionSubnet'
-      addressPrefix: '10.1.0.0/24'
-      delegation: ''
+  [
+    {
+      name: 'conwus2vnet' // Primary Virtual Network Name
+      addressPrefixes: [
+        '10.1.0.0/18' // Primary Address Prefix
+      ]
+      subnets: [
+        {
+          name: 'AzureBastionSubnet'
+          addressPrefix: '10.1.0.0/24'
+          delegation: ''
+        }
+        {
+          name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+          addressPrefix: '10.1.1.0/24'
+          delegation: ''
+        }
+        {
+          name: toLower('${virtualNetworkName}-DnsInboundSn')
+          addressPrefix: '10.1.2.0/24'
+          delegation: 'Microsoft.Network/dnsResolvers'
+        }
+        {
+          name: toLower('${virtualNetworkName}-DnsOutboundSn')
+          addressPrefix: '10.1.3.0/24'
+          delegation: 'Microsoft.Network/dnsResolvers'
+        }
+      ]
+    }
+  ]
+  [
+    {
+      name: 'coneus2vnet' // Secondary Virtual Network Name
+      addressPrefixes: [
+        '10.2.0.0/18' // Secondary Address Prefix
+      ]
     }
     {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
-      addressPrefix: '10.1.1.0/24'
-      delegation: ''
+      subnets: subnets[1]
     }
-    {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
-      addressPrefix: '10.1.2.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
-      addressPrefix: '10.1.3.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-    }
-    ]
-  }
-  {
-    name: 'coneus2vnet' // Secondary Virtual Network Name
-    addressPrefixes: [
-      '10.2.0.0/18' // Secondary Address Prefix
-    ]
-    subnets: subnets[1]
-  }
+  ]
 ]
 
 param subnets = [
-  [ // Primary Region Virtual Network Subnets
+  [
+    // Primary Region Virtual Network Subnets
     {
       name: 'AzureBastionSubnet'
       addressPrefix: '10.1.0.0/24'
@@ -283,7 +290,8 @@ param subnets = [
       delegation: 'Microsoft.Network/dnsResolvers'
     }
   ]
-  [ // Secondary Region Virtual Network Subnets
+  [
+    // Secondary Region Virtual Network Subnets
     {
       name: 'AzureBastionSubnet'
       addressPrefix: '10.2.0.0/24'
