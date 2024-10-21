@@ -243,7 +243,7 @@ param virtualNetwork = [
       ]
     }
     {
-      subnets: [subnets1]
+      subnets: [subnets]
     }
   ]
 ]
