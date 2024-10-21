@@ -72,7 +72,7 @@ param lock object
 // Virtual Network Parameters
 
 param virtualNetwork array
-param subnets array
+// param subnets array
 
 //param subnets array
 param securityRules array
@@ -511,7 +511,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
       subnets: [
-        for subnet in array(subnets): {
+        for subnet in virtualNetwork[i].subnets: {
           name: subnet.name
           addressPrefix: subnet.addressPrefix
           delegation: subnet.delegation
