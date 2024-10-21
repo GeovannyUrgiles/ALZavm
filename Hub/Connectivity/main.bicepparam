@@ -272,7 +272,7 @@ param subnets0 = [
   }
 ]
 
-param subnets1 = [
+param subnets = [
   // Secondary Region Virtual Network Subnets
   {
     name: 'AzureBastionSubnet'
