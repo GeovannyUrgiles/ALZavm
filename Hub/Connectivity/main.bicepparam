@@ -234,10 +234,8 @@ param virtualNetwork = [
       addressPrefixes: [
         '10.1.0.0/18' // Primary Address Prefix
       ]
-      subnets: [subnetsArray[0]]
+      subnets: [subnetsArray0]
     }
-  ]
-  [
     {
       name: 'coneus2vnet' // Secondary Virtual Network Name
       addressPrefixes: [
@@ -245,13 +243,13 @@ param virtualNetwork = [
       ]
     }
     {
-      subnets: [subnetsArray[1]]
+      subnets: [subnetsArray1]
     }
   ]
 ]
 
-param subnetsArray = [
-  [
+param subnetsArray0 = [
+
     // Primary Region Virtual Network Subnets
     {
       name: 'AzureBastionSubnet'
@@ -274,7 +272,8 @@ param subnetsArray = [
       delegation: 'Microsoft.Network/dnsResolvers'
     }
   ]
-  [
+
+param subnetsArray1 = [
     // Secondary Region Virtual Network Subnets
     {
       name: 'AzureBastionSubnet'
@@ -297,7 +296,7 @@ param subnetsArray = [
       delegation: 'Microsoft.Network/dnsResolvers'
     }
   ]
-]
+
 
 // Network Security Group Properties
 
