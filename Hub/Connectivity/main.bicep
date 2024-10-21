@@ -526,12 +526,12 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
       subnets: [
         for subnet in subnets[i]: {
-          name: subnet.name
+          name: '${virtualNetwork[i].name}-${subnet.name}'
           addressPrefix: subnet.addressPrefix
           delegation: subnet.delegation
           networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
             ? ''
-            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${subnet.name}${nsgSuffix}') //${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
+            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
         }
       ]
     }
