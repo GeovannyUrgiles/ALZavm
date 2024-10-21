@@ -7,7 +7,7 @@ var version = 'v1.0.0'
 // Deployment Options
 
 param enableUserAssignedManagedIdentity = false
-param enableVirtualNetwork = false
+param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enablePrivateDnsZones = true
