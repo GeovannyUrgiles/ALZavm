@@ -261,59 +261,59 @@ param virtualNetwork = [
       ]
     }
     {
-      subnets: subnets[1]
+     // subnets: subnets[1]
     }
   ]
 ]
 
-param subnets = [
-  [
-    // Primary Region Virtual Network Subnets
-    {
-      name: 'AzureBastionSubnet'
-      addressPrefix: '10.1.0.0/24'
-      delegation: ''
-    }
-    {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
-      addressPrefix: '10.1.1.0/24'
-      delegation: ''
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
-      addressPrefix: '10.1.2.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
-      addressPrefix: '10.1.3.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-    }
-  ]
-  [
-    // Secondary Region Virtual Network Subnets
-    {
-      name: 'AzureBastionSubnet'
-      addressPrefix: '10.2.0.0/24'
-      delegation: ''
-    }
-    {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
-      addressPrefix: '10.2.1.0/24'
-      delegation: ''
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
-      addressPrefix: '10.2.2.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-    }
-    {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
-      addressPrefix: '10.2.3.0/24'
-      delegation: 'Microsoft.Network/dnsResolvers'
-    }
-  ]
-]
+// param subnets = [
+//   [
+//     // Primary Region Virtual Network Subnets
+//     {
+//       name: 'AzureBastionSubnet'
+//       addressPrefix: '10.1.0.0/24'
+//       delegation: ''
+//     }
+//     {
+//       name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+//       addressPrefix: '10.1.1.0/24'
+//       delegation: ''
+//     }
+//     {
+//       name: toLower('${virtualNetworkName}-DnsInboundSn')
+//       addressPrefix: '10.1.2.0/24'
+//       delegation: 'Microsoft.Network/dnsResolvers'
+//     }
+//     {
+//       name: toLower('${virtualNetworkName}-DnsOutboundSn')
+//       addressPrefix: '10.1.3.0/24'
+//       delegation: 'Microsoft.Network/dnsResolvers'
+//     }
+//   ]
+//   [
+//     // Secondary Region Virtual Network Subnets
+//     {
+//       name: 'AzureBastionSubnet'
+//       addressPrefix: '10.2.0.0/24'
+//       delegation: ''
+//     }
+//     {
+//       name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+//       addressPrefix: '10.2.1.0/24'
+//       delegation: ''
+//     }
+//     {
+//       name: toLower('${virtualNetworkName}-DnsInboundSn')
+//       addressPrefix: '10.2.2.0/24'
+//       delegation: 'Microsoft.Network/dnsResolvers'
+//     }
+//     {
+//       name: toLower('${virtualNetworkName}-DnsOutboundSn')
+//       addressPrefix: '10.2.3.0/24'
+//       delegation: 'Microsoft.Network/dnsResolvers'
+//     }
+//   ]
+// ]
 
 // Network Security Group Properties
 
