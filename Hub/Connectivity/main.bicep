@@ -454,23 +454,36 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 var x = subnets[0].name
 
-module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
+module modNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = [
   for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'nsgDeployment${i}'
+    name: 'nsgDeployment${subnets[i]}'
     params: {
-      resourceGroupName_Network: resourceGroupName_Network[i]
-      subnets: subnets[i]
+      name: toLower('${subnets[i].name}${nsgSuffix}')
       tags: tags
       location: locations[i]
-      securityRules: securityRules[i]
-      nsgSuffix: nsgSuffix
+      securityRules: securityRules
     }
-    dependsOn: [
-      modResourceGroupNetwork
-    ]
   }
 ]
+
+// module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
+//   for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'nsgDeployment${i}'
+//     params: {
+//       resourceGroupName_Network: resourceGroupName_Network[i]
+//       subnets: subnets[i]
+//       tags: tags
+//       location: locations[i]
+//       securityRules: securityRules[i]
+//       nsgSuffix: nsgSuffix
+//     }
+//     dependsOn: [
+//       modResourceGroupNetwork
+//     ]
+//   }
+// ]
 
 // Virtual Network
 
