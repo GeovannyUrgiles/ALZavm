@@ -256,17 +256,17 @@ param subnets0 = [
     delegation: ''
   }
   {
-    name: toLower('PrivateEndpointSn')
+    name: 'PrivateEndpointSn'
     addressPrefix: '10.1.1.0/24'
     delegation: ''
   }
   {
-    name: toLower('DnsInboundSn')
+    name: 'DnsInboundSn'
     addressPrefix: '10.1.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
   {
-    name: toLower('DnsOutboundSn')
+    name: 'DnsOutboundSn'
     addressPrefix: '10.1.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
