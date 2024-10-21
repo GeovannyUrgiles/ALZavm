@@ -72,9 +72,10 @@ param lock object
 // Virtual Network Parameters
 
 param virtualNetwork array
-// param subnets array
+param subnets array
 
-//param subnets array
+// Network Security Group Parameters
+
 param securityRules array
 // param onPremDnsServer string
 param dnsFirewallProxy array
