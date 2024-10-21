@@ -452,7 +452,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // Network Security Groups
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets[0]: if (enableNetworkSecurityGroups) {
+  for subnet in virtualNetwork[0]: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
@@ -463,6 +463,21 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
     }
   }
 ]
+
+// // Network Security Groups
+// module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
+//   for subnet in subnets[0]: if (enableNetworkSecurityGroups) {
+//     scope: resourceGroup(resourceGroupName_Network[0])
+//     name: 'nsgDeployment${subnet.name}'
+//     params: {
+//       name: toLower('${subnet.name}${nsgSuffix}')
+//       tags: tags
+//       location: locations[0]
+//       securityRules: securityRules
+//     }
+//   }
+// ]
+
 
 // module modNetworkSecurityGroup './modules/networkSecurityGroup.bicep' = [
 //   for i in range(0, length(locations)): if (enableNetworkSecurityGroups) {
@@ -502,7 +517,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
           delegation: subnet.delegation
           networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
             ? ''
-            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
+            : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${subnet.name}${nsgSuffix}') //${virtualNetwork[i].name}-${subnet.name}${nsgSuffix}')
         }
       ]
     }
