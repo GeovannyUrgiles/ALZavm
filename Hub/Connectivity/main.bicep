@@ -457,7 +457,7 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: toLower('${virtualNetwork[0]}${subnet.name}${nsgSuffix}')
+      name: toLower('${virtualNetwork[0]}${subnetsArray[0].name}${nsgSuffix}')
       tags: tags
       location: locations[0]
       securityRules: securityRules
