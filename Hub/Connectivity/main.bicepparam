@@ -254,17 +254,17 @@ param subnets = [
       delegation: ''
     }
     {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+      name: toLower('-PrivateEndpointSn')
       addressPrefix: '10.1.1.0/24'
       delegation: ''
     }
     {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
+      name: toLower('-DnsInboundSn')
       addressPrefix: '10.1.2.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
     }
     {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
+      name: toLower('-DnsOutboundSn')
       addressPrefix: '10.1.3.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
     }
@@ -277,17 +277,17 @@ param subnets = [
       delegation: ''
     }
     {
-      name: toLower('${virtualNetworkName}-PrivateEndpointSn')
+      name: toLower('-PrivateEndpointSn')
       addressPrefix: '10.2.1.0/24'
       delegation: ''
     }
     {
-      name: toLower('${virtualNetworkName}-DnsInboundSn')
+      name: toLower('-DnsInboundSn')
       addressPrefix: '10.2.2.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
     }
     {
-      name: toLower('${virtualNetworkName}-DnsOutboundSn')
+      name: toLower('-DnsOutboundSn')
       addressPrefix: '10.2.3.0/24'
       delegation: 'Microsoft.Network/dnsResolvers'
     }

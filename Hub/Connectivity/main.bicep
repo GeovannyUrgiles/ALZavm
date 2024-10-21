@@ -453,7 +453,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // Network Security Groups
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in virtualNetwork[0]: if (enableNetworkSecurityGroups) {
+  for subnet in subnets[0]: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
