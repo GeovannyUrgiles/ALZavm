@@ -234,7 +234,7 @@ param virtualNetwork = [
       addressPrefixes: [
         '10.1.0.0/18' // Primary Address Prefix
       ]
-      subnets: subnetsArray[0]
+      subnets: [subnetsArray[0]]
     }
   ]
   [
@@ -245,7 +245,7 @@ param virtualNetwork = [
       ]
     }
     {
-      subnets: subnetsArray[1]
+      subnets: [subnetsArray[1]]
     }
   ]
 ]
