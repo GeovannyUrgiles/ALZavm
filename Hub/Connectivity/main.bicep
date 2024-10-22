@@ -30,7 +30,6 @@ param nameSeparator string
 
 // Resource Names
 
-param virtualNetworkName string
 param virtualWanName string
 
 param virtualWanSku string
@@ -249,7 +248,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
       // for RemoteSpoke in RemoteSpokes: {
       (enableVirtualNetwork)
         ? {
-            name: '${virtualNetworkName}-to-${virtualHubName}'
+            name: '${virtualNetwork[0]}-to-${virtualHubName}'
             remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
             routingConfiguration: {
               associatedRouteTable: {

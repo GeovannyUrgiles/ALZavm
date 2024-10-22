@@ -55,7 +55,8 @@ param resourceGroupName_PrivateDns = [
 ]
 
 param uamiName = 'conwus2mi'
-param virtualNetworkName = 'conwus2vnet'
+var virtualNetworkNamePrimary = 'conwus2vnet'
+var virtualNetworkNameSecondary = 'coneus2vnet'
 param virtualWanName = 'conwus2vwan'
 param virtualHubName = 'conwus2hub'
 param vpnSiteName = 'conwus2vpnsite'
@@ -229,14 +230,14 @@ param numberOfPublicIPs = 1
 
 param virtualNetwork = [
   {
-    name: 'conwus2vnet' // Primary Virtual Network Name
+    name: virtualNetworkNamePrimary // Primary Virtual Network Name
     addressPrefixes: [
       '10.1.0.0/18' // Primary Address Prefix
     ]
     subnets: [subnets0]
   }
   {
-    name: 'coneus2vnet' // Secondary Virtual Network Name
+    name: virtualNetworkNameSecondary // Secondary Virtual Network Name
     addressPrefixes: [
       '10.2.0.0/18' // Secondary Address Prefix
     ]
@@ -244,6 +245,8 @@ param virtualNetwork = [
     subnets: [subnets1]
   }
 ]
+
+// Virtual Network Subnets
 
 param subnets0 = [
   // Primary Region Virtual Network Subnets
@@ -253,17 +256,17 @@ param subnets0 = [
     delegation: ''
   }
   {
-    name: 'privateendpointsn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpoint${nameSeparator}sn'
     addressPrefix: '10.1.1.0/24'
     delegation: ''
   }
   {
-    name: 'dnsinboundsn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinbound${nameSeparator}sn'
     addressPrefix: '10.1.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
   {
-    name: 'dnsoutboundsn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutbound${nameSeparator}sn'
     addressPrefix: '10.1.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
@@ -277,17 +280,17 @@ param subnets1 = [
     delegation: ''
   }
   {
-    name: 'PrivateEndpointSn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpoint${nameSeparator}sn'
     addressPrefix: '10.2.1.0/24'
     delegation: ''
   }
   {
-    name: 'DnsInboundSn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinbound${nameSeparator}sn'
     addressPrefix: '10.2.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
   {
-    name: 'DnsOutboundSn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutbound${nameSeparator}sn'
     addressPrefix: '10.2.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
