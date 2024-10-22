@@ -64,14 +64,14 @@ param bastionName = 'conwus2bh'
 param dnsResolverName = 'conwus2dns'
 param operationalInsightsName = 'conwus2oiw'
 param keyVaultName = [
-  'conwus2kv'
-  'coneus2kv'
+  'conwus2kv01'
+  'coneus2kv01'
 ]
 param publicIpAddressName01 = 'conwus2pip01'
 
 // Key Vault Properties
 
-param enablePurgeProtection = true
+param enablePurgeProtection = false
 param enableRbacAuthorization = true
 param peSuffix = '${nameSeparator}pe'
 param nicSuffix = '${nameSeparator}nic'
