@@ -248,7 +248,7 @@ param virtualNetwork = [
 param subnets0 = [
   // Primary Region Virtual Network Subnets
   {
-    name: 'azurebastionsubnet'
+    name: 'AzureBastionSubnet'
     addressPrefix: '10.1.0.0/24'
     delegation: ''
   }
