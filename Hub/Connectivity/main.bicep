@@ -454,7 +454,7 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 // Network Security Groups - Primary Region
 
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') {
+  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || enableNetworkSecurityGroups && subnet.name != 'GatewaySubnet') {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
@@ -472,7 +472,7 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
 // Network Security Groups - Secondary Region
 
 module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets1: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') {
+  for subnet in subnets1: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || enableNetworkSecurityGroups && subnet.name != 'GatewaySubnet') {
     scope: resourceGroup(resourceGroupName_Network[1])
     name: 'nsgDeployment${subnet.name}'
     params: {
