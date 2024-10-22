@@ -228,24 +228,21 @@ param numberOfPublicIPs = 1
 // Virtual Network Properties
 
 param virtualNetwork = [
-  [
-    {
-      name: 'conwus2vnet' // Primary Virtual Network Name
-      addressPrefixes: [
-        '10.1.0.0/18' // Primary Address Prefix
-      ]
-      subnets: [subnets0]
-    }
-    {
-      name: 'coneus2vnet' // Secondary Virtual Network Name
-      addressPrefixes: [
-        '10.2.0.0/18' // Secondary Address Prefix
-      ]
-    }
-    {
-      subnets: [subnets]
-    }
-  ]
+  {
+    name: 'conwus2vnet' // Primary Virtual Network Name
+    addressPrefixes: [
+      '10.1.0.0/18' // Primary Address Prefix
+    ]
+    subnets: [subnets0]
+  }
+  {
+    name: 'coneus2vnet' // Secondary Virtual Network Name
+    addressPrefixes: [
+      '10.2.0.0/18' // Secondary Address Prefix
+    ]
+
+    subnets: [subnets1]
+  }
 ]
 
 param subnets0 = [
@@ -272,7 +269,7 @@ param subnets0 = [
   }
 ]
 
-param subnets = [
+param subnets1 = [
   // Secondary Region Virtual Network Subnets
   {
     name: 'AzureBastionSubnet'

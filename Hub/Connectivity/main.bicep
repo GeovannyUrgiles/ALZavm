@@ -73,7 +73,7 @@ param lock object
 
 param virtualNetwork array
 param subnets0 array
-param subnets array
+param subnets1 array
 
 // Network Security Group Parameters
 
@@ -455,11 +455,11 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // Network Security Groups
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets: if (enableNetworkSecurityGroups) {
+  for subnet in subnets0: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: toLower('${virtualNetwork[0].name}${subnet.name}${nsgSuffix}')
+      name: '${virtualNetwork[0].name}${subnet.name}${nsgSuffix}'
       tags: tags
       location: locations[0]
       securityRules: securityRules
