@@ -285,25 +285,29 @@ param subnets0 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.1.0.0/24'
     delegation: ''
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}AzureBastionSubnet${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}AzureBastionSubnet${nsgSuffix}' 
+    serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.1.1.0/24'
     delegation: ''
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn${nsgSuffix}'
+    serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn'
     addressPrefix: '10.1.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn${nsgSuffix}'
+    serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn'
     addressPrefix: '10.1.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
+    serviceEndpoints: []
   }
 ]
 
@@ -313,25 +317,29 @@ param subnets1 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.2.0.0/24'
     delegation: ''
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}AzureBastionSubnet${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}AzureBastionSubnet${nsgSuffix}' 
+    serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.2.1.0/24'
     delegation: ''
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'  
+    serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn'
     addressPrefix: '10.2.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn${nsgSuffix}'
+    serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn'
     addressPrefix: '10.2.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
-    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
+    securityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
+    serviceEndpoints: []
   }
 ]
 
