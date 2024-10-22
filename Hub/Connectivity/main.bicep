@@ -472,11 +472,11 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
 // Network Security Groups - Secondary Region
 
 module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets1: if ((enableNetworkSecurityGroups == true && subnet.name != 'AzureBastionSubnet') || (enableNetworkSecurityGroups == true && subnet.name != 'GatewaySubnet')) {
+  for subnet in subnets1: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[1])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: toLower('${subnet.name}${nsgSuffix}')
+      name: (subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') ? toLower('${subnet.name}${nsgSuffix}') : ''
       tags: tags
       location: locations[1]
       securityRules: securityRules
