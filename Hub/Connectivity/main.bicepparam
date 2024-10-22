@@ -497,7 +497,7 @@ param virtualWan = {
 
 param virtualWanHub = {
   addressPrefix: ''
-  allowBranchToBranchTraffic: true
+  // allowBranchToBranchTraffic: true
   internetToFirewall: false
   privateToFirewall: false
   preferredRoutingGateway: 'VpnGateway' // 'ExpressRoute' 'None'
