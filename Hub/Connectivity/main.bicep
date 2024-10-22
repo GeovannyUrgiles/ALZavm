@@ -455,13 +455,29 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 
 // Network Security Groups - Primary Region
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet') {
+  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
       name: toLower('${virtualNetwork[0].name}${nameSeparator}${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
+      securityRules: securityRules
+    }
+    dependsOn: [
+      modResourceGroupNetwork
+    ]
+  }
+]
+
+module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
+  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') {
+    scope: resourceGroup(resourceGroupName_Network[1])
+    name: 'nsgDeployment${subnet.name}'
+    params: {
+      name: toLower('${virtualNetwork[1].name}${nameSeparator}${subnet.name}${nsgSuffix}')
+      tags: tags
+      location: locations[1]
       securityRules: securityRules
     }
     dependsOn: [
@@ -533,7 +549,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-      subnets: subnets0
+      subnets: (i == 0) ? subnets0 : subnets1
         
       
     
