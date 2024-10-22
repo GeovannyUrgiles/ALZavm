@@ -287,7 +287,7 @@ param subnets0 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.1.0.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Networks[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}AzureBastionSubnet${nsgSuffix}'
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Networks[0]}/providers/Microsoft.Network/networkSecurityGroups/AzureBastionSubnet${nsgSuffix}'
     serviceEndpoints: []
   }
   {
@@ -319,7 +319,7 @@ param subnets1 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.2.0.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}AzureBastionSubnet${nsgSuffix}' 
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/AzureBastionSubnet${nsgSuffix}' 
     serviceEndpoints: []
   }
   {
