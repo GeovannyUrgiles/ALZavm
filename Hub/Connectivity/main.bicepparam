@@ -72,10 +72,7 @@ param keyVaultName = [
 // Key Vault Properties
 
 param keyVault = {
-  sku: {
-    family: 'A'
-    name: 'Standard'
-  }
+  sku: 'Standard' // Standard | Premium
   accessPolicies: []
   publicNetworkAccess: 'Disabled'
   bypass: 'AzureServices'
