@@ -15,7 +15,7 @@ param enablePrivateDnsZones = true
 param enableOperationalInsights = true
 param enableKeyVault = true
 
-param enableVirtualWan = false
+param enableVirtualWan = true
 param enableVirtualHub = false
 param enableVpnSite = false
 param enableVpnGateway = false
@@ -68,12 +68,28 @@ param keyVaultName = [
   'conwus2kv01'
   'coneus2kv01'
 ]
-param publicIpAddressName01 = 'conwus2pip01'
 
 // Key Vault Properties
 
-param enablePurgeProtection = false
-param enableRbacAuthorization = true
+param keyVault = {
+  sku: {
+    family: 'A'
+    name: 'Standard'
+  }
+  accessPolicies: []
+  publicNetworkAccess: 'Disabled'
+  bypass: 'AzureServices'
+  defaultAction: 'Deny'
+  ipRules: []
+  virtualNetworkRules: []
+  enablePurgeProtection: false
+  softDeleteRetentionInDays: 7
+  enableRbacAuthorization: true
+}
+
+// Resource Suffixes
+
+param nsgSuffix = '${nameSeparator}nsg'
 param peSuffix = '${nameSeparator}pe'
 param nicSuffix = '${nameSeparator}nic'
 param nameSeparator = '-'
@@ -118,6 +134,13 @@ param ruleCollectionGroups = [
     ]
   }
 ]
+
+// VPN Gateway Properties
+
+param vpnGateway = {
+  asn: 65515
+  peerWeight: 0
+}
 
 // VPN Site Links
 
@@ -219,10 +242,20 @@ param vpnConnections = [
 
 // Azure Firewall Properties
 
-param skuName = 'Standard' // Standard | Premium
-param tier = 'Standard' // Standard | Premium
-param mode = 'Off' // Alert | Deny | Off
-param numberOfPublicIPs = 1
+param azureFirewall = {
+  skuName: 'Standard' // Standard | Premium
+  numberOfPublicIPs: 1
+  
+}
+
+param azureFirewallPolicy = {
+  skuName: 'Standard' // Standard | Premium
+  tier: 'Standard' // Standard | Premium
+  mode: 'Off' // Alert | Deny | Off
+  numberOfPublicIPs: 1
+  allowSqlRedirect: false // true | false
+  autoLearnPrivateRanges: 'Disabled' // Disabled | Enabled
+}
 
 // Virtual Network Properties
 
@@ -252,21 +285,25 @@ param subnets0 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.1.0.0/24'
     delegation: ''
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}AzureBastionSubnet${nsgSuffix}'
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.1.1.0/24'
     delegation: ''
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn'
     addressPrefix: '10.1.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn${nsgSuffix}'
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn'
     addressPrefix: '10.1.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
   }
 ]
 
@@ -276,184 +313,199 @@ param subnets1 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.2.0.0/24'
     delegation: ''
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}AzureBastionSubnet${nsgSuffix}'
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.2.1.0/24'
     delegation: ''
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn'
     addressPrefix: '10.2.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn${nsgSuffix}'
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn'
     addressPrefix: '10.2.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
+    networkSecurityGroup: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
   }
 ]
 
 // Network Security Group Properties
 
-param nsgSuffix = '${nameSeparator}nsg'
-param securityRulesDefault = [
-]
-param securityRulesBastion = [ // AzureBastionSubnet Security Rules per Microsoft
+param securityRulesDefault = []
+param securityRulesBastion = [
+  // AzureBastionSubnet Security Rules per Microsoft
   {
-        name: 'AllowHttpsInBound'
-        properties: {
-          protocol: 'Tcp'
-          sourcePortRange: '*'
-          sourceAddressPrefix: 'Internet'
-          destinationPortRange: '443'
-          destinationAddressPrefix: '*'
-          access: 'Allow'
-          priority: 100
-          direction: 'Inbound'
-        }
-      }
-      {
-        name: 'AllowGatewayManagerInBound'
-        properties: {
-          protocol: 'Tcp'
-          sourcePortRange: '*'
-          sourceAddressPrefix: 'GatewayManager'
-          destinationPortRange: '443'
-          destinationAddressPrefix: '*'
-          access: 'Allow'
-          priority: 110
-          direction: 'Inbound'
-        }
-      }
-      {
-        name: 'AllowLoadBalancerInBound'
-        properties: {
-          protocol: 'Tcp'
-          sourcePortRange: '*'
-          sourceAddressPrefix: 'AzureLoadBalancer'
-          destinationPortRange: '443'
-          destinationAddressPrefix: '*'
-          access: 'Allow'
-          priority: 120
-          direction: 'Inbound'
-        }
-      }
-      {
-        name: 'AllowBastionHostCommunicationInBound'
-        properties: {
-          protocol: '*'
-          sourcePortRange: '*'
-          sourceAddressPrefix: 'VirtualNetwork'
-          destinationPortRanges: [
-            '8080'
-            '5701'
-          ]
-          destinationAddressPrefix: 'VirtualNetwork'
-          access: 'Allow'
-          priority: 130
-          direction: 'Inbound'
-        }
-      }
-      {
-        name: 'DenyAllInBound'
-        properties: {
-          protocol: '*'
-          sourcePortRange: '*'
-          sourceAddressPrefix: '*'
-          destinationPortRange: '*'
-          destinationAddressPrefix: '*'
-          access: 'Deny'
-          priority: 1000
-          direction: 'Inbound'
-        }
-      }
-      {
-        name: 'AllowSshRdpOutBound'
-        properties: {
-          protocol: 'Tcp'
-          sourcePortRange: '*'
-          sourceAddressPrefix: '*'
-          destinationPortRanges: [
-            '22'
-            '3389'
-          ]
-          destinationAddressPrefix: 'VirtualNetwork'
-          access: 'Allow'
-          priority: 100
-          direction: 'Outbound'
-        }
-      }
-      {
-        name: 'AllowAzureCloudCommunicationOutBound'
-        properties: {
-          protocol: 'Tcp'
-          sourcePortRange: '*'
-          sourceAddressPrefix: '*'
-          destinationPortRange: '443'
-          destinationAddressPrefix: 'AzureCloud'
-          access: 'Allow'
-          priority: 110
-          direction: 'Outbound'
-        }
-      }
-      {
-        name: 'AllowBastionHostCommunicationOutBound'
-        properties: {
-          protocol: '*'
-          sourcePortRange: '*'
-          sourceAddressPrefix: 'VirtualNetwork'
-          destinationPortRanges: [
-            '8080'
-            '5701'
-          ]
-          destinationAddressPrefix: 'VirtualNetwork'
-          access: 'Allow'
-          priority: 120
-          direction: 'Outbound'
-        }
-      }
-      {
-        name: 'AllowGetSessionInformationOutBound'
-        properties: {
-          protocol: '*'
-          sourcePortRange: '*'
-          sourceAddressPrefix: '*'
-          destinationAddressPrefix: 'Internet'
-          destinationPortRanges: [
-            '80'
-            '443'
-          ]
-          access: 'Allow'
-          priority: 130
-          direction: 'Outbound'
-        }
-      }
-      {
-        name: 'DenyAllOutBound'
-        properties: {
-          protocol: '*'
-          sourcePortRange: '*'
-          destinationPortRange: '*'
-          sourceAddressPrefix: '*'
-          destinationAddressPrefix: '*'
-          access: 'Deny'
-          priority: 1000
-          direction: 'Outbound'
-        }
-      }
+    name: 'AllowHttpsInBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'Internet'
+      destinationPortRange: '443'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowGatewayManagerInBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'GatewayManager'
+      destinationPortRange: '443'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 110
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowLoadBalancerInBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'AzureLoadBalancer'
+      destinationPortRange: '443'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 120
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowBastionHostCommunicationInBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'VirtualNetwork'
+      destinationPortRanges: [
+        '8080'
+        '5701'
+      ]
+      destinationAddressPrefix: 'VirtualNetwork'
+      access: 'Allow'
+      priority: 130
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'DenyAllInBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationPortRange: '*'
+      destinationAddressPrefix: '*'
+      access: 'Deny'
+      priority: 1000
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowSshRdpOutBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationPortRanges: [
+        '22'
+        '3389'
+      ]
+      destinationAddressPrefix: 'VirtualNetwork'
+      access: 'Allow'
+      priority: 100
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'AllowAzureCloudCommunicationOutBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationPortRange: '443'
+      destinationAddressPrefix: 'AzureCloud'
+      access: 'Allow'
+      priority: 110
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'AllowBastionHostCommunicationOutBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'VirtualNetwork'
+      destinationPortRanges: [
+        '8080'
+        '5701'
+      ]
+      destinationAddressPrefix: 'VirtualNetwork'
+      access: 'Allow'
+      priority: 120
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'AllowGetSessionInformationOutBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationAddressPrefix: 'Internet'
+      destinationPortRanges: [
+        '80'
+        '443'
+      ]
+      access: 'Allow'
+      priority: 130
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'DenyAllOutBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationAddressPrefix: '*'
+      access: 'Deny'
+      priority: 1000
+      direction: 'Outbound'
+    }
+  }
 ]
 
 // Virtual WAN Properties
 
-param addressPrefix = '10.0.0.0/23'
-param virtualWanSku = 'Standard'
-param defaultRoutesName = 'Default' // Default | None
+param virtualWan = {
+  addressPrefix: '10.0.0.0/23'
+  virtualWanSku: 'Standard'
+  defaultRoutesName: 'Default' // Default | None
+  disableVpnEncryption: false
+}
 
 // VWAN Hub Properties
 
-param allowBranchToBranchTraffic = true
-param allowVnetToVnetTraffic = true
+param virtualWanHub = {
+  addressPrefix: ''
+  allowBranchToBranchTraffic: true
+  internetToFirewall: false
+  privateToFirewall: false
+  preferredRoutingGateway: 'VpnGateway' // 'ExpressRoute' 'None'
+  enableTelemetry: false
+  virtualRouterAsn: 65515
+  defaultRoutesName: 'Default'
+  sku: 'Basic' // Standard | Basic
+}
 
 // Spoke Virtual Networks for Hub Virtual Network Connections
 
@@ -606,20 +658,20 @@ param privatelinkDnsZoneNames = [
 ]
 
 // Azure Bastion Properties
-
-param disableCopyPaste = true
-param disableVpnEncryption = true
-param dnsFirewallProxy = []
-param dnsPrivateResolver = []
-param enableFileCopy = true
-param enableIpConnect = true
-param enableShareableLink = true
-param scaleUnits = 2
+param bastion = {
+  sku: 'Standard' // Standard | Basic
+  disableCopyPaste: true
+  disableVpnEncryption: true
+  dnsFirewallProxy: []
+  dnsPrivateResolver: []
+  enableFileCopy: true
+  enableIpConnect: true
+  enableShareableLink: true
+  scaleUnits: 2
+}
 
 // param enableTunneling = true
 // param hubRoutingPreference = 'None'
 
 // param onPremDnsServer = ''
 // param preferredRoutingGateway = ''
-
-param vpnGatewayScaleUnit = 1

@@ -32,9 +32,6 @@ param nameSeparator string
 // Resource Names
 
 param virtualWanName string
-
-param virtualWanSku string
-
 param virtualHubName string
 param uamiName string
 param bastionName string
@@ -45,18 +42,22 @@ param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
 param keyVaultName array
-param publicIpAddressName01 string
+
+// Resource Maps
+
+param azureFirewall object
+param azureFirewallPolicy object
+param keyVault object
+param bastion object
+param virtualWan object
+param virtualWanHub object
+param vpnGateway object
 
 // Resource Suffixes
 
 param nsgSuffix string
 param peSuffix string
 param nicSuffix string
-
-// Key Vault Properties
-
-param enablePurgeProtection bool
-param enableRbacAuthorization bool
 
 // Resource Group Parameters
 
@@ -80,52 +81,18 @@ param subnets1 array
 param securityRulesDefault array
 param securityRulesBastion array
 
-// param onPremDnsServer string
-param dnsFirewallProxy array
-param dnsPrivateResolver array
-
 // VPN Gateway Site-to-Site
 
 param vpnSiteLinks array
-
-// Virtual WAN
-
-param addressPrefix string
-param allowVnetToVnetTraffic bool
-param allowBranchToBranchTraffic bool
-
-// Virtual WAN Hub Routing
-
-param defaultRoutesName string
-// param preferredRoutingGateway string
-// param hubRoutingPreference string
-
 param vpnConnections array
 
-// Azure Firewall Parameters
+// Firewall Policy Parameters
 
-param tier string
-param numberOfPublicIPs int
-param scaleUnits int
 param ruleCollectionGroups array
-param disableVpnEncryption bool
-param mode string
-// param bgpSettings int
-param vpnGatewayScaleUnit int
-// param enableTunneling bool
-// param privateIPAllocationMethod string
 
 // Private DNS Parameters
 
 param privatelinkDnsZoneNames array
-
-// Bastion Parameters
-
-param skuName string
-param disableCopyPaste bool
-param enableFileCopy bool
-param enableIpConnect bool
-param enableShareableLink bool
 
 // Network Resource Group Deployment
 
@@ -236,7 +203,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       location: locations[i]
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
-      dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
+      dnsServers: []
       subnets: (i == 0) ? subnets0 : subnets1
     }
     dependsOn: [
@@ -281,21 +248,17 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
     location: locations[0]
     tags: tags
     inboundEndpoints: [
-      (enableDnsResolver)
-        ? {
-            name: 'inboundEndpoint'
-            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
-          }
-        : {}
+      {
+        name: 'inboundEndpoint'
+        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
+      }
     ]
     outboundEndpoints: (enableOutboundDns)
       ? [
-          (enableDnsResolver)
-            ? {
-                name: 'OutboundEndpoint'
-                subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
-              }
-            : {}
+          {
+            name: 'OutboundEndpoint'
+            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
+          }
         ]
       : []
     virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
@@ -306,19 +269,19 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
   ]
 }
 
-// Virtual WAN
+// Virtual WAN - Primary Region Only
 
 module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirtualWan) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'virtualWanDeployment'
   params: {
     name: virtualWanName
-    allowBranchToBranchTraffic: allowBranchToBranchTraffic
-    allowVnetToVnetTraffic: allowVnetToVnetTraffic
-    disableVpnEncryption: disableVpnEncryption
+    allowBranchToBranchTraffic: virtualWan.allowBranchToBranchTraffic
+    allowVnetToVnetTraffic: virtualWan.allowVnetToVnetTraffic
+    disableVpnEncryption: virtualWan.disableVpnEncryption
+    type: virtualWan.virtualWanSku
     location: locations[0]
     tags: tags
-    type: virtualWanSku
   }
   dependsOn: [
     modResourceGroupNetwork
@@ -327,72 +290,74 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
 
 // Virtual WAN Hub
 
-module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableVirtualHub) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'virtualHubDeployment'
-  params: {
-    name: virtualHubName
-    location: locations[0]
-    tags: tags
-    addressPrefix: addressPrefix
-    virtualWanId: modVirtualWan.outputs.resourceId
-    sku: 'Basic' // Standard | Basic
-    allowBranchToBranchTraffic: allowBranchToBranchTraffic
-    internetToFirewall: false
-    privateToFirewall: false
-    preferredRoutingGateway: 'ExpressRoute' // ExpressRoute
-    enableTelemetry: false
-    virtualRouterAsn: 65515
-    hubRouteTables: [
-      {
-        name: defaultRoutesName
-      }
-    ]
-    hubVirtualNetworkConnections: [
-      {
-        name: '${virtualNetwork[0]}-to-${virtualHubName}'
-        remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
-        routingConfiguration: {
-          associatedRouteTable: {
-            id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
-          }
-          propagatedRouteTables: {
-            ids: [
-              {
-                id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
-              }
-            ]
-            labels: [
-              defaultRoutesName
-            ]
+module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
+  for i in range(0, length(locations)): if (enableVirtualHub) {
+    scope: resourceGroup(resourceGroupName_Network[0])
+    name: 'virtualHubDeployment${i}'
+    params: {
+      name: virtualHubName
+      location: locations[0]
+      tags: tags
+      addressPrefix: virtualWanHub.addressPrefix
+      virtualWanId: modVirtualWan.outputs.resourceId
+      sku: virtualWanHub.sku
+      allowBranchToBranchTraffic: virtualWanHub.allowBranchToBranchTraffic
+      internetToFirewall: virtualWanHub.internetToFirewall
+      privateToFirewall: virtualWanHub.privateToFirewall
+      preferredRoutingGateway: virtualWanHub.preferredRoutingGateway
+      enableTelemetry: virtualWanHub.enableTelemetry
+      virtualRouterAsn: virtualWanHub.virtualRouterAsn
+      hubRouteTables: [
+        {
+          name: virtualWanHub.defaultRoutesName
+        }
+      ]
+      hubVirtualNetworkConnections: [
+        {
+          name: '${virtualNetwork[0]}-to-${virtualHubName}'
+          remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+          routingConfiguration: {
+            associatedRouteTable: {
+              id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+            }
+            propagatedRouteTables: {
+              ids: [
+                {
+                  id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+                }
+              ]
+              labels: [
+                virtualWanHub.defaultRoutesName
+              ]
+            }
           }
         }
-      }
-      {
-        name: '${virtualNetwork[1]}-to-${virtualHubName}'
-        remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
-        routingConfiguration: {
-          associatedRouteTable: {
-            id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
-          }
-          propagatedRouteTables: {
-            ids: [
-              {
-                id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
-              }
-            ]
-            labels: [
-              defaultRoutesName
-            ]
+        {
+          name: '${virtualNetwork[1]}-to-${virtualHubName}'
+          remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+          routingConfiguration: {
+            associatedRouteTable: {
+              id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+            }
+            propagatedRouteTables: {
+              ids: [
+                {
+                  id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+                }
+              ]
+              labels: [
+                virtualWanHub.defaultRoutesName
+              ]
+            }
           }
         }
-      }
+      ]
+    }
+    dependsOn: [
+      modResourceGroupNetwork
     ]
   }
-  dependsOn: [
-    modResourceGroupNetwork
-  ]
-}
+]
 
 // VPN Site for VWAN-to-VWAN connections
 
@@ -404,10 +369,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     virtualWanId: modVirtualWan.outputs.resourceId
     location: locations[0]
     tags: tags
-    addressPrefixes: [
-      (enableVpnSite) ? addressPrefix : null
-      // (enableVpnSite) ? virtualNetwork.addressPrefixes[0] : null
-    ]
+    addressPrefixes: []
     o365Policy: {
       breakOutCategories: {
         allow: true
@@ -455,14 +417,14 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
     name: 'vpnGatewayDeployment${i}'
     params: {
       name: vpnGatewayName
-      virtualHubResourceId: modVirtualHub.outputs.resourceId
+      virtualHubResourceId: modVirtualHub[0].outputs.resourceId
       location: locations[0]
       tags: tags
       bgpSettings: {
-        asn: 65515
-        peerweight: 0
+        asn: vpnGateway.asn
+        peerweight: vpnGateway.peerweight
       }
-      vpnGatewayScaleUnit: vpnGatewayScaleUnit
+      vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
       vpnConnections: [
         {
           name: vpnConnections[i].name
@@ -529,8 +491,8 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
   params: {
     name: firewallPolicyName
     tags: tags
-    allowSqlRedirect: (tier == 'Premium') ? true : false
-    autoLearnPrivateRanges: (tier == 'Premium') ? 'Enabled' : 'Disabled'
+    allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
+    autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
     location: locations[0]
 
     // identity: identity
@@ -541,9 +503,9 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
       ]
     }
 
-    mode: mode
+    mode: azureFirewallPolicy.mode
     ruleCollectionGroups: ruleCollectionGroups
-    tier: tier
+    tier: azureFirewallPolicy.tier
   }
   dependsOn: [
     modVirtualHub
@@ -552,7 +514,7 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
 
 // Azure Firewall
 
-module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall) {
+module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'azureFirewallDeployment'
   params: {
@@ -561,11 +523,11 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
     firewallPolicyId: modFirewallPolicy.outputs.resourceId
     hubIPAddresses: {
       publicIPs: {
-        count: numberOfPublicIPs
+        count: azureFirewall.numberOfPublicIPs
       }
     }
     location: locations[0]
-    virtualHubId: modVirtualHub.outputs.resourceId
+    virtualHubId: modVirtualHub[0].outputs.resourceId
   }
   dependsOn: [
     modFirewallPolicy
@@ -600,12 +562,12 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
     location: locations[0]
     virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
     tags: tags
-    disableCopyPaste: disableCopyPaste
-    enableIpConnect: enableIpConnect
-    enableFileCopy: enableFileCopy
-    scaleUnits: scaleUnits
-    enableShareableLink: enableShareableLink
-    skuName: skuName
+    disableCopyPaste: bastion.disableCopyPaste
+    enableIpConnect: bastion.enableIpConnect
+    enableFileCopy: bastion.enableFileCopy
+    scaleUnits: bastion.scaleUnits
+    enableShareableLink: bastion.enableShareableLink
+    skuName: bastion.skuName
   }
   dependsOn: [
     modVirtualNetwork
@@ -621,7 +583,8 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
     params: {
       name: keyVaultName[i]
       location: locations[i]
-      accessPolicies: []
+      sku: keyVault.sku
+      accessPolicies: keyVault.accessPolicies
       diagnosticSettings: [
         {
           logCategoriesAndGroups: [
@@ -641,16 +604,20 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
           workspaceResourceId: modWorkspace[i].outputs.resourceId
         }
       ]
-      enablePurgeProtection: enablePurgeProtection
-      enableRbacAuthorization: enableRbacAuthorization
+      enablePurgeProtection: keyVault.enablePurgeProtection
+      enableRbacAuthorization: keyVault.enableRbacAuthorization
+      roleAssignments: []
+      secrets: []
+      softDeleteRetentionInDays: keyVault.softDeleteRetentionInDays
+      tags: tags
       keys: []
       lock: {}
-      publicNetworkAccess: 'Disabled'
+      publicNetworkAccess: keyVault.publicNetworkAccess
       networkAcls: {
-        bypass: 'AzureServices'
-        defaultAction: 'Deny'
-        ipRules: []
-        virtualNetworkRules: []
+        bypass: keyVault.bypass
+        defaultAction: keyVault.defaultAction
+        ipRules: keyVault.ipRules
+        virtualNetworkRules: keyVault.virtualNetworkRules
       }
       privateEndpoints: [
         {
@@ -670,10 +637,6 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
           subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
         }
       ]
-      roleAssignments: []
-      secrets: []
-      softDeleteRetentionInDays: 7
-      tags: tags
     }
     dependsOn: [
       modResourceGroupNetwork
