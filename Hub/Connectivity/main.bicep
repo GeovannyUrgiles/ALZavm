@@ -464,6 +464,9 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
       location: locations[0]
       securityRules: securityRules
     }
+    dependsOn: [
+      modResourceGroupNetwork
+    ]
   }
 ]
 
