@@ -42,6 +42,11 @@ param locationsShort = [
 
 // Resource Names
 
+var resourceGroupName_Networks = [
+  'conwus2networkrg'
+  'coneus2networkrg'
+]
+
 param resourceGroupName_Network = [
   'conwus2networkrg'
   'coneus2networkrg'
@@ -282,7 +287,7 @@ param subnets0 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.1.0.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}AzureBastionSubnet${nsgSuffix}' 
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Networks[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}AzureBastionSubnet${nsgSuffix}'
     serviceEndpoints: []
   }
   {
