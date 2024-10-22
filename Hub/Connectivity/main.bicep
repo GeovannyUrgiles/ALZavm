@@ -276,8 +276,6 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
   name: 'virtualWanDeployment'
   params: {
     name: virtualWanName
-    allowBranchToBranchTraffic: virtualWan.allowBranchToBranchTraffic
-    allowVnetToVnetTraffic: virtualWan.allowVnetToVnetTraffic
     disableVpnEncryption: virtualWan.disableVpnEncryption
     type: virtualWan.virtualWanSku
     location: locations[0]
