@@ -10,6 +10,7 @@ param enableVpnSite bool
 param enableNetworkSecurityGroups bool
 param enablePrivateDnsZones bool
 param enableDnsResolver bool
+param enableOutboundDns bool
 param enableVirtualNetwork bool
 param enableBastion bool
 param enableOperationalInsights bool
@@ -552,12 +553,12 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
           }
         : {}
     ]
-    // outboundEndpoints: [
-    //   (enableDnsResolver) ? {
-    //     name: 'OutboundEndpoint'
-    //     subnetResourceId: virtualNetwork.outputs.subnetResourceIds[3]
-    //   } : {}
-    // ]
+    outboundEndpoints: (enableOutboundDns) ? [
+      (enableDnsResolver) ? {
+        name: 'OutboundEndpoint'
+        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
+      } : {}
+    ] : []
     virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
   }
   dependsOn: [
