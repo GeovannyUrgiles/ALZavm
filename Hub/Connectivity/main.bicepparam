@@ -298,7 +298,7 @@ param subnets1 = [
 param nsgSuffix = '${nameSeparator}nsg'
 param securityRulesDefault = [
 ]
-param securityRulesBastion = [
+param securityRulesBastion = [ // AzureBastionSubnet Security Rules per Microsoft
   {
         name: 'AllowHttpsInBound'
         properties: {
