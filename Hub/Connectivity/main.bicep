@@ -61,7 +61,7 @@ param enableRbacAuthorization bool
 
 param resourceGroupName_Network array
 param resourceGroupName_Bastion array
-param resourceGroupName_PrivateDns array
+param resourceGroupName_PrivateDns string
 
 param roleAssignmentsNetwork array
 param roleAssignmentsBastion array
@@ -154,21 +154,20 @@ module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0
     }
   }
 ]
-// Private DNS Resource Group Deployment
+// Private DNS Resource Group Deployment - Primary Region Only
 
-module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
     scope: subscription(subscriptionId)
-    name: 'resourceGroupDnsZonesDeployment${i}'
+    name: 'resourceGroupDnsZonesDeployment'
     params: {
-      name: resourceGroupName_PrivateDns[i]
+      name: resourceGroupName_PrivateDns
       tags: tags
-      location: locations[i]
+      location: locations[0]
       // lock: lock
       roleAssignments: roleAssignmentsPrivateDns
     }
   }
-]
+
 // User Assigned Managed Identity
 
 module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = [
@@ -486,8 +485,8 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
 ]
 
 // networkSecurityGroupResourceId: (subnet.name == 'AzureBastionSubnet' || subnet.name == 'GatewaySubnet')
-      //       ? ''
-      //       : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}${nameSeparator}${subnet.name}${nsgSuffix}')
+//       ? ''
+//       : toLower('/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[i]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetwork[i].name}${nameSeparator}${subnet.name}${nsgSuffix}')
 
 // Network Security Groups
 // module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
@@ -549,10 +548,10 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
       subnets: (i == 0) ? subnets0 : subnets1
-        
-      
-    
-      
+
+
+
+
       // subnetsArray[i]
       // subnets: [
       //   for subnet in virtualNetwork[i].subnets: {
@@ -567,7 +566,6 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
     }
     dependsOn: [
       modNetworkSecurityGroupPrimary
-    
     ]
   }
 ]
@@ -576,7 +574,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
 
 module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
   for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
-    scope: resourceGroup(resourceGroupName_PrivateDns[0])
+    scope: resourceGroup(resourceGroupName_PrivateDns)
     name: '${privatelinkDnsZoneName}Deployment'
     params: {
       name: privatelinkDnsZoneName
@@ -701,7 +699,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones[0].outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
               }
             ]
           }

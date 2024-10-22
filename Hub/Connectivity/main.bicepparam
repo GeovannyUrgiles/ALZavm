@@ -49,10 +49,7 @@ param resourceGroupName_Bastion = [
   'conwus2bastionrg'
   'coneus2bastionrg'
 ]
-param resourceGroupName_PrivateDns = [
-  'conwus2dnsrg'
-  'coneus2dnsrg'
-]
+param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 
 param uamiName = 'conwus2mi'
 var virtualNetworkNamePrimary = 'conwus2vnet'
