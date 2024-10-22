@@ -76,7 +76,9 @@ param subnets1 array
 
 // Network Security Group Parameters
 
-param securityRules array
+param securityRulesDefault array
+param securityRulesBastion array
+
 // param onPremDnsServer string
 param dnsFirewallProxy array
 param dnsPrivateResolver array
@@ -454,14 +456,14 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 // Network Security Groups - Primary Region
 
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for (subnet, idx) in (subnets0) : if ((enableNetworkSecurityGroups) || !(subnet.name == 'AzureBastionSubnet') || !(subnet.name == 'GatewaySubnet')) {
+  for subnet in subnets0: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
-      securityRules: securityRules
+      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
     }
     dependsOn: [
       modResourceGroupNetwork
@@ -479,7 +481,7 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[1]
-      securityRules: securityRules
+      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
     }
     dependsOn: [
       modResourceGroupNetwork
