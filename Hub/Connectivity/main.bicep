@@ -458,7 +458,7 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: !((subnet.name == 'AzureBastionSubnet') || (subnet.name == 'GatewaySubnet')) ? toLower('${subnet.name}${nsgSuffix}') : ''
+      name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
       securityRules: securityRules
@@ -476,7 +476,7 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
     scope: resourceGroup(resourceGroupName_Network[1])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: subnet.name
+      name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[1]
       securityRules: securityRules
