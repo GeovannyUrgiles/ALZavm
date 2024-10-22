@@ -142,6 +142,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
     }
   }
 ]
+
 // Bastion  Resource Group Deployment
 
 module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
@@ -157,6 +158,7 @@ module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0
     }
   }
 ]
+
 // Private DNS Resource Group Deployment - Primary Region Only
 
 module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
@@ -187,7 +189,8 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
     ]
   }
 ]
-// Operational Insights
+
+// Operational Insights Workspace
 
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
   for i in range(0, length(locations)): if (enableOperationalInsights) {
@@ -203,6 +206,105 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
     ]
   }
 ]
+
+// Network Security Groups - Secondary Region
+
+module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
+  for subnet in subnets1: if (enableNetworkSecurityGroups) {
+    scope: resourceGroup(resourceGroupName_Network[1])
+    name: 'nsgDeployment${subnet.name}'
+    params: {
+      name: toLower('${subnet.name}${nsgSuffix}')
+      tags: tags
+      location: locations[1]
+      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+    }
+    dependsOn: [
+      modResourceGroupNetwork
+    ]
+  }
+]
+
+// Virtual Network
+
+module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'virtualNetworkDeployment${i}'
+    params: {
+      name: virtualNetwork[i].name
+      location: locations[i]
+      tags: tags
+      addressPrefixes: virtualNetwork[i].addressPrefixes
+      dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
+      subnets: (i == 0) ? subnets0 : subnets1
+    }
+    dependsOn: [
+      modNetworkSecurityGroupPrimary
+    ]
+  }
+]
+
+// Private DNS Zones
+
+module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
+  for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
+    scope: resourceGroup(resourceGroupName_PrivateDns)
+    name: '${privatelinkDnsZoneName}Deployment'
+    params: {
+      name: privatelinkDnsZoneName
+      tags: tags
+      virtualNetworkLinks: [
+        {
+          registrationEnabled: false
+          virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+        }
+        {
+          registrationEnabled: false
+          virtualNetworkResourceId: modVirtualNetwork[1].outputs.resourceId
+        }
+      ]
+    }
+    dependsOn: [
+      modVirtualNetwork
+    ]
+  }
+]
+
+// DNS Private Resolver
+
+module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
+  scope: resourceGroup(resourceGroupName_Network[0])
+  name: 'DnsResolverDeployment'
+  params: {
+    name: dnsResolverName
+    location: locations[0]
+    tags: tags
+    inboundEndpoints: [
+      (enableDnsResolver)
+        ? {
+            name: 'inboundEndpoint'
+            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
+          }
+        : {}
+    ]
+    outboundEndpoints: (enableOutboundDns)
+      ? [
+          (enableDnsResolver)
+            ? {
+                name: 'OutboundEndpoint'
+                subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
+              }
+            : {}
+        ]
+      : []
+    virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+  }
+  dependsOn: [
+    modPrivateDnsZones
+    modVirtualNetwork
+  ]
+}
 
 // Virtual WAN
 
@@ -247,28 +349,44 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = if (enableV
       }
     ]
     hubVirtualNetworkConnections: [
-      // for RemoteSpoke in RemoteSpokes: {
-      (enableVirtualNetwork)
-        ? {
-            name: '${virtualNetwork[0]}-to-${virtualHubName}'
-            remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
-            routingConfiguration: {
-              associatedRouteTable: {
+      {
+        name: '${virtualNetwork[0]}-to-${virtualHubName}'
+        remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+        routingConfiguration: {
+          associatedRouteTable: {
+            id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
+          }
+          propagatedRouteTables: {
+            ids: [
+              {
                 id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
               }
-              propagatedRouteTables: {
-                ids: [
-                  {
-                    id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
-                  }
-                ]
-                labels: [
-                  defaultRoutesName
-                ]
-              }
-            }
+            ]
+            labels: [
+              defaultRoutesName
+            ]
           }
-        : {}
+        }
+      }
+      {
+        name: '${virtualNetwork[1]}-to-${virtualHubName}'
+        remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+        routingConfiguration: {
+          associatedRouteTable: {
+            id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
+          }
+          propagatedRouteTables: {
+            ids: [
+              {
+                id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${defaultRoutesName}'
+              }
+            ]
+            labels: [
+              defaultRoutesName
+            ]
+          }
+        }
+      }
     ]
   }
   dependsOn: [
@@ -471,101 +589,6 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
     ]
   }
 ]
-
-// Network Security Groups - Secondary Region
-
-module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets1: if (enableNetworkSecurityGroups) {
-    scope: resourceGroup(resourceGroupName_Network[1])
-    name: 'nsgDeployment${subnet.name}'
-    params: {
-      name: toLower('${subnet.name}${nsgSuffix}')
-      tags: tags
-      location: locations[1]
-      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
-    }
-    dependsOn: [
-      modResourceGroupNetwork
-    ]
-  }
-]
-
-// Virtual Network
-
-module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'virtualNetworkDeployment${i}'
-    params: {
-      name: virtualNetwork[i].name
-      location: locations[i]
-      tags: tags
-      addressPrefixes: virtualNetwork[i].addressPrefixes
-      dnsServers: [] // ((enableFirewall) ? dnsFirewallProxy : dnsPrivateResolver)
-      subnets: (i == 0) ? subnets0 : subnets1
-    }
-    dependsOn: [
-      modNetworkSecurityGroupPrimary
-    ]
-  }
-]
-
-// Private DNS Zones
-
-module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
-  for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
-    scope: resourceGroup(resourceGroupName_PrivateDns)
-    name: '${privatelinkDnsZoneName}Deployment'
-    params: {
-      name: privatelinkDnsZoneName
-      tags: tags
-      virtualNetworkLinks: [
-        {
-          registrationEnabled: false
-          virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-        }
-        {
-          registrationEnabled: false
-          virtualNetworkResourceId: modVirtualNetwork[1].outputs.resourceId
-        }
-      ]
-    }
-    dependsOn: [
-      modVirtualNetwork
-    ]
-  }
-]
-
-// DNS Private Resolver
-
-module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'DnsResolverDeployment'
-  params: {
-    name: dnsResolverName
-    location: locations[0]
-    tags: tags
-    inboundEndpoints: [
-      (enableDnsResolver)
-        ? {
-            name: 'inboundEndpoint'
-            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
-          }
-        : {}
-    ]
-    outboundEndpoints: (enableOutboundDns) ? [
-      (enableDnsResolver) ? {
-        name: 'OutboundEndpoint'
-        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
-      } : {}
-    ] : []
-    virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-  }
-  dependsOn: [
-    modPrivateDnsZones
-    modVirtualNetwork
-  ]
-}
 
 // Azure Bastion Host
 
