@@ -157,16 +157,16 @@ module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0
 // Private DNS Resource Group Deployment - Primary Region Only
 
 module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
-    scope: subscription(subscriptionId)
-    name: 'resourceGroupDnsZonesDeployment'
-    params: {
-      name: resourceGroupName_PrivateDns
-      tags: tags
-      location: locations[0]
-      // lock: lock
-      roleAssignments: roleAssignmentsPrivateDns
-    }
+  scope: subscription(subscriptionId)
+  name: 'resourceGroupDnsZonesDeployment'
+  params: {
+    name: resourceGroupName_PrivateDns
+    tags: tags
+    location: locations[0]
+    // lock: lock
+    roleAssignments: roleAssignmentsPrivateDns
   }
+}
 
 // User Assigned Managed Identity
 
@@ -454,11 +454,11 @@ module azureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enab
 // Network Security Groups - Primary Region
 
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != '${virtualNetwork[0]}${nameSeparator}AzureBastionSubnet${nameSeparator}sn' || subnet.name != 'GatewaySubnet') {
+  for subnet in subnets0: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: toLower('${virtualNetwork[0].name}${nameSeparator}${subnet.name}${nsgSuffix}')
+      name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
       securityRules: securityRules
@@ -469,12 +469,14 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
   }
 ]
 
+// Network Security Groups - Secondary Region
+
 module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets1: if (enableNetworkSecurityGroups && subnet.name != '${virtualNetwork[1]}${nameSeparator}AzureBastionSubnet${nameSeparator}sn' || subnet.name != 'GatewaySubnet') {
+  for subnet in subnets1: if (enableNetworkSecurityGroups && subnet.name != 'AzureBastionSubnet' || subnet.name != 'GatewaySubnet') {
     scope: resourceGroup(resourceGroupName_Network[1])
     name: 'nsgDeployment${subnet.name}'
     params: {
-      name: toLower('${virtualNetwork[1].name}${nameSeparator}${subnet.name}${nsgSuffix}')
+      name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[1]
       securityRules: securityRules

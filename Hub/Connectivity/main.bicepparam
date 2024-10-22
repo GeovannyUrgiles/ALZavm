@@ -253,17 +253,17 @@ param subnets0 = [
     delegation: ''
   }
   {
-    name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpoint${nameSeparator}sn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.1.1.0/24'
     delegation: ''
   }
   {
-    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinbound${nameSeparator}sn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn'
     addressPrefix: '10.1.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
   {
-    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutbound${nameSeparator}sn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn'
     addressPrefix: '10.1.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
@@ -277,17 +277,17 @@ param subnets1 = [
     delegation: ''
   }
   {
-    name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpoint${nameSeparator}sn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.2.1.0/24'
     delegation: ''
   }
   {
-    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinbound${nameSeparator}sn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn'
     addressPrefix: '10.2.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
   {
-    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutbound${nameSeparator}sn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn'
     addressPrefix: '10.2.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
   }
