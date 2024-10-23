@@ -24,7 +24,10 @@ param enableBastion = false
 
 // param enableRecoveryServiceVault = true
 
-param dnsServers = []
+param dnsServers = [
+  {}
+  {}
+]
 
 // Subscription(s)
 
