@@ -69,7 +69,6 @@ param virtualWanName = 'conwus2vwan'
 var virtualNetworkNamePrimary = 'conwus2vnet'
 var virtualNetworkNameSecondary = 'coneus2vnet'
 
-
 // Virtual Network Property Array
 
 param virtualNetwork = [
