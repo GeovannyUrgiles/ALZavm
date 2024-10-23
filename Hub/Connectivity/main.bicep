@@ -177,7 +177,7 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
 // Network Security Groups - Secondary Region
 
 module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets1: if (enableNetworkSecurityGroups) {
+  for subnet in subnets1: if ((enableNetworkSecurityGroups) && (locations[1] != null)) {
     scope: resourceGroup(resourceGroupName_Network[1])
     name: 'nsgDeployment${subnet.name}'
     params: {
