@@ -25,7 +25,7 @@ param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
 param enableBastion = false
-param enableStorageAccount = false
+param enableStorageAccount = true
 
 // param enableRecoveryServiceVault = true
 
