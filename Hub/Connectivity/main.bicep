@@ -294,7 +294,7 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
 
 module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = if (enableOutboundDns) {
     scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'dnsForwardingRulesetDeployment$'
+    name: 'dnsForwardingRulesetDeployment'
     params: {
       dnsForwardingRulesetOutboundEndpointResourceIds: [
         // '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
@@ -670,7 +670,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 
 // Storage Account
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
+module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
   for i in range(0, length(locations)): if (enableStorageAccount) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'storageAccountDeployment${i}'
@@ -751,7 +751,33 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
         ipRules: []
       }
       privateEndpoints: [
-        // privateEndpoints[i]
+        {
+          privateDnsZoneGroup: {
+            privateDnsZoneGroupConfigs: [
+              {
+                privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
+              }
+            ]
+          }
+          service: 'blob'
+          subnetResourceId: '<subnetResourceId>'
+          tags: {
+            Environment: 'Non-Prod'
+            'hidden-title': 'This is visible in the resource name'
+            Role: 'DeploymentValidation'
+          }
+        }
+        {
+          privateDnsZoneGroup: {
+            privateDnsZoneGroupConfigs: [
+              {
+                privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
+              }
+            ]
+          }
+          service: 'file'
+          subnetResourceId: '<subnetResourceId>'
+        }
       ]
       requireInfrastructureEncryption: true
       roleAssignments: []
