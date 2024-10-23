@@ -713,9 +713,9 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
         //   workspaceResourceId: modWorkspace[i].outputs.resourceId
         // }
       ]
-      // enableHierarchicalNamespace: true
-      // enableNfsV3: true
-      // enableSftp: true
+      enableHierarchicalNamespace: true
+      enableNfsV3: true
+      enableSftp: true
       fileServices: {
         diagnosticSettings: [
           // {
