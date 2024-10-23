@@ -78,15 +78,23 @@ param vpnSiteName = 'conwus2vpnsite'
 param vpnGatewayName = 'conwus2vpngw'
 param firewallName = 'conwus2azfw'
 param firewallPolicyName = 'conwus2azfwpol'
-param bastionName = 'conwus2bh'
-param dnsResolverName = 'conwus2dns'
-param operationalInsightsName = 'conwus2oiw'
+
+param bastionName = [
+  'conwus2bh'
+  'coneus2bh'
+]
+param dnsResolverName = [
+  'conwus2dns'
+  'coneus2dns'
+]
+param operationalInsightsName = [
+  'conwus2oiw'
+  'coneus2oiw'
+]
 param keyVaultName = [
   'conwus2kv01'
   'coneus2kv01'
 ]
-
-
 
 // Key Vault Properties
 

@@ -34,10 +34,10 @@ param nameSeparator string
 param virtualWanName string
 param virtualHubName string
 param uamiName array
-param bastionName string
-param dnsResolverName string
+param bastionName array
+param dnsResolverName array
 param vpnSiteName string
-param operationalInsightsName string
+param operationalInsightsName array
 param firewallName string
 param firewallPolicyName string
 param vpnGatewayName string
@@ -168,7 +168,7 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'workspaceDeployment'
     params: {
-      name: operationalInsightsName
+      name: operationalInsightsName[i]
       location: locations[i]
       tags: tags
     }
@@ -262,7 +262,7 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'DnsResolverDeployment'
   params: {
-    name: dnsResolverName
+    name: dnsResolverName[0]
     location: locations[0]
     tags: tags
     inboundEndpoints: [
@@ -537,7 +537,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBa
   scope: resourceGroup(resourceGroupName_Bastion[0])
   name: 'AzureBastionDeployment'
   params: {
-    name: bastionName
+    name: bastionName[0]
     location: locations[0]
     virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
     tags: tags
