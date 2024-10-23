@@ -221,17 +221,11 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
     params: {
       name: privatelinkDnsZoneName
       tags: tags
-      virtualNetworkLinks: [
-        {
+      virtualNetworkLinks: [ 
+        for i in range(0, length(locations)) : {
           registrationEnabled: false
-          virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+          virtualNetworkResourceId: modVirtualNetwork[i].outputs.resourceId
         }
-        (length(locations) >= 1)
-          ? {
-              registrationEnabled: false
-              virtualNetworkResourceId: modVirtualNetwork[1].outputs.resourceId
-            }
-          : {}
       ]
     }
     dependsOn: [
