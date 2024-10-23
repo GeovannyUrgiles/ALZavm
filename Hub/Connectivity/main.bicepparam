@@ -25,6 +25,8 @@ param enableBastion = false
 // param enableRecoveryServiceVault = true
 
 param dnsServers = [
+  '168.63.129.16'
+  '168.63.129.16'
   
 ]
 
