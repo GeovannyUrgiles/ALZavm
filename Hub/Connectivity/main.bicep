@@ -672,7 +672,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
   for i in range(0, length(locations)): if (enableStorageAccount) {
     scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'storageAccountDeployment${i}]'
+    name: 'storageAccountDeployment${i}'
     params: {
       // Required parameters
       name: storageAccountName[i]
