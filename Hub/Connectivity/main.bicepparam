@@ -120,6 +120,10 @@ param dnsResolverName = [
   'conwus2dns'
   'coneus2dns'
 ]
+param dnsForwardingRulesetName = [
+  'conwus2dnsfr'
+  'coneus2dnsfr'
+]
 param operationalInsightsName = [
   'conwus2oiw'
   'coneus2oiw'

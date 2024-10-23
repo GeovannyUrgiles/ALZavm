@@ -21,7 +21,6 @@ param enableStorageAccount bool
 
 param spokes array
 
-
 // Deployment Options
 
 param subscriptionId string
@@ -44,6 +43,7 @@ param dnsResolverName array
 param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
+param dnsForwardingRulesetName array
 // param privateEndpoints array
 
 // DNS Servers
@@ -261,34 +261,74 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
 
 // DNS Private Resolver
 
-module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'DnsResolverDeployment'
-  params: {
-    name: dnsResolverName[0]
-    location: locations[0]
-    tags: tags
-    inboundEndpoints: [
-      {
-        name: 'InboundEndpoint'
-        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
-      }
+module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = [
+  for i in range(0, length(locations)): if (enableDnsResolver) {
+    scope: resourceGroup(resourceGroupName_Network[0])
+    name: 'DnsResolverDeployment${i}'
+    params: {
+      name: dnsResolverName[0]
+      location: locations[0]
+      tags: tags
+      inboundEndpoints: [
+        {
+          name: 'InboundEndpoint'
+          subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
+        }
+      ]
+      outboundEndpoints: (enableOutboundDns)
+        ? [
+            {
+              name: 'OutboundEndpoint'
+              subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
+            }
+          ]
+        : []
+      virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+    }
+    dependsOn: [
+      modPrivateDnsZones
+      modVirtualNetwork
     ]
-    outboundEndpoints: (enableOutboundDns)
-      ? [
-          {
-            name: 'OutboundEndpoint'
-            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
-          }
-        ]
-      : []
-    virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
   }
-  dependsOn: [
-    modPrivateDnsZones
-    modVirtualNetwork
-  ]
-}
+]
+
+// DNS Resolver Forwarder
+
+module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = [
+  for i in range(0, length(locations)): if (enableOutboundDns) {
+    scope: resourceGroup(resourceGroupName_Network[0])
+    name: 'dnsForwardingRulesetDeployment${i}'
+    params: {
+      // Required parameters
+      dnsForwardingRulesetOutboundEndpointResourceIds: []
+      name: dnsForwardingRulesetName[0]
+      
+      forwardingRules: [
+        // {
+        //   domainName: 'contoso.'
+        //   forwardingRuleState: 'Enabled'
+        //   name: 'rule1'
+        //   targetDnsServers: [
+        //     {
+        //       ipAddress: '192.168.0.1'
+        //       port: 53
+        //     }
+        //   ]
+        // }
+      ]
+      location: locations[0]
+      lock: {}
+      roleAssignments: []
+      tags: tags
+      virtualNetworkLinks: [
+        {
+          name: 'ruleset-to-vnet'
+          virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+        }
+      ]
+    }
+  }
+]
 
 // Virtual WAN - Primary Region Only
 
