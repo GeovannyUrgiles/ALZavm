@@ -327,6 +327,9 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
         }
       ]
     }
+    dependsOn: [
+      modDnsResolver
+    ]
   }
 ]
 

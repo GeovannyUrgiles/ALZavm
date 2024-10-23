@@ -50,7 +50,6 @@ var resourceGroupName_Networks = [
   'conwus2networkrg'
   'coneus2networkrg'
 ]
-
 param resourceGroupName_Network = [
   'conwus2networkrg'
   'coneus2networkrg'
@@ -207,7 +206,7 @@ param ruleCollectionGroups = [
 // VPN Gateway Properties
 
 param vpnGateway = {
-  asn: 65515
+  asn: 65515 // BGP Autonomous System Number
   peerWeight: 0
 }
 // Azure Firewall Properties
