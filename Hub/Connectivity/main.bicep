@@ -21,6 +21,7 @@ param enableStorageAccount bool
 
 param spokes array
 
+
 // Deployment Options
 
 param subscriptionId string
@@ -43,6 +44,7 @@ param dnsResolverName array
 param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
+// param privateEndpoints array
 
 // DNS Servers
 
@@ -629,7 +631,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 
 module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
   for i in range(0, length(locations)): if (enableStorageAccount) {
-    scope: resourceGroup(resourceGroupName_Bastion[0])
+    scope: resourceGroup(resourceGroupName_Network[i])
     name: 'storageAccountDeployment${i}]'
     params: {
       // Required parameters
@@ -710,33 +712,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
         ipRules: []
       }
       privateEndpoints: [
-        {
-          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}blob'
-          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}${nameSeparator}file'
-          ipConfigurations: []
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
-              }
-            ]
-          }
-          service: 'blob'
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-        }
-        {
-          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}file'
-          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}${nameSeparator}file'
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'
-              }
-            ]
-          }
-          service: 'file'
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-        }
+        // privateEndpoints[i]
       ]
       requireInfrastructureEncryption: true
       roleAssignments: []
@@ -749,3 +725,34 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
     ]
   }
 ]
+
+// module privateEndpointBlob 'br/public:avm/res/network/private-endpoint:0.8.0' = [
+//   for i in range(0, length(locations)): if (enableStorageAccount) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'privateEndpointDeployment${i}'
+//     params: {
+//       name: storageAccountName[i]
+//       subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+//       customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}blob'
+//       location: locations[i]
+//       privateDnsZoneGroup: {
+//         privateDnsZoneGroupConfigs: [
+//           {
+//             privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
+//           }
+//         ]
+//       }
+//       privateLinkServiceConnections: [
+//         {
+//           name: 'config'
+//           properties: {
+//             groupIds: [
+//               'blob'
+//             ]
+//             privateLinkServiceId: storageAccount[i].outputs.primaryBlobEndpoint
+//           }
+//         }
+//       ]
+//     }
+//   }
+// ]
