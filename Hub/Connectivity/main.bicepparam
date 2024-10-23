@@ -10,7 +10,7 @@ var version = 'v1.0.0'
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = true
-param enableOutboundDns = false
+param enableOutboundDns = true
 param enablePrivateDnsZones = true
 
 // Virtual WAN
@@ -25,6 +25,7 @@ param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
 param enableBastion = false
+param enableStorageAccount = false
 
 // param enableRecoveryServiceVault = true
 
@@ -130,6 +131,10 @@ param uamiName = [
 param keyVaultName = [
   'conwus2kv01'
   'coneus2kv01'
+]
+param storageAccountName = [
+  'conwus2diagsa01'
+  'coneus2diagsa01'
 ]
 
 // Key Vault Properties
