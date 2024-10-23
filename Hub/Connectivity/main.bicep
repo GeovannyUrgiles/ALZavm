@@ -204,7 +204,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: []
-      subnets: (i == 0) ? subnets0 : subnets1
+      subnets: (i >= 1) ? subnets0 : subnets1
     }
     dependsOn: [
       modNetworkSecurityGroupPrimary
