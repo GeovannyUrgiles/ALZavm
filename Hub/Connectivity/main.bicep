@@ -751,33 +751,33 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         ipRules: []
       }
       privateEndpoints: [
-        {
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
-              }
-            ]
-          }
-          service: 'blob'
-          subnetResourceId: '<subnetResourceId>'
-          tags: {
-            Environment: 'Non-Prod'
-            'hidden-title': 'This is visible in the resource name'
-            Role: 'DeploymentValidation'
-          }
-        }
-        {
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
-              }
-            ]
-          }
-          service: 'file'
-          subnetResourceId: '<subnetResourceId>'
-        }
+        // {
+        //   privateDnsZoneGroup: {
+        //     privateDnsZoneGroupConfigs: [
+        //       {
+        //         privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
+        //       }
+        //     ]
+        //   }
+        //   service: 'blob'
+        //   subnetResourceId: '<subnetResourceId>'
+        //   tags: {
+        //     Environment: 'Non-Prod'
+        //     'hidden-title': 'This is visible in the resource name'
+        //     Role: 'DeploymentValidation'
+        //   }
+        // }
+        // {
+        //   privateDnsZoneGroup: {
+        //     privateDnsZoneGroupConfigs: [
+        //       {
+        //         privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
+        //       }
+        //     ]
+        //   }
+        //   service: 'file'
+        //   subnetResourceId: '<subnetResourceId>'
+        // }
       ]
       requireInfrastructureEncryption: true
       roleAssignments: []
