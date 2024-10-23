@@ -154,7 +154,7 @@ param keyVault = {
 
 // Resource Suffixes
 
-var nameSeparator = '-'
+param nameSeparator = '-'
 param nsgSuffix = '${nameSeparator}nsg'
 param peSuffix = '${nameSeparator}pe'
 param nicSuffix = '${nameSeparator}nic'

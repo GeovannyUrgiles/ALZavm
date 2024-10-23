@@ -26,6 +26,7 @@ param spokes array
 param subscriptionId string
 param locations array
 param tags object
+param nameSeparator string
 
 // Resource Names
 
@@ -710,8 +711,8 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
       }
       privateEndpoints: [
         {
-          name: '${storageAccountName[i]}${peSuffix}-blob'
-          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}'
+          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}blob'
+          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}${nameSeparator}file'
           ipConfigurations: []
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
@@ -724,8 +725,8 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
           subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
         }
         {
-          name: '${storageAccountName[i]}${peSuffix}-file'
-          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}'
+          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}file'
+          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}${nameSeparator}file'
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
