@@ -32,15 +32,16 @@ param nameSeparator string
 // Resource Names
 
 param virtualWanName string
-param virtualHubName string
+param virtualHubName array
+param vpnGatewayName array
+param vpnSiteName array
+param firewallName array
+param firewallPolicyName array
+
 param uamiName array
 param bastionName array
 param dnsResolverName array
-param vpnSiteName string
 param operationalInsightsName array
-param firewallName string
-param firewallPolicyName string
-param vpnGatewayName string
 param keyVaultName array
 
 // DNS Servers
@@ -311,7 +312,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'virtualHubDeployment${i}'
     params: {
-      name: virtualHubName
+      name: virtualHubName[0]
       location: locations[0]
       tags: tags
       addressPrefix: virtualWanHub.addressPrefix
@@ -362,7 +363,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'vpnSiteDeployment'
   params: {
-    name: vpnSiteName
+    name: vpnSiteName[0]
     virtualWanId: modVirtualWan.outputs.resourceId
     location: locations[0]
     tags: tags
@@ -413,7 +414,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
     scope: (resourceGroup(resourceGroupName_Network[0]))
     name: 'vpnGatewayDeployment${i}'
     params: {
-      name: vpnGatewayName
+      name: vpnGatewayName[0]
       virtualHubResourceId: modVirtualHub[0].outputs.resourceId
       location: locations[0]
       tags: tags
@@ -486,7 +487,7 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'firewallPolicyDeployment'
   params: {
-    name: firewallPolicyName
+    name: firewallPolicyName[0]
     tags: tags
     allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
     autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
@@ -515,7 +516,7 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'azureFirewallDeployment'
   params: {
-    name: firewallName
+    name: firewallName[0]
     tags: tags
     firewallPolicyId: modFirewallPolicy.outputs.resourceId
     hubIPAddresses: {
@@ -533,26 +534,27 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
 
 // Azure Bastion Host
 
-module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = if (enableBastion) {
-  scope: resourceGroup(resourceGroupName_Bastion[0])
-  name: 'AzureBastionDeployment'
-  params: {
-    name: bastionName[0]
-    location: locations[0]
-    virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-    tags: tags
-    disableCopyPaste: bastion.disableCopyPaste
-    enableIpConnect: bastion.enableIpConnect
-    enableFileCopy: bastion.enableFileCopy
-    scaleUnits: bastion.scaleUnits
-    enableShareableLink: bastion.enableShareableLink
-    skuName: bastion.skuName
+module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
+  for i in range(0, length(locations)): if (enableBastion) {
+    scope: resourceGroup(resourceGroupName_Bastion[0])
+    name: 'AzureBastionDeployment${i}'
+    params: {
+      name: bastionName[0]
+      location: locations[0]
+      virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+      tags: tags
+      disableCopyPaste: bastion.disableCopyPaste
+      enableIpConnect: bastion.enableIpConnect
+      enableFileCopy: bastion.enableFileCopy
+      scaleUnits: bastion.scaleUnits
+      enableShareableLink: bastion.enableShareableLink
+      skuName: bastion.skuName
+    }
+    dependsOn: [
+      modVirtualNetwork
+    ]
   }
-  dependsOn: [
-    modVirtualNetwork
-  ]
-}
-
+]
 // Key Vault
 
 module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [

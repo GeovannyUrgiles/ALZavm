@@ -68,17 +68,27 @@ param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 var virtualNetworkNamePrimary = 'conwus2vnet'
 var virtualNetworkNameSecondary = 'coneus2vnet'
 
-param uamiName = [
-  'conwus2mi' 
-  'coneus2mi' 
-]
 param virtualWanName = 'conwus2vwan'
-param virtualHubName = 'conwus2hub'
-param vpnSiteName = 'conwus2vpnsite'
-param vpnGatewayName = 'conwus2vpngw'
-param firewallName = 'conwus2azfw'
-param firewallPolicyName = 'conwus2azfwpol'
-
+param virtualHubName = [
+  'conwus2hub'
+  'coneus2hub'
+]
+param vpnGatewayName = [
+  'conwus2vpngw'
+  'coneus2vpngw'
+]
+param vpnSiteName = [
+  'conwus2vpnsite'
+  'coneus2vpnsite'
+]
+param firewallName = [
+  'conwus2azfw'
+  'coneus2azfw'
+]
+param firewallPolicyName = [
+  'conwus2azfwpol'
+  'coneus2azfwpol'
+]
 param bastionName = [
   'conwus2bh'
   'coneus2bh'
@@ -90,6 +100,10 @@ param dnsResolverName = [
 param operationalInsightsName = [
   'conwus2oiw'
   'coneus2oiw'
+]
+param uamiName = [
+  'conwus2mi' 
+  'coneus2mi' 
 ]
 param keyVaultName = [
   'conwus2kv01'
