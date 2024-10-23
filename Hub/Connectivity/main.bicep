@@ -684,52 +684,52 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
         deleteRetentionPolicyDays: 9
         deleteRetentionPolicyEnabled: true
         diagnosticSettings: [
-          {
-            eventHubAuthorizationRuleResourceId: ''
-            eventHubName: ''
-            metricCategories: [
-              {
-                category: 'AllMetrics'
-              }
-            ]
-            name: 'customSetting'
-            storageAccountResourceId: ''
-            workspaceResourceId: modWorkspace[i].outputs.resourceId
-          }
+          // {
+          //   eventHubAuthorizationRuleResourceId: ''
+          //   eventHubName: ''
+          //   metricCategories: [
+          //     {
+          //       category: 'AllMetrics'
+          //     }
+          //   ]
+          //   name: 'customSetting'
+          //   storageAccountResourceId: ''
+          //   workspaceResourceId: modWorkspace[i].outputs.resourceId
+          // }
         ]
         lastAccessTimeTrackingPolicyEnabled: true
       }
       diagnosticSettings: [
-        {
-          eventHubAuthorizationRuleResourceId: ''
-          eventHubName: ''
-          metricCategories: [
-            {
-              category: 'AllMetrics'
-            }
-          ]
-          name: 'customSetting'
-          storageAccountResourceId: ''
-          workspaceResourceId: modWorkspace[i].outputs.resourceId
-        }
+        // {
+        //   eventHubAuthorizationRuleResourceId: ''
+        //   eventHubName: ''
+        //   metricCategories: [
+        //     {
+        //       category: 'AllMetrics'
+        //     }
+        //   ]
+        //   name: 'customSetting'
+        //   storageAccountResourceId: ''
+        //   workspaceResourceId: modWorkspace[i].outputs.resourceId
+        // }
       ]
-      enableHierarchicalNamespace: true
-      enableNfsV3: true
-      enableSftp: true
+      // enableHierarchicalNamespace: true
+      // enableNfsV3: true
+      // enableSftp: true
       fileServices: {
         diagnosticSettings: [
-          {
-            eventHubAuthorizationRuleResourceId: ''
-            eventHubName: ''
-            metricCategories: [
-              {
-                category: 'AllMetrics'
-              }
-            ]
-            name: 'customSetting'
-            storageAccountResourceId: ''
-            workspaceResourceId: modWorkspace[i].outputs.resourceId
-          }
+          // {
+          //   eventHubAuthorizationRuleResourceId: ''
+          //   eventHubName: ''
+          //   metricCategories: [
+          //     {
+          //       category: 'AllMetrics'
+          //     }
+          //   ]
+          //   name: 'customSetting'
+          //   storageAccountResourceId: ''
+          //   workspaceResourceId: modWorkspace[i].outputs.resourceId
+          // }
         ]
         shares: []
       }
