@@ -25,9 +25,7 @@ param spokes array
 
 param subscriptionId string
 param locations array
-param locationsShort array
 param tags object
-param nameSeparator string
 
 // Resource Names
 

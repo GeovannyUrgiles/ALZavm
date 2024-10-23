@@ -1,10 +1,10 @@
 using 'main.bicep'
 
-// Version
+// IaC Version Number
 
-var version = 'v1.0.0' // IaC Version Number
+var version = 'v1.0.0' 
 
-// Deployment Options
+//// Deployment Options
 
 // Virtual Network
 param enableVirtualNetwork = true
@@ -43,12 +43,7 @@ param locations = [
   'eastus2' // Secondary Region
 ]
 
-param locationsShort = [
-  'wus2' // Primary Region
-  'eus2' // Secondary Region
-]
-
-// Resource Names
+// Resource Group Names
 
 var resourceGroupName_Networks = [
   'conwus2networkrg'
@@ -65,10 +60,38 @@ param resourceGroupName_Bastion = [
 ]
 param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 
+// Virtual WAN Name
+
+param virtualWanName = 'conwus2vwan'
+
+// Virtual Network Names
+
 var virtualNetworkNamePrimary = 'conwus2vnet'
 var virtualNetworkNameSecondary = 'coneus2vnet'
 
-param virtualWanName = 'conwus2vwan'
+
+// Virtual Network Property Array
+
+param virtualNetwork = [
+  {
+    name: virtualNetworkNamePrimary // Primary Virtual Network Name
+    addressPrefixes: [
+      '10.1.0.0/18' // Primary Address Prefix
+    ]
+    subnets: [subnets0]
+  }
+  {
+    name: virtualNetworkNameSecondary // Secondary Virtual Network Name
+    addressPrefixes: [
+      '10.2.0.0/18' // Secondary Address Prefix
+    ]
+
+    subnets: [subnets1]
+  }
+]
+
+// Resource Name Arrays
+
 param virtualHubName = [
   'conwus2hub'
   'coneus2hub'
@@ -130,7 +153,7 @@ param keyVault = {
 param nsgSuffix = '${nameSeparator}nsg'
 param peSuffix = '${nameSeparator}pe'
 param nicSuffix = '${nameSeparator}nic'
-param nameSeparator = '-'
+var nameSeparator = '-'
 
 // Default Tags
 
@@ -184,7 +207,6 @@ param vpnGateway = {
 param azureFirewall = {
   skuName: 'Standard' // Standard | Premium
   numberOfPublicIPs: 1
-  
 }
 
 param azureFirewallPolicy = {
@@ -195,26 +217,6 @@ param azureFirewallPolicy = {
   allowSqlRedirect: false // true | false
   autoLearnPrivateRanges: 'Disabled' // Disabled | Enabled
 }
-
-// Virtual Network Properties
-
-param virtualNetwork = [
-  {
-    name: virtualNetworkNamePrimary // Primary Virtual Network Name
-    addressPrefixes: [
-      '10.1.0.0/18' // Primary Address Prefix
-    ]
-    subnets: [subnets0]
-  }
-  {
-    name: virtualNetworkNameSecondary // Secondary Virtual Network Name
-    addressPrefixes: [
-      '10.2.0.0/18' // Secondary Address Prefix
-    ]
-
-    subnets: [subnets1]
-  }
-]
 
 // Azure Bastion Properties
 param bastion = {
