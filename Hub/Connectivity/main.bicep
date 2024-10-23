@@ -262,74 +262,72 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
 // DNS Private Resolver
 
 module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
-    scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'DnsResolverDeployment'
-    params: {
-      name: dnsResolverName[0]
-      location: locations[0]
-      tags: tags
-      inboundEndpoints: [
-        {
-          name: 'InboundEndpoint-01'
-          subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
-        }
-      ]
-      outboundEndpoints: (enableOutboundDns)
-        ? [
-            {
-              name: 'OutboundEndpoint-01'
-              subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
-            }
-          ]
-        : []
-      virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-    }
-    dependsOn: [
-      modPrivateDnsZones
-      modVirtualNetwork
+  scope: resourceGroup(resourceGroupName_Network[0])
+  name: 'DnsResolverDeployment'
+  params: {
+    name: dnsResolverName[0]
+    location: locations[0]
+    tags: tags
+    inboundEndpoints: [
+      {
+        name: 'InboundEndpoint-01'
+        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
+      }
     ]
+    outboundEndpoints: (enableOutboundDns)
+      ? [
+          {
+            name: 'OutboundEndpoint-01'
+            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
+          }
+        ]
+      : []
+    virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
   }
+  dependsOn: [
+    modPrivateDnsZones
+    modVirtualNetwork
+  ]
+}
 
 // DNS Resolver Forwarder
 
 module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = if (enableOutboundDns) {
-    scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'dnsForwardingRulesetDeployment'
-    params: {
-      dnsForwardingRulesetOutboundEndpointResourceIds: [
-        // '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
-        '${modDnsResolver.outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
-      ]
-      name: dnsForwardingRulesetName[0]
-      forwardingRules: [
-        // {
-        //   domainName: 'contoso.'
-        //   forwardingRuleState: 'Enabled'
-        //   name: 'rule1'
-        //   targetDnsServers: [
-        //     {
-        //       ipAddress: '192.168.0.1'
-        //       port: 53
-        //     }
-        //   ]
-        // }
-      ]
-      location: locations[0]
-      lock: {}
-      roleAssignments: []
-      tags: tags
-      virtualNetworkLinks: [
-        {
-          name: 'ruleset-to-vnet'
-          virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-        }
-      ]
-    }
-    dependsOn: [
-      modDnsResolver
+  scope: resourceGroup(resourceGroupName_Network[0])
+  name: 'dnsForwardingRulesetDeployment'
+  params: {
+    dnsForwardingRulesetOutboundEndpointResourceIds: [
+      '${modDnsResolver.outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
+    ]
+    name: dnsForwardingRulesetName[0]
+    forwardingRules: [
+      // {
+      //   domainName: 'contoso.'
+      //   forwardingRuleState: 'Enabled'
+      //   name: 'rule1'
+      //   targetDnsServers: [
+      //     {
+      //       ipAddress: '192.168.0.1'
+      //       port: 53
+      //     }
+      //   ]
+      // }
+    ]
+    location: locations[0]
+    lock: {}
+    roleAssignments: []
+    tags: tags
+    virtualNetworkLinks: [
+      {
+        name: 'ruleset-to-vnet'
+        virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+      }
     ]
   }
-
+  dependsOn: [
+    modDnsResolver
+  ]
+}
 
 // Virtual WAN - Primary Region Only
 
@@ -751,33 +749,33 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         ipRules: []
       }
       privateEndpoints: [
-        // {
-        //   privateDnsZoneGroup: {
-        //     privateDnsZoneGroupConfigs: [
-        //       {
-        //         privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
-        //       }
-        //     ]
-        //   }
-        //   service: 'blob'
-        //   subnetResourceId: '<subnetResourceId>'
-        //   tags: {
-        //     Environment: 'Non-Prod'
-        //     'hidden-title': 'This is visible in the resource name'
-        //     Role: 'DeploymentValidation'
-        //   }
-        // }
-        // {
-        //   privateDnsZoneGroup: {
-        //     privateDnsZoneGroupConfigs: [
-        //       {
-        //         privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
-        //       }
-        //     ]
-        //   }
-        //   service: 'file'
-        //   subnetResourceId: '<subnetResourceId>'
-        // }
+        {
+          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}blob'
+          customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}blob'
+          ipConfigurations: []
+          privateDnsZoneGroup: {
+            privateDnsZoneGroupConfigs: [
+              {
+                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
+              }
+            ]
+          }
+          service: 'blob'
+          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+        }
+        {
+          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}file'
+          customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}file'
+          privateDnsZoneGroup: {
+            privateDnsZoneGroupConfigs: [
+              {
+                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'
+              }
+            ]
+          }
+          service: 'file'
+          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+        }
       ]
       requireInfrastructureEncryption: true
       roleAssignments: []
@@ -790,34 +788,3 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
     ]
   }
 ]
-
-// module privateEndpointBlob 'br/public:avm/res/network/private-endpoint:0.8.0' = [
-//   for i in range(0, length(locations)): if (enableStorageAccount) {
-//     scope: resourceGroup(resourceGroupName_Network[i])
-//     name: 'privateEndpointDeployment${i}'
-//     params: {
-//       name: storageAccountName[i]
-//       subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-//       customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}blob'
-//       location: locations[i]
-//       privateDnsZoneGroup: {
-//         privateDnsZoneGroupConfigs: [
-//           {
-//             privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
-//           }
-//         ]
-//       }
-//       privateLinkServiceConnections: [
-//         {
-//           name: 'config'
-//           properties: {
-//             groupIds: [
-//               'blob'
-//             ]
-//             privateLinkServiceId: storageAccount[i].outputs.primaryBlobEndpoint
-//           }
-//         }
-//       ]
-//     }
-//   }
-// ]

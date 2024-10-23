@@ -9,12 +9,12 @@ var version = 'v1.0.0'
 // Virtual Network
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
-param enableDnsResolver = true
-param enableOutboundDns = true
-param enablePrivateDnsZones = true
+param enableDnsResolver = false
+param enableOutboundDns = false
+param enablePrivateDnsZones =false
 
 // Virtual WAN
-param enableVirtualWan = true
+param enableVirtualWan = false
 param enableVirtualHub = false
 param enableVpnSite = false
 param enableVpnGateway = false
