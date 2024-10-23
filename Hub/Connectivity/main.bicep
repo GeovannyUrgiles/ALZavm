@@ -261,10 +261,9 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
 
 // DNS Private Resolver
 
-module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = [
-  for i in range(0, length(locations)): if (enableDnsResolver) {
+module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
     scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'DnsResolverDeployment${i}'
+    name: 'DnsResolverDeployment'
     params: {
       name: dnsResolverName[0]
       location: locations[0]
@@ -290,19 +289,16 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = [
       modVirtualNetwork
     ]
   }
-]
 
 // DNS Resolver Forwarder
 
-module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = [
-  for i in range(0, length(locations)): if (enableOutboundDns) {
+module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = if (enableOutboundDns) {
     scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'dnsForwardingRulesetDeployment${i}'
+    name: 'dnsForwardingRulesetDeployment$'
     params: {
-      // Required parameters
       dnsForwardingRulesetOutboundEndpointResourceIds: [
-        //'/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
-        '${modDnsResolver[0].outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
+        // '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
+        '${modDnsResolver.outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
       ]
       name: dnsForwardingRulesetName[0]
       forwardingRules: [
@@ -333,7 +329,7 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
       modDnsResolver
     ]
   }
-]
+
 
 // Virtual WAN - Primary Region Only
 
