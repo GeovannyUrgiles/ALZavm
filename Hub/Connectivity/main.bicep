@@ -226,7 +226,7 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
           registrationEnabled: false
           virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
         }
-        (length(locations) > 0)
+        (length(locations) >= 1)
           ? {
               registrationEnabled: false
               virtualNetworkResourceId: modVirtualNetwork[1].outputs.resourceId
@@ -332,7 +332,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
             }
           }
         }
-        (length(locations) > 0) // if deploying to a secondary region
+        (length(locations) >= 1) // if deploying to a secondary region
           ? {
               name: '${virtualNetwork[1]}-to-${virtualHubName}'
               remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
