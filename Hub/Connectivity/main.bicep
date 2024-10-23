@@ -225,7 +225,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       location: locations[i]
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
-      dnsServers: dnsServers
+      dnsServers: dnsServers[i]
       subnets: (i == 0) ? subnets0 : subnets1
     }
     dependsOn: [
