@@ -174,10 +174,28 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
   }
 ]
 
+// Network Security Groups - Primary Region
+
+module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
+  for subnet in subnets0: if (enableNetworkSecurityGroups) {
+    scope: resourceGroup(resourceGroupName_Network[0])
+    name: 'nsgDeployment${subnet.name}'
+    params: {
+      name: toLower('${subnet.name}${nsgSuffix}')
+      tags: tags
+      location: locations[0]
+      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+    }
+    dependsOn: [
+      modResourceGroupNetwork
+    ]
+  }
+]
+
 // Network Security Groups - Secondary Region
 
 module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets1: if ((enableNetworkSecurityGroups) && (locations[1] != null)) {
+  for subnet in subnets1: if ((enableNetworkSecurityGroups) && (locations[1] != '')) {
     scope: resourceGroup(resourceGroupName_Network[1])
     name: 'nsgDeployment${subnet.name}'
     params: {
@@ -508,24 +526,6 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
     modFirewallPolicy
   ]
 }
-
-// Network Security Groups - Primary Region
-
-module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
-  for subnet in subnets0: if (enableNetworkSecurityGroups) {
-    scope: resourceGroup(resourceGroupName_Network[0])
-    name: 'nsgDeployment${subnet.name}'
-    params: {
-      name: toLower('${subnet.name}${nsgSuffix}')
-      tags: tags
-      location: locations[0]
-      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
-    }
-    dependsOn: [
-      modResourceGroupNetwork
-    ]
-  }
-]
 
 // Azure Bastion Host
 
