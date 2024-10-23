@@ -271,14 +271,14 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = [
       tags: tags
       inboundEndpoints: [
         {
-          name: 'InboundEndpoint'
+          name: 'InboundEndpoint-01'
           subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
         }
       ]
       outboundEndpoints: (enableOutboundDns)
         ? [
             {
-              name: 'OutboundEndpoint'
+              name: 'OutboundEndpoint-01'
               subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
             }
           ]
@@ -301,7 +301,8 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
     params: {
       // Required parameters
       dnsForwardingRulesetOutboundEndpointResourceIds: [
-        '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
+        //'/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
+        '${modDnsResolver[0].outputs.resourceId}/outboundEndpoints/OutboundEndpoint'
       ]
       name: dnsForwardingRulesetName[0]
       forwardingRules: [
