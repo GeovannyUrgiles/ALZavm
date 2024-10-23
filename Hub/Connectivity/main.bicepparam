@@ -9,7 +9,7 @@ var version = 'v1.0.0'
 // Virtual Network
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
-param enableDnsResolver = false
+param enableDnsResolver = true
 param enableOutboundDns = false
 param enablePrivateDnsZones = true
 
@@ -135,7 +135,7 @@ param keyVaultName = [
 // Key Vault Properties
 
 param keyVault = {
-  sku: 'standard' // standard | premium
+  sku: 'standard' // standard | premium (lowercase) (premium SKU requires HSM)
   accessPolicies: []
   publicNetworkAccess: 'Disabled'
   bypass: 'AzureServices'
@@ -149,10 +149,10 @@ param keyVault = {
 
 // Resource Suffixes
 
+var nameSeparator = '-'
 param nsgSuffix = '${nameSeparator}nsg'
 param peSuffix = '${nameSeparator}pe'
 param nicSuffix = '${nameSeparator}nic'
-var nameSeparator = '-'
 
 // Default Tags
 
