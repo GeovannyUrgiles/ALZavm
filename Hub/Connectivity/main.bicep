@@ -221,8 +221,8 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
     params: {
       name: privatelinkDnsZoneName
       tags: tags
-      virtualNetworkLinks: [ 
-        for i in range(0, length(locations)) : {
+      virtualNetworkLinks: [
+        for i in range(0, length(locations)): {
           registrationEnabled: false
           virtualNetworkResourceId: modVirtualNetwork[i].outputs.resourceId
         }
@@ -307,17 +307,17 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
         }
       ]
       hubVirtualNetworkConnections: [
-        {
-          name: '${virtualNetwork[0]}-to-${virtualHubName}'
-          remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+        for i in range(0, length(locations)): {
+          name: '${virtualNetwork[i]}-to-${virtualHubName}'
+          remoteVirtualNetworkId: modVirtualNetwork[i].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
           routingConfiguration: {
             associatedRouteTable: {
-              id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+              id: '${modResourceGroupNetwork[i].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
             }
             propagatedRouteTables: {
               ids: [
                 {
-                  id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+                  id: '${modResourceGroupNetwork[i].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
                 }
               ]
               labels: [
@@ -326,27 +326,6 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
             }
           }
         }
-        (length(locations) >= 1) // if deploying to a secondary region
-          ? {
-              name: '${virtualNetwork[1]}-to-${virtualHubName}'
-              remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
-              routingConfiguration: {
-                associatedRouteTable: {
-                  id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
-                }
-                propagatedRouteTables: {
-                  ids: [
-                    {
-                      id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
-                    }
-                  ]
-                  labels: [
-                    virtualWanHub.defaultRoutesName
-                  ]
-                }
-              }
-            }
-          : {}
       ]
     }
     dependsOn: [
