@@ -674,9 +674,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'storageAccountDeployment${i}'
     params: {
-      // Required parameters
       name: storageAccountName[i]
-      // Non-required parameters
       allowBlobPublicAccess: false
       blobServices: {
         automaticSnapshotPolicyEnabled: true
