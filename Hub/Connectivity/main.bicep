@@ -245,7 +245,7 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
     tags: tags
     inboundEndpoints: [
       {
-        name: 'inboundEndpoint'
+        name: 'InboundEndpoint'
         subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
       }
     ]
