@@ -300,7 +300,9 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
     name: 'dnsForwardingRulesetDeployment${i}'
     params: {
       // Required parameters
-      dnsForwardingRulesetOutboundEndpointResourceIds: []
+      dnsForwardingRulesetOutboundEndpointResourceIds: [
+        '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/dnsResolvers/conwus2dns/outboundEndpoints/OutboundEndpoint'
+      ]
       name: dnsForwardingRulesetName[0]
       
       forwardingRules: [
