@@ -57,9 +57,13 @@ param resourceGroupName_Bastion = [
 ]
 param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 
-param uamiName = 'conwus2mi'
 var virtualNetworkNamePrimary = 'conwus2vnet'
 var virtualNetworkNameSecondary = 'coneus2vnet'
+
+param uamiName = [
+  'conwus2mi' 
+  'coneus2mi' 
+]
 param virtualWanName = 'conwus2vwan'
 param virtualHubName = 'conwus2hub'
 param vpnSiteName = 'conwus2vpnsite'
@@ -73,6 +77,8 @@ param keyVaultName = [
   'conwus2kv01'
   'coneus2kv01'
 ]
+
+
 
 // Key Vault Properties
 
@@ -142,6 +148,55 @@ param ruleCollectionGroups = [
 param vpnGateway = {
   asn: 65515
   peerWeight: 0
+}
+// Azure Firewall Properties
+
+param azureFirewall = {
+  skuName: 'Standard' // Standard | Premium
+  numberOfPublicIPs: 1
+  
+}
+
+param azureFirewallPolicy = {
+  skuName: 'Standard' // Standard | Premium
+  tier: 'Standard' // Standard | Premium
+  mode: 'Off' // Alert | Deny | Off
+  numberOfPublicIPs: 1
+  allowSqlRedirect: false // true | false
+  autoLearnPrivateRanges: 'Disabled' // Disabled | Enabled
+}
+
+// Virtual Network Properties
+
+param virtualNetwork = [
+  {
+    name: virtualNetworkNamePrimary // Primary Virtual Network Name
+    addressPrefixes: [
+      '10.1.0.0/18' // Primary Address Prefix
+    ]
+    subnets: [subnets0]
+  }
+  {
+    name: virtualNetworkNameSecondary // Secondary Virtual Network Name
+    addressPrefixes: [
+      '10.2.0.0/18' // Secondary Address Prefix
+    ]
+
+    subnets: [subnets1]
+  }
+]
+
+// Azure Bastion Properties
+param bastion = {
+  sku: 'Standard' // Standard | Basic
+  disableCopyPaste: true
+  disableVpnEncryption: true
+  dnsFirewallProxy: []
+  dnsPrivateResolver: []
+  enableFileCopy: true
+  enableIpConnect: true
+  enableShareableLink: true
+  scaleUnits: 2
 }
 
 // VPN Site Links
@@ -239,43 +294,6 @@ param vpnConnections = [
         pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
       }
     ]
-  }
-]
-
-// Azure Firewall Properties
-
-param azureFirewall = {
-  skuName: 'Standard' // Standard | Premium
-  numberOfPublicIPs: 1
-  
-}
-
-param azureFirewallPolicy = {
-  skuName: 'Standard' // Standard | Premium
-  tier: 'Standard' // Standard | Premium
-  mode: 'Off' // Alert | Deny | Off
-  numberOfPublicIPs: 1
-  allowSqlRedirect: false // true | false
-  autoLearnPrivateRanges: 'Disabled' // Disabled | Enabled
-}
-
-// Virtual Network Properties
-
-param virtualNetwork = [
-  {
-    name: virtualNetworkNamePrimary // Primary Virtual Network Name
-    addressPrefixes: [
-      '10.1.0.0/18' // Primary Address Prefix
-    ]
-    subnets: [subnets0]
-  }
-  {
-    name: virtualNetworkNameSecondary // Secondary Virtual Network Name
-    addressPrefixes: [
-      '10.2.0.0/18' // Secondary Address Prefix
-    ]
-
-    subnets: [subnets1]
   }
 ]
 
@@ -666,22 +684,3 @@ param privatelinkDnsZoneNames = [
   'privatelink.web.core.windows.net'
   // 'privatelink.gremlin.cosmos.azure.com'
 ]
-
-// Azure Bastion Properties
-param bastion = {
-  sku: 'Standard' // Standard | Basic
-  disableCopyPaste: true
-  disableVpnEncryption: true
-  dnsFirewallProxy: []
-  dnsPrivateResolver: []
-  enableFileCopy: true
-  enableIpConnect: true
-  enableShareableLink: true
-  scaleUnits: 2
-}
-
-// param enableTunneling = true
-// param hubRoutingPreference = 'None'
-
-// param onPremDnsServer = ''
-// param preferredRoutingGateway = ''

@@ -33,7 +33,7 @@ param nameSeparator string
 
 param virtualWanName string
 param virtualHubName string
-param uamiName string
+param uamiName array
 param bastionName string
 param dnsResolverName string
 param vpnSiteName string
@@ -147,7 +147,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'userAssignedIdentityDeployment${i}'
     params: {
-      name: uamiName
+      name: uamiName[i]
       tags: tags
       location: locations[i]
     }
@@ -330,25 +330,27 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
             }
           }
         }
-        {
-          name: '${virtualNetwork[1]}-to-${virtualHubName}'
-          remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
-          routingConfiguration: {
-            associatedRouteTable: {
-              id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
-            }
-            propagatedRouteTables: {
-              ids: [
-                {
+        (length(locations) > 0)
+          ? {
+              name: '${virtualNetwork[1]}-to-${virtualHubName}'
+              remoteVirtualNetworkId: modVirtualNetwork[1].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
+              routingConfiguration: {
+                associatedRouteTable: {
                   id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
                 }
-              ]
-              labels: [
-                virtualWanHub.defaultRoutesName
-              ]
+                propagatedRouteTables: {
+                  ids: [
+                    {
+                      id: '${modResourceGroupNetwork[1].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+                    }
+                  ]
+                  labels: [
+                    virtualWanHub.defaultRoutesName
+                  ]
+                }
+              }
             }
-          }
-        }
+          : {}
       ]
     }
     dependsOn: [
