@@ -619,7 +619,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
       ]
     }
     dependsOn: [
-      modResourceGroupNetwork
+      modVirtualNetwork
     ]
   }
 ]
@@ -743,5 +743,8 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = [
       skuName: 'Standard_LRS'
       tags: tags
     }
+    dependsOn: [
+      modVirtualNetwork
+    ]
   }
 ]
