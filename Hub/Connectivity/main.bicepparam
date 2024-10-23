@@ -2,24 +2,28 @@ using 'main.bicep'
 
 // Version
 
-var version = 'v1.0.0'
+var version = 'v1.0.0' // IaC Version Number
 
 // Deployment Options
 
-param enableUserAssignedManagedIdentity = true
+// Virtual Network
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enableOutboundDns = false
 param enablePrivateDnsZones = true
-param enableOperationalInsights = true
-param enableKeyVault = true
 
+// Virtual WAN
 param enableVirtualWan = true
 param enableVirtualHub = false
 param enableVpnSite = false
 param enableVpnGateway = false
 param enableAzureFirewall = false
+
+// Supporting Resources
+param enableUserAssignedManagedIdentity = true
+param enableOperationalInsights = true
+param enableKeyVault = true
 param enableBastion = false
 
 // param enableRecoveryServiceVault = true
@@ -36,7 +40,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 param locations = [
   'westus2' // Primary Region
-  // 'eastus2' // Secondary Region
+  'eastus2' // Secondary Region
 ]
 
 param locationsShort = [
