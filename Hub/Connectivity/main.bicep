@@ -478,6 +478,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
       vpnConnections: [
         {
           name: vpnConnections[i].name
+          id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/${vpnConnections[i].name}'
           connectionBandwidth: vpnConnections[i].connectionBandwidth
           enableBgp: vpnConnections[i].enableBgp
           enableInternetSecurity: vpnConnections[i].enableInternetSecurity
@@ -486,9 +487,6 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
           useLocalAzureIpAddress: vpnConnections[i].useLocalAzureIpAddress
           usePolicyBasedTrafficSelectors: vpnConnections[i].usePolicyBasedTrafficSelectors
           vpnConnectionProtocolType: vpnConnections[i].vpnConnectionProtocolType
-
-          // remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
-
           vpnLinkConnectionMode: vpnConnections[i].vpnLinkConnectionMode
           sharedKey: vpnConnections[i].sharedKey
           dpdTimeoutSeconds: vpnConnections[i].dpdTimeoutSeconds
@@ -498,7 +496,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
       ]
     }
     dependsOn: [
-      modVirtualHub
+      modVpnSite
     ]
   }
 ]
