@@ -231,6 +231,17 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       addressPrefixes: virtualNetwork[i].addressPrefixes
       dnsServers: dnsServers
       subnets: (i == 0) ? subnets0 : subnets1
+      diagnosticSettings: [
+        {
+          metricCategories: [
+            {
+              category: 'AllMetrics'
+            }
+          ]
+          name: 'customSetting'
+          workspaceResourceId: modWorkspace[i].outputs.resourceId
+        }
+      ]
     }
     dependsOn: [
       modNetworkSecurityGroupPrimary
