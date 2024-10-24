@@ -567,11 +567,11 @@ param virtualWanHub = {
   allowBranchToBranchTraffic: true
   internetToFirewall: false
   privateToFirewall: false
-  preferredRoutingGateway: '' // 'ExpressRoute' 'None'
+  preferredRoutingGateway: '' // // vpnGateway 'ExpressRoute' | 'None' (requires Standard SKU)
   enableTelemetry: false
   virtualRouterAsn: 65515
   defaultRoutesName: 'Default'
-  sku: 'Basic' // Standard | Basic
+  sku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
 }
 
 // Spoke Virtual Networks for Hub Virtual Network Connections
