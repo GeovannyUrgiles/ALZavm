@@ -564,10 +564,10 @@ param virtualWan = {
 
 param virtualWanHub = {
   addressPrefix: '10.0.2.0/23'
-  allowBranchToBranchTraffic: true
+  allowBranchToBranchTraffic: false // true | false (requires Standard SKU)
   internetToFirewall: false
   privateToFirewall: false
-  preferredRoutingGateway: '' // // vpnGateway 'ExpressRoute' | 'None' (requires Standard SKU)
+  preferredRoutingGateway: 'None' // // vpnGateway 'ExpressRoute' | 'None' (requires Standard SKU)
   enableTelemetry: false
   virtualRouterAsn: 65515
   defaultRoutesName: 'Default'
