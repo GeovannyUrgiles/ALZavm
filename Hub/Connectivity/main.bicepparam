@@ -554,7 +554,6 @@ param securityRulesBastion = [
 // Virtual WAN Properties
 
 param virtualWan = {
-  addressPrefix: '10.0.0.0/23'
   virtualWanSku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
   defaultRoutesName: 'Default' // Default | None
   disableVpnEncryption: false
@@ -563,11 +562,11 @@ param virtualWan = {
 // VWAN Hub Properties
 
 param virtualWanHub = {
-  addressPrefix: '10.0.2.0/23'
+  addressPrefix: '10.0.0.0/23' // Hub Address Prefix - minimum /24
   allowBranchToBranchTraffic: false // true | false (requires Standard SKU)
   internetToFirewall: false
   privateToFirewall: false
-  preferredRoutingGateway: 'None' // // vpnGateway 'ExpressRoute' | 'None' (requires Standard SKU)
+  preferredRoutingGateway: '' // 'VpnGateway' | 'ExpressRoute' | 'None' (requires Standard SKU)
   enableTelemetry: false
   virtualRouterAsn: 65515
   defaultRoutesName: 'Default'
