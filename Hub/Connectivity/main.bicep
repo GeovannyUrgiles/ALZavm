@@ -118,7 +118,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
   }
 ]
 
-// Bastion  Resource Group Deployment
+// Bastion Resource Group Deployment
 
 module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
