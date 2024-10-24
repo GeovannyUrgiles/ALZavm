@@ -203,6 +203,28 @@ param ruleCollectionGroups = [
   }
 ]
 
+// Virtual WAN Properties
+
+param virtualWan = {
+  virtualWanSku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
+  defaultRoutesName: 'Default' // Default | None
+  disableVpnEncryption: false
+}
+
+// VWAN Hub Properties
+
+param virtualWanHub = {
+  addressPrefix: '10.0.0.0/23' // Hub Address Prefix - minimum /24
+  allowBranchToBranchTraffic: false // true | false // Allows traffic between VPN branches
+  internetToFirewall: false
+  privateToFirewall: false
+  preferredRoutingGateway: '' // 'VpnGateway' | 'ExpressRoute' | 'None' // (requires Standard SKU)
+  enableTelemetry: false
+  virtualRouterAsn: 65515
+  defaultRoutesName: 'Default'
+  sku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
+}
+
 // VPN Gateway Properties
 
 param vpnGateway = {
@@ -550,28 +572,6 @@ param securityRulesBastion = [
     }
   }
 ]
-
-// Virtual WAN Properties
-
-param virtualWan = {
-  virtualWanSku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
-  defaultRoutesName: 'Default' // Default | None
-  disableVpnEncryption: false
-}
-
-// VWAN Hub Properties
-
-param virtualWanHub = {
-  addressPrefix: '10.0.0.0/23' // Hub Address Prefix - minimum /24
-  allowBranchToBranchTraffic: false // true | false // Allows traffic between VPN branches
-  internetToFirewall: false
-  privateToFirewall: false
-  preferredRoutingGateway: '' // 'VpnGateway' | 'ExpressRoute' | 'None' // (requires Standard SKU)
-  enableTelemetry: false
-  virtualRouterAsn: 65515
-  defaultRoutesName: 'Default'
-  sku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
-}
 
 // Spoke Virtual Networks for Hub Virtual Network Connections
 

@@ -475,7 +475,6 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
         asn: vpnGateway.asn
         peerweight: vpnGateway.peerweight
       }
-      vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
       vpnConnections: [
         {
           name: vpnConnections[i].name
