@@ -361,7 +361,7 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
 // Virtual WAN Hub
 
 module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
-  for i in range(0, length(locations)): if (enableVirtualHub) {
+ for i in range(0, length(locations)): if (enableVirtualHub) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'virtualHubDeployment${i}'
     params: {
@@ -384,7 +384,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
       ]
       hubVirtualNetworkConnections: [
         for i in range(0, length(locations)): {
-          name: '${virtualNetwork[0]}-to-${virtualHubName[0]}'
+          name: '${virtualNetwork[0].name}-to-${virtualHubName[0]}'
           remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
           routingConfiguration: {
             associatedRouteTable: {
