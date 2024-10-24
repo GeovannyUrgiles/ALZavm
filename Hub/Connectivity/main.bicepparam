@@ -555,7 +555,7 @@ param securityRulesBastion = [
 
 param virtualWan = {
   addressPrefix: '10.0.0.0/23'
-  virtualWanSku: 'Standard'
+  virtualWanSku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
   defaultRoutesName: 'Default' // Default | None
   disableVpnEncryption: false
 }
