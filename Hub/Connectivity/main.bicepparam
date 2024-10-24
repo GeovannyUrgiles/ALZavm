@@ -743,7 +743,6 @@ param storageAccount = {
     deleteRetentionPolicyDays: 9
     deleteRetentionPolicyEnabled: true
   }
-  lastAccessTimeTrackingPolicyEnabled: true
   enableHierarchicalNamespace: false
   enableNfsV3: false
   enableSftp: false

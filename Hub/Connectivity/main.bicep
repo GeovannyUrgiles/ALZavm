@@ -699,7 +699,6 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           //   workspaceResourceId: modWorkspace[i].outputs.resourceId
           // }
         ]
-        lastAccessTimeTrackingPolicyEnabled: storageAccount.blobServices.lastAccessTimeTrackingPolicyEnabled
       }
       diagnosticSettings: [
         // {
