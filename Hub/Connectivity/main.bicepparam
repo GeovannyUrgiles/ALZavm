@@ -563,7 +563,7 @@ param virtualWan = {
 // VWAN Hub Properties
 
 param virtualWanHub = {
-  addressPrefix: '10.0.23/24'
+  addressPrefix: '10.0.2.0/23'
   allowBranchToBranchTraffic: true
   internetToFirewall: false
   privateToFirewall: false
