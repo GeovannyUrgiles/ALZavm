@@ -734,9 +734,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         shares: storageAccount.fileServices.shares
       }
       largeFileSharesState: storageAccount.largeFileSharesState
-      localUsers: [
-        storageAccount.localUsers
-      ]
+      localUsers: storageAccount.localUsers
       location: locations[i]
       lock: {}
       managedIdentities: {
