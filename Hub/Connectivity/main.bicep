@@ -745,9 +745,8 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           modUserAssignedIdentity[i].outputs.resourceId
         ]
       }
-      managementPolicyRules: [
-       storageAccount.managementPolicyRules 
-      ]
+      managementPolicyRules: storageAccount.managementPolicyRules 
+
       networkAcls: {
         bypass: storageAccount.networkAcls.bypass
         defaultAction: storageAccount.networkAcls.defaultAction
