@@ -567,7 +567,7 @@ param virtualWanHub = {
   allowBranchToBranchTraffic: true
   internetToFirewall: false
   privateToFirewall: false
-  preferredRoutingGateway: 'ExpressRoute' // 'ExpressRoute' 'None'
+  preferredRoutingGateway: '' // 'ExpressRoute' 'None'
   enableTelemetry: false
   virtualRouterAsn: 65515
   defaultRoutesName: 'Default'
