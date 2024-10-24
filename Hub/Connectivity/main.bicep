@@ -125,9 +125,9 @@ module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0
     scope: subscription(subscriptionId)
     name: 'resourceGroupBastionDeployment${i}'
     params: {
-      name: resourceGroupName_Bastion[i]
+      name: resourceGroupName_Bastion[0]
       tags: tags
-      location: locations[i]
+      location: locations[0]
       // lock: lock
       roleAssignments: roleAssignmentsBastion
     }
