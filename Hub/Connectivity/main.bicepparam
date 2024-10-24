@@ -4,7 +4,7 @@ using 'main.bicep'
 
 var version = 'v1.0.0'
 
-//// Deployment Options
+//-// Deployment Options
 
 // Virtual Network
 param enableVirtualNetwork = true
@@ -554,7 +554,7 @@ param securityRulesBastion = [
 // Virtual WAN Properties
 
 param virtualWan = {
-  addressPrefix: '10.0.0.0/23'
+  addressPrefix: '10.0.2.0/23'
   virtualWanSku: 'Standard'
   defaultRoutesName: 'Default' // Default | None
   disableVpnEncryption: false
@@ -563,7 +563,7 @@ param virtualWan = {
 // VWAN Hub Properties
 
 param virtualWanHub = {
-  addressPrefix: ''
+  addressPrefix: '10.0.200.0/24'
   allowBranchToBranchTraffic: true
   internetToFirewall: false
   privateToFirewall: false
