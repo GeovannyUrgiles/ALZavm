@@ -59,6 +59,7 @@ param bastion object
 param virtualWan object
 param virtualWanHub object
 param vpnGateway object
+param storageAccount object
 
 // Resource Suffixes
 
@@ -668,20 +669,22 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 
 // Storage Account
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
+module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
   for i in range(0, length(locations)): if (enableStorageAccount) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'storageAccountDeployment${i}'
     params: {
       name: storageAccountName[i]
-      allowBlobPublicAccess: false
+      allowBlobPublicAccess: storageAccount.allowBlobPublicAccess
       blobServices: {
-        automaticSnapshotPolicyEnabled: true
-        containerDeleteRetentionPolicyDays: 10
-        containerDeleteRetentionPolicyEnabled: true
-        containers: []
-        deleteRetentionPolicyDays: 9
-        deleteRetentionPolicyEnabled: true
+        automaticSnapshotPolicyEnabled: storageAccount.blobServices.automaticSnapshotPolicyEnabled
+        containerDeleteRetentionPolicyDays: storageAccount.blobServices.containerDeleteRetentionPolicyDays
+        containerDeleteRetentionPolicyEnabled: storageAccount.blobServices.containerDeleteRetentionPolicyEnabled
+        containers: [
+          storageAccount.blobServices.containers
+        ]
+        deleteRetentionPolicyDays: storageAccount.blobServices.deleteRetentionPolicyDays
+        deleteRetentionPolicyEnabled: storageAccount.blobServices.deleteRetentionPolicyEnabled
         diagnosticSettings: [
           // {
           //   eventHubAuthorizationRuleResourceId: ''
@@ -696,7 +699,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           //   workspaceResourceId: modWorkspace[i].outputs.resourceId
           // }
         ]
-        lastAccessTimeTrackingPolicyEnabled: true
+        lastAccessTimeTrackingPolicyEnabled: storageAccount.blobServices.lastAccessTimeTrackingPolicyEnabled
       }
       diagnosticSettings: [
         // {
@@ -712,10 +715,11 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         //   workspaceResourceId: modWorkspace[i].outputs.resourceId
         // }
       ]
-      enableHierarchicalNamespace: false
-      enableNfsV3: false
-      enableSftp: false
+      enableHierarchicalNamespace: storageAccount.enableHierarchicalNamespace
+      enableNfsV3: storageAccount.enableNfsV3
+      enableSftp: storageAccount.enableSftp
       fileServices: {
+        shareDeleteRetentionPolicyDays: storageAccount.fileServices.shareDeleteRetentionPolicyDays
         diagnosticSettings: [
           // {
           //   eventHubAuthorizationRuleResourceId: ''
@@ -730,10 +734,14 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           //   workspaceResourceId: modWorkspace[i].outputs.resourceId
           // }
         ]
-        shares: []
+        shares: [
+          storageAccount.fileServices.shares
+        ]
       }
-      largeFileSharesState: 'Enabled'
-      localUsers: []
+      largeFileSharesState: storageAccount.largeFileSharesState
+      localUsers: [
+        storageAccount.localUsers
+      ]
       location: locations[i]
       lock: {}
       managedIdentities: {
@@ -742,11 +750,15 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           modUserAssignedIdentity[i].outputs.resourceId
         ]
       }
-      managementPolicyRules: []
+      managementPolicyRules: [
+       storageAccount.managementPolicyRules 
+      ]
       networkAcls: {
-        bypass: 'AzureServices'
-        defaultAction: 'Deny'
-        ipRules: []
+        bypass: storageAccount.networkAcls.bypass
+        defaultAction: storageAccount.networkAcls.defaultAction
+        ipRules: [
+          storageAccount.networkAcls.ipRules
+        ]
       }
       privateEndpoints: [
         {
@@ -777,10 +789,10 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
         }
       ]
-      requireInfrastructureEncryption: true
+      requireInfrastructureEncryption: storageAccount.requireInfrastructureEncryption
       roleAssignments: []
-      sasExpirationPeriod: '180.00:00:00'
-      skuName: 'Standard_LRS'
+      sasExpirationPeriod: storageAccount.sasExpirationPeriod
+      skuName: storageAccount.skuName
       tags: tags
     }
     dependsOn: [

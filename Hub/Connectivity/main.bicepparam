@@ -2,7 +2,7 @@ using 'main.bicep'
 
 // IaC Version Number
 
-var version = 'v1.0.0' 
+var version = 'v1.0.0'
 
 //// Deployment Options
 
@@ -11,7 +11,7 @@ param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
 param enableOutboundDns = false
-param enablePrivateDnsZones =false
+param enablePrivateDnsZones = false
 
 // Virtual WAN
 param enableVirtualWan = false
@@ -30,8 +30,8 @@ param enableStorageAccount = true
 // param enableRecoveryServiceVault = true
 
 param dnsServers = [
-    '168.63.129.16'
-  ]
+  '168.63.129.16'
+]
 
 // Subscription(s)
 
@@ -128,8 +128,8 @@ param operationalInsightsName = [
   'coneus2oiw'
 ]
 param uamiName = [
-  'conwus2mi' 
-  'coneus2mi' 
+  'conwus2mi'
+  'coneus2mi'
 ]
 param keyVaultName = [
   'conwus2kv01'
@@ -376,14 +376,14 @@ param subnets1 = [
     name: 'AzureBastionSubnet'
     addressPrefix: '10.2.0.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/AzureBastionSubnet${nsgSuffix}' 
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/AzureBastionSubnet${nsgSuffix}'
     serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.2.1.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'  
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
@@ -723,3 +723,40 @@ param privatelinkDnsZoneNames = [
   'privatelink.web.core.windows.net'
   // 'privatelink.gremlin.cosmos.azure.com'
 ]
+
+// Storage Account (Diagnostics)
+
+param storageAccount = {
+  accountTier: 'Standard' // Standard | Premium
+  requireInfrastructureEncryption: true
+  sasExpirationPeriod: '180.00:00:00'
+  skuName: 'Standard_LRS' // Standard_LRS | Standard_GRS | Standard_RAGRS | Standard_ZRS | Premium_LRS | Premium_ZRS | Premium_GRS | Premium_RAGRS
+  accountReplicationType: 'LRS' // LRS | GRS | RAGRS | ZRS | GZRS | RA_GRS
+  accountKind: 'StorageV2' // Storage | StorageV2 | BlobStorage | BlockBlobStorage
+  accountAccessTier: 'Hot' // Hot | Cool | Archive
+  allowBlobPublicAccess: false
+  blobServices: {
+    automaticSnapshotPolicyEnabled: true
+    containerDeleteRetentionPolicyDays: 10
+    containerDeleteRetentionPolicyEnabled: true
+    containers: []
+    deleteRetentionPolicyDays: 9
+    deleteRetentionPolicyEnabled: true
+  }
+  lastAccessTimeTrackingPolicyEnabled: true
+  enableHierarchicalNamespace: false
+  enableNfsV3: false
+  enableSftp: false
+  fileServices: {
+    shareDeleteRetentionPolicyDays: 10
+    shares: []
+  }
+  largeFileSharesState: 'Enabled'
+  localUsers: []
+  managementPolicyRules: []
+  networkAcls: {
+    bypass: 'AzureServices' // AzureServices | None
+    defaultAction: 'Deny'
+    ipRules: []
+  }
+}
