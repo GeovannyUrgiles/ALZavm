@@ -1,0 +1,47 @@
+# Connectivity Infra pipeline
+# https://aka.ms/yaml
+
+trigger:
+  - none
+  
+variables:
+    azureServiceConnection: 'ServiceConnection-ELZ'
+    location: 'westus2'
+    locationShort: 'wus2'
+    templateFile: 'hub/connectivity/main.bicep'
+    parametersFile: 'hub/connectivity/main.bicepparam'
+    subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
+    dataResourceGroupName: 'network-rg'
+    
+    # action: 'what-if'
+    action: 'create'     
+  
+pool:
+    # vmImage: ubuntu-latest
+    vmImage: 'windows-latest'
+  
+stages:
+  - stage: 'MDP'
+    displayName: 'Deploy Connectivity'
+    jobs:
+    - deployment: 'Deploy_Connectivity'
+      environment: 'Prod'
+      timeoutInMinutes: '360'
+      strategy:
+       runOnce:
+          deploy:
+             steps:
+              - checkout: self
+  # Bicep deployment tasks            
+              - task: AzureCLI@2
+                displayName: "Deploy Connectivity Resources"
+                inputs:
+                  azureSubscription: $(azureServiceConnection)
+                  scriptType: bash
+                  scriptLocation: inlineScript
+                  inlineScript: |
+                    pwd
+                    az account set --subscription $(subscriptionId)
+                    az deployment sub $(action) --location $(location) --template-file $(templateFile) --parameters $(parametersFile)
+                    
+  
