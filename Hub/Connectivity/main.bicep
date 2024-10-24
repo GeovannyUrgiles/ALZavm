@@ -680,9 +680,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         automaticSnapshotPolicyEnabled: storageAccount.blobServices.automaticSnapshotPolicyEnabled
         containerDeleteRetentionPolicyDays: storageAccount.blobServices.containerDeleteRetentionPolicyDays
         containerDeleteRetentionPolicyEnabled: storageAccount.blobServices.containerDeleteRetentionPolicyEnabled
-        containers: [
-          storageAccount.blobServices.containers
-        ]
+        containers: storageAccount.blobServices.containers
         deleteRetentionPolicyDays: storageAccount.blobServices.deleteRetentionPolicyDays
         deleteRetentionPolicyEnabled: storageAccount.blobServices.deleteRetentionPolicyEnabled
         diagnosticSettings: [
@@ -733,9 +731,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           //   workspaceResourceId: modWorkspace[i].outputs.resourceId
           // }
         ]
-        shares: [
-          storageAccount.fileServices.shares
-        ]
+        shares: storageAccount.fileServices.shares
       }
       largeFileSharesState: storageAccount.largeFileSharesState
       localUsers: [
@@ -755,9 +751,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
       networkAcls: {
         bypass: storageAccount.networkAcls.bypass
         defaultAction: storageAccount.networkAcls.defaultAction
-        ipRules: [
-          storageAccount.networkAcls.ipRules
-        ]
+        ipRules: storageAccount.networkAcls.ipRules
       }
       privateEndpoints: [
         {
