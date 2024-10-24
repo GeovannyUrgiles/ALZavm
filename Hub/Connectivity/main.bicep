@@ -676,63 +676,9 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
     params: {
       name: storageAccountName[i]
       allowBlobPublicAccess: storageAccount.allowBlobPublicAccess
-      blobServices: {
-        automaticSnapshotPolicyEnabled: storageAccount.blobServices.automaticSnapshotPolicyEnabled
-        containerDeleteRetentionPolicyDays: storageAccount.blobServices.containerDeleteRetentionPolicyDays
-        containerDeleteRetentionPolicyEnabled: storageAccount.blobServices.containerDeleteRetentionPolicyEnabled
-        containers: storageAccount.blobServices.containers
-        deleteRetentionPolicyDays: storageAccount.blobServices.deleteRetentionPolicyDays
-        deleteRetentionPolicyEnabled: storageAccount.blobServices.deleteRetentionPolicyEnabled
-        diagnosticSettings: [
-          // {
-          //   eventHubAuthorizationRuleResourceId: ''
-          //   eventHubName: ''
-          //   metricCategories: [
-          //     {
-          //       category: 'AllMetrics'
-          //     }
-          //   ]
-          //   name: 'customSetting'
-          //   storageAccountResourceId: ''
-          //   workspaceResourceId: modWorkspace[i].outputs.resourceId
-          // }
-        ]
-      }
-      diagnosticSettings: [
-        // {
-        //   eventHubAuthorizationRuleResourceId: ''
-        //   eventHubName: ''
-        //   metricCategories: [
-        //     {
-        //       category: 'AllMetrics'
-        //     }
-        //   ]
-        //   name: 'customSetting'
-        //   storageAccountResourceId: ''
-        //   workspaceResourceId: modWorkspace[i].outputs.resourceId
-        // }
-      ]
       enableHierarchicalNamespace: storageAccount.enableHierarchicalNamespace
       enableNfsV3: storageAccount.enableNfsV3
       enableSftp: storageAccount.enableSftp
-      fileServices: {
-        shareDeleteRetentionPolicyDays: storageAccount.fileServices.shareDeleteRetentionPolicyDays
-        diagnosticSettings: [
-          // {
-          //   eventHubAuthorizationRuleResourceId: ''
-          //   eventHubName: ''
-          //   metricCategories: [
-          //     {
-          //       category: 'AllMetrics'
-          //     }
-          //   ]
-          //   name: 'customSetting'
-          //   storageAccountResourceId: ''
-          //   workspaceResourceId: modWorkspace[i].outputs.resourceId
-          // }
-        ]
-        shares: storageAccount.fileServices.shares
-      }
       largeFileSharesState: storageAccount.largeFileSharesState
       localUsers: storageAccount.localUsers
       location: locations[i]
@@ -743,12 +689,56 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           modUserAssignedIdentity[i].outputs.resourceId
         ]
       }
-      managementPolicyRules: storageAccount.managementPolicyRules 
-
-      networkAcls: {
+      managementPolicyRules: storageAccount.managementPolicyRules
+     networkAcls: {
         bypass: storageAccount.networkAcls.bypass
         defaultAction: storageAccount.networkAcls.defaultAction
         ipRules: storageAccount.networkAcls.ipRules
+      }
+      diagnosticSettings: [
+        {
+          metricCategories: [
+            {
+              category: 'AllMetrics'
+            }
+          ]
+          name: 'customSetting'
+          workspaceResourceId: modWorkspace[i].outputs.resourceId
+        }
+      ]
+      blobServices: {
+        automaticSnapshotPolicyEnabled: storageAccount.blobServices.automaticSnapshotPolicyEnabled
+        containerDeleteRetentionPolicyDays: storageAccount.blobServices.containerDeleteRetentionPolicyDays
+        containerDeleteRetentionPolicyEnabled: storageAccount.blobServices.containerDeleteRetentionPolicyEnabled
+        containers: storageAccount.blobServices.containers
+        deleteRetentionPolicyDays: storageAccount.blobServices.deleteRetentionPolicyDays
+        deleteRetentionPolicyEnabled: storageAccount.blobServices.deleteRetentionPolicyEnabled
+        diagnosticSettings: [
+          {
+            metricCategories: [
+              {
+                category: 'AllMetrics'
+              }
+            ]
+            name: 'customSetting'
+            workspaceResourceId: modWorkspace[i].outputs.resourceId
+          }
+        ]
+      }
+      fileServices: {
+        shareDeleteRetentionPolicyDays: storageAccount.fileServices.shareDeleteRetentionPolicyDays
+        diagnosticSettings: [
+          {
+            metricCategories: [
+              {
+                category: 'AllMetrics'
+              }
+            ]
+            name: 'customSetting'
+            workspaceResourceId: modWorkspace[i].outputs.resourceId
+          }
+        ]
+        shares: storageAccount.fileServices.shares
       }
       privateEndpoints: [
         {
