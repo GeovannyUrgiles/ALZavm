@@ -427,7 +427,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     }
     vpnSiteLinks: [
       {
-        name: 'Connection1'
+        name: 'DataCenter1'
         properties: {
           bgpProperties: {
             asn: 65010
@@ -435,7 +435,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
           }
           ipAddress: '1.2.3.4'
           linkProperties: {
-            linkProviderName: 'contoso'
+            linkProviderName: 'Verizon'
             linkSpeedInMbps: 100
           }
         }
