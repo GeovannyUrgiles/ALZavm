@@ -302,21 +302,6 @@ param vpnSiteLinks = [
       }
     }
   }
-  {
-    name: 'dataCenter2' // Data Center or other Remote Site Name
-    remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter2'
-    properties: {
-      bgpProperties: {
-        asn: 65020 // BGP Autonomous System Number 65000-65515
-        bgpPeeringAddress: '10.20.20.1' // Remote BGP Peer IP Address
-      }
-      ipAddress: '1.2.3.5' // Remote VPN Gateway IP Address or FQDN
-      linkProperties: {
-        linkProviderName: 'ATT' // Verizon | ATT | BT | Orange | Vodafone
-        linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-      }
-    }
-  }
 ]
 
 // VPN Site-to-Site Connections

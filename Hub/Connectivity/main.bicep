@@ -362,7 +362,7 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
 // Virtual WAN Hub
 
 module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
- for i in range(0, length(locations)): if (enableVirtualHub) {
+  for i in range(0, length(locations)): if (enableVirtualHub) {
     scope: resourceGroup(resourceGroupName_Network[0])
     name: 'virtualHubDeployment${i}'
     params: {
@@ -430,7 +430,26 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       }
     }
     vpnSiteLinks: [
-      vpnSiteLinks[0]
+      // vpnSiteLinks[0]
+
+      // Array of VPN Site Links - These are the Remote VPN Sites
+      {
+        name: 'dataCenter1' // Data Center or other Remote Site Name
+        remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+        remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+        id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+        properties: {
+          bgpProperties: {
+            asn: 65010 // BGP Autonomous System Number 65000-65515
+            bgpPeeringAddress: '10.10.10.1' // Remote BGP Peer IP Address
+          }
+          ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
+          linkProperties: {
+            linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
+            linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+          }
+        }
+      }
     ]
   }
   dependsOn: [
@@ -442,29 +461,58 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
 module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
-    scope: (resourceGroup(resourceGroupName_Network[0]))
-    name: 'vpnGatewayDeployment'
-    params: {
-      name: vpnGatewayName[0]
-      virtualHubResourceId: modVirtualHub[0].outputs.resourceId
-      location: locations[0]
-      tags: tags
-      bgpSettings: {
-        asn: vpnGateway.asn
-        peerweight: vpnGateway.peerweight
-      }
-      isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
-      enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
-      enableTelemetry: vpnGateway.enableTelemetry
-      vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
-      vpnConnections: vpnConnections[0]
+  scope: (resourceGroup(resourceGroupName_Network[0]))
+  name: 'vpnGatewayDeployment'
+  params: {
+    name: vpnGatewayName[0]
+    virtualHubResourceId: modVirtualHub[0].outputs.resourceId
+    location: locations[0]
+    tags: tags
+    bgpSettings: {
+      asn: vpnGateway.asn
+      peerweight: vpnGateway.peerweight
     }
-    dependsOn: [
-      // modVpnSite
-      modVirtualNetwork
+    isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
+    enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
+    enableTelemetry: vpnGateway.enableTelemetry
+    vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
+    vpnConnections: [
+      // Array of VPN Connection Properties - Set encryption, authentication, and other properties
+      {
+        name: 'Connection1' // Connection Name
+        connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+        enableBgp: false
+        enableInternetSecurity: true
+        enableRateLimiting: false
+        routingWeight: 0
+        useLocalAzureIpAddress: false
+        usePolicyBasedTrafficSelectors: false
+        vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
+        sharedKey: 'Passw0rd!'
+        dpdTimeoutSeconds: 0
+        // vpnGatewayCustomBgpAddresses: []
+        // ipsecPolicies: [
+        //   {
+        //     saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+        //     saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
+        //     ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
+        //     ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        //     ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
+        //     ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        //     dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
+        //     pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
+        //   }
+        // ]
+      }
     ]
-  }
 
+    //vpnConnections[0]
+  }
+  dependsOn: [
+    // modVpnSite
+    modVirtualNetwork
+  ]
+}
 
 // Firewall Policy
 
@@ -663,7 +711,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         ]
       }
       managementPolicyRules: storageAccount.managementPolicyRules
-     networkAcls: {
+      networkAcls: {
         bypass: storageAccount.networkAcls.bypass
         defaultAction: storageAccount.networkAcls.defaultAction
         ipRules: storageAccount.networkAcls.ipRules
