@@ -287,6 +287,7 @@ param vpnSiteLinks = [
   // Array of VPN Site Links - These are the Remote VPN Sites
   {
     name: 'dataCenter1' // Data Center or other Remote Site Name
+    virtualNetworkGatewayId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}'
     vpnConnectionId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnConnections/Connection1'
     // remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
     // remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
