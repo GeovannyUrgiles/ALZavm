@@ -321,8 +321,10 @@ param vpnConnections = [
   // Array of VPN Connection Properties - Set encryption, authentication, and other properties
   {
     name: 'Connection1' // Connection Name
-    vpnGatewayId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}'
+    id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/Connection1'
     remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
+    remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/dataCenter1'
+    // vpnConnections/Connection-vpn-site/vpnLinkConnections/dataCenter1'
     connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
     enableBgp: false
     enableInternetSecurity: true
