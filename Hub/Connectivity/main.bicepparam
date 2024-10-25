@@ -41,7 +41,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 param locations = [
   'westus2' // Primary Region
- // 'eastus2' // Secondary Region
+  // 'eastus2' // Secondary Region
 ]
 
 // Resource Group Names
@@ -229,14 +229,31 @@ param virtualWanHub = {
 
 param vpnGateway = {
   asn: 65515 // BGP Autonomous System Number
+  vpnGatewayScaleUnit: 1
   peerWeight: 0
 }
+
+// VPN Site
+
+param vpnSite = {
+  addressPrefixes: [] // Address Prefixes for Remote VPN Site
+  o365Policy: {
+    breakOutCategories: {
+      allow: true
+      default: true
+      optimize: true
+    }
+  }
+}
+
 // Azure Firewall Properties
 
 param azureFirewall = {
   skuName: 'Standard' // Standard | Premium
   numberOfPublicIPs: 1
 }
+
+// Azure Firewall Policy Properties
 
 param azureFirewallPolicy = {
   skuName: 'Standard' // Standard | Premium
@@ -248,6 +265,7 @@ param azureFirewallPolicy = {
 }
 
 // Azure Bastion Properties
+
 param bastion = {
   sku: 'Standard' // Standard | Basic
   disableCopyPaste: true
@@ -263,6 +281,7 @@ param bastion = {
 // VPN Site Links
 
 param vpnSiteLinks = [
+  // Array of VPN Site Links - These are the Remote VPN Sites
   {
     name: 'dataCenter1' // Data Center or other Remote Site Name
     id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
@@ -276,7 +295,7 @@ param vpnSiteLinks = [
       linkProperties: {
         linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
         linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-        // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+        vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
   }
@@ -293,7 +312,7 @@ param vpnSiteLinks = [
       linkProperties: {
         linkProviderName: 'ATT' // Verizon | ATT | BT | Orange | Vodafone
         linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-        // vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
+        vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
   }
@@ -302,8 +321,36 @@ param vpnSiteLinks = [
 // VPN Site-to-Site Connections
 
 param vpnConnections = [
+  // Array of VPN Connection Properties - Set encryption, authentication, and other properties
   {
     name: 'Connection1' // Connection Name
+    connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
+    enableBgp: false
+    enableInternetSecurity: true
+    enableRateLimiting: false
+    routingWeight: 0
+    useLocalAzureIpAddress: false
+    usePolicyBasedTrafficSelectors: false
+    vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
+    vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+    sharedKey: 'Passw0rd!'
+    dpdTimeoutSeconds: 0
+    vpnGatewayCustomBgpAddresses: []
+    ipsecPolicies: [
+      {
+        saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
+        saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
+        ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
+        ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
+        ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
+        dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
+        pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
+      }
+    ]
+  }
+  {
+    name: 'Connection2' // Connection Name
     connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
     enableBgp: false
     enableInternetSecurity: true

@@ -59,6 +59,7 @@ param bastion object
 param virtualWan object
 param virtualWanHub object
 param vpnGateway object
+param vpnSite object
 param storageAccount object
 
 // Resource Suffixes
@@ -420,40 +421,17 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     virtualWanId: modVirtualWan.outputs.resourceId
     location: locations[0]
     tags: tags
-    addressPrefixes: []
+    addressPrefixes: vpnSite.addressPrefixes
     o365Policy: {
       breakOutCategories: {
-        allow: true
-        default: true
-        optimize: true
+        allow: vpnSite.o365Policy.breakOutCategories.allow
+        default: vpnSite.o365Policy.breakOutCategories.default
+        optimize: vpnSite.o365Policy.breakOutCategories.optimize
       }
     }
     vpnSiteLinks: [
-      //vpnSiteLinks[0]
-      (enableVpnSite)
-        ? {
-            name: 'azureSite1'
-            id: '/subscriptions/${subscriptionId}/resourceGroups/${string(resourceGroupName_Network[0])}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/azureSite1'
-            properties: {
-              // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
-              bgpProperties: {
-                asn: 65010 // BGP Autonomous System Number // 65000 - 65515
-                bgpPeeringAddress: '1.1.1.1'
-              }
-              ipAddress: '2.2.2.2' // Remote VPN Gateway IP Address or FQDN
-              linkProperties: {
-                linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
-                linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-              }
-            }
-          }
-        : {}
+      vpnSiteLinks[0]
     ]
-    //
-    // deviceProperties: {
-    //   // deviceVendor:  'Cisco' // Cisco | Juniper | Microsoft | PaloAltoNetworks
-    //   // linkSpeedInMbps: 100
-    // }
   }
   dependsOn: [
     modVirtualHub
@@ -468,29 +446,17 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     params: {
       name: vpnGatewayName[0]
       virtualHubResourceId: modVirtualHub[0].outputs.resourceId
-      
       location: locations[0]
       tags: tags
       bgpSettings: {
         asn: vpnGateway.asn
         peerweight: vpnGateway.peerweight
       }
-      vpnGatewayScaleUnit: 1 // vpnGateway.vpnGatewayScaleUnit  
-      
-      
+      vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
       vpnConnections: [
         {
-          name: 'Connection1' //vpnConnections[0].name
-          //id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/Connection1'  //${vpnConnections[0].name}'
+          name: vpnConnections[0].name
           remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
-          
-          
-          // vpnLinkConnection: {
-          //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
-          // }
-          // vpnSiteLink: {
-          //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
-          // }
           connectionBandwidth: vpnConnections[0].connectionBandwidth
           enableBgp: vpnConnections[0].enableBgp
           enableInternetSecurity: vpnConnections[0].enableInternetSecurity
