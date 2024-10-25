@@ -287,9 +287,11 @@ param vpnSiteLinks = [
   // Array of VPN Site Links - These are the Remote VPN Sites
   {
     name: 'dataCenter1' // Data Center or other Remote Site Name
-    remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
-    remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
-    id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+    vpnConnectionId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnConnections/Connection1'
+    // remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+    // remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+   // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+   remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
     properties: {
       bgpProperties: {
         asn: 65010 // BGP Autonomous System Number 65000-65515
@@ -303,6 +305,14 @@ param vpnSiteLinks = [
     }
   }
 ]
+
+
+// name: vpnSiteLink.name
+//         remoteVpnSiteId: vpnSiteLink.remoteVpnSiteId
+//         vpnConnectionId: vpnSiteLink.vpnConnectionId
+//         vpnSiteLinkType: vpnSiteLink.vpnSiteLinkType
+//         vpnSiteLinkProperties: vpnSiteLink.vpnSiteLinkProperties
+
 
 // VPN Site-to-Site Connections
 
