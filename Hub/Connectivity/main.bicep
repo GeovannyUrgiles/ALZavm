@@ -451,6 +451,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
   scope: (resourceGroup(resourceGroupName_Network[0]))
   name: 'vpnGatewayDeployment'
+  
   params: {
     name: vpnGatewayName[0]
     virtualHubResourceId: modVirtualHub[0].outputs.resourceId
@@ -460,6 +461,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
       asn: vpnGateway.asn
       peerweight: vpnGateway.peerweight
     }
+    
     isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
     enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
     enableTelemetry: vpnGateway.enableTelemetry
@@ -476,7 +478,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     ]
   }
   dependsOn: [
-    // modVpnSite
+    modVpnSite
     modVirtualNetwork
   ]
 }
