@@ -478,10 +478,13 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
       vpnConnections: [
         {
           name: vpnConnections[0].name
-          id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/${vpnConnections[0].name}'
-          vpnSiteLink: {
-            id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
+          remoteVpnSite: {
+            id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
           }
+          id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/${vpnConnections[0].name}'
+          // vpnSiteLink: {
+          //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
+          // }
           connectionBandwidth: vpnConnections[i].connectionBandwidth
           enableBgp: vpnConnections[i].enableBgp
           enableInternetSecurity: vpnConnections[i].enableInternetSecurity
