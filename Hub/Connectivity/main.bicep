@@ -17,9 +17,6 @@ param enableOperationalInsights bool
 param enableVpnGateway bool
 param enableKeyVault bool
 param enableStorageAccount bool
-// Virtual Hub Connectivity
-
-param spokes array
 
 // Deployment Options
 
@@ -44,7 +41,6 @@ param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
 param dnsForwardingRulesetName array
-// param privateEndpoints array
 
 // DNS Servers
 
@@ -92,8 +88,8 @@ param securityRulesBastion array
 
 // VPN Gateway Site-to-Site
 
-param vpnSiteLinks array
-param vpnConnections array
+// param vpnSiteLinks array
+// param vpnConnections array
 
 // Firewall Policy Parameters
 
@@ -430,14 +426,6 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
       }
     }
     vpnSiteLinks: [
-      vpnSiteLinks[0]
-      // for vpnSiteLink in vpnSiteLinks: {
-      //   name: vpnSiteLink.name
-      //   remoteVpnSiteId: vpnSiteLink.remoteVpnSiteId
-      //   vpnConnectionId: vpnSiteLink.vpnConnectionId
-      //   vpnSiteLinkType: vpnSiteLink.vpnSiteLinkType
-      //   vpnSiteLinkProperties: vpnSiteLink.vpnSiteLinkProperties
-      // }
     ]
   }
   dependsOn: [
@@ -466,16 +454,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
     enableTelemetry: vpnGateway.enableTelemetry
     vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
-    vpnConnections: [
-      vpnConnections[0]
-      // for vpnConnection in vpnConnections: {
-      //   name: vpnConnection.name
-      //   remoteVpnSiteId: vpnConnection.remoteVpnSiteId
-      //   vpnConnectionId: vpnConnection.vpnConnectionId
-      //   vpnConnectionType: vpnConnection.vpnConnectionType
-      //   vpnConnectionProperties: vpnConnection.vpnConnectionProperties
-      // }
-    ]
+    vpnConnections: []
   }
   dependsOn: [
     modVpnSite

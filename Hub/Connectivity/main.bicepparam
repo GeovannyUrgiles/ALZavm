@@ -281,80 +281,6 @@ param bastion = {
   scaleUnits: 2
 }
 
-// VPN Site Links
-
-param vpnSiteLinks = [
-  // Array of VPN Site Links - These are the Remote VPN Sites
-  {
-    name: 'dataCenter1' // Data Center or other Remote Site Name
-    // virtualNetworkGatewayId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}'
-    // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnConnections/Connection1'
-    // remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
-    // remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
-   // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
-   // remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
-    properties: {
-      bgpProperties: {
-        asn: 65010 // BGP Autonomous System Number 65000-65515
-        bgpPeeringAddress: '10.10.10.1' // Remote BGP Peer IP Address
-      }
-      ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
-      linkProperties: {
-        linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
-        linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-      }
-    }
-  }
-]
-
-
-// name: vpnSiteLink.name
-//         remoteVpnSiteId: vpnSiteLink.remoteVpnSiteId
-//         vpnConnectionId: vpnSiteLink.vpnConnectionId
-//         vpnSiteLinkType: vpnSiteLink.vpnSiteLinkType
-//         vpnSiteLinkProperties: vpnSiteLink.vpnSiteLinkProperties
-
-
-// VPN Site-to-Site Connections
-
-param vpnConnections = [
-  // Array of VPN Connection Properties - Set encryption, authentication, and other properties
-  {
-    name: 'Connection1' // Connection Name
- //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/Connection1'
- id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}' ///vpnSiteLinks/dataCenter1'
-    // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
-    remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
-    remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/dataCenter1'
-    vpnConnectionId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnSiteLinks/dataCenter1'
-    // vpnConnections/Connection-vpn-site/vpnLinkConnections/dataCenter1'
-
-    connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-    enableBgp: false
-    enableInternetSecurity: true
-    enableRateLimiting: false
-    routingWeight: 0
-    useLocalAzureIpAddress: false
-    usePolicyBasedTrafficSelectors: false
-    vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
-    sharedKey: 'Passw0rd!'
-    dpdTimeoutSeconds: 0
-    // vpnGatewayCustomBgpAddresses: []
-    // ipsecPolicies: [
-    //   {
-    //     saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
-    //     saLifeTimeSeconds: 27000 // 27000 | 14400 | 28800 | 3600 | 10800 | 7200 | 4800 | 3600 | 2880 | 2400 | 1440 | 1200 | 720 | 480 | 360 | 240 | 180 | 120 | 60 | 30
-    //     ipsecEncryption: 'AES256' // AES256 | AES128 | DES3 | DES | DES2
-    //     ipsecIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
-    //     ikeEncryption: 'AES256' // AES256 | AES192 | AES128 | DES3 | DES | DES2
-    //     ikeIntegrity: 'SHA256' // SHA256 | SHA1 | MD5
-    //     dhGroup: 'DHGroup24' // DHGroup24 | DHGroup2 | DHGroup14 | DHGroup1 | ECP384 | ECP256
-    //     pfsGroup: 'PFS24' // PFS24 | PFS2 | PFS14 | PFS1
-    //   }
-    // ]
-  }
-]
-
 // Virtual Network Subnets
 
 param subnets0 = [
@@ -567,21 +493,6 @@ param securityRulesBastion = [
       priority: 1000
       direction: 'Outbound'
     }
-  }
-]
-
-// Spoke Virtual Networks for Hub Virtual Network Connections
-
-param spokes = [
-  {
-    subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
-    resourceGroupName: 'conwus2spokerg'
-    virtualNetworkName: 'conwus2spokevnet'
-  }
-  {
-    subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
-    resourceGroupName: 'conwus2spokerg'
-    virtualNetworkName: 'conwus2spokevnet'
   }
 ]
 
