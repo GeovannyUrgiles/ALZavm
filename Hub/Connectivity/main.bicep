@@ -458,8 +458,9 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
       vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
       vpnConnections: [
         {
-          name: vpnConnections[0].name
-          remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
+          name: 'Connection1' // vpnConnections[0].name
+          // remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
+          remoteVpnSiteResourceId: '/subscriptions/82d21ec8-4b6a-4bf0-9716-96b38d9abb43/resourceGroups/conwus2networkrg/providers/Microsoft.Network/vpnSites/conwus2vpnsite'
           connectionBandwidth: vpnConnections[0].connectionBandwidth
           enableBgp: vpnConnections[0].enableBgp
           enableInternetSecurity: vpnConnections[0].enableInternetSecurity
