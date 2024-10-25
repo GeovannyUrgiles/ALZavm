@@ -465,7 +465,6 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
           useLocalAzureIpAddress: vpnConnections[0].useLocalAzureIpAddress
           usePolicyBasedTrafficSelectors: vpnConnections[0].usePolicyBasedTrafficSelectors
           vpnConnectionProtocolType: vpnConnections[0].vpnConnectionProtocolType
-          vpnLinkConnectionMode: vpnConnections[0].vpnLinkConnectionMode
           sharedKey: vpnConnections[0].sharedKey
           dpdTimeoutSeconds: vpnConnections[0].dpdTimeoutSeconds
           vpnGatewayCustomBgpAddresses: vpnConnections[0].vpnGatewayCustomBgpAddresses

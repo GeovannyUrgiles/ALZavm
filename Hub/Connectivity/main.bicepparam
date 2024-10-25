@@ -295,7 +295,6 @@ param vpnSiteLinks = [
       linkProperties: {
         linkProviderName: 'Verizon' // Verizon | ATT | BT | Orange | Vodafone
         linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-        vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
   }
@@ -303,7 +302,6 @@ param vpnSiteLinks = [
     name: 'dataCenter2' // Data Center or other Remote Site Name
     id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter2'
     properties: {
-      // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
         asn: 65020 // BGP Autonomous System Number 65000-65515
         bgpPeeringAddress: '10.20.20.1' // Remote BGP Peer IP Address
@@ -312,7 +310,6 @@ param vpnSiteLinks = [
       linkProperties: {
         linkProviderName: 'ATT' // Verizon | ATT | BT | Orange | Vodafone
         linkSpeedInMbps: 100 // 5 | 10 | 20 | 50 | 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
-        vendor: 'Cisco' // Cisco | Juniper | Microsoft | PaloAlto | Fortinet | CheckPoint | SonicWall | Barracuda | F5 | Citrix | Zscaler | Other
       }
     }
   }
@@ -332,7 +329,6 @@ param vpnConnections = [
     useLocalAzureIpAddress: false
     usePolicyBasedTrafficSelectors: false
     vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
-    vpnLinkConnectionMode: 'Default' // Default | HighPerformance
     sharedKey: 'Passw0rd!'
     dpdTimeoutSeconds: 0
     vpnGatewayCustomBgpAddresses: []
@@ -359,7 +355,6 @@ param vpnConnections = [
     useLocalAzureIpAddress: false
     usePolicyBasedTrafficSelectors: false
     vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
-    vpnLinkConnectionMode: 'Default' // Default | HighPerformance
     sharedKey: 'Passw0rd!'
     dpdTimeoutSeconds: 0
     vpnGatewayCustomBgpAddresses: []
