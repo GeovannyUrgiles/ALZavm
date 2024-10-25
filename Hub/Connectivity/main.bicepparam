@@ -288,7 +288,7 @@ param vpnSiteLinks = [
     properties: {
       vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
-        asn: 65010 // BGP Autonomous System Number
+        asn: 65010 // BGP Autonomous System Number 65000-65515
         bgpPeeringAddress: '10.10.10.1' // Remote BGP Peer IP Address
       }
       ipAddress: '1.2.3.4' // Remote VPN Gateway IP Address or FQDN
@@ -305,7 +305,7 @@ param vpnSiteLinks = [
     properties: {
       vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
-        asn: 65020 // BGP Autonomous System Number
+        asn: 65020 // BGP Autonomous System Number 65000-65515
         bgpPeeringAddress: '10.20.20.1' // Remote BGP Peer IP Address
       }
       ipAddress: '1.2.3.5' // Remote VPN Gateway IP Address or FQDN
