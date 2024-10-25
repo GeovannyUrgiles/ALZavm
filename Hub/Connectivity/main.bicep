@@ -435,6 +435,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
   }
   dependsOn: [
     modVirtualHub
+    modVpnGateway
   ]
 }
 
@@ -477,7 +478,8 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
       ]
     }
     dependsOn: [
-      modVpnSite
+      // modVpnSite
+      modVirtualNetwork
     ]
   }
 
