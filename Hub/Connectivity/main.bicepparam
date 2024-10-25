@@ -286,7 +286,7 @@ param vpnSiteLinks = [
     name: 'dataCenter1' // Data Center or other Remote Site Name
     id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
     properties: {
-      vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+      // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
         asn: 65010 // BGP Autonomous System Number 65000-65515
         bgpPeeringAddress: '10.10.10.1' // Remote BGP Peer IP Address
@@ -303,7 +303,7 @@ param vpnSiteLinks = [
     name: 'dataCenter2' // Data Center or other Remote Site Name
     id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter2'
     properties: {
-      vpnLinkConnectionMode: 'Default' // Default | HighPerformance
+      // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
         asn: 65020 // BGP Autonomous System Number 65000-65515
         bgpPeeringAddress: '10.20.20.1' // Remote BGP Peer IP Address
