@@ -322,7 +322,8 @@ param vpnConnections = [
   {
     name: 'Connection1' // Connection Name
  //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/Connection1'
-    id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
+ id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/dataCenter1'
+    // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
     remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
     remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/dataCenter1'
     vpnConnectionId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnSiteLinks/dataCenter1'
