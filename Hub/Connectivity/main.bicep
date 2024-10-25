@@ -436,7 +436,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
           ipAddress: '1.2.3.4'
           linkProperties: {
             linkProviderName: 'contoso'
-            linkSpeedInMbps: 5
+            linkSpeedInMbps: 100
           }
         }
       }
@@ -465,32 +465,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
     enableTelemetry: vpnGateway.enableTelemetry
     vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
-    vpnConnections: [
-      {
-        connectionBandwidth: 100
-        enableBgp: false
-        enableInternetSecurity: true
-        enableRateLimiting: false
-        name: vpnSiteName[0]
-        remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/Connection1' // modVpnSite.outputs.resourceId
-        routingWeight: 0
-        useLocalAzureIpAddress: false
-        usePolicyBasedTrafficSelectors: false
-        vpnConnectionProtocolType: 'IKEv2'
-        // ipsecPolicies: [
-        //   {
-        //     dhGroup: 'DHGroup2'
-        //     ikeEncryption: 'AES256'
-        //     ikeIntegrity: 'SHA256'
-        //     ipsecEncryption: 'AES256'
-        //     ipsecIntegrity: 'SHA256'
-        //     pfsGroup: 'PFS24'
-        //     saDataSizeKilobytes: 102400000
-        //     saLifeTimeSeconds: 3600
-        //   }
-        // ]
-      }
-    ]
+    vpnConnections: []
   }
   dependsOn: [
     modVpnSite
