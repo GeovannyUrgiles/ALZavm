@@ -472,11 +472,23 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         enableInternetSecurity: true
         enableRateLimiting: false
         name: vpnSiteName[0]
-        remoteVpnSiteId: modVpnSite.outputs.resourceId
+        remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/Connection1' // modVpnSite.outputs.resourceId
         routingWeight: 0
         useLocalAzureIpAddress: false
         usePolicyBasedTrafficSelectors: false
         vpnConnectionProtocolType: 'IKEv2'
+        // ipsecPolicies: [
+        //   {
+        //     dhGroup: 'DHGroup2'
+        //     ikeEncryption: 'AES256'
+        //     ikeIntegrity: 'SHA256'
+        //     ipsecEncryption: 'AES256'
+        //     ipsecIntegrity: 'SHA256'
+        //     pfsGroup: 'PFS24'
+        //     saDataSizeKilobytes: 102400000
+        //     saLifeTimeSeconds: 3600
+        //   }
+        // ]
       }
     ]
   }
