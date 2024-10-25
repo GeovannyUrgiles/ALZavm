@@ -468,10 +468,18 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     enableTelemetry: vpnGateway.enableTelemetry
     vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
     vpnConnections: [
-      // {
-      //   name: vpnSiteName[0]
-      //   remoteVpnSiteId: modVpnSite.outputs.resourceId
-      // }
+      {
+        connectionBandwidth: 100
+        enableBgp: false
+        enableInternetSecurity: true
+        enableRateLimiting: false
+        name: vpnSiteName[0]
+        remoteVpnSiteId: modVpnSite.outputs.resourceId
+        routingWeight: 0
+        useLocalAzureIpAddress: false
+        usePolicyBasedTrafficSelectors: false
+        vpnConnectionProtocolType: 'IKEv2'
+      }
     ]
   }
   dependsOn: [
