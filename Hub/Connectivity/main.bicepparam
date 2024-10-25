@@ -288,12 +288,8 @@ param vpnSiteLinks = [
   {
     name: 'dataCenter1' // Data Center or other Remote Site Name
     remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+    remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
     id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
-    siteLinkName: 'dataCenter1'
-    siteLinkType: 'VpnSiteLink'
-    siteLinkRemoteVpnSite: {
-      id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
-    }
         properties: {
       // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
