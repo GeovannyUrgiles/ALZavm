@@ -462,10 +462,9 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
 
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
-module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
-  for i in range(0, length(locations)): if (enableVpnGateway) {
+module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
     scope: (resourceGroup(resourceGroupName_Network[0]))
-    name: 'vpnGatewayDeployment${i}'
+    name: 'vpnGatewayDeployment'
     params: {
       name: vpnGatewayName[0]
       virtualHubResourceId: modVirtualHub[0].outputs.resourceId
@@ -485,19 +484,19 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
           vpnSiteLink: {
             id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
           }
-          connectionBandwidth: vpnConnections[i].connectionBandwidth
-          enableBgp: vpnConnections[i].enableBgp
-          enableInternetSecurity: vpnConnections[i].enableInternetSecurity
-          enableRateLimiting: vpnConnections[i].enableRateLimiting
-          routingWeight: vpnConnections[i].routingWeight
-          useLocalAzureIpAddress: vpnConnections[i].useLocalAzureIpAddress
-          usePolicyBasedTrafficSelectors: vpnConnections[i].usePolicyBasedTrafficSelectors
-          vpnConnectionProtocolType: vpnConnections[i].vpnConnectionProtocolType
-          vpnLinkConnectionMode: vpnConnections[i].vpnLinkConnectionMode
-          sharedKey: vpnConnections[i].sharedKey
-          dpdTimeoutSeconds: vpnConnections[i].dpdTimeoutSeconds
-          vpnGatewayCustomBgpAddresses: vpnConnections[i].vpnGatewayCustomBgpAddresses
-          ipsecPolicies: vpnConnections[i].ipsecPolicies
+          connectionBandwidth: vpnConnections[0].connectionBandwidth
+          enableBgp: vpnConnections[0].enableBgp
+          enableInternetSecurity: vpnConnections[0].enableInternetSecurity
+          enableRateLimiting: vpnConnections[0].enableRateLimiting
+          routingWeight: vpnConnections[0].routingWeight
+          useLocalAzureIpAddress: vpnConnections[0].useLocalAzureIpAddress
+          usePolicyBasedTrafficSelectors: vpnConnections[0].usePolicyBasedTrafficSelectors
+          vpnConnectionProtocolType: vpnConnections[0].vpnConnectionProtocolType
+          vpnLinkConnectionMode: vpnConnections[0].vpnLinkConnectionMode
+          sharedKey: vpnConnections[0].sharedKey
+          dpdTimeoutSeconds: vpnConnections[0].dpdTimeoutSeconds
+          vpnGatewayCustomBgpAddresses: vpnConnections[0].vpnGatewayCustomBgpAddresses
+          ipsecPolicies: vpnConnections[0].ipsecPolicies
         }
       ]
     }
@@ -505,7 +504,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = [
       modVpnSite
     ]
   }
-]
+
 
 // Firewall Policy
 
