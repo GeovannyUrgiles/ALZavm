@@ -452,6 +452,9 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
         asn: vpnGateway.asn
         peerweight: vpnGateway.peerweight
       }
+      isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
+      enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
+      enableTelemetry: vpnGateway.enableTelemetry
       vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
       vpnConnections: [
         {
@@ -465,9 +468,9 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
           useLocalAzureIpAddress: vpnConnections[0].useLocalAzureIpAddress
           usePolicyBasedTrafficSelectors: vpnConnections[0].usePolicyBasedTrafficSelectors
           vpnConnectionProtocolType: vpnConnections[0].vpnConnectionProtocolType
-          sharedKey: vpnConnections[0].sharedKey
-          dpdTimeoutSeconds: vpnConnections[0].dpdTimeoutSeconds
-          vpnGatewayCustomBgpAddresses: vpnConnections[0].vpnGatewayCustomBgpAddresses
+          sharedKey: vpnConnections[0].sharedKey // ??
+          dpdTimeoutSeconds: vpnConnections[0].dpdTimeoutSeconds // ??
+          vpnGatewayCustomBgpAddresses: vpnConnections[0].vpnGatewayCustomBgpAddresses // ??
           ipsecPolicies: vpnConnections[0].ipsecPolicies
         }
       ]

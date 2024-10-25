@@ -231,6 +231,9 @@ param vpnGateway = {
   asn: 65515 // BGP Autonomous System Number
   vpnGatewayScaleUnit: 1
   peerWeight: 0
+  isRoutingPreferenceInternet: false
+  enableBgpRouteTranslationForNat: false
+  enableTelemetry: false
 }
 
 // VPN Site
