@@ -16,7 +16,7 @@ param enablePrivateDnsZones = false
 // Virtual WAN
 param enableVirtualWan = true
 param enableVirtualHub = true
-param enableVpnSite = false
+param enableVpnSite = true
 param enableVpnGateway = true
 param enableAzureFirewall = false
 
