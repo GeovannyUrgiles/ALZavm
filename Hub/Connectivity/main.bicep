@@ -468,22 +468,29 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     params: {
       name: vpnGatewayName[0]
       virtualHubResourceId: modVirtualHub[0].outputs.resourceId
+      
       location: locations[0]
       tags: tags
       bgpSettings: {
         asn: vpnGateway.asn
         peerweight: vpnGateway.peerweight
       }
+      vpnGatewayScaleUnit: 1 // vpnGateway.vpnGatewayScaleUnit  
+      
+      
       vpnConnections: [
         {
-          name: vpnConnections[0].name
-          remoteVpnSite: {
-            id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
-          }
-          id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/${vpnConnections[0].name}'
-          vpnSiteLink: {
-            id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
-          }
+          name: 'Connection1' //vpnConnections[0].name
+          //id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}/vpnConnections/Connection1'  //${vpnConnections[0].name}'
+          remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
+          
+          
+          // vpnLinkConnection: {
+          //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
+          // }
+          // vpnSiteLink: {
+          //   id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}/vpnSiteLinks/azureSite1'
+          // }
           connectionBandwidth: vpnConnections[0].connectionBandwidth
           enableBgp: vpnConnections[0].enableBgp
           enableInternetSecurity: vpnConnections[0].enableInternetSecurity
