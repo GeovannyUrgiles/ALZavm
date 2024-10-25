@@ -421,7 +421,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     virtualWanId: modVirtualWan.outputs.resourceId
     location: locations[0]
     tags: tags
-    addressPrefixes: vpnSite.addressPrefixes
+    // addressPrefixes: vpnSite.addressPrefixes
     o365Policy: {
       breakOutCategories: {
         allow: vpnSite.o365Policy.breakOutCategories.allow
