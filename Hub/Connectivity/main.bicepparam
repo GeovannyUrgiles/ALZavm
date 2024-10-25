@@ -322,7 +322,7 @@ param vpnConnections = [
   {
     name: 'Connection1' // Connection Name
     vpnGatewayId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnGateways/${vpnGatewayName[0]}'
-    remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}'
+    remoteVpnSiteId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName[0]}'
     connectionBandwidth: 100 // 100 | 200 | 500 | 1000 | 2000 | 5000 | 10000
     enableBgp: false
     enableInternetSecurity: true
