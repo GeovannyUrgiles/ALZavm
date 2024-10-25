@@ -335,7 +335,7 @@ param vpnConnections = [
     vpnConnectionProtocolType: 'IKEv2' // IKEv2 | IKEv1
     sharedKey: 'Passw0rd!'
     dpdTimeoutSeconds: 0
-    vpnGatewayCustomBgpAddresses: []
+    // vpnGatewayCustomBgpAddresses: []
     // ipsecPolicies: [
     //   {
     //     saDataSizeKilobytes: 1024000 // 1024000 | 102400 | 51200 | 30720 | 20480 | 10240 | 5120 | 2048 | 1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1
