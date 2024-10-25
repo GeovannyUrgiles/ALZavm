@@ -287,8 +287,14 @@ param vpnSiteLinks = [
   // Array of VPN Site Links - These are the Remote VPN Sites
   {
     name: 'dataCenter1' // Data Center or other Remote Site Name
-    // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
-    properties: {
+    remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+    id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+    siteLinkName: 'dataCenter1'
+    siteLinkType: 'VpnSiteLink'
+    siteLinkRemoteVpnSite: {
+      id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter1'
+    }
+        properties: {
       // vpnLinkConnectionMode: 'Default' // Default | HighPerformance
       bgpProperties: {
         asn: 65010 // BGP Autonomous System Number 65000-65515
@@ -303,7 +309,7 @@ param vpnSiteLinks = [
   }
   {
     name: 'dataCenter2' // Data Center or other Remote Site Name
-    // id: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter2'
+    remoteVpnSiteResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/vpnSites/${vpnSiteName}/vpnSiteLinks/dataCenter2'
     properties: {
       bgpProperties: {
         asn: 65020 // BGP Autonomous System Number 65000-65515
