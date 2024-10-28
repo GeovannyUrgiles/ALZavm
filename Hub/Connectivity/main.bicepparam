@@ -186,46 +186,49 @@ param lock = {
 // Firewall Policy Groups and Rules
 
 param ruleCollectionGroups = [
-  {
-    name: 'DefaultNetworkRuleCollectionGroup'
-    priority: 5000
-    ruleCollections: [
-      {
-        action: {
-          type: 'Allow'
-        }
-        name: 'DefaultNetworkRuleCollection'
-        priority: 5555
-        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-        rules: []
-      }
-    ]
-  }
+  
   {
     name: 'DefaultDnatRuleCollectionGroup'
-    priority: 5000
+    priority: 100
     ruleCollections: [
       {
         action: {
           type: 'Allow'
         }
         name: 'DefaultDnatRuleCollection'
-        priority: 5555
+        priority: 110
         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
         rules: []
       }
     ]
   }
+  
+  {
+    name: 'DefaultNetworkRuleCollectionGroup'
+    priority: 200
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'DefaultNetworkRuleCollection'
+        priority: 110
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: []
+      }
+    ]
+  }
+  
   {
     name: 'DefaultApplicationRuleCollectionGroup'
-    priority: 5000
+    priority: 300
     ruleCollections: [
       {
         action: {
           type: 'Allow'
         }
         name: 'DefaultApplicationRuleCollection'
-        priority: 5555
+        priority: 110
         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
         rules: []
       }
