@@ -531,11 +531,11 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
 
     // identity: identity
 
-    managedIdentities: {
-      userAssignedResourceIds: [
-        modUserAssignedIdentity[0].outputs.resourceId
-      ]
-    }
+    // managedIdentities: {
+    //   userAssignedResourceIds: [
+    //     modUserAssignedIdentity[0].outputs.resourceId
+    //   ]
+    // }
 
     mode: azureFirewallPolicy.mode
     ruleCollectionGroups: ruleCollectionGroups
