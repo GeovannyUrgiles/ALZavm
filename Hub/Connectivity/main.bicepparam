@@ -18,7 +18,7 @@ param enableVirtualWan = true
 param enableVirtualHub = true
 param enableVpnSite = true
 param enableVpnGateway = true
-param enableAzureFirewall = false
+param enableAzureFirewall = true
 
 // Supporting Resources
 param enableUserAssignedManagedIdentity = true
@@ -239,7 +239,7 @@ param vpnGateway = {
 // VPN Site
 
 param vpnSite = {
-  addressPrefixes: [] // Address Prefixes for Remote VPN Site
+  addressPrefixes: [] // Remote VPN Site subnets (if not using BGP)
   o365Policy: {
     breakOutCategories: {
       allow: true
