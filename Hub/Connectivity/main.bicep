@@ -488,37 +488,6 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
 }
 
 // Firewall Policy
-
-// param userAssignedResourceIds array = [
-//   userAssignedIdentity.outputs.resourceId
-// ]
-// ]
-
-// var formattedUserAssignedIdentities = reduce(
-//   map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }),
-//   {},
-//   (cur, next) => union(cur, next)
-// ) // Converts the flat array to an object like { '${id1}': {}, '${id2}': {} }
-
-// @description('Optional. The managed identity definition for this resource.')
-// param managedIdentities managedIdentitiesType
-
-// var identity = !empty(managedIdentities)
-//   ? {
-//       type: 'UserAssigned'
-//       userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
-//     }
-//   : null
-
-// // =============== //
-// //   Definitions   //
-// // =============== //
-
-// type managedIdentitiesType = {
-//   @description('Optional. The resource ID(s) to assign to the resource.')
-//   userAssignedResourceIds: string[]
-// }?
-
 module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'firewallPolicyDeployment'
@@ -528,15 +497,14 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
     allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
     autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
     location: locations[0]
-
-    // identity: identity
-
-    // managedIdentities: {
+    // Uncomment for Premium SKU
+    // managedIdentities: (enableUserAssignedManagedIdentity) ? {
     //   userAssignedResourceIds: [
     //     modUserAssignedIdentity[0].outputs.resourceId
     //   ]
+    // } : {
+    //   userAssignedResourceIds: []
     // }
-
     mode: azureFirewallPolicy.mode
     ruleCollectionGroups: ruleCollectionGroups
     tier: azureFirewallPolicy.tier

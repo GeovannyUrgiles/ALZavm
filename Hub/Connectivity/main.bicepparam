@@ -201,6 +201,36 @@ param ruleCollectionGroups = [
       }
     ]
   }
+  {
+    name: 'DefaultDnatRuleCollectionGroup'
+    priority: 5000
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'DefaultDnatRuleCollection'
+        priority: 5555
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: []
+      }
+    ]
+  }
+  {
+    name: 'DefaultApplicationRuleCollectionGroup'
+    priority: 5000
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'DefaultApplicationRuleCollection'
+        priority: 5555
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: []
+      }
+    ]
+  }
 ]
 
 // Virtual WAN Properties
