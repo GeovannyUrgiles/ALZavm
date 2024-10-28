@@ -417,7 +417,7 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
     virtualWanId: modVirtualWan.outputs.resourceId
     location: locations[0]
     tags: tags
-    // addressPrefixes: vpnSite.addressPrefixes
+    addressPrefixes: vpnSite.addressPrefixes
     o365Policy: {
       breakOutCategories: {
         allow: vpnSite.o365Policy.breakOutCategories.allow
@@ -434,6 +434,20 @@ module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite
             bgpPeeringAddress: '1.1.1.1'
           }
           ipAddress: '1.2.3.4'
+          linkProperties: {
+            linkProviderName: 'Verizon'
+            linkSpeedInMbps: 100
+          }
+        }
+      }
+      {
+        name: 'DataCenter2'
+        properties: {
+          bgpProperties: {
+            asn: 65020
+            bgpPeeringAddress: '1.1.1.2'
+          }
+          ipAddress: '1.2.3.5'
           linkProperties: {
             linkProviderName: 'Verizon'
             linkSpeedInMbps: 100
