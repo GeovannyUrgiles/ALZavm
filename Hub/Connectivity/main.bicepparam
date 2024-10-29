@@ -10,7 +10,7 @@ var version = 'v1.0.0'
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = false
-param enableOutboundDns = false
+param enableOutboundDns = false // Enables Outbound DNS Forwarding Rules
 param enablePrivateDnsZones = false
 
 // Virtual WAN
@@ -27,7 +27,7 @@ param enableKeyVault = true
 param enableBastion = false
 param enableStorageAccount = true
 
-// param enableRecoveryServiceVault = true
+// DNS Servers will be applied to Virtual Networks
 
 param dnsServers = [
   '168.63.129.16'
@@ -39,7 +39,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 // Paired Regions
 
-param locations = [
+param locations = [ // Client should deploy (at minimum) Virtual Networks into both regions to establish future DR capabilities
   'westus2' // Primary Region
   // 'eastus2' // Secondary Region
 ]
@@ -410,6 +410,22 @@ param subnets1 = [
     delegation: 'Microsoft.Network/dnsResolvers'
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
     serviceEndpoints: []
+  }
+]
+
+// DNS Resolver Outbound Ruleset
+
+param dnsForwardingOutboundRules = [
+  {
+    domainName: 'clientdomain.com'
+    forwardingRuleState: 'Enabled'
+    name: 'rule1'
+    targetDnsServers: [
+      {
+        ipAddress: '192.168.0.1'
+        port: 53
+      }
+    ]
   }
 ]
 

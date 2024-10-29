@@ -41,6 +41,7 @@ param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
 param dnsForwardingRulesetName array
+param  dnsForwardingOutboundRules array
 
 // DNS Servers
 
@@ -309,19 +310,7 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
       '${modDnsResolver.outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
     ]
     name: dnsForwardingRulesetName[0]
-    forwardingRules: [
-      // {
-      //   domainName: 'contoso.'
-      //   forwardingRuleState: 'Enabled'
-      //   name: 'rule1'
-      //   targetDnsServers: [
-      //     {
-      //       ipAddress: '192.168.0.1'
-      //       port: 53
-      //     }
-      //   ]
-      // }
-    ]
+    forwardingRules: dnsForwardingOutboundRules
     location: locations[0]
     lock: {}
     roleAssignments: []
@@ -497,7 +486,7 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
     allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
     autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
     location: locations[0]
-    // Uncomment for Premium SKU
+    //-// Uncomment for Premium SKU
     // managedIdentities: (enableUserAssignedManagedIdentity) ? {
     //   userAssignedResourceIds: [
     //     modUserAssignedIdentity[0].outputs.resourceId
@@ -521,6 +510,7 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
   name: 'azureFirewallDeployment'
   params: {
     name: firewallName[0]
+    location: locations[0]
     tags: tags
     firewallPolicyId: modFirewallPolicy.outputs.resourceId
     hubIPAddresses: {
@@ -528,7 +518,6 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
         count: azureFirewall.numberOfPublicIPs
       }
     }
-    location: locations[0]
     virtualHubId: modVirtualHub[0].outputs.resourceId
   }
   dependsOn: [
@@ -559,6 +548,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
     ]
   }
 ]
+
 // Key Vault
 
 module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
