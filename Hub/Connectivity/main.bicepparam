@@ -171,7 +171,6 @@ param lock = {
 // Firewall Policy Groups and Rules
 
 param ruleCollectionGroups = [
-  
   {
     name: 'DefaultDnatRuleCollectionGroup'
     priority: 100
@@ -187,7 +186,6 @@ param ruleCollectionGroups = [
       }
     ]
   }
-  
   {
     name: 'DefaultNetworkRuleCollectionGroup'
     priority: 200
@@ -203,7 +201,6 @@ param ruleCollectionGroups = [
       }
     ]
   }
-  
   {
     name: 'DefaultApplicationRuleCollectionGroup'
     priority: 300
@@ -699,5 +696,3 @@ param privatelinkDnsZoneNames = [
   'privatelink.web.core.windows.net'
   // 'privatelink.gremlin.cosmos.azure.com'
 ]
-
-
