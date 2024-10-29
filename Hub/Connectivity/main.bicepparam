@@ -9,16 +9,16 @@ var version = 'v1.0.0'
 // Virtual Network
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
-param enableDnsResolver = false
-param enableOutboundDns = false // Enables Outbound DNS Forwarding Rules
+param enableDnsResolver = true
+param enableOutboundDns = true // Enables Outbound DNS Forwarding Rules
 param enablePrivateDnsZones = false
 
 // Virtual WAN
 param enableVirtualWan = true
-param enableVirtualHub = true
-param enableVpnSite = true
-param enableVpnGateway = true
-param enableAzureFirewall = true
+param enableVirtualHub = false
+param enableVpnSite = false
+param enableVpnGateway = false
+param enableAzureFirewall = false
 
 // Supporting Resources
 param enableUserAssignedManagedIdentity = true
