@@ -4,9 +4,7 @@ targetScope = 'subscription'
 
 param enableUserAssignedManagedIdentity bool
 param enableNetworkSecurityGroups bool
-param enablePrivateDnsZones bool
 param enableVirtualNetwork bool
-param enableBastion bool
 param enableOperationalInsights bool
 param enableKeyVault bool
 param enableStorageAccount bool
@@ -14,14 +12,18 @@ param enableStorageAccount bool
 // Deployment Options
 
 param subscriptionId string
+param conSubscriptionId string
 param locations array
 param tags object
 param nameSeparator string
 
+// Private DNS Zone Location
+
+param resourceGroupName_PrivateDns string
+
 // Resource Names
 
 param uamiName array
-param bastionName array
 param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
@@ -33,7 +35,6 @@ param dnsServers array
 // Resource Maps
 
 param keyVault object
-param bastion object
 param storageAccount object
 
 // Resource Suffixes
@@ -45,11 +46,9 @@ param nicSuffix string
 // Resource Group Parameters
 
 param resourceGroupName_Network array
-param resourceGroupName_Bastion array
-param resourceGroupName_PrivateDns string
 
 param roleAssignmentsNetwork array
-param roleAssignmentsBastion array
+
 param lock object
 
 // Virtual Network Parameters
@@ -61,20 +60,6 @@ param subnets1 array
 // Network Security Group Parameters
 
 param securityRulesDefault array
-param securityRulesBastion array
-
-// VPN Gateway Site-to-Site
-
-param vpnSiteLinks array
-param vpnConnections array
-
-// Firewall Policy Parameters
-
-param ruleCollectionGroups array
-
-// Private DNS Parameters
-
-param privatelinkDnsZoneNames array
 
 // Network Resource Group Deployment
 
@@ -92,24 +77,6 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
   }
 ]
 
-// Bastion Resource Group Deployment
-
-module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
-    scope: subscription(subscriptionId)
-    name: 'resourceGroupBastionDeployment${i}'
-    params: {
-      name: resourceGroupName_Bastion[0]
-      tags: tags
-      location: locations[0]
-      // lock: lock
-      roleAssignments: roleAssignmentsBastion
-    }
-  }
-]
-
-// User Assigned Managed Identity
-
 module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = [
   for i in range(0, length(locations)): if (enableUserAssignedManagedIdentity) {
     scope: resourceGroup(resourceGroupName_Network[i])
@@ -126,7 +93,6 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 ]
 
 // Operational Insights Workspace
-
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
   for i in range(0, length(locations)): if (enableOperationalInsights) {
     scope: resourceGroup(resourceGroupName_Network[i])
@@ -152,7 +118,7 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
-      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+      securityRules: securityRulesDefault
     }
     dependsOn: [
       modResourceGroupNetwork
@@ -170,7 +136,7 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[1]
-      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+      securityRules: securityRulesDefault
     }
     dependsOn: [
       modResourceGroupNetwork
@@ -205,52 +171,6 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
     }
     dependsOn: [
       modNetworkSecurityGroupPrimary
-    ]
-  }
-]
-
-// Private DNS Zones
-
-module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
-  for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
-    scope: resourceGroup(resourceGroupName_PrivateDns)
-    name: '${privatelinkDnsZoneName}Deployment'
-    params: {
-      name: privatelinkDnsZoneName
-      tags: tags
-      virtualNetworkLinks: [
-        for i in range(0, length(locations)): {
-          registrationEnabled: false
-          virtualNetworkResourceId: modVirtualNetwork[i].outputs.resourceId
-        }
-      ]
-    }
-    dependsOn: [
-      modVirtualNetwork
-    ]
-  }
-]
-
-// Azure Bastion Host
-
-module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
-  for i in range(0, length(locations)): if (enableBastion) {
-    scope: resourceGroup(resourceGroupName_Bastion[0])
-    name: 'AzureBastionDeployment${i}'
-    params: {
-      name: bastionName[0]
-      location: locations[0]
-      virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-      tags: tags
-      disableCopyPaste: bastion.disableCopyPaste
-      enableIpConnect: bastion.enableIpConnect
-      enableFileCopy: bastion.enableFileCopy
-      scaleUnits: bastion.scaleUnits
-      enableShareableLink: bastion.enableShareableLink
-      skuName: bastion.skuName
-    }
-    dependsOn: [
-      modVirtualNetwork
     ]
   }
 ]
@@ -310,7 +230,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
               }
             ]
           }
@@ -406,7 +326,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
               }
             ]
           }
@@ -419,7 +339,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'
               }
             ]
           }

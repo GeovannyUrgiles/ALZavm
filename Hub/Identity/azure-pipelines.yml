@@ -8,10 +8,9 @@ variables:
     azureServiceConnection: 'ServiceConnection-ELZ'
     location: 'westus2'
     locationShort: 'wus2'
-    templateFile: 'hub/connectivity/main.bicep'
-    parametersFile: 'hub/connectivity/main.bicepparam'
-    subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
-    dataResourceGroupName: 'network-rg'
+    templateFile: 'hub/identity/identity-main.bicep'
+    parametersFile: 'hub/identity/identity-main.bicepparam'
+    subscriptionId: '5a718e73-cce6-49e2-af77-023ea133c332'
     
     # action: 'what-if'
     action: 'create'     
@@ -25,7 +24,7 @@ stages:
     displayName: 'Deploy Connectivity'
     jobs:
     - deployment: 'Deploy_Connectivity'
-      environment: 'Prod'
+      environment: 'Identity'
       timeoutInMinutes: '360'
       strategy:
        runOnce:
