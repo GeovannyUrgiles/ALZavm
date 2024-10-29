@@ -1,4 +1,4 @@
-using 'main.bicep'
+using 'connectivity-main.bicep'
 
 // IaC Version Number
 

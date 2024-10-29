@@ -45,6 +45,8 @@ param resourceGroupName_Network = [
   'idneus2networkrg'
 ]
 
+// Resource Group Names (Private DNS)
+
 param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 
 // Virtual Network Names
