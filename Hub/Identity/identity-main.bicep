@@ -8,6 +8,7 @@ param enableVirtualNetwork bool
 param enableOperationalInsights bool
 param enableKeyVault bool
 param enableStorageAccount bool
+param enableRecoveryServiceVault bool
 
 // Deployment Options
 
@@ -268,7 +269,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
         ]
       }
       managementPolicyRules: storageAccount.managementPolicyRules
-     networkAcls: {
+      networkAcls: {
         bypass: storageAccount.networkAcls.bypass
         defaultAction: storageAccount.networkAcls.defaultAction
         ipRules: storageAccount.networkAcls.ipRules
@@ -356,5 +357,638 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
     dependsOn: [
       modVirtualNetwork
     ]
+  }
+]
+
+// Availability Set
+
+module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'availabilitySetDeployment${i}'
+    params: {
+      // Required parameters
+      name: 'casmax001'
+      // Non-required parameters
+      location: '<location>'
+      lock: {
+        kind: 'CanNotDelete'
+        name: 'myCustomLockName'
+      }
+      proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
+      roleAssignments: [
+        {
+          name: 'd9d13442-232d-4861-9ab9-bad5e90c4f71'
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: 'Owner'
+        }
+        {
+          name: '<name>'
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+        }
+        {
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+        }
+      ]
+      tags: {
+        Environment: 'Non-Prod'
+        'hidden-title': 'This is visible in the resource name'
+        Role: 'DeploymentValidation'
+      }
+    }
+  }
+]
+
+// Windows Virtual Machine
+
+module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'virtualMachineDeploymentWindows${i}'
+    params: {
+      // Required parameters
+      adminUsername: 'VMAdmin'
+      imageReference: {
+        offer: 'WindowsServer'
+        publisher: 'MicrosoftWindowsServer'
+        sku: '2019-datacenter'
+        version: 'latest'
+      }
+      name: 'cvmwinmax'
+      nicConfigurations: [
+        {
+          deleteOption: 'Delete'
+          diagnosticSettings: [
+            {
+              eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+              eventHubName: '<eventHubName>'
+              metricCategories: [
+                {
+                  category: 'AllMetrics'
+                }
+              ]
+              name: 'customSetting'
+              storageAccountResourceId: '<storageAccountResourceId>'
+              workspaceResourceId: '<workspaceResourceId>'
+            }
+          ]
+          enableIPForwarding: true
+          ipConfigurations: [
+            {
+              applicationSecurityGroups: [
+                {
+                  id: '<id>'
+                }
+              ]
+              diagnosticSettings: [
+                {
+                  eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+                  eventHubName: '<eventHubName>'
+                  metricCategories: [
+                    {
+                      category: 'AllMetrics'
+                    }
+                  ]
+                  name: 'customSetting'
+                  storageAccountResourceId: '<storageAccountResourceId>'
+                  workspaceResourceId: '<workspaceResourceId>'
+                }
+              ]
+              loadBalancerBackendAddressPools: [
+                {
+                  id: '<id>'
+                }
+              ]
+              name: 'ipconfig01'
+              pipConfiguration: {
+                publicIPAddressResourceId: '<publicIPAddressResourceId>'
+                roleAssignments: [
+                  {
+                    name: 'e962e7c1-261a-4afd-b5ad-17a640a0b7bc'
+                    principalId: '<principalId>'
+                    principalType: 'ServicePrincipal'
+                    roleDefinitionIdOrName: 'Owner'
+                  }
+                  {
+                    principalId: '<principalId>'
+                    principalType: 'ServicePrincipal'
+                    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+                  }
+                  {
+                    principalId: '<principalId>'
+                    principalType: 'ServicePrincipal'
+                    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+                  }
+                ]
+              }
+              subnetResourceId: '<subnetResourceId>'
+            }
+          ]
+          name: 'nic-test-01'
+          roleAssignments: [
+            {
+              name: '95fc1cc2-05ed-4f5a-a22c-a6ca852df7e7'
+              principalId: '<principalId>'
+              principalType: 'ServicePrincipal'
+              roleDefinitionIdOrName: 'Owner'
+            }
+            {
+              principalId: '<principalId>'
+              principalType: 'ServicePrincipal'
+              roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+            }
+            {
+              principalId: '<principalId>'
+              principalType: 'ServicePrincipal'
+              roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+            }
+          ]
+        }
+      ]
+      osDisk: {
+        caching: 'ReadWrite'
+        createOption: 'FromImage'
+        deleteOption: 'Delete'
+        diskSizeGB: 128
+        managedDisk: {
+          storageAccountType: 'Premium_LRS'
+        }
+        name: 'osdisk01'
+      }
+      osType: 'Windows'
+      vmSize: 'Standard_D2s_v3'
+      zone: 2
+      // Non-required parameters
+      adminPassword: '<adminPassword>'
+      autoShutdownConfig: {
+        dailyRecurrenceTime: '19:00'
+        notificationEmail: 'test@contoso.com'
+        notificationLocale: 'en'
+        notificationStatus: 'Enabled'
+        notificationTimeInMinutes: 30
+        status: 'Enabled'
+        timeZone: 'UTC'
+      }
+      backupPolicyName: '<backupPolicyName>'
+      backupVaultName: '<backupVaultName>'
+      backupVaultResourceGroup: '<backupVaultResourceGroup>'
+      computerName: 'winvm1'
+      dataDisks: [
+        {
+          caching: 'None'
+          createOption: 'Empty'
+          deleteOption: 'Delete'
+          diskSizeGB: 128
+          lun: 0
+          managedDisk: {
+            storageAccountType: 'Premium_LRS'
+          }
+          name: 'datadisk01'
+        }
+        {
+          caching: 'None'
+          createOption: 'Empty'
+          deleteOption: 'Delete'
+          diskSizeGB: 128
+          lun: 1
+          managedDisk: {
+            storageAccountType: 'Premium_LRS'
+          }
+          name: 'datadisk02'
+        }
+      ]
+      enableAutomaticUpdates: true
+      encryptionAtHost: false
+      extensionAadJoinConfig: {
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionAntiMalwareConfig: {
+        enabled: true
+        settings: {
+          AntimalwareEnabled: 'true'
+          Exclusions: {
+            Extensions: '.ext1;.ext2'
+            Paths: 'c:\\excluded-path-1;c:\\excluded-path-2'
+            Processes: 'excludedproc1.exe;excludedproc2.exe'
+          }
+          RealtimeProtectionEnabled: 'true'
+          ScheduledScanSettings: {
+            day: '7'
+            isEnabled: 'true'
+            scanType: 'Quick'
+            time: '120'
+          }
+        }
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionAzureDiskEncryptionConfig: {
+        enabled: true
+        settings: {
+          EncryptionOperation: 'EnableEncryption'
+          KekVaultResourceId: '<KekVaultResourceId>'
+          KeyEncryptionAlgorithm: 'RSA-OAEP'
+          KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
+          KeyVaultResourceId: '<KeyVaultResourceId>'
+          KeyVaultURL: '<KeyVaultURL>'
+          ResizeOSDisk: 'false'
+          tags: {
+            Environment: 'Non-Prod'
+            'hidden-title': 'This is visible in the resource name'
+            Role: 'DeploymentValidation'
+          }
+          VolumeType: 'All'
+        }
+      }
+      extensionCustomScriptConfig: {
+        enabled: true
+        fileData: [
+          {
+            storageAccountId: '<storageAccountId>'
+            uri: '<uri>'
+          }
+        ]
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionCustomScriptProtectedSetting: {
+        commandToExecute: '<commandToExecute>'
+      }
+      extensionDependencyAgentConfig: {
+        enableAMA: true
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionDSCConfig: {
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionMonitoringAgentConfig: {
+        dataCollectionRuleAssociations: [
+          {
+            dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
+            name: 'SendMetricsToLAW'
+          }
+        ]
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionNetworkWatcherAgentConfig: {
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      location: '<location>'
+      lock: {
+        kind: 'CanNotDelete'
+        name: 'myCustomLockName'
+      }
+      managedIdentities: {
+        systemAssigned: true
+        userAssignedResourceIds: [
+          '<managedIdentityResourceId>'
+        ]
+      }
+      patchMode: 'AutomaticByPlatform'
+      proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
+      rebootSetting: 'IfRequired'
+      roleAssignments: [
+        {
+          name: 'c70e8c48-6945-4607-9695-1098ba5a86ed'
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: 'Owner'
+        }
+        {
+          name: '<name>'
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+        }
+        {
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+        }
+      ]
+      tags: {
+        Environment: 'Non-Prod'
+        'hidden-title': 'This is visible in the resource name'
+        Role: 'DeploymentValidation'
+      }
+    }
+  }
+]
+
+// Linux Virtual Machine
+
+module modVirtualMachine_Linux 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
+  for i in range(0, length(locations)): if (enableStorageAccount) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'virtualMachineDeploymentLinux${i}'
+    params: {
+      // Required parameters
+      adminUsername: 'localAdministrator'
+      imageReference: {
+        offer: '0001-com-ubuntu-server-focal'
+        publisher: 'Canonical'
+        sku: '<sku>'
+        version: 'latest'
+      }
+      name: 'cvmlinmax'
+      nicConfigurations: [
+        {
+          deleteOption: 'Delete'
+          diagnosticSettings: [
+            {
+              eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+              eventHubName: '<eventHubName>'
+              metricCategories: [
+                {
+                  category: 'AllMetrics'
+                }
+              ]
+              name: 'customSetting'
+              storageAccountResourceId: '<storageAccountResourceId>'
+              workspaceResourceId: '<workspaceResourceId>'
+            }
+          ]
+          ipConfigurations: [
+            {
+              applicationSecurityGroups: [
+                {
+                  id: '<id>'
+                }
+              ]
+              diagnosticSettings: [
+                {
+                  eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+                  eventHubName: '<eventHubName>'
+                  metricCategories: [
+                    {
+                      category: 'AllMetrics'
+                    }
+                  ]
+                  name: 'customSetting'
+                  storageAccountResourceId: '<storageAccountResourceId>'
+                  workspaceResourceId: '<workspaceResourceId>'
+                }
+              ]
+              loadBalancerBackendAddressPools: [
+                {
+                  id: '<id>'
+                }
+              ]
+              name: 'ipconfig01'
+              pipConfiguration: {
+                publicIpNameSuffix: '-pip-01'
+                roleAssignments: [
+                  {
+                    name: '696e6067-3ddc-4b71-bf97-9caebeba441a'
+                    principalId: '<principalId>'
+                    principalType: 'ServicePrincipal'
+                    roleDefinitionIdOrName: 'Owner'
+                  }
+                  {
+                    principalId: '<principalId>'
+                    principalType: 'ServicePrincipal'
+                    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+                  }
+                  {
+                    principalId: '<principalId>'
+                    principalType: 'ServicePrincipal'
+                    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+                  }
+                ]
+                zones: [
+                  1
+                  2
+                  3
+                ]
+              }
+              subnetResourceId: '<subnetResourceId>'
+            }
+          ]
+          name: 'nic-test-01'
+          roleAssignments: [
+            {
+              name: 'ff72f58d-a3cf-42fd-9c27-c61906bdddfe'
+              principalId: '<principalId>'
+              principalType: 'ServicePrincipal'
+              roleDefinitionIdOrName: 'Owner'
+            }
+            {
+              principalId: '<principalId>'
+              principalType: 'ServicePrincipal'
+              roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+            }
+            {
+              principalId: '<principalId>'
+              principalType: 'ServicePrincipal'
+              roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+            }
+          ]
+        }
+      ]
+      osDisk: {
+        caching: 'ReadOnly'
+        createOption: 'FromImage'
+        deleteOption: 'Delete'
+        diskSizeGB: 128
+        managedDisk: {
+          storageAccountType: 'Premium_LRS'
+        }
+        name: 'osdisk01'
+      }
+      osType: 'Linux'
+      vmSize: 'Standard_D2s_v3'
+      zone: 1
+      // Non-required parameters
+      backupPolicyName: '<backupPolicyName>'
+      backupVaultName: '<backupVaultName>'
+      backupVaultResourceGroup: '<backupVaultResourceGroup>'
+      computerName: 'linvm1'
+      dataDisks: [
+        {
+          caching: 'ReadWrite'
+          createOption: 'Empty'
+          deleteOption: 'Delete'
+          diskSizeGB: 128
+          managedDisk: {
+            storageAccountType: 'Premium_LRS'
+          }
+          name: 'datadisk01'
+        }
+        {
+          caching: 'ReadWrite'
+          createOption: 'Empty'
+          deleteOption: 'Delete'
+          diskSizeGB: 128
+          managedDisk: {
+            storageAccountType: 'Premium_LRS'
+          }
+          name: 'datadisk02'
+        }
+      ]
+      disablePasswordAuthentication: true
+      enableAutomaticUpdates: true
+      encryptionAtHost: false
+      extensionAadJoinConfig: {
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionAzureDiskEncryptionConfig: {
+        enabled: true
+        settings: {
+          EncryptionOperation: 'EnableEncryption'
+          KekVaultResourceId: '<KekVaultResourceId>'
+          KeyEncryptionAlgorithm: 'RSA-OAEP'
+          KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
+          KeyVaultResourceId: '<KeyVaultResourceId>'
+          KeyVaultURL: '<KeyVaultURL>'
+          ResizeOSDisk: 'false'
+          VolumeType: 'All'
+        }
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionCustomScriptConfig: {
+        enabled: true
+        fileData: [
+          {
+            storageAccountId: '<storageAccountId>'
+            uri: '<uri>'
+          }
+        ]
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionCustomScriptProtectedSetting: {
+        commandToExecute: '<commandToExecute>'
+      }
+      extensionDependencyAgentConfig: {
+        enableAMA: true
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionDSCConfig: {
+        enabled: false
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionMonitoringAgentConfig: {
+        dataCollectionRuleAssociations: [
+          {
+            dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
+            name: 'SendMetricsToLAW'
+          }
+        ]
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      extensionNetworkWatcherAgentConfig: {
+        enabled: true
+        tags: {
+          Environment: 'Non-Prod'
+          'hidden-title': 'This is visible in the resource name'
+          Role: 'DeploymentValidation'
+        }
+      }
+      location: '<location>'
+      lock: {
+        kind: 'CanNotDelete'
+        name: 'myCustomLockName'
+      }
+      managedIdentities: {
+        systemAssigned: true
+        userAssignedResourceIds: [
+          '<managedIdentityResourceId>'
+        ]
+      }
+      patchMode: 'AutomaticByPlatform'
+      publicKeys: [
+        {
+          keyData: '<keyData>'
+          path: '/home/localAdministrator/.ssh/authorized_keys'
+        }
+      ]
+      rebootSetting: 'IfRequired'
+      roleAssignments: [
+        {
+          name: 'eb01de52-d2be-4272-a7b9-13de6c399e27'
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: 'Owner'
+        }
+        {
+          name: '<name>'
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+        }
+        {
+          principalId: '<principalId>'
+          principalType: 'ServicePrincipal'
+          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+        }
+      ]
+      tags: {
+        Environment: 'Non-Prod'
+        'hidden-title': 'This is visible in the resource name'
+        Role: 'DeploymentValidation'
+      }
+    }
   }
 ]

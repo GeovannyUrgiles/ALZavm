@@ -16,7 +16,7 @@ param enableOperationalInsights = true
 param enableKeyVault = true
 param enableStorageAccount = true
 
-// param enableRecoveryServiceVault = true
+param enableRecoveryServiceVault = true
 
 param dnsServers = [
   '168.63.129.16'
