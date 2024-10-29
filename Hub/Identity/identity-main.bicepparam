@@ -36,10 +36,6 @@ param locations = [
 
 // Resource Group Names
 
-var resourceGroupName_Networks = [
-  'idnwus2networkrg'
-  'idneus2networkrg'
-]
 param resourceGroupName_Network = [
   'idnwus2networkrg'
   'idneus2networkrg'
@@ -144,7 +140,7 @@ param subnets0 = [
     name: '${virtualNetworkNamePrimary}${nameSeparator}virtualmachinesn'
     addressPrefix: '10.3.0.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Networks[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}virtualmachinesn${nsgSuffix}'
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}virtualmachinesn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
@@ -162,14 +158,14 @@ param subnets1 = [
     name: '${virtualNetworkNamePrimary}${nameSeparator}virtualmachinesn'
     addressPrefix: '10.4.0.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Networks[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}virtualmachinesn${nsgSuffix}'
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}virtualmachinesn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
     name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn'
     addressPrefix: '10.4.1.0/24'
     delegation: ''
-    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn${nsgSuffix}'
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn${nsgSuffix}'
     serviceEndpoints: []
   }
 ]
