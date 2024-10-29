@@ -417,7 +417,7 @@ param subnets1 = [
 
 param dnsForwardingOutboundRules = [
   {
-    domainName: 'clientdomain.com'
+    domainName: 'clientdomain.com.' // Add trailing dot
     forwardingRuleState: 'Enabled'
     name: 'rule1'
     targetDnsServers: [
