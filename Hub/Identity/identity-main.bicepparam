@@ -292,9 +292,9 @@ param virtualMachine_Windows = {
     }
   }
   extensionAzureDiskEncryptionConfig: {
-    enabled: false
+    enabled: true
     settings: {
-      EncryptionOperation: '' // EnableEncryption | RotateEncryptionKey | DisableEncryption
+      EncryptionOperation: 'EnableEncryption' // EnableEncryption | RotateEncryptionKey | DisableEncryption
       KekVaultResourceId: ''
       KeyEncryptionAlgorithm: 'RSA-OEP' // RSA-OAEP | RSA-OAEP-256 | RSA1_5
       KeyEncryptionKeyURL: ''
