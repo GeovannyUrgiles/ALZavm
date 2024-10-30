@@ -469,9 +469,9 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       // backupPolicyName: '<backupPolicyName>'
       // backupVaultName: '<backupVaultName>'
       // backupVaultResourceGroup: '<backupVaultResourceGroup>'
-      // computerName: 'winvm1'
-      // enableAutomaticUpdates: true
-      // encryptionAtHost: false
+      computerName: 'winvm1'
+      enableAutomaticUpdates: true
+      encryptionAtHost: false
       // extensionAadJoinConfig: {
       //   enabled: true
       //   tags: tags
