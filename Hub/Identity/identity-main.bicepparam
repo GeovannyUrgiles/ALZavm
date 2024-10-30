@@ -221,7 +221,7 @@ param availabilitySet = {
 // Virtual Machine Properties (Windows)
 
 param virtualMachine_Windows = {
-  vmSize: 'Standard_DS2_v2'
+  vmSize: 'Standard_DS1_v2' // Standard_DS1_v2 | Standard_DS2_v2 | Standard_DS3_v2 | Standard_DS4_v2 | Standard_DS5_v2 | Standard_DS11_v2 | Standard_DS12_v2 | Standard_DS13_v2 | Standard_DS14_v2 | Standard_DS15_v2 | Standard_D1_v2 | Standard_D2_v2 | Standard_D3_v2 | Standard_D4_v2 | Standard_D5_v2 | Standard_D11_v2 | Standard_D12_v2 | Standard_D13_v2 | Standard_D14_v2 | Standard_D15_v2 | Standard_D2s_v3 | Standard_D4s_v3 | Standard_D8s_v3 | Standard_D16s_v3 | Standard_D32s_v3 | Standard_D48s_v3 | Standard_D64s_v3 | Standard_D2_v3 | Standard_D4_v3 | Standard_D8_v3 | Standard_D16_v3 | Standard_D32_v3 | Standard_D48_v3 | Standard_D64_v3 | Standard_D2s_v4 | Standard_D4s_v4 | Standard_D8s_v4 | Standard_D16s_v4 | Standard_D32s_v4 | Standard_D48s_v4 | Standard_D64s_v4 | Standard_D2_v4 | Standard_D4_v4 | Standard_D8_v4 | Standard_D16_v4 | Standard_D32_v4 | Standard_D48_v4 | Standard_D64_v4 | Standard_D2ds_v4 | Standard_D4ds_v4 | Standard_D8ds_v4 | Standard_D16ds_v4 | Standard_D32ds_v4 | Standard_D48ds_v4 | Standard_D64ds_v4 | Standard_D2s_v5 | Standard_D4s_v5 | Standard_D8s_v5 | Standard_D16s_v5 | Standard_D32s_v5 | Standard_D48s_v5 | Standard_D64s_v5 | Standard_D2_v5 | Standard_D4_v5 | Standard_D8_v5 | Standard_D16_v5 | Standard_D32_v5 | Standard_D48_v5 | Standard_D64_v5 | Standard_D2ds_v5 | Standard_D4ds_v5 | Standard_D8ds_v5 | Standard_D16ds_v5 | Standard_D32ds_v5 | Standard_D48ds_v5 | Standard_D64ds_v5 | Standard_D2s_v6 |
   nicConfigurations: {
     deleteOption: 'Delete'
     name: 'customSetting'
