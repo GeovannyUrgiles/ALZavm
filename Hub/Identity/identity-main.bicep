@@ -178,6 +178,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
     }
     dependsOn: [
       modNetworkSecurityGroupPrimary
+      modNetworkSecurityGroupSecondary
     ]
   }
 ]
