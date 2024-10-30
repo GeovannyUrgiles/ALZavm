@@ -471,10 +471,10 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       computerName: 'winvm1'
       enableAutomaticUpdates: true
       encryptionAtHost: false
-      // extensionAadJoinConfig: {
-      //   enabled: true
-      //   tags: tags
-      // }
+      extensionAadJoinConfig: {
+        enabled: virtualMachine_Windows.extensionAadJoinConfig.enabled
+        tags: tags
+      }
       extensionAntiMalwareConfig: {
         enabled: virtualMachine_Windows.extensionAntiMalwareConfig.enabled
         settings: {
@@ -495,18 +495,18 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
         tags: tags
       }
       extensionAzureDiskEncryptionConfig: {
-        enabled: true
-        // settings: {
-        //   EncryptionOperation: 'EnableEncryption'
-        //   KekVaultResourceId: '<KekVaultResourceId>'
-        //   KeyEncryptionAlgorithm: 'RSA-OAEP'
-        //   KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
-        //   KeyVaultResourceId: '<KeyVaultResourceId>'
-        //   KeyVaultURL: '<KeyVaultURL>'
-        //   ResizeOSDisk: 'false'
-        //   tags: tags
-        //   VolumeType: 'All'
-        // }
+        enabled: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.enabled
+        settings: {
+          EncryptionOperation: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.EncryptionOperation
+          KekVaultResourceId: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KekVaultResourceId
+          KeyEncryptionAlgorithm: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyEncryptionAlgorithm
+          KeyEncryptionKeyURL: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyEncryptionKeyURL
+          KeyVaultResourceId: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyVaultResourceId
+          KeyVaultURL: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyVaultURL
+          ResizeOSDisk: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.ResizeOSDisk
+          tags: tags
+          VolumeType: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.VolumeType
+        }
       }
       // extensionCustomScriptConfig: {
       //   enabled: true
@@ -552,9 +552,9 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
           modUserAssignedIdentity[i].outputs.resourceId
         ]
       }
-      patchMode: 'AutomaticByPlatform'
-      proximityPlacementGroupResourceId: '' // '<proximityPlacementGroupResourceId>'
-      rebootSetting: 'IfRequired'
+      patchMode: virtualMachine_Windows.patchMode
+      proximityPlacementGroupResourceId: virtualMachine_Windows.proximityPlacementGroupResourceId
+      rebootSetting: virtualMachine_Windows.rebootSetting
       roleAssignments: []
       tags: {}
     }
