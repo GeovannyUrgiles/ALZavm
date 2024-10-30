@@ -215,13 +215,60 @@ param availabilitySet = {
 // Virtual Machine Properties (Windows)
 
 param virtualMachine_Windows = {
-  availabilitySet: availabilitySetName[indexOf(locations)]
   vmSize: 'Standard_DS2_v2'
+  nicConfigurations: {
+    deleteOption: 'Delete'
+    name: 'customSetting'
+    enableIPForwarding: true
+    privateIpAddressVersion: 'IPv4'
+    privateIPAllocationMethod: 'Dynamic'
+  }
   osDisk: {
-    caching: 'ReadWrite
+    caching: 'ReadWrite'
+    createOption: 'FromImage'
+    deleteOption: 'Delete'
+    diskSizeGB: 128
+    managedDisk: {
+      storageAccountType: 'Premium_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
+    }
   }
+  dataDisks: {
+    caching: 'None'
+    createOption: 'Empty'
+    deleteOption: 'Delete'
+    diskSizeGB: 128
+    lun: 0
+    managedDisk: {
+      storageAccountType: 'Premium_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
+    }
   }
-  }
+  autoShutdownConfig: {
+        dailyRecurrenceTime: '19:00'
+        notificationEmail: 'test@contoso.com'
+        notificationLocale: 'en'
+        notificationStatus: 'Enabled'
+        notificationTimeInMinutes: 30
+        status: 'Enabled'
+        timeZone: 'UTC'
+      }
+      extensionAntiMalwareConfig: {
+        enabled: true
+        settings: {
+          AntimalwareEnabled: 'true'
+          Exclusions: {
+            Extensions: '' //  to exclude, example: '.ext1;.ext2'
+            Paths: '' // to exclude, example: 'c:\\excluded-path-1;c:\\excluded-path-2'
+            Processes: '' // to exclude, example: 'excludedproc1.exe;excludedproc2.exe'
+          }
+          RealtimeProtectionEnabled: 'true'
+          ScheduledScanSettings: {
+            day: '7'
+            isEnabled: 'true'
+            scanType: 'Quick'
+            time: '120'
+          }
+        }
+}
 
 // Storage Account Properties (Diagnostics)
 

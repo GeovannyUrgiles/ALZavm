@@ -385,13 +385,18 @@ module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
   }
 ]
 
-// // Windows Virtual Machine
+// Windows Virtual Machine
 
 module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'virtualMachineDeploymentWindows${i}'
     params: {
+      osType: 'Windows'
+      vmSize: 'Standard_D2s_v3'
+      zone: 2
+      // Non-required parameters
+      adminPassword: '<adminPassword>'
       adminUsername: 'VMAdmin'
       imageReference: {
         offer: 'WindowsServer'
@@ -402,7 +407,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       name: virtualMachineName_Windows[i]
       nicConfigurations: [
         {
-          deleteOption: 'Delete'
+          deleteOption: virtualMachine_Windows.nicConfigurations.deleteOption
           diagnosticSettings: [
             {
               metricCategories: [
@@ -410,44 +415,18 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
                   category: 'AllMetrics'
                 }
               ]
-              name: 'customSetting'
+              name: virtualMachine_Windows.nicConfigurations.name
               storageAccountResourceId: modStorageAccount[i].outputs.resourceId
               workspaceResourceId: modWorkspace[i].outputs.resourceId
             }
           ]
-          enableIPForwarding: true
+          enableIPForwarding: virtualMachine_Windows.nicConfigurations.enableIPForwarding
           ipConfigurations: [
             {
-              applicationSecurityGroups: [
-                {
-                  id: '<id>'
-                }
-              ]
-              diagnosticSettings: [
-                {
-                  eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
-                  eventHubName: '<eventHubName>'
-                  metricCategories: [
-                    {
-                      category: 'AllMetrics'
-                    }
-                  ]
-                  name: 'customSetting'
-                  storageAccountResourceId: '<storageAccountResourceId>'
-                  workspaceResourceId: '<workspaceResourceId>'
-                }
-              ]
-              loadBalancerBackendAddressPools: [
-                {
-                  id: '<id>'
-                }
-              ]
               name: 'ipconfig01'
-              pipConfiguration: {
-                publicIPAddressResourceId: '<publicIPAddressResourceId>'
-                roleAssignments: []
-              }
               subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+              privateIpAddressVersion: virtualMachine_Windows.outputs.privateIpAddressVersion
+              privateIPAllocationMethod: virtualMachine_Windows.outputs.privateIPAllocationMethod
             }
           ]
           name: '${virtualMachineName_Windows[i]}${nicSuffix}'
@@ -455,125 +434,101 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
         }
       ]
       osDisk: {
-        caching: 'ReadWrite'
-        createOption: 'FromImage'
-        deleteOption: 'Delete'
-        diskSizeGB: 128
+        caching: virtualMachine_Windows.osDisk.caching
+        createOption: virtualMachine_Windows.osDisk.createOption
+        deleteOption: virtualMachine_Windows.osDisk.deleteOption
+        diskSizeGB: virtualMachine_Windows.osDisk.diskSizeGB
         managedDisk: {
-          storageAccountType: 'Premium_LRS'
+          storageAccountType: virtualMachine_Windows.osDisk.managedDisk.storageAccountType
         }
         name: '${virtualMachineName_Windows[i]}${nameSeparator}osdisk01'
       }
-      osType: 'Windows'
-      vmSize: 'Standard_D2s_v3'
-      zone: 2
-      // Non-required parameters
-      adminPassword: '<adminPassword>'
-      autoShutdownConfig: {
-        dailyRecurrenceTime: '19:00'
-        notificationEmail: 'test@contoso.com'
-        notificationLocale: 'en'
-        notificationStatus: 'Enabled'
-        notificationTimeInMinutes: 30
-        status: 'Enabled'
-        timeZone: 'UTC'
-      }
-      backupPolicyName: '<backupPolicyName>'
-      backupVaultName: '<backupVaultName>'
-      backupVaultResourceGroup: '<backupVaultResourceGroup>'
-      computerName: 'winvm1'
       dataDisks: [
         {
-          caching: 'None'
-          createOption: 'Empty'
-          deleteOption: 'Delete'
-          diskSizeGB: 128
-          lun: 0
+          caching: virtualMachine_Windows.dataDisks[i].caching
+          createOption: virtualMachine_Windows.dataDisks[i].createOption
+          deleteOption: virtualMachine_Windows.dataDisks[i].deleteOption
+          diskSizeGB: virtualMachine_Windows.dataDisks[i].diskSizeGB
+          lun: virtualMachine_Windows.dataDisks[i].lun
           managedDisk: {
-            storageAccountType: 'Premium_LRS'
+            storageAccountType: virtualMachine_Windows.dataDisks[i].managedDisk.storageAccountType
           }
           name: '${virtualMachineName_Windows[i]}${nameSeparator}datadisk01'
         }
-        {
-          caching: 'None'
-          createOption: 'Empty'
-          deleteOption: 'Delete'
-          diskSizeGB: 128
-          lun: 1
-          managedDisk: {
-            storageAccountType: 'Premium_LRS'
-          }
-          name: '${virtualMachineName_Windows[i]}${nameSeparator}datadisk02'
-        }
       ]
-      enableAutomaticUpdates: true
-      encryptionAtHost: false
-      extensionAadJoinConfig: {
-        enabled: true
-        tags: tags
+      autoShutdownConfig: {
+        dailyRecurrenceTime: virtualMachine_Windows.autoShutdownConfig.dailyRecurrenceTime
+        notificationEmail: virtualMachine_Windows.autoShutdownConfig.notificationEmail
+        notificationLocale: virtualMachine_Windows.autoShutdownConfig.notificationLocale
+        notificationStatus: virtualMachine_Windows.autoShutdownConfig.notificationStatus
+        notificationTimeInMinutes: virtualMachine_Windows.autoShutdownConfig.notificationTimeInMinutes
+        status: virtualMachine_Windows.autoShutdownConfig.status
+        timeZone: virtualMachine_Windows.autoShutdownConfig.timeZone
       }
+      // backupPolicyName: '<backupPolicyName>'
+      // backupVaultName: '<backupVaultName>'
+      // backupVaultResourceGroup: '<backupVaultResourceGroup>'
+      // computerName: 'winvm1'
+      // enableAutomaticUpdates: true
+      // encryptionAtHost: false
+      // extensionAadJoinConfig: {
+      //   enabled: true
+      //   tags: tags
+      // }
       extensionAntiMalwareConfig: {
-        enabled: true
+        enabled: virtualMachine_Windows.extensionAntiMalwareConfig.enabled
         settings: {
-          AntimalwareEnabled: 'true'
+          AntimalwareEnabled: virtualMachine_Windows.extensionAntiMalwareConfig.settings.AntimalwareEnabled
           Exclusions: {
-            Extensions: '.ext1;.ext2'
-            Paths: 'c:\\excluded-path-1;c:\\excluded-path-2'
-            Processes: 'excludedproc1.exe;excludedproc2.exe'
+            Extensions: virtualMachine_Windows.extensionAntiMalwareConfig.settings.Exclusions.Extensions
+            Paths: virtualMachine_Windows.extensionAntiMalwareConfig.settings.Exclusions.Paths
+            Processes: virtualMachine_Windows.extensionAntiMalwareConfig.settings.Exclusions.Processes
           }
-          RealtimeProtectionEnabled: 'true'
+          RealtimeProtectionEnabled: virtualMachine_Windows.extensionAntiMalwareConfig.settings.RealtimeProtectionEnabled
           ScheduledScanSettings: {
-            day: '7'
-            isEnabled: 'true'
-            scanType: 'Quick'
-            time: '120'
+            day: virtualMachine_Windows.extensionAntiMalwareConfig.settings.ScheduledScanSettings.day
+            isEnabled: virtualMachine_Windows.extensionAntiMalwareConfig.settings.ScheduledScanSettings.isEnabled
+            scanType: virtualMachine_Windows.extensionAntiMalwareConfig.settings.ScheduledScanSettings.scanType
+            time: virtualMachine_Windows.extensionAntiMalwareConfig.settings.ScheduledScanSettings.time
           }
         }
         tags: tags
       }
       extensionAzureDiskEncryptionConfig: {
         enabled: true
-        settings: {
-          EncryptionOperation: 'EnableEncryption'
-          KekVaultResourceId: '<KekVaultResourceId>'
-          KeyEncryptionAlgorithm: 'RSA-OAEP'
-          KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
-          KeyVaultResourceId: '<KeyVaultResourceId>'
-          KeyVaultURL: '<KeyVaultURL>'
-          ResizeOSDisk: 'false'
-          tags: tags
-          VolumeType: 'All'
-        }
+        // settings: {
+        //   EncryptionOperation: 'EnableEncryption'
+        //   KekVaultResourceId: '<KekVaultResourceId>'
+        //   KeyEncryptionAlgorithm: 'RSA-OAEP'
+        //   KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
+        //   KeyVaultResourceId: '<KeyVaultResourceId>'
+        //   KeyVaultURL: '<KeyVaultURL>'
+        //   ResizeOSDisk: 'false'
+        //   tags: tags
+        //   VolumeType: 'All'
+        // }
       }
-      extensionCustomScriptConfig: {
-        enabled: true
-        fileData: [
-          {
-            storageAccountId: '<storageAccountId>'
-            uri: '<uri>'
-          }
-        ]
-        tags: tags
-      }
-      extensionCustomScriptProtectedSetting: {
-        commandToExecute: '<commandToExecute>'
-      }
+      // extensionCustomScriptConfig: {
+      //   enabled: true
+      //   fileData: [
+      //     {
+      //       storageAccountId: '<storageAccountId>'
+      //       uri: '<uri>'
+      //     }
+      //   ]
+      //   tags: tags
+      // }
+      // extensionCustomScriptProtectedSetting: {
+      //   commandToExecute: '<commandToExecute>'
+      // }
       extensionDependencyAgentConfig: {
         enableAMA: true
         enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
+        tags: tags
       }
       extensionDSCConfig: {
         enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
+        tags: tags
       }
       extensionMonitoringAgentConfig: {
         dataCollectionRuleAssociations: [
