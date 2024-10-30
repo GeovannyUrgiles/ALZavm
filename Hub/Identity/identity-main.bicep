@@ -783,12 +783,25 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
       privateEndpoints: [
         {
           name: '${recoveryServiceVaultName[i]}${peSuffix}'
-          customNetworkInterfaceName: '${recoveryServiceVaultName[i]}${nicSuffix}'
+          customNetworkInterfaceName: '${recoveryServiceVaultName[i]}${nicSuffix}${nameSeparator}asr'
           ipConfigurations: []
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
+                name: 'cus.backup.windowsazure.com'
                 privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com'
+              }
+              {
+                name: 'cus.siterecovery.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.siterecovery.windowsazure.com'
+              }
+              {
+                name: 'blob.core.windows.net'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.com'
+              }
+              {
+                name: 'queue.core.windows.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.com'
               }
             ]
           }
