@@ -511,7 +511,7 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
 module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
     scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'vaultDeployment${i}'
+    name: 'recoveryServiceVaultDeployment${i}'
     params: {
       name: recoveryServiceVaultName[i]
       backupConfig: {
