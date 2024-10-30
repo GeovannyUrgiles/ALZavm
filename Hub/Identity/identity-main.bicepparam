@@ -257,6 +257,11 @@ param virtualMachine_Windows = {
     status: 'Enabled'
     timeZone: 'CST'
   }
+  enableAutoUpdate: true
+  // enableBackup: true
+  enableMonitoring: true
+  // enableUpdateManagement: true
+  enableTelemetry: true
   extensionAntiMalwareConfig: {
     enabled: true
     settings: {
