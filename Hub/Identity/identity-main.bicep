@@ -445,11 +445,11 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       }
       dataDisks: [
         {
-          caching: virtualMachine_Windows.dataDisks[i].caching
-          createOption: virtualMachine_Windows.dataDisks[i].createOption
-          deleteOption: virtualMachine_Windows.dataDisks[i].deleteOption
-          diskSizeGB: virtualMachine_Windows.dataDisks[i].diskSizeGB
-          lun: virtualMachine_Windows.dataDisks[i].lun
+          caching: virtualMachine_Windows.dataDisks.caching
+          createOption: virtualMachine_Windows.dataDisks.createOption
+          deleteOption: virtualMachine_Windows.dataDisks.deleteOption
+          diskSizeGB: virtualMachine_Windows.dataDisks.diskSizeGB
+          lun: virtualMachine_Windows.dataDisks.lun
           managedDisk: {
             storageAccountType: virtualMachine_Windows.dataDisks[i].managedDisk.storageAccountType
           }
