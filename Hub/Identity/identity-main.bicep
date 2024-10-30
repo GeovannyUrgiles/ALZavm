@@ -388,7 +388,7 @@ module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
 ]
 
 // Data Collection Rule
-module dataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
+module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'dataCollectionRuleDeployment'
@@ -651,10 +651,10 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       }
       extensionMonitoringAgentConfig: {
         dataCollectionRuleAssociations: [
-          // {
-          //   dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
-          //   name: 'SendMetricsToLAW'
-          // }
+          {
+            dataCollectionRuleResourceId: modDataCollectionRule[i].outputs.resourceId
+            name: 'SendMetricsToLAW'
+          }
         ]
         enabled: true
         tags: tags
