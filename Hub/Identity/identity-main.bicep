@@ -393,7 +393,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
     name: 'virtualMachineDeploymentWindows${i}'
     params: {
       osType: 'Windows'
-      vmSize: 'Standard_D2s_v3'
+      vmSize: 'Standard_DS2_v2' // 'Standard_D2s_v3' | Standard_DS2_v2
       zone: 2
       // Non-required parameters
       adminUsername: 'VMAdmin'

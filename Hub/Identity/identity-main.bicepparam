@@ -249,13 +249,13 @@ param virtualMachine_Windows = {
     }
   }
   autoShutdownConfig: {
-    dailyRecurrenceTime: '19:00'
+    dailyRecurrenceTime: '17:00'
     notificationEmail: 'test@contoso.com'
     notificationLocale: 'en'
     notificationStatus: 'Enabled'
     notificationTimeInMinutes: 30
     status: 'Enabled'
-    timeZone: 'UTC'
+    timeZone: 'CST'
   }
   extensionAntiMalwareConfig: {
     enabled: true
