@@ -250,7 +250,7 @@ param virtualMachine_Windows = {
   }
   autoShutdownConfig: {
     dailyRecurrenceTime: '17:00'
-    notificationEmail: 'test@contoso.com'
+    notificationEmail: 'john.kaufman@neudesic.com'
     notificationLocale: 'en'
     notificationStatus: 'Enabled'
     notificationTimeInMinutes: 30
