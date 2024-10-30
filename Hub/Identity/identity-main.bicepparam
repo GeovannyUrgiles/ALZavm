@@ -268,7 +268,6 @@ param virtualMachine_Windows = {
   patchMode: 'AutomaticByPlatform'
   rebootSetting: 'IfRequired'
   proximityPlacementGroupResourceId: ''
-
   enableBackup: true
   enableMonitoring: true
   enableUpdateManagement: true
