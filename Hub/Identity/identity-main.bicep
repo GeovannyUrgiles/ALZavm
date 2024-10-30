@@ -613,20 +613,6 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
         }
         tags: tags
       }
-      extensionAzureDiskEncryptionConfig: {
-        enabled: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.enabled
-        settings: {
-          EncryptionOperation: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.EncryptionOperation
-          KekVaultResourceId: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KekVaultResourceId
-          KeyEncryptionAlgorithm: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyEncryptionAlgorithm
-          KeyEncryptionKeyURL: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyEncryptionKeyURL
-          KeyVaultResourceId: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyVaultResourceId
-          KeyVaultURL: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.KeyVaultURL
-          ResizeOSDisk: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.ResizeOSDisk
-          tags: tags
-          VolumeType: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.VolumeType
-        }
-      }
       extensionDependencyAgentConfig: {
         enableAMA: virtualMachine_Windows.extensionDependencyAgentConfig.enableAMA
         enabled: virtualMachine_Windows.extensionDependencyAgentConfig.enabled

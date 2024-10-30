@@ -291,20 +291,6 @@ param virtualMachine_Windows = {
       }
     }
   }
-  extensionAzureDiskEncryptionConfig: {
-    enabled: true
-    settings: {
-      EncryptionOperation: 'EnableEncryption' // EnableEncryption | RotateEncryptionKey | DisableEncryption
-      KekVaultResourceId: ''
-      KeyEncryptionAlgorithm: 'RSA-OEP' // RSA-OAEP | RSA-OAEP-256 | RSA1_5
-      KeyEncryptionKeyURL: ''
-      KeyVaultResourceId: ''
-      KeyVaultURL: ''
-      ResizeOSDisk: false // true | false
-      tags: tags
-      VolumeType: 'All' // All | OS | Data
-    }
-  }
   extensionDependencyAgentConfig: {
     enableAMA: true
     enabled: true
