@@ -425,8 +425,8 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
             {
               name: 'ipconfig01'
               subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-              privateIpAddressVersion: virtualMachine_Windows.outputs.privateIpAddressVersion
-              privateIPAllocationMethod: virtualMachine_Windows.outputs.privateIPAllocationMethod
+              privateIpAddressVersion: virtualMachine_Windows.nicConfigurations.privateIpAddressVersion
+              privateIPAllocationMethod: virtualMachine_Windows.nicConfigurations.privateIPAllocationMethod
             }
           ]
           name: '${virtualMachineName_Windows[i]}${nicSuffix}'
