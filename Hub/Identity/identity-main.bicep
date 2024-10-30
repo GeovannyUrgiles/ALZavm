@@ -959,5 +959,11 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       roleAssignments: []
       tags: {}
     }
+    dependsOn: [
+      modDataCollectionRule
+      modRecoverServicesVault
+      modStorageAccount
+      modVirtualNetwork
+    ]
   }
 ]
