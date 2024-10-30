@@ -796,7 +796,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
                 privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.siterecovery.windowsazure.com'
               }
               {
-                name: 'blob.core.windows.net'
+                name: 'blob.core.windows.com'
                 privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.com'
               }
               {
