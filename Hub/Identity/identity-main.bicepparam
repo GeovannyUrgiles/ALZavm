@@ -50,6 +50,12 @@ param resourceGroupName_PrivateDns = 'conwus2dnsrg'
 var virtualNetworkNamePrimary = 'idnwus2vnet'
 var virtualNetworkNameSecondary = 'idneus2vnet'
 
+// Virtual Machine Names
+param virtualMachineName_Windows = [
+  'idnwus2dcvm01'
+  'idneus2dcvm01'
+]
+
 // Virtual Network Property Array
 
 param virtualNetwork = [
@@ -243,31 +249,32 @@ param virtualMachine_Windows = {
     }
   }
   autoShutdownConfig: {
-        dailyRecurrenceTime: '19:00'
-        notificationEmail: 'test@contoso.com'
-        notificationLocale: 'en'
-        notificationStatus: 'Enabled'
-        notificationTimeInMinutes: 30
-        status: 'Enabled'
-        timeZone: 'UTC'
+    dailyRecurrenceTime: '19:00'
+    notificationEmail: 'test@contoso.com'
+    notificationLocale: 'en'
+    notificationStatus: 'Enabled'
+    notificationTimeInMinutes: 30
+    status: 'Enabled'
+    timeZone: 'UTC'
+  }
+  extensionAntiMalwareConfig: {
+    enabled: true
+    settings: {
+      AntimalwareEnabled: 'true'
+      Exclusions: {
+        Extensions: '' //  to exclude, example: '.ext1;.ext2'
+        Paths: '' // to exclude, example: 'c:\\excluded-path-1;c:\\excluded-path-2'
+        Processes: '' // to exclude, example: 'excludedproc1.exe;excludedproc2.exe'
       }
-      extensionAntiMalwareConfig: {
-        enabled: true
-        settings: {
-          AntimalwareEnabled: 'true'
-          Exclusions: {
-            Extensions: '' //  to exclude, example: '.ext1;.ext2'
-            Paths: '' // to exclude, example: 'c:\\excluded-path-1;c:\\excluded-path-2'
-            Processes: '' // to exclude, example: 'excludedproc1.exe;excludedproc2.exe'
-          }
-          RealtimeProtectionEnabled: 'true'
-          ScheduledScanSettings: {
-            day: '7'
-            isEnabled: 'true'
-            scanType: 'Quick'
-            time: '120'
-          }
-        }
+      RealtimeProtectionEnabled: 'true'
+      ScheduledScanSettings: {
+        day: '7'
+        isEnabled: 'true'
+        scanType: 'Quick'
+        time: '120'
+      }
+    }
+  }
 }
 
 // Storage Account Properties (Diagnostics)

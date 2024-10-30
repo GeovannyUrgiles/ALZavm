@@ -11,7 +11,6 @@ variables:
     templateFile: 'hub/identity/identity-main.bicep'
     parametersFile: 'hub/identity/identity-main.bicepparam'
     subscriptionId: '5a718e73-cce6-49e2-af77-023ea133c332'
-    
     # action: 'what-if'
     action: 'create'     
   
