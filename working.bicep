@@ -1,85 +1,185 @@
-param firewallPolicies_conwus2azfwpol_name string = 'conwus2azfwpol'
+param vaults_ThievingVault_name string = 'ThievingVault'
+param privateEndpoints_sfghsrghsrth_externalid string = '/subscriptions/5a718e73-cce6-49e2-af77-023ea133c332/resourceGroups/idnwus2networkrg/providers/Microsoft.Network/privateEndpoints/sfghsrghsrth'
 
-resource firewallPolicies_conwus2azfwpol_name_resource 'Microsoft.Network/firewallPolicies@2024-01-01' = {
-  name: firewallPolicies_conwus2azfwpol_name
-  location: 'westus2'
-  tags: {
-    Environment: 'Non-Prod'
-    'hidden-title': 'v1.0.0'
-    Role: 'DeploymentValidation'
-    CostCenter: 'Thieving Cat Corporate'
+resource vaults_ThievingVault_name_resource 'Microsoft.RecoveryServices/vaults@2024-04-30-preview' = {
+  name: vaults_ThievingVault_name
+  location: 'centralus'
+  sku: {
+    name: 'RS0'
+    tier: 'Standard'
   }
   properties: {
-    sku: {
-      tier: 'Standard'
+    securitySettings: {
+      softDeleteSettings: {
+        softDeleteRetentionPeriodInDays: 0
+        softDeleteState: 'Enabled'
+        enhancedSecurityState: 'Enabled'
+      }
     }
-    threatIntelMode: 'Off'
-    threatIntelWhitelist: {
-      fqdns: []
-      ipAddresses: []
+    redundancySettings: {
+      standardTierStorageRedundancy: 'GeoRedundant'
+      crossRegionRestore: 'Disabled'
     }
-    sql: {
-      allowSqlRedirect: false
+    publicNetworkAccess: 'Disabled'
+    restoreSettings: {
+      crossSubscriptionRestoreSettings: {
+        crossSubscriptionRestoreState: 'Enabled'
+      }
     }
   }
 }
 
-resource firewallPolicies_conwus2azfwpol_name_DefaultApplicationRuleCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCollectionGroups@2024-01-01' = {
-  parent: firewallPolicies_conwus2azfwpol_name_resource
-  name: 'DefaultApplicationRuleCollectionGroup'
-  location: 'westus2'
+resource vaults_ThievingVault_name_DefaultPolicy 'Microsoft.RecoveryServices/vaults/backupPolicies@2024-04-30-preview' = {
+  parent: vaults_ThievingVault_name_resource
+  name: 'DefaultPolicy'
   properties: {
-    priority: 300
-    ruleCollections: [
-      {
-        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-        action: {
-          type: 'Allow'
+    backupManagementType: 'AzureIaasVM'
+    instantRPDetails: {}
+    schedulePolicy: {
+      schedulePolicyType: 'SimpleSchedulePolicy'
+      scheduleRunFrequency: 'Daily'
+      scheduleRunTimes: [
+        '2024-10-31T07:30:00Z'
+      ]
+      scheduleWeeklyFrequency: 0
+    }
+    retentionPolicy: {
+      retentionPolicyType: 'LongTermRetentionPolicy'
+      dailySchedule: {
+        retentionTimes: [
+          '2024-10-31T07:30:00Z'
+        ]
+        retentionDuration: {
+          count: 30
+          durationType: 'Days'
         }
-        rules: []
-        name: 'AppCollction'
-        priority: 5500
       }
-    ]
+    }
+    instantRpRetentionRangeInDays: 2
+    timeZone: 'UTC'
+    protectedItemsCount: 0
   }
 }
 
-resource firewallPolicies_conwus2azfwpol_name_DefaultDnatRuleCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCollectionGroups@2024-01-01' = {
-  parent: firewallPolicies_conwus2azfwpol_name_resource
-  name: 'DefaultDnatRuleCollectionGroup'
-  location: 'westus2'
+resource vaults_ThievingVault_name_EnhancedPolicy 'Microsoft.RecoveryServices/vaults/backupPolicies@2024-04-30-preview' = {
+  parent: vaults_ThievingVault_name_resource
+  name: 'EnhancedPolicy'
   properties: {
-    priority: 100
-    ruleCollections: [
-      {
-        ruleCollectionType: 'FirewallPolicyNatRuleCollection'
-        action: {
-          type: 'Dnat'
-        }
-        rules: []
-        name: 'DNATRuleCollection'
-        priority: 5500
+    backupManagementType: 'AzureIaasVM'
+    policyType: 'V2'
+    instantRPDetails: {}
+    schedulePolicy: {
+      schedulePolicyType: 'SimpleSchedulePolicyV2'
+      scheduleRunFrequency: 'Hourly'
+      hourlySchedule: {
+        interval: 4
+        scheduleWindowStartTime: '2024-10-31T08:00:00Z'
+        scheduleWindowDuration: 12
       }
-    ]
+    }
+    retentionPolicy: {
+      retentionPolicyType: 'LongTermRetentionPolicy'
+      dailySchedule: {
+        retentionTimes: [
+          '2024-10-31T08:00:00Z'
+        ]
+        retentionDuration: {
+          count: 30
+          durationType: 'Days'
+        }
+      }
+    }
+    instantRpRetentionRangeInDays: 2
+    timeZone: 'UTC'
+    protectedItemsCount: 0
   }
 }
 
-resource firewallPolicies_conwus2azfwpol_name_DefaultNetworkRuleCollectionGroup 'Microsoft.Network/firewallPolicies/ruleCollectionGroups@2024-01-01' = {
-  parent: firewallPolicies_conwus2azfwpol_name_resource
-  name: 'DefaultNetworkRuleCollectionGroup'
-  location: 'westus2'
+resource vaults_ThievingVault_name_HourlyLogBackup 'Microsoft.RecoveryServices/vaults/backupPolicies@2024-04-30-preview' = {
+  parent: vaults_ThievingVault_name_resource
+  name: 'HourlyLogBackup'
   properties: {
-    priority: 5000
-    ruleCollections: [
+    backupManagementType: 'AzureWorkload'
+    workLoadType: 'SQLDataBase'
+    settings: {
+      timeZone: 'UTC'
+      issqlcompression: false
+      isCompression: false
+    }
+    subProtectionPolicy: [
       {
-        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-        action: {
-          type: 'Allow'
+        policyType: 'Full'
+        schedulePolicy: {
+          schedulePolicyType: 'SimpleSchedulePolicy'
+          scheduleRunFrequency: 'Daily'
+          scheduleRunTimes: [
+            '2024-10-31T07:30:00Z'
+          ]
+          scheduleWeeklyFrequency: 0
         }
-        rules: []
-        name: 'DefaultNetworkRuleCollection'
-        priority: 5555
+        retentionPolicy: {
+          retentionPolicyType: 'LongTermRetentionPolicy'
+          dailySchedule: {
+            retentionTimes: [
+              '2024-10-31T07:30:00Z'
+            ]
+            retentionDuration: {
+              count: 30
+              durationType: 'Days'
+            }
+          }
+        }
+      }
+      {
+        policyType: 'Log'
+        schedulePolicy: {
+          schedulePolicyType: 'LogSchedulePolicy'
+          scheduleFrequencyInMins: 60
+        }
+        retentionPolicy: {
+          retentionPolicyType: 'SimpleRetentionPolicy'
+          retentionDuration: {
+            count: 30
+            durationType: 'Days'
+          }
+        }
       }
     ]
+    protectedItemsCount: 0
   }
+}
+
+resource vaults_ThievingVault_name_sfghsrghsrth_6312693851603580223_backup_ce4585f8_dade_42b9_8edc_567ecb2e282b 'Microsoft.RecoveryServices/vaults/privateEndpointConnections@2024-04-30-preview' = {
+  parent: vaults_ThievingVault_name_resource
+  name: 'sfghsrghsrth.6312693851603580223.backup.ce4585f8-dade-42b9-8edc-567ecb2e282b'
+  location: 'centralus'
+  properties: {
+    provisioningState: 'Succeeded'
+    privateEndpoint: {
+      id: privateEndpoints_sfghsrghsrth_externalid
+    }
+    groupIds: [
+      'AzureBackup'
+    ]
+    privateLinkServiceConnectionState: {
+      status: 'Approved'
+      description: 'None'
+      actionsRequired: 'None'
+    }
+  }
+}
+
+resource vaults_ThievingVault_name_defaultAlertSetting 'Microsoft.RecoveryServices/vaults/replicationAlertSettings@2024-04-01' = {
+  parent: vaults_ThievingVault_name_resource
+  name: 'defaultAlertSetting'
+  properties: {
+    sendToOwners: 'DoNotSend'
+    customEmailAddresses: []
+  }
+}
+
+resource vaults_ThievingVault_name_default 'Microsoft.RecoveryServices/vaults/replicationVaultSettings@2024-04-01' = {
+  parent: vaults_ThievingVault_name_resource
+  name: 'default'
+  properties: {}
 }
