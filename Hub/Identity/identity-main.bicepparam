@@ -204,7 +204,6 @@ param roleAssignmentsNetwork = [
 param availabilitySetName = [
   'idnwus2avset'
   'idneus2avset'
-
 ]
 
 param availabilitySet = {
@@ -212,6 +211,18 @@ param availabilitySet = {
   platformFaultDomainCount: 2
   platformUpdateDomainCount: 5
 }
+
+// Virtual Machine Properties (Windows)
+
+param virtualMachine_Windows = {
+  availabilitySet: availabilitySetName[indexOf(locations)]
+  vmSize: 'Standard_DS2_v2'
+  osDisk: {
+    caching: 'ReadWrite
+  }
+  }
+  }
+
 // Storage Account Properties (Diagnostics)
 
 param storageAccount = {
