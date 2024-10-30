@@ -292,17 +292,17 @@ param virtualMachine_Windows = {
     }
   }
   extensionAzureDiskEncryptionConfig: {
-    enabled: true
+    enabled: false
     settings: {
       EncryptionOperation: '' // EnableEncryption | RotateEncryptionKey | DisableEncryption
       KekVaultResourceId: ''
-      KeyEncryptionAlgorithm: '' // RSA-OAEP | RSA-OAEP-256 | RSA1_5
+      KeyEncryptionAlgorithm: 'RSA-OEP' // RSA-OAEP | RSA-OAEP-256 | RSA1_5
       KeyEncryptionKeyURL: ''
       KeyVaultResourceId: ''
       KeyVaultURL: ''
       ResizeOSDisk: false // true | false
       tags: tags
-      VolumeType: '' // All | OS | Data
+      VolumeType: 'All' // All | OS | Data
     }
   }
   extensionCustomScriptConfig: {
