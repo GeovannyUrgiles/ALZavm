@@ -95,6 +95,10 @@ param storageAccountName = [
   'idneus2diagsa01'
 ]
 
+param dataCollectionRuleName = [
+  'idnwus2dcr01'
+  'idneus2dcr01'
+]
 // Key Vault Properties
 
 param keyVault = {
@@ -300,6 +304,28 @@ param virtualMachine_Windows = {
       tags: tags
       VolumeType: '' // All | OS | Data
     }
+  }
+  extensionCustomScriptConfig: {
+    enabled: false
+    fileData: [
+      {
+        storageAccountId: '' // Storage Account ID
+        uri: '' // URI to the script
+      }
+    ]
+    tags: tags
+  }
+  extensionCustomScriptProtectedSetting: {
+    commandToExecute: '' // Command to execute
+  }
+  extensionDependencyAgentConfig: {
+    enableAMA: true
+    enabled: true
+    tags: tags
+  }
+  extensionDSCConfig: {
+    enabled: true
+    tags: tags
   }
 }
 

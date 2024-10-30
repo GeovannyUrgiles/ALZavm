@@ -30,6 +30,7 @@ param keyVaultName array
 param storageAccountName array
 param availabilitySetName array
 param virtualMachineName_Windows array
+param dataCollectionRuleName array
 
 // DNS Servers
 
@@ -386,6 +387,124 @@ module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
   }
 ]
 
+// Data Collection Rule
+module dataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'dataCollectionRuleDeployment'
+    params: {
+      dataCollectionRuleProperties: {
+        dataFlows: [
+          {
+            destinations: [
+              'azureMonitorMetrics-default'
+            ]
+            streams: [
+              'Microsoft-InsightsMetrics'
+            ]
+          }
+          {
+            destinations: [
+              operationalInsightsName[i]
+            ]
+            streams: [
+              'Microsoft-Event'
+            ]
+          }
+        ]
+        dataSources: {
+          performanceCounters: [
+            {
+              counterSpecifiers: [
+                '\\LogicalDisk(_Total)\\% Disk Read Time'
+                '\\LogicalDisk(_Total)\\% Disk Time'
+                '\\LogicalDisk(_Total)\\% Disk Write Time'
+                '\\LogicalDisk(_Total)\\% Free Space'
+                '\\LogicalDisk(_Total)\\% Idle Time'
+                '\\LogicalDisk(_Total)\\Avg. Disk Queue Length'
+                '\\LogicalDisk(_Total)\\Avg. Disk Read Queue Length'
+                '\\LogicalDisk(_Total)\\Avg. Disk sec/Read'
+                '\\LogicalDisk(_Total)\\Avg. Disk sec/Transfer'
+                '\\LogicalDisk(_Total)\\Avg. Disk sec/Write'
+                '\\LogicalDisk(_Total)\\Avg. Disk Write Queue Length'
+                '\\LogicalDisk(_Total)\\Disk Bytes/sec'
+                '\\LogicalDisk(_Total)\\Disk Read Bytes/sec'
+                '\\LogicalDisk(_Total)\\Disk Reads/sec'
+                '\\LogicalDisk(_Total)\\Disk Transfers/sec'
+                '\\LogicalDisk(_Total)\\Disk Write Bytes/sec'
+                '\\LogicalDisk(_Total)\\Disk Writes/sec'
+                '\\LogicalDisk(_Total)\\Free Megabytes'
+                '\\Memory\\% Committed Bytes In Use'
+                '\\Memory\\Available Bytes'
+                '\\Memory\\Cache Bytes'
+                '\\Memory\\Committed Bytes'
+                '\\Memory\\Page Faults/sec'
+                '\\Memory\\Pages/sec'
+                '\\Memory\\Pool Nonpaged Bytes'
+                '\\Memory\\Pool Paged Bytes'
+                '\\Network Interface(*)\\Bytes Received/sec'
+                '\\Network Interface(*)\\Bytes Sent/sec'
+                '\\Network Interface(*)\\Bytes Total/sec'
+                '\\Network Interface(*)\\Packets Outbound Errors'
+                '\\Network Interface(*)\\Packets Received Errors'
+                '\\Network Interface(*)\\Packets Received/sec'
+                '\\Network Interface(*)\\Packets Sent/sec'
+                '\\Network Interface(*)\\Packets/sec'
+                '\\Process(_Total)\\Handle Count'
+                '\\Process(_Total)\\Thread Count'
+                '\\Process(_Total)\\Working Set'
+                '\\Process(_Total)\\Working Set - Private'
+                '\\Processor Information(_Total)\\% Privileged Time'
+                '\\Processor Information(_Total)\\% Processor Time'
+                '\\Processor Information(_Total)\\% User Time'
+                '\\Processor Information(_Total)\\Processor Frequency'
+                '\\System\\Context Switches/sec'
+                '\\System\\Processes'
+                '\\System\\Processor Queue Length'
+                '\\System\\System Up Time'
+              ]
+              name: 'perfCounterDataSource60'
+              samplingFrequencyInSeconds: 60
+              streams: [
+                'Microsoft-InsightsMetrics'
+              ]
+            }
+          ]
+          windowsEventLogs: [
+            {
+              name: 'eventLogsDataSource'
+              streams: [
+                'Microsoft-Event'
+              ]
+              xPathQueries: [
+                'Application!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0 or Level=5)]]'
+                'Security!*[System[(band(Keywords,13510798882111488))]]'
+                'System!*[System[(Level=1 or Level=2 or Level=3 or Level=4 or Level=0 or Level=5)]]'
+              ]
+            }
+          ]
+        }
+        description: 'Collecting Windows-specific performance counters and Windows Event Logs'
+        destinations: {
+          azureMonitorMetrics: {
+            name: 'azureMonitorMetrics-default'
+          }
+          logAnalytics: [
+            {
+              name: operationalInsightsName[i]
+              workspaceResourceId: modWorkspace[i].outputs.resourceId
+            }
+          ]
+        }
+        kind: 'Windows'
+      }
+      name: dataCollectionRuleName[i]
+      location: locations[i]
+      tags: tags
+    }
+  }
+]
+
 // Windows Virtual Machine
 
 module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
@@ -508,26 +627,26 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
           VolumeType: virtualMachine_Windows.extensionAzureDiskEncryptionConfig.settings.VolumeType
         }
       }
-      // extensionCustomScriptConfig: {
-      //   enabled: true
-      //   fileData: [
-      //     {
-      //       storageAccountId: '<storageAccountId>'
-      //       uri: '<uri>'
-      //     }
-      //   ]
-      //   tags: tags
-      // }
-      // extensionCustomScriptProtectedSetting: {
-      //   commandToExecute: '<commandToExecute>'
-      // }
+      extensionCustomScriptConfig: {
+        enabled: virtualMachine_Windows.extensionCustomScriptConfig.enabled
+        fileData: [
+          {
+            storageAccountId: virtualMachine_Windows.extensionCustomScriptConfig.fileData.storageAccountId
+            uri: virtualMachine_Windows.extensionCustomScriptConfig.fileData.uri
+          }
+        ]
+        tags: tags
+      }
+      extensionCustomScriptProtectedSetting: {
+        commandToExecute: virtualMachine_Windows.extensionCustomScriptProtectedSetting.commandToExecute
+      }
       extensionDependencyAgentConfig: {
-        enableAMA: true
-        enabled: true
+        enableAMA: virtualMachine_Windows.extensionDependencyAgentConfig.enableAMA
+        enabled: virtualMachine_Windows.extensionDependencyAgentConfig.enabled
         tags: tags
       }
       extensionDSCConfig: {
-        enabled: true
+        enabled: virtualMachine_Windows.extensionDSCConfig.enabled
         tags: tags
       }
       extensionMonitoringAgentConfig: {
