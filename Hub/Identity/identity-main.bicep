@@ -362,1008 +362,1008 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
 
 // Availability Set
 
-module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'availabilitySetDeployment${i}'
-    params: {
-      // Required parameters
-      name: 'casmax001'
-      // Non-required parameters
-      location: '<location>'
-      lock: {
-        kind: 'CanNotDelete'
-        name: 'myCustomLockName'
-      }
-      proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
-      roleAssignments: [
-        {
-          name: 'd9d13442-232d-4861-9ab9-bad5e90c4f71'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'Owner'
-        }
-        {
-          name: '<name>'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-        }
-        {
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-        }
-      ]
-      tags: {
-        Environment: 'Non-Prod'
-        'hidden-title': 'This is visible in the resource name'
-        Role: 'DeploymentValidation'
-      }
-    }
-  }
-]
+// module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
+//   for i in range(0, length(locations)): if (enableVirtualNetwork) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'availabilitySetDeployment${i}'
+//     params: {
+//       // Required parameters
+//       name: 'casmax001'
+//       // Non-required parameters
+//       location: '<location>'
+//       lock: {
+//         kind: 'CanNotDelete'
+//         name: 'myCustomLockName'
+//       }
+//       proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
+//       roleAssignments: [
+//         {
+//           name: 'd9d13442-232d-4861-9ab9-bad5e90c4f71'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'Owner'
+//         }
+//         {
+//           name: '<name>'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//         }
+//         {
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//         }
+//       ]
+//       tags: {
+//         Environment: 'Non-Prod'
+//         'hidden-title': 'This is visible in the resource name'
+//         Role: 'DeploymentValidation'
+//       }
+//     }
+//   }
+// ]
 
-// Windows Virtual Machine
+// // Windows Virtual Machine
 
-module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'virtualMachineDeploymentWindows${i}'
-    params: {
-      // Required parameters
-      adminUsername: 'VMAdmin'
-      imageReference: {
-        offer: 'WindowsServer'
-        publisher: 'MicrosoftWindowsServer'
-        sku: '2019-datacenter'
-        version: 'latest'
-      }
-      name: 'cvmwinmax'
-      nicConfigurations: [
-        {
-          deleteOption: 'Delete'
-          diagnosticSettings: [
-            {
-              eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
-              eventHubName: '<eventHubName>'
-              metricCategories: [
-                {
-                  category: 'AllMetrics'
-                }
-              ]
-              name: 'customSetting'
-              storageAccountResourceId: '<storageAccountResourceId>'
-              workspaceResourceId: '<workspaceResourceId>'
-            }
-          ]
-          enableIPForwarding: true
-          ipConfigurations: [
-            {
-              applicationSecurityGroups: [
-                {
-                  id: '<id>'
-                }
-              ]
-              diagnosticSettings: [
-                {
-                  eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
-                  eventHubName: '<eventHubName>'
-                  metricCategories: [
-                    {
-                      category: 'AllMetrics'
-                    }
-                  ]
-                  name: 'customSetting'
-                  storageAccountResourceId: '<storageAccountResourceId>'
-                  workspaceResourceId: '<workspaceResourceId>'
-                }
-              ]
-              loadBalancerBackendAddressPools: [
-                {
-                  id: '<id>'
-                }
-              ]
-              name: 'ipconfig01'
-              pipConfiguration: {
-                publicIPAddressResourceId: '<publicIPAddressResourceId>'
-                roleAssignments: [
-                  {
-                    name: 'e962e7c1-261a-4afd-b5ad-17a640a0b7bc'
-                    principalId: '<principalId>'
-                    principalType: 'ServicePrincipal'
-                    roleDefinitionIdOrName: 'Owner'
-                  }
-                  {
-                    principalId: '<principalId>'
-                    principalType: 'ServicePrincipal'
-                    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-                  }
-                  {
-                    principalId: '<principalId>'
-                    principalType: 'ServicePrincipal'
-                    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-                  }
-                ]
-              }
-              subnetResourceId: '<subnetResourceId>'
-            }
-          ]
-          name: 'nic-test-01'
-          roleAssignments: [
-            {
-              name: '95fc1cc2-05ed-4f5a-a22c-a6ca852df7e7'
-              principalId: '<principalId>'
-              principalType: 'ServicePrincipal'
-              roleDefinitionIdOrName: 'Owner'
-            }
-            {
-              principalId: '<principalId>'
-              principalType: 'ServicePrincipal'
-              roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-            }
-            {
-              principalId: '<principalId>'
-              principalType: 'ServicePrincipal'
-              roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-            }
-          ]
-        }
-      ]
-      osDisk: {
-        caching: 'ReadWrite'
-        createOption: 'FromImage'
-        deleteOption: 'Delete'
-        diskSizeGB: 128
-        managedDisk: {
-          storageAccountType: 'Premium_LRS'
-        }
-        name: 'osdisk01'
-      }
-      osType: 'Windows'
-      vmSize: 'Standard_D2s_v3'
-      zone: 2
-      // Non-required parameters
-      adminPassword: '<adminPassword>'
-      autoShutdownConfig: {
-        dailyRecurrenceTime: '19:00'
-        notificationEmail: 'test@contoso.com'
-        notificationLocale: 'en'
-        notificationStatus: 'Enabled'
-        notificationTimeInMinutes: 30
-        status: 'Enabled'
-        timeZone: 'UTC'
-      }
-      backupPolicyName: '<backupPolicyName>'
-      backupVaultName: '<backupVaultName>'
-      backupVaultResourceGroup: '<backupVaultResourceGroup>'
-      computerName: 'winvm1'
-      dataDisks: [
-        {
-          caching: 'None'
-          createOption: 'Empty'
-          deleteOption: 'Delete'
-          diskSizeGB: 128
-          lun: 0
-          managedDisk: {
-            storageAccountType: 'Premium_LRS'
-          }
-          name: 'datadisk01'
-        }
-        {
-          caching: 'None'
-          createOption: 'Empty'
-          deleteOption: 'Delete'
-          diskSizeGB: 128
-          lun: 1
-          managedDisk: {
-            storageAccountType: 'Premium_LRS'
-          }
-          name: 'datadisk02'
-        }
-      ]
-      enableAutomaticUpdates: true
-      encryptionAtHost: false
-      extensionAadJoinConfig: {
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionAntiMalwareConfig: {
-        enabled: true
-        settings: {
-          AntimalwareEnabled: 'true'
-          Exclusions: {
-            Extensions: '.ext1;.ext2'
-            Paths: 'c:\\excluded-path-1;c:\\excluded-path-2'
-            Processes: 'excludedproc1.exe;excludedproc2.exe'
-          }
-          RealtimeProtectionEnabled: 'true'
-          ScheduledScanSettings: {
-            day: '7'
-            isEnabled: 'true'
-            scanType: 'Quick'
-            time: '120'
-          }
-        }
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionAzureDiskEncryptionConfig: {
-        enabled: true
-        settings: {
-          EncryptionOperation: 'EnableEncryption'
-          KekVaultResourceId: '<KekVaultResourceId>'
-          KeyEncryptionAlgorithm: 'RSA-OAEP'
-          KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
-          KeyVaultResourceId: '<KeyVaultResourceId>'
-          KeyVaultURL: '<KeyVaultURL>'
-          ResizeOSDisk: 'false'
-          tags: {
-            Environment: 'Non-Prod'
-            'hidden-title': 'This is visible in the resource name'
-            Role: 'DeploymentValidation'
-          }
-          VolumeType: 'All'
-        }
-      }
-      extensionCustomScriptConfig: {
-        enabled: true
-        fileData: [
-          {
-            storageAccountId: '<storageAccountId>'
-            uri: '<uri>'
-          }
-        ]
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionCustomScriptProtectedSetting: {
-        commandToExecute: '<commandToExecute>'
-      }
-      extensionDependencyAgentConfig: {
-        enableAMA: true
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionDSCConfig: {
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionMonitoringAgentConfig: {
-        dataCollectionRuleAssociations: [
-          {
-            dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
-            name: 'SendMetricsToLAW'
-          }
-        ]
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionNetworkWatcherAgentConfig: {
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      location: '<location>'
-      lock: {
-        kind: 'CanNotDelete'
-        name: 'myCustomLockName'
-      }
-      managedIdentities: {
-        systemAssigned: true
-        userAssignedResourceIds: [
-          '<managedIdentityResourceId>'
-        ]
-      }
-      patchMode: 'AutomaticByPlatform'
-      proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
-      rebootSetting: 'IfRequired'
-      roleAssignments: [
-        {
-          name: 'c70e8c48-6945-4607-9695-1098ba5a86ed'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'Owner'
-        }
-        {
-          name: '<name>'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-        }
-        {
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-        }
-      ]
-      tags: {
-        Environment: 'Non-Prod'
-        'hidden-title': 'This is visible in the resource name'
-        Role: 'DeploymentValidation'
-      }
-    }
-  }
-]
+// module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
+//   for i in range(0, length(locations)): if (enableVirtualNetwork) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'virtualMachineDeploymentWindows${i}'
+//     params: {
+//       // Required parameters
+//       adminUsername: 'VMAdmin'
+//       imageReference: {
+//         offer: 'WindowsServer'
+//         publisher: 'MicrosoftWindowsServer'
+//         sku: '2019-datacenter'
+//         version: 'latest'
+//       }
+//       name: 'cvmwinmax'
+//       nicConfigurations: [
+//         {
+//           deleteOption: 'Delete'
+//           diagnosticSettings: [
+//             {
+//               eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+//               eventHubName: '<eventHubName>'
+//               metricCategories: [
+//                 {
+//                   category: 'AllMetrics'
+//                 }
+//               ]
+//               name: 'customSetting'
+//               storageAccountResourceId: '<storageAccountResourceId>'
+//               workspaceResourceId: '<workspaceResourceId>'
+//             }
+//           ]
+//           enableIPForwarding: true
+//           ipConfigurations: [
+//             {
+//               applicationSecurityGroups: [
+//                 {
+//                   id: '<id>'
+//                 }
+//               ]
+//               diagnosticSettings: [
+//                 {
+//                   eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+//                   eventHubName: '<eventHubName>'
+//                   metricCategories: [
+//                     {
+//                       category: 'AllMetrics'
+//                     }
+//                   ]
+//                   name: 'customSetting'
+//                   storageAccountResourceId: '<storageAccountResourceId>'
+//                   workspaceResourceId: '<workspaceResourceId>'
+//                 }
+//               ]
+//               loadBalancerBackendAddressPools: [
+//                 {
+//                   id: '<id>'
+//                 }
+//               ]
+//               name: 'ipconfig01'
+//               pipConfiguration: {
+//                 publicIPAddressResourceId: '<publicIPAddressResourceId>'
+//                 roleAssignments: [
+//                   {
+//                     name: 'e962e7c1-261a-4afd-b5ad-17a640a0b7bc'
+//                     principalId: '<principalId>'
+//                     principalType: 'ServicePrincipal'
+//                     roleDefinitionIdOrName: 'Owner'
+//                   }
+//                   {
+//                     principalId: '<principalId>'
+//                     principalType: 'ServicePrincipal'
+//                     roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//                   }
+//                   {
+//                     principalId: '<principalId>'
+//                     principalType: 'ServicePrincipal'
+//                     roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//                   }
+//                 ]
+//               }
+//               subnetResourceId: '<subnetResourceId>'
+//             }
+//           ]
+//           name: 'nic-test-01'
+//           roleAssignments: [
+//             {
+//               name: '95fc1cc2-05ed-4f5a-a22c-a6ca852df7e7'
+//               principalId: '<principalId>'
+//               principalType: 'ServicePrincipal'
+//               roleDefinitionIdOrName: 'Owner'
+//             }
+//             {
+//               principalId: '<principalId>'
+//               principalType: 'ServicePrincipal'
+//               roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//             }
+//             {
+//               principalId: '<principalId>'
+//               principalType: 'ServicePrincipal'
+//               roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//             }
+//           ]
+//         }
+//       ]
+//       osDisk: {
+//         caching: 'ReadWrite'
+//         createOption: 'FromImage'
+//         deleteOption: 'Delete'
+//         diskSizeGB: 128
+//         managedDisk: {
+//           storageAccountType: 'Premium_LRS'
+//         }
+//         name: 'osdisk01'
+//       }
+//       osType: 'Windows'
+//       vmSize: 'Standard_D2s_v3'
+//       zone: 2
+//       // Non-required parameters
+//       adminPassword: '<adminPassword>'
+//       autoShutdownConfig: {
+//         dailyRecurrenceTime: '19:00'
+//         notificationEmail: 'test@contoso.com'
+//         notificationLocale: 'en'
+//         notificationStatus: 'Enabled'
+//         notificationTimeInMinutes: 30
+//         status: 'Enabled'
+//         timeZone: 'UTC'
+//       }
+//       backupPolicyName: '<backupPolicyName>'
+//       backupVaultName: '<backupVaultName>'
+//       backupVaultResourceGroup: '<backupVaultResourceGroup>'
+//       computerName: 'winvm1'
+//       dataDisks: [
+//         {
+//           caching: 'None'
+//           createOption: 'Empty'
+//           deleteOption: 'Delete'
+//           diskSizeGB: 128
+//           lun: 0
+//           managedDisk: {
+//             storageAccountType: 'Premium_LRS'
+//           }
+//           name: 'datadisk01'
+//         }
+//         {
+//           caching: 'None'
+//           createOption: 'Empty'
+//           deleteOption: 'Delete'
+//           diskSizeGB: 128
+//           lun: 1
+//           managedDisk: {
+//             storageAccountType: 'Premium_LRS'
+//           }
+//           name: 'datadisk02'
+//         }
+//       ]
+//       enableAutomaticUpdates: true
+//       encryptionAtHost: false
+//       extensionAadJoinConfig: {
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionAntiMalwareConfig: {
+//         enabled: true
+//         settings: {
+//           AntimalwareEnabled: 'true'
+//           Exclusions: {
+//             Extensions: '.ext1;.ext2'
+//             Paths: 'c:\\excluded-path-1;c:\\excluded-path-2'
+//             Processes: 'excludedproc1.exe;excludedproc2.exe'
+//           }
+//           RealtimeProtectionEnabled: 'true'
+//           ScheduledScanSettings: {
+//             day: '7'
+//             isEnabled: 'true'
+//             scanType: 'Quick'
+//             time: '120'
+//           }
+//         }
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionAzureDiskEncryptionConfig: {
+//         enabled: true
+//         settings: {
+//           EncryptionOperation: 'EnableEncryption'
+//           KekVaultResourceId: '<KekVaultResourceId>'
+//           KeyEncryptionAlgorithm: 'RSA-OAEP'
+//           KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
+//           KeyVaultResourceId: '<KeyVaultResourceId>'
+//           KeyVaultURL: '<KeyVaultURL>'
+//           ResizeOSDisk: 'false'
+//           tags: {
+//             Environment: 'Non-Prod'
+//             'hidden-title': 'This is visible in the resource name'
+//             Role: 'DeploymentValidation'
+//           }
+//           VolumeType: 'All'
+//         }
+//       }
+//       extensionCustomScriptConfig: {
+//         enabled: true
+//         fileData: [
+//           {
+//             storageAccountId: '<storageAccountId>'
+//             uri: '<uri>'
+//           }
+//         ]
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionCustomScriptProtectedSetting: {
+//         commandToExecute: '<commandToExecute>'
+//       }
+//       extensionDependencyAgentConfig: {
+//         enableAMA: true
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionDSCConfig: {
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionMonitoringAgentConfig: {
+//         dataCollectionRuleAssociations: [
+//           {
+//             dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
+//             name: 'SendMetricsToLAW'
+//           }
+//         ]
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionNetworkWatcherAgentConfig: {
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       location: '<location>'
+//       lock: {
+//         kind: 'CanNotDelete'
+//         name: 'myCustomLockName'
+//       }
+//       managedIdentities: {
+//         systemAssigned: true
+//         userAssignedResourceIds: [
+//           '<managedIdentityResourceId>'
+//         ]
+//       }
+//       patchMode: 'AutomaticByPlatform'
+//       proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
+//       rebootSetting: 'IfRequired'
+//       roleAssignments: [
+//         {
+//           name: 'c70e8c48-6945-4607-9695-1098ba5a86ed'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'Owner'
+//         }
+//         {
+//           name: '<name>'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//         }
+//         {
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//         }
+//       ]
+//       tags: {
+//         Environment: 'Non-Prod'
+//         'hidden-title': 'This is visible in the resource name'
+//         Role: 'DeploymentValidation'
+//       }
+//     }
+//   }
+// ]
 
-// Linux Virtual Machine
+// // Linux Virtual Machine
 
-module modVirtualMachine_Linux 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
-  for i in range(0, length(locations)): if (enableStorageAccount) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'virtualMachineDeploymentLinux${i}'
-    params: {
-      // Required parameters
-      adminUsername: 'localAdministrator'
-      imageReference: {
-        offer: '0001-com-ubuntu-server-focal'
-        publisher: 'Canonical'
-        sku: '<sku>'
-        version: 'latest'
-      }
-      name: 'cvmlinmax'
-      nicConfigurations: [
-        {
-          deleteOption: 'Delete'
-          diagnosticSettings: [
-            {
-              eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
-              eventHubName: '<eventHubName>'
-              metricCategories: [
-                {
-                  category: 'AllMetrics'
-                }
-              ]
-              name: 'customSetting'
-              storageAccountResourceId: '<storageAccountResourceId>'
-              workspaceResourceId: '<workspaceResourceId>'
-            }
-          ]
-          ipConfigurations: [
-            {
-              applicationSecurityGroups: [
-                {
-                  id: '<id>'
-                }
-              ]
-              diagnosticSettings: [
-                {
-                  eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
-                  eventHubName: '<eventHubName>'
-                  metricCategories: [
-                    {
-                      category: 'AllMetrics'
-                    }
-                  ]
-                  name: 'customSetting'
-                  storageAccountResourceId: '<storageAccountResourceId>'
-                  workspaceResourceId: '<workspaceResourceId>'
-                }
-              ]
-              loadBalancerBackendAddressPools: [
-                {
-                  id: '<id>'
-                }
-              ]
-              name: 'ipconfig01'
-              pipConfiguration: {
-                publicIpNameSuffix: '-pip-01'
-                roleAssignments: [
-                  {
-                    name: '696e6067-3ddc-4b71-bf97-9caebeba441a'
-                    principalId: '<principalId>'
-                    principalType: 'ServicePrincipal'
-                    roleDefinitionIdOrName: 'Owner'
-                  }
-                  {
-                    principalId: '<principalId>'
-                    principalType: 'ServicePrincipal'
-                    roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-                  }
-                  {
-                    principalId: '<principalId>'
-                    principalType: 'ServicePrincipal'
-                    roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-                  }
-                ]
-                zones: [
-                  1
-                  2
-                  3
-                ]
-              }
-              subnetResourceId: '<subnetResourceId>'
-            }
-          ]
-          name: 'nic-test-01'
-          roleAssignments: [
-            {
-              name: 'ff72f58d-a3cf-42fd-9c27-c61906bdddfe'
-              principalId: '<principalId>'
-              principalType: 'ServicePrincipal'
-              roleDefinitionIdOrName: 'Owner'
-            }
-            {
-              principalId: '<principalId>'
-              principalType: 'ServicePrincipal'
-              roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-            }
-            {
-              principalId: '<principalId>'
-              principalType: 'ServicePrincipal'
-              roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-            }
-          ]
-        }
-      ]
-      osDisk: {
-        caching: 'ReadOnly'
-        createOption: 'FromImage'
-        deleteOption: 'Delete'
-        diskSizeGB: 128
-        managedDisk: {
-          storageAccountType: 'Premium_LRS'
-        }
-        name: 'osdisk01'
-      }
-      osType: 'Linux'
-      vmSize: 'Standard_D2s_v3'
-      zone: 1
-      // Non-required parameters
-      backupPolicyName: '<backupPolicyName>'
-      backupVaultName: '<backupVaultName>'
-      backupVaultResourceGroup: '<backupVaultResourceGroup>'
-      computerName: 'linvm1'
-      dataDisks: [
-        {
-          caching: 'ReadWrite'
-          createOption: 'Empty'
-          deleteOption: 'Delete'
-          diskSizeGB: 128
-          managedDisk: {
-            storageAccountType: 'Premium_LRS'
-          }
-          name: 'datadisk01'
-        }
-        {
-          caching: 'ReadWrite'
-          createOption: 'Empty'
-          deleteOption: 'Delete'
-          diskSizeGB: 128
-          managedDisk: {
-            storageAccountType: 'Premium_LRS'
-          }
-          name: 'datadisk02'
-        }
-      ]
-      disablePasswordAuthentication: true
-      enableAutomaticUpdates: true
-      encryptionAtHost: false
-      extensionAadJoinConfig: {
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionAzureDiskEncryptionConfig: {
-        enabled: true
-        settings: {
-          EncryptionOperation: 'EnableEncryption'
-          KekVaultResourceId: '<KekVaultResourceId>'
-          KeyEncryptionAlgorithm: 'RSA-OAEP'
-          KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
-          KeyVaultResourceId: '<KeyVaultResourceId>'
-          KeyVaultURL: '<KeyVaultURL>'
-          ResizeOSDisk: 'false'
-          VolumeType: 'All'
-        }
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionCustomScriptConfig: {
-        enabled: true
-        fileData: [
-          {
-            storageAccountId: '<storageAccountId>'
-            uri: '<uri>'
-          }
-        ]
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionCustomScriptProtectedSetting: {
-        commandToExecute: '<commandToExecute>'
-      }
-      extensionDependencyAgentConfig: {
-        enableAMA: true
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionDSCConfig: {
-        enabled: false
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionMonitoringAgentConfig: {
-        dataCollectionRuleAssociations: [
-          {
-            dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
-            name: 'SendMetricsToLAW'
-          }
-        ]
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      extensionNetworkWatcherAgentConfig: {
-        enabled: true
-        tags: {
-          Environment: 'Non-Prod'
-          'hidden-title': 'This is visible in the resource name'
-          Role: 'DeploymentValidation'
-        }
-      }
-      location: '<location>'
-      lock: {
-        kind: 'CanNotDelete'
-        name: 'myCustomLockName'
-      }
-      managedIdentities: {
-        systemAssigned: true
-        userAssignedResourceIds: [
-          '<managedIdentityResourceId>'
-        ]
-      }
-      patchMode: 'AutomaticByPlatform'
-      publicKeys: [
-        {
-          keyData: '<keyData>'
-          path: '/home/localAdministrator/.ssh/authorized_keys'
-        }
-      ]
-      rebootSetting: 'IfRequired'
-      roleAssignments: [
-        {
-          name: 'eb01de52-d2be-4272-a7b9-13de6c399e27'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'Owner'
-        }
-        {
-          name: '<name>'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-        }
-        {
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-        }
-      ]
-      tags: {
-        Environment: 'Non-Prod'
-        'hidden-title': 'This is visible in the resource name'
-        Role: 'DeploymentValidation'
-      }
-    }
-  }
-]
+// module modVirtualMachine_Linux 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
+//   for i in range(0, length(locations)): if (enableStorageAccount) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'virtualMachineDeploymentLinux${i}'
+//     params: {
+//       // Required parameters
+//       adminUsername: 'localAdministrator'
+//       imageReference: {
+//         offer: '0001-com-ubuntu-server-focal'
+//         publisher: 'Canonical'
+//         sku: '<sku>'
+//         version: 'latest'
+//       }
+//       name: 'cvmlinmax'
+//       nicConfigurations: [
+//         {
+//           deleteOption: 'Delete'
+//           diagnosticSettings: [
+//             {
+//               eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+//               eventHubName: '<eventHubName>'
+//               metricCategories: [
+//                 {
+//                   category: 'AllMetrics'
+//                 }
+//               ]
+//               name: 'customSetting'
+//               storageAccountResourceId: '<storageAccountResourceId>'
+//               workspaceResourceId: '<workspaceResourceId>'
+//             }
+//           ]
+//           ipConfigurations: [
+//             {
+//               applicationSecurityGroups: [
+//                 {
+//                   id: '<id>'
+//                 }
+//               ]
+//               diagnosticSettings: [
+//                 {
+//                   eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+//                   eventHubName: '<eventHubName>'
+//                   metricCategories: [
+//                     {
+//                       category: 'AllMetrics'
+//                     }
+//                   ]
+//                   name: 'customSetting'
+//                   storageAccountResourceId: '<storageAccountResourceId>'
+//                   workspaceResourceId: '<workspaceResourceId>'
+//                 }
+//               ]
+//               loadBalancerBackendAddressPools: [
+//                 {
+//                   id: '<id>'
+//                 }
+//               ]
+//               name: 'ipconfig01'
+//               pipConfiguration: {
+//                 publicIpNameSuffix: '-pip-01'
+//                 roleAssignments: [
+//                   {
+//                     name: '696e6067-3ddc-4b71-bf97-9caebeba441a'
+//                     principalId: '<principalId>'
+//                     principalType: 'ServicePrincipal'
+//                     roleDefinitionIdOrName: 'Owner'
+//                   }
+//                   {
+//                     principalId: '<principalId>'
+//                     principalType: 'ServicePrincipal'
+//                     roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//                   }
+//                   {
+//                     principalId: '<principalId>'
+//                     principalType: 'ServicePrincipal'
+//                     roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//                   }
+//                 ]
+//                 zones: [
+//                   1
+//                   2
+//                   3
+//                 ]
+//               }
+//               subnetResourceId: '<subnetResourceId>'
+//             }
+//           ]
+//           name: 'nic-test-01'
+//           roleAssignments: [
+//             {
+//               name: 'ff72f58d-a3cf-42fd-9c27-c61906bdddfe'
+//               principalId: '<principalId>'
+//               principalType: 'ServicePrincipal'
+//               roleDefinitionIdOrName: 'Owner'
+//             }
+//             {
+//               principalId: '<principalId>'
+//               principalType: 'ServicePrincipal'
+//               roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//             }
+//             {
+//               principalId: '<principalId>'
+//               principalType: 'ServicePrincipal'
+//               roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//             }
+//           ]
+//         }
+//       ]
+//       osDisk: {
+//         caching: 'ReadOnly'
+//         createOption: 'FromImage'
+//         deleteOption: 'Delete'
+//         diskSizeGB: 128
+//         managedDisk: {
+//           storageAccountType: 'Premium_LRS'
+//         }
+//         name: 'osdisk01'
+//       }
+//       osType: 'Linux'
+//       vmSize: 'Standard_D2s_v3'
+//       zone: 1
+//       // Non-required parameters
+//       backupPolicyName: '<backupPolicyName>'
+//       backupVaultName: '<backupVaultName>'
+//       backupVaultResourceGroup: '<backupVaultResourceGroup>'
+//       computerName: 'linvm1'
+//       dataDisks: [
+//         {
+//           caching: 'ReadWrite'
+//           createOption: 'Empty'
+//           deleteOption: 'Delete'
+//           diskSizeGB: 128
+//           managedDisk: {
+//             storageAccountType: 'Premium_LRS'
+//           }
+//           name: 'datadisk01'
+//         }
+//         {
+//           caching: 'ReadWrite'
+//           createOption: 'Empty'
+//           deleteOption: 'Delete'
+//           diskSizeGB: 128
+//           managedDisk: {
+//             storageAccountType: 'Premium_LRS'
+//           }
+//           name: 'datadisk02'
+//         }
+//       ]
+//       disablePasswordAuthentication: true
+//       enableAutomaticUpdates: true
+//       encryptionAtHost: false
+//       extensionAadJoinConfig: {
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionAzureDiskEncryptionConfig: {
+//         enabled: true
+//         settings: {
+//           EncryptionOperation: 'EnableEncryption'
+//           KekVaultResourceId: '<KekVaultResourceId>'
+//           KeyEncryptionAlgorithm: 'RSA-OAEP'
+//           KeyEncryptionKeyURL: '<KeyEncryptionKeyURL>'
+//           KeyVaultResourceId: '<KeyVaultResourceId>'
+//           KeyVaultURL: '<KeyVaultURL>'
+//           ResizeOSDisk: 'false'
+//           VolumeType: 'All'
+//         }
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionCustomScriptConfig: {
+//         enabled: true
+//         fileData: [
+//           {
+//             storageAccountId: '<storageAccountId>'
+//             uri: '<uri>'
+//           }
+//         ]
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionCustomScriptProtectedSetting: {
+//         commandToExecute: '<commandToExecute>'
+//       }
+//       extensionDependencyAgentConfig: {
+//         enableAMA: true
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionDSCConfig: {
+//         enabled: false
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionMonitoringAgentConfig: {
+//         dataCollectionRuleAssociations: [
+//           {
+//             dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
+//             name: 'SendMetricsToLAW'
+//           }
+//         ]
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       extensionNetworkWatcherAgentConfig: {
+//         enabled: true
+//         tags: {
+//           Environment: 'Non-Prod'
+//           'hidden-title': 'This is visible in the resource name'
+//           Role: 'DeploymentValidation'
+//         }
+//       }
+//       location: '<location>'
+//       lock: {
+//         kind: 'CanNotDelete'
+//         name: 'myCustomLockName'
+//       }
+//       managedIdentities: {
+//         systemAssigned: true
+//         userAssignedResourceIds: [
+//           '<managedIdentityResourceId>'
+//         ]
+//       }
+//       patchMode: 'AutomaticByPlatform'
+//       publicKeys: [
+//         {
+//           keyData: '<keyData>'
+//           path: '/home/localAdministrator/.ssh/authorized_keys'
+//         }
+//       ]
+//       rebootSetting: 'IfRequired'
+//       roleAssignments: [
+//         {
+//           name: 'eb01de52-d2be-4272-a7b9-13de6c399e27'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'Owner'
+//         }
+//         {
+//           name: '<name>'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//         }
+//         {
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//         }
+//       ]
+//       tags: {
+//         Environment: 'Non-Prod'
+//         'hidden-title': 'This is visible in the resource name'
+//         Role: 'DeploymentValidation'
+//       }
+//     }
+//   }
+// ]
 
-// Recovery Services Vault
+// // Recovery Services Vault
 
-module modRecoveryServiceVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
-  for i in range(0, length(locations)): if (enableStorageAccount) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'vaultDeployment${i}'
-    params: {
-      name: 'rsvmax001'
-      backupConfig: {
-        enhancedSecurityState: 'Disabled'
-        softDeleteFeatureState: 'Disabled'
-      }
-      backupPolicies: [
-        {
-          name: 'VMpolicy'
-          properties: {
-            backupManagementType: 'AzureIaasVM'
-            instantRPDetails: {}
-            instantRpRetentionRangeInDays: 2
-            protectedItemsCount: 0
-            retentionPolicy: {
-              dailySchedule: {
-                retentionDuration: {
-                  count: 180
-                  durationType: 'Days'
-                }
-                retentionTimes: [
-                  '2019-11-07T07:00:00Z'
-                ]
-              }
-              monthlySchedule: {
-                retentionDuration: {
-                  count: 60
-                  durationType: 'Months'
-                }
-                retentionScheduleFormatType: 'Weekly'
-                retentionScheduleWeekly: {
-                  daysOfTheWeek: [
-                    'Sunday'
-                  ]
-                  weeksOfTheMonth: [
-                    'First'
-                  ]
-                }
-                retentionTimes: [
-                  '2019-11-07T07:00:00Z'
-                ]
-              }
-              retentionPolicyType: 'LongTermRetentionPolicy'
-              weeklySchedule: {
-                daysOfTheWeek: [
-                  'Sunday'
-                ]
-                retentionDuration: {
-                  count: 12
-                  durationType: 'Weeks'
-                }
-                retentionTimes: [
-                  '2019-11-07T07:00:00Z'
-                ]
-              }
-              yearlySchedule: {
-                monthsOfYear: [
-                  'January'
-                ]
-                retentionDuration: {
-                  count: 10
-                  durationType: 'Years'
-                }
-                retentionScheduleFormatType: 'Weekly'
-                retentionScheduleWeekly: {
-                  daysOfTheWeek: [
-                    'Sunday'
-                  ]
-                  weeksOfTheMonth: [
-                    'First'
-                  ]
-                }
-                retentionTimes: [
-                  '2019-11-07T07:00:00Z'
-                ]
-              }
-            }
-            schedulePolicy: {
-              schedulePolicyType: 'SimpleSchedulePolicy'
-              scheduleRunFrequency: 'Daily'
-              scheduleRunTimes: [
-                '2019-11-07T07:00:00Z'
-              ]
-              scheduleWeeklyFrequency: 0
-            }
-            timeZone: 'UTC'
-          }
-        }
-        {
-          name: 'sqlpolicy'
-          properties: {
-            backupManagementType: 'AzureWorkload'
-            protectedItemsCount: 0
-            settings: {
-              isCompression: true
-              issqlcompression: true
-              timeZone: 'UTC'
-            }
-            subProtectionPolicy: [
-              {
-                policyType: 'Full'
-                retentionPolicy: {
-                  monthlySchedule: {
-                    retentionDuration: {
-                      count: 60
-                      durationType: 'Months'
-                    }
-                    retentionScheduleFormatType: 'Weekly'
-                    retentionScheduleWeekly: {
-                      daysOfTheWeek: [
-                        'Sunday'
-                      ]
-                      weeksOfTheMonth: [
-                        'First'
-                      ]
-                    }
-                    retentionTimes: [
-                      '2019-11-07T22:00:00Z'
-                    ]
-                  }
-                  retentionPolicyType: 'LongTermRetentionPolicy'
-                  weeklySchedule: {
-                    daysOfTheWeek: [
-                      'Sunday'
-                    ]
-                    retentionDuration: {
-                      count: 104
-                      durationType: 'Weeks'
-                    }
-                    retentionTimes: [
-                      '2019-11-07T22:00:00Z'
-                    ]
-                  }
-                  yearlySchedule: {
-                    monthsOfYear: [
-                      'January'
-                    ]
-                    retentionDuration: {
-                      count: 10
-                      durationType: 'Years'
-                    }
-                    retentionScheduleFormatType: 'Weekly'
-                    retentionScheduleWeekly: {
-                      daysOfTheWeek: [
-                        'Sunday'
-                      ]
-                      weeksOfTheMonth: [
-                        'First'
-                      ]
-                    }
-                    retentionTimes: [
-                      '2019-11-07T22:00:00Z'
-                    ]
-                  }
-                }
-                schedulePolicy: {
-                  schedulePolicyType: 'SimpleSchedulePolicy'
-                  scheduleRunDays: [
-                    'Sunday'
-                  ]
-                  scheduleRunFrequency: 'Weekly'
-                  scheduleRunTimes: [
-                    '2019-11-07T22:00:00Z'
-                  ]
-                  scheduleWeeklyFrequency: 0
-                }
-              }
-              {
-                policyType: 'Differential'
-                retentionPolicy: {
-                  retentionDuration: {
-                    count: 30
-                    durationType: 'Days'
-                  }
-                  retentionPolicyType: 'SimpleRetentionPolicy'
-                }
-                schedulePolicy: {
-                  schedulePolicyType: 'SimpleSchedulePolicy'
-                  scheduleRunDays: [
-                    'Monday'
-                  ]
-                  scheduleRunFrequency: 'Weekly'
-                  scheduleRunTimes: [
-                    '2017-03-07T02:00:00Z'
-                  ]
-                  scheduleWeeklyFrequency: 0
-                }
-              }
-              {
-                policyType: 'Log'
-                retentionPolicy: {
-                  retentionDuration: {
-                    count: 15
-                    durationType: 'Days'
-                  }
-                  retentionPolicyType: 'SimpleRetentionPolicy'
-                }
-                schedulePolicy: {
-                  scheduleFrequencyInMins: 120
-                  schedulePolicyType: 'LogSchedulePolicy'
-                }
-              }
-            ]
-            workLoadType: 'SQLDataBase'
-          }
-        }
-        {
-          name: 'filesharepolicy'
-          properties: {
-            backupManagementType: 'AzureStorage'
-            protectedItemsCount: 0
-            retentionPolicy: {
-              dailySchedule: {
-                retentionDuration: {
-                  count: 30
-                  durationType: 'Days'
-                }
-                retentionTimes: [
-                  '2019-11-07T04:30:00Z'
-                ]
-              }
-              retentionPolicyType: 'LongTermRetentionPolicy'
-            }
-            schedulePolicy: {
-              schedulePolicyType: 'SimpleSchedulePolicy'
-              scheduleRunFrequency: 'Daily'
-              scheduleRunTimes: [
-                '2019-11-07T04:30:00Z'
-              ]
-              scheduleWeeklyFrequency: 0
-            }
-            timeZone: 'UTC'
-            workloadType: 'AzureFileShare'
-          }
-        }
-      ]
-      backupStorageConfig: {
-        crossRegionRestoreFlag: true
-        storageModelType: 'GeoRedundant'
-      }
-      diagnosticSettings: [
-        {
-          eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
-          eventHubName: '<eventHubName>'
-          metricCategories: [
-            {
-              category: 'AllMetrics'
-            }
-          ]
-          name: 'customSetting'
-          storageAccountResourceId: '<storageAccountResourceId>'
-          workspaceResourceId: '<workspaceResourceId>'
-        }
-      ]
-      location: '<location>'
-      lock: {}
-      managedIdentities: {
-        systemAssigned: true
-        userAssignedResourceIds: [
-          '<managedIdentityResourceId>'
-        ]
-      }
-      monitoringSettings: {
-        azureMonitorAlertSettings: {
-          alertsForAllJobFailures: 'Enabled'
-        }
-        classicAlertSettings: {
-          alertsForCriticalOperations: 'Enabled'
-        }
-      }
-      privateEndpoints: [
-        {
-          ipConfigurations: [
-            {
-              name: 'myIpConfig-1'
-              properties: {
-                groupId: 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-tel1'
-                privateIPAddress: '10.0.0.10'
-              }
-            }
-            {
-              name: 'myIPconfig-2'
-              properties: {
-                groupId: 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-prot2'
-                privateIPAddress: '10.0.0.11'
-              }
-            }
-            {
-              name: 'myIPconfig-3'
-              properties: {
-                groupId: 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-srs1'
-                privateIPAddress: '10.0.0.12'
-              }
-            }
-            {
-              name: 'myIPconfig-4'
-              properties: {
-                groupId: 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-rcm1'
-                privateIPAddress: '10.0.0.13'
-              }
-            }
-            {
-              name: 'myIPconfig-5'
-              properties: {
-                groupId: 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-id1'
-                privateIPAddress: '10.0.0.14'
-              }
-            }
-          ]
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
-              }
-            ]
-          }
-          subnetResourceId: '<subnetResourceId>'
-          tags: {
-            Environment: 'Non-Prod'
-            'hidden-title': 'This is visible in the resource name'
-            Role: 'DeploymentValidation'
-          }
-        }
-      ]
-      replicationAlertSettings: {
-        customEmailAddresses: [
-          'test.user@testcompany.com'
-        ]
-        locale: 'en-US'
-        sendToOwners: 'Send'
-      }
-      roleAssignments: [
-        {
-          name: '35288372-e6b4-4333-9ee6-dd997b96d52b'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'Owner'
-        }
-        {
-          name: '<name>'
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-        }
-        {
-          principalId: '<principalId>'
-          principalType: 'ServicePrincipal'
-          roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-        }
-      ]
-      securitySettings: {
-        immutabilitySettings: {
-          state: 'Unlocked'
-        }
-      }
-      tags: {
-        Environment: 'Non-Prod'
-        'hidden-title': 'This is visible in the resource name'
-        Role: 'DeploymentValidation'
-      }
-    }
-  }
-]
+// module modRecoveryServiceVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
+//   for i in range(0, length(locations)): if (enableStorageAccount) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'recoveryVaultDeployment${i}'
+//     params: {
+//       name: 'rsvmax001'
+//       backupConfig: {
+//         enhancedSecurityState: 'Disabled'
+//         softDeleteFeatureState: 'Disabled'
+//       }
+//       backupPolicies: [
+//         {
+//           name: 'VMpolicy'
+//           properties: {
+//             backupManagementType: 'AzureIaasVM'
+//             instantRPDetails: {}
+//             instantRpRetentionRangeInDays: 2
+//             protectedItemsCount: 0
+//             retentionPolicy: {
+//               dailySchedule: {
+//                 retentionDuration: {
+//                   count: 180
+//                   durationType: 'Days'
+//                 }
+//                 retentionTimes: [
+//                   '2019-11-07T07:00:00Z'
+//                 ]
+//               }
+//               monthlySchedule: {
+//                 retentionDuration: {
+//                   count: 60
+//                   durationType: 'Months'
+//                 }
+//                 retentionScheduleFormatType: 'Weekly'
+//                 retentionScheduleWeekly: {
+//                   daysOfTheWeek: [
+//                     'Sunday'
+//                   ]
+//                   weeksOfTheMonth: [
+//                     'First'
+//                   ]
+//                 }
+//                 retentionTimes: [
+//                   '2019-11-07T07:00:00Z'
+//                 ]
+//               }
+//               retentionPolicyType: 'LongTermRetentionPolicy'
+//               weeklySchedule: {
+//                 daysOfTheWeek: [
+//                   'Sunday'
+//                 ]
+//                 retentionDuration: {
+//                   count: 12
+//                   durationType: 'Weeks'
+//                 }
+//                 retentionTimes: [
+//                   '2019-11-07T07:00:00Z'
+//                 ]
+//               }
+//               yearlySchedule: {
+//                 monthsOfYear: [
+//                   'January'
+//                 ]
+//                 retentionDuration: {
+//                   count: 10
+//                   durationType: 'Years'
+//                 }
+//                 retentionScheduleFormatType: 'Weekly'
+//                 retentionScheduleWeekly: {
+//                   daysOfTheWeek: [
+//                     'Sunday'
+//                   ]
+//                   weeksOfTheMonth: [
+//                     'First'
+//                   ]
+//                 }
+//                 retentionTimes: [
+//                   '2019-11-07T07:00:00Z'
+//                 ]
+//               }
+//             }
+//             schedulePolicy: {
+//               schedulePolicyType: 'SimpleSchedulePolicy'
+//               scheduleRunFrequency: 'Daily'
+//               scheduleRunTimes: [
+//                 '2019-11-07T07:00:00Z'
+//               ]
+//               scheduleWeeklyFrequency: 0
+//             }
+//             timeZone: 'UTC'
+//           }
+//         }
+//         {
+//           name: 'sqlpolicy'
+//           properties: {
+//             backupManagementType: 'AzureWorkload'
+//             protectedItemsCount: 0
+//             settings: {
+//               isCompression: true
+//               issqlcompression: true
+//               timeZone: 'UTC'
+//             }
+//             subProtectionPolicy: [
+//               {
+//                 policyType: 'Full'
+//                 retentionPolicy: {
+//                   monthlySchedule: {
+//                     retentionDuration: {
+//                       count: 60
+//                       durationType: 'Months'
+//                     }
+//                     retentionScheduleFormatType: 'Weekly'
+//                     retentionScheduleWeekly: {
+//                       daysOfTheWeek: [
+//                         'Sunday'
+//                       ]
+//                       weeksOfTheMonth: [
+//                         'First'
+//                       ]
+//                     }
+//                     retentionTimes: [
+//                       '2019-11-07T22:00:00Z'
+//                     ]
+//                   }
+//                   retentionPolicyType: 'LongTermRetentionPolicy'
+//                   weeklySchedule: {
+//                     daysOfTheWeek: [
+//                       'Sunday'
+//                     ]
+//                     retentionDuration: {
+//                       count: 104
+//                       durationType: 'Weeks'
+//                     }
+//                     retentionTimes: [
+//                       '2019-11-07T22:00:00Z'
+//                     ]
+//                   }
+//                   yearlySchedule: {
+//                     monthsOfYear: [
+//                       'January'
+//                     ]
+//                     retentionDuration: {
+//                       count: 10
+//                       durationType: 'Years'
+//                     }
+//                     retentionScheduleFormatType: 'Weekly'
+//                     retentionScheduleWeekly: {
+//                       daysOfTheWeek: [
+//                         'Sunday'
+//                       ]
+//                       weeksOfTheMonth: [
+//                         'First'
+//                       ]
+//                     }
+//                     retentionTimes: [
+//                       '2019-11-07T22:00:00Z'
+//                     ]
+//                   }
+//                 }
+//                 schedulePolicy: {
+//                   schedulePolicyType: 'SimpleSchedulePolicy'
+//                   scheduleRunDays: [
+//                     'Sunday'
+//                   ]
+//                   scheduleRunFrequency: 'Weekly'
+//                   scheduleRunTimes: [
+//                     '2019-11-07T22:00:00Z'
+//                   ]
+//                   scheduleWeeklyFrequency: 0
+//                 }
+//               }
+//               {
+//                 policyType: 'Differential'
+//                 retentionPolicy: {
+//                   retentionDuration: {
+//                     count: 30
+//                     durationType: 'Days'
+//                   }
+//                   retentionPolicyType: 'SimpleRetentionPolicy'
+//                 }
+//                 schedulePolicy: {
+//                   schedulePolicyType: 'SimpleSchedulePolicy'
+//                   scheduleRunDays: [
+//                     'Monday'
+//                   ]
+//                   scheduleRunFrequency: 'Weekly'
+//                   scheduleRunTimes: [
+//                     '2017-03-07T02:00:00Z'
+//                   ]
+//                   scheduleWeeklyFrequency: 0
+//                 }
+//               }
+//               {
+//                 policyType: 'Log'
+//                 retentionPolicy: {
+//                   retentionDuration: {
+//                     count: 15
+//                     durationType: 'Days'
+//                   }
+//                   retentionPolicyType: 'SimpleRetentionPolicy'
+//                 }
+//                 schedulePolicy: {
+//                   scheduleFrequencyInMins: 120
+//                   schedulePolicyType: 'LogSchedulePolicy'
+//                 }
+//               }
+//             ]
+//             workLoadType: 'SQLDataBase'
+//           }
+//         }
+//         {
+//           name: 'filesharepolicy'
+//           properties: {
+//             backupManagementType: 'AzureStorage'
+//             protectedItemsCount: 0
+//             retentionPolicy: {
+//               dailySchedule: {
+//                 retentionDuration: {
+//                   count: 30
+//                   durationType: 'Days'
+//                 }
+//                 retentionTimes: [
+//                   '2019-11-07T04:30:00Z'
+//                 ]
+//               }
+//               retentionPolicyType: 'LongTermRetentionPolicy'
+//             }
+//             schedulePolicy: {
+//               schedulePolicyType: 'SimpleSchedulePolicy'
+//               scheduleRunFrequency: 'Daily'
+//               scheduleRunTimes: [
+//                 '2019-11-07T04:30:00Z'
+//               ]
+//               scheduleWeeklyFrequency: 0
+//             }
+//             timeZone: 'UTC'
+//             workloadType: 'AzureFileShare'
+//           }
+//         }
+//       ]
+//       backupStorageConfig: {
+//         crossRegionRestoreFlag: true
+//         storageModelType: 'GeoRedundant'
+//       }
+//       diagnosticSettings: [
+//         {
+//           eventHubAuthorizationRuleResourceId: '<eventHubAuthorizationRuleResourceId>'
+//           eventHubName: '<eventHubName>'
+//           metricCategories: [
+//             {
+//               category: 'AllMetrics'
+//             }
+//           ]
+//           name: 'customSetting'
+//           storageAccountResourceId: '<storageAccountResourceId>'
+//           workspaceResourceId: '<workspaceResourceId>'
+//         }
+//       ]
+//       location: '<location>'
+//       lock: {}
+//       managedIdentities: {
+//         systemAssigned: true
+//         userAssignedResourceIds: [
+//           '<managedIdentityResourceId>'
+//         ]
+//       }
+//       monitoringSettings: {
+//         azureMonitorAlertSettings: {
+//           alertsForAllJobFailures: 'Enabled'
+//         }
+//         classicAlertSettings: {
+//           alertsForCriticalOperations: 'Enabled'
+//         }
+//       }
+//       privateEndpoints: [
+//         {
+//           ipConfigurations: [
+//             {
+//               name: 'myIpConfig-1'
+//               properties: {
+//                 groupId: 'AzureSiteRecovery'
+//                 memberName: 'SiteRecovery-tel1'
+//                 privateIPAddress: '10.0.0.10'
+//               }
+//             }
+//             {
+//               name: 'myIPconfig-2'
+//               properties: {
+//                 groupId: 'AzureSiteRecovery'
+//                 memberName: 'SiteRecovery-prot2'
+//                 privateIPAddress: '10.0.0.11'
+//               }
+//             }
+//             {
+//               name: 'myIPconfig-3'
+//               properties: {
+//                 groupId: 'AzureSiteRecovery'
+//                 memberName: 'SiteRecovery-srs1'
+//                 privateIPAddress: '10.0.0.12'
+//               }
+//             }
+//             {
+//               name: 'myIPconfig-4'
+//               properties: {
+//                 groupId: 'AzureSiteRecovery'
+//                 memberName: 'SiteRecovery-rcm1'
+//                 privateIPAddress: '10.0.0.13'
+//               }
+//             }
+//             {
+//               name: 'myIPconfig-5'
+//               properties: {
+//                 groupId: 'AzureSiteRecovery'
+//                 memberName: 'SiteRecovery-id1'
+//                 privateIPAddress: '10.0.0.14'
+//               }
+//             }
+//           ]
+//           privateDnsZoneGroup: {
+//             privateDnsZoneGroupConfigs: [
+//               {
+//                 privateDnsZoneResourceId: '<privateDnsZoneResourceId>'
+//               }
+//             ]
+//           }
+//           subnetResourceId: '<subnetResourceId>'
+//           tags: {
+//             Environment: 'Non-Prod'
+//             'hidden-title': 'This is visible in the resource name'
+//             Role: 'DeploymentValidation'
+//           }
+//         }
+//       ]
+//       replicationAlertSettings: {
+//         customEmailAddresses: [
+//           'test.user@testcompany.com'
+//         ]
+//         locale: 'en-US'
+//         sendToOwners: 'Send'
+//       }
+//       roleAssignments: [
+//         {
+//           name: '35288372-e6b4-4333-9ee6-dd997b96d52b'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'Owner'
+//         }
+//         {
+//           name: '<name>'
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
+//         }
+//         {
+//           principalId: '<principalId>'
+//           principalType: 'ServicePrincipal'
+//           roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
+//         }
+//       ]
+//       securitySettings: {
+//         immutabilitySettings: {
+//           state: 'Unlocked'
+//         }
+//       }
+//       tags: {
+//         Environment: 'Non-Prod'
+//         'hidden-title': 'This is visible in the resource name'
+//         Role: 'DeploymentValidation'
+//       }
+//     }
+//   }
+// ]
