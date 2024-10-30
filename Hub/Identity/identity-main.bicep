@@ -397,8 +397,8 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       vmSize: virtualMachine_Windows.vmSize
       zone: 2
       // Non-required parameters
-      adminUsername: 'VMAdmin'
-      adminPassword: 'adminPassword'
+      adminUsername: 'vmadmin'
+      adminPassword: 'ThievingCat10!'
       
       imageReference: {
         offer: 'WindowsServer'
