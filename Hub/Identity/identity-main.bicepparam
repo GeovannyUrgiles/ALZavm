@@ -99,6 +99,11 @@ param dataCollectionRuleName = [
   'idnwus2dcr01'
   'idneus2dcr01'
 ]
+
+param recoveryServiceVaultName = [
+  'idnwus2rsv01'
+  'idneus2rsv01'
+]
 // Key Vault Properties
 
 param keyVault = {

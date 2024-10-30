@@ -31,6 +31,7 @@ param storageAccountName array
 param availabilitySetName array
 param virtualMachineName_Windows array
 param dataCollectionRuleName array
+param recoveryServiceVaultName array
 
 // DNS Servers
 
@@ -781,16 +782,9 @@ module recoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = 
       }
       privateEndpoints: [
         {
-          // ipConfigurations: [
-          //   {
-          //     name: 'myIpConfig-1'
-          //     properties: {
-          //       groupId: 'AzureSiteRecovery'
-          //       memberName: 'SiteRecovery-tel1'
-          //       privateIPAddress: '10.0.0.10'
-          //     }
-          //   }
-          // ]
+          name: '${recoveryServiceVaultName[i]}${peSuffix}'
+          customNetworkInterfaceName: '${recoveryServiceVaultName[i]}${nicSuffix}'
+          ipConfigurations: []
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
@@ -798,7 +792,7 @@ module recoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = 
               }
             ]
           }
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[0]
+          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
           tags: tags
         }
       ]
