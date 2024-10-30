@@ -396,8 +396,9 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       vmSize: 'Standard_D2s_v3'
       zone: 2
       // Non-required parameters
-      adminPassword: '<adminPassword>'
       adminUsername: 'VMAdmin'
+      adminPassword: 'adminPassword'
+      
       imageReference: {
         offer: 'WindowsServer'
         publisher: 'MicrosoftWindowsServer'
@@ -532,10 +533,10 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       }
       extensionMonitoringAgentConfig: {
         dataCollectionRuleAssociations: [
-          {
-            dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
-            name: 'SendMetricsToLAW'
-          }
+          // {
+          //   dataCollectionRuleResourceId: '<dataCollectionRuleResourceId>'
+          //   name: 'SendMetricsToLAW'
+          // }
         ]
         enabled: true
         tags: tags
@@ -553,7 +554,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
         ]
       }
       patchMode: 'AutomaticByPlatform'
-      proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
+      proximityPlacementGroupResourceId: '' // '<proximityPlacementGroupResourceId>'
       rebootSetting: 'IfRequired'
       roleAssignments: []
       tags: {}
