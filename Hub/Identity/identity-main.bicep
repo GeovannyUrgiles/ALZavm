@@ -508,12 +508,12 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
 
 // Recovery Services Vault
 
-module recoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
+module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
     scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'vaultDeployment'
+    name: 'vaultDeployment${i}'
     params: {
-      name: 'rsvmax001'
+      name: recoveryServiceVaultName[i]
       backupConfig: {
         enhancedSecurityState: 'Disabled'
         softDeleteFeatureState: 'Disabled'
@@ -825,9 +825,9 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       computerName: 'winvm1'
       adminUsername: 'vmadmin'
       adminPassword: 'ThievingCat10!'
-      // backupPolicyName: '<backupPolicyName>'
-      // backupVaultName: '<backupVaultName>'
-      // backupVaultResourceGroup: '<backupVaultResourceGroup>'
+      backupPolicyName: 'VMpolicy'
+      backupVaultName: recoveryServiceVaultName[i]
+      backupVaultResourceGroup: modResourceGroupNetwork[i].outputs.name
       enableAutomaticUpdates: true
       encryptionAtHost: false
       osType: 'Windows'
