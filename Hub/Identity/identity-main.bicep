@@ -451,7 +451,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
           diskSizeGB: virtualMachine_Windows.dataDisks.diskSizeGB
           lun: virtualMachine_Windows.dataDisks.lun
           managedDisk: {
-            storageAccountType: virtualMachine_Windows.dataDisks[i].managedDisk.storageAccountType
+            storageAccountType: virtualMachine_Windows.dataDisks.managedDisk.storageAccountType
           }
           name: '${virtualMachineName_Windows[i]}${nameSeparator}datadisk01'
         }
