@@ -262,7 +262,7 @@ param virtualMachine_Windows = {
     notificationStatus: 'Enabled'
     notificationTimeInMinutes: 30
     status: 'Enabled'
-    timeZone: 'CST'
+    timeZone: 'Central Standard Time'
   }
   enableAutoUpdate: true
   patchMode: 'AutomaticByPlatform'
