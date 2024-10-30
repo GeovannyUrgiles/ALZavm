@@ -242,7 +242,7 @@ param virtualMachine_Windows = {
     deleteOption: 'Delete'
     diskSizeGB: 128
     managedDisk: {
-      storageAccountType: 'Premium_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
+      storageAccountType: 'Standard_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
     }
   }
   dataDisks: {
@@ -252,7 +252,7 @@ param virtualMachine_Windows = {
     diskSizeGB: 128
     lun: 0
     managedDisk: {
-      storageAccountType: 'Premium_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
+      storageAccountType: 'Standard_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
     }
   }
   autoShutdownConfig: {
@@ -269,9 +269,9 @@ param virtualMachine_Windows = {
   rebootSetting: 'IfRequired'
   proximityPlacementGroupResourceId: ''
 
-  // enableBackup: true
+  enableBackup: true
   enableMonitoring: true
-  // enableUpdateManagement: true
+  enableUpdateManagement: true
   enableTelemetry: true
   extensionAntiMalwareConfig: {
     enabled: true
@@ -304,19 +304,6 @@ param virtualMachine_Windows = {
       tags: tags
       VolumeType: 'All' // All | OS | Data
     }
-  }
-  extensionCustomScriptConfig: {
-    enabled: false
-    fileData: [
-      {
-        storageAccountId: '' // Storage Account ID
-        uri: '' // URI to the script
-      }
-    ]
-    tags: tags
-  }
-  extensionCustomScriptProtectedSetting: {
-    commandToExecute: '' // Command to execute
   }
   extensionDependencyAgentConfig: {
     enableAMA: true
