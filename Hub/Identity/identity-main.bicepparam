@@ -199,7 +199,20 @@ param roleAssignmentsNetwork = [
   // }
 ]
 
-// Storage Account (Diagnostics)
+// Availability Set Properties
+
+param availabilitySetName = [
+  'idnwus2avset'
+  'idneus2avset'
+
+]
+
+param availabilitySet = {
+  proximityPlacementGroupResourceId: ''
+  platformFaultDomainCount: 2
+  platformUpdateDomainCount: 5
+}
+// Storage Account Properties (Diagnostics)
 
 param storageAccount = {
   accountTier: 'Standard' // Standard | Premium

@@ -28,6 +28,7 @@ param uamiName array
 param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
+param availabilitySetName array
 
 // DNS Servers
 
@@ -37,6 +38,7 @@ param dnsServers array
 
 param keyVault object
 param storageAccount object
+param availabilitySet object
 
 // Resource Suffixes
 
@@ -47,6 +49,8 @@ param nicSuffix string
 // Resource Group Parameters
 
 param resourceGroupName_Network array
+
+// Role Assignment Parameters
 
 param roleAssignmentsNetwork array
 
@@ -362,47 +366,20 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
 
 // Availability Set
 
-// module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
-//   for i in range(0, length(locations)): if (enableVirtualNetwork) {
-//     scope: resourceGroup(resourceGroupName_Network[i])
-//     name: 'availabilitySetDeployment${i}'
-//     params: {
-//       // Required parameters
-//       name: 'casmax001'
-//       // Non-required parameters
-//       location: '<location>'
-//       lock: {
-//         kind: 'CanNotDelete'
-//         name: 'myCustomLockName'
-//       }
-//       proximityPlacementGroupResourceId: '<proximityPlacementGroupResourceId>'
-//       roleAssignments: [
-//         {
-//           name: 'd9d13442-232d-4861-9ab9-bad5e90c4f71'
-//           principalId: '<principalId>'
-//           principalType: 'ServicePrincipal'
-//           roleDefinitionIdOrName: 'Owner'
-//         }
-//         {
-//           name: '<name>'
-//           principalId: '<principalId>'
-//           principalType: 'ServicePrincipal'
-//           roleDefinitionIdOrName: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-//         }
-//         {
-//           principalId: '<principalId>'
-//           principalType: 'ServicePrincipal'
-//           roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
-//         }
-//       ]
-//       tags: {
-//         Environment: 'Non-Prod'
-//         'hidden-title': 'This is visible in the resource name'
-//         Role: 'DeploymentValidation'
-//       }
-//     }
-//   }
-// ]
+module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
+  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'availabilitySetDeployment${i}'
+    params: {
+      name: availabilitySetName[i]
+      location: locations[i]
+      lock: {}
+      proximityPlacementGroupResourceId: availabilitySet.proximityPlacementGroupResourceId
+      roleAssignments: []
+      tags: tags
+    }
+  }
+]
 
 // // Windows Virtual Machine
 
