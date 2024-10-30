@@ -11,7 +11,6 @@ variables:
     templateFile: 'hub/connectivity/connectivity-main.bicep'
     parametersFile: 'hub/connectivity/connectivity-main.bicepparam'
     subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
-    
     # action: 'what-if'
     action: 'create'     
   
@@ -20,11 +19,11 @@ pool:
     vmImage: 'windows-latest'
   
 stages:
-  - stage: 'Deploy_Connectivity'
+  - stage: 'MDP'
     displayName: 'Deploy Connectivity'
     jobs:
     - deployment: 'Deploy_Connectivity'
-      environment: 'Connectivity'
+      environment: 'Prod'
       timeoutInMinutes: '360'
       strategy:
        runOnce:

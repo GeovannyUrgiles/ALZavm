@@ -1,4 +1,4 @@
-# Connectivity Infra pipeline
+# Identity Infra pipeline
 # https://aka.ms/yaml
 
 trigger:
@@ -21,9 +21,9 @@ pool:
   
 stages:
   - stage: 'MDP'
-    displayName: 'Deploy Connectivity'
+    displayName: 'Deploy Identity'
     jobs:
-    - deployment: 'Deploy_Connectivity'
+    - deployment: 'Deploy_Identity'
       environment: 'Identity'
       timeoutInMinutes: '360'
       strategy:
@@ -33,7 +33,7 @@ stages:
               - checkout: self
   # Bicep deployment tasks            
               - task: AzureCLI@2
-                displayName: "Deploy Connectivity Resources"
+                displayName: "Deploy Identity Resources"
                 inputs:
                   azureSubscription: $(azureServiceConnection)
                   scriptType: bash
