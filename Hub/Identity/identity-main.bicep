@@ -1000,9 +1000,7 @@ module modRecoveryServiceVault 'br/public:avm/res/recovery-services/vault:0.5.1'
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'vaultDeployment${i}'
     params: {
-      // Required parameters
       name: 'rsvmax001'
-      // Non-required parameters
       backupConfig: {
         enhancedSecurityState: 'Disabled'
         softDeleteFeatureState: 'Disabled'
@@ -1256,10 +1254,7 @@ module modRecoveryServiceVault 'br/public:avm/res/recovery-services/vault:0.5.1'
         }
       ]
       location: '<location>'
-      lock: {
-        kind: 'CanNotDelete'
-        name: 'myCustomLockName'
-      }
+      lock: {}
       managedIdentities: {
         systemAssigned: true
         userAssignedResourceIds: [
