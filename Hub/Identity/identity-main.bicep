@@ -9,6 +9,7 @@ param enableOperationalInsights bool
 param enableKeyVault bool
 param enableStorageAccount bool
 param enableRecoveryServiceVault bool
+param enableVirtualMachine bool
 
 // Deployment Options
 
@@ -372,26 +373,26 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
 
 // // Availability Set
 
-// module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
-//   for i in range(0, length(locations)): if (enableVirtualNetwork) {
-//     scope: resourceGroup(resourceGroupName_Network[i])
-//     name: 'availabilitySetDeployment${i}'
-//     params: {
-//       name: availabilitySetName[i]
-//       location: locations[i]
-//       lock: {}
-//       roleAssignments: []
-//       tags: tags
-//       platformFaultDomainCount: availabilitySet.platformFaultDomainCount
-//       platformUpdateDomainCount: availabilitySet.platformUpdateDomainCount
-//       proximityPlacementGroupResourceId: availabilitySet.proximityPlacementGroupResourceId
-//     }
-//   }
-// ]
+module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
+  for i in range(0, length(locations)): if (enableVirtualMachine) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'availabilitySetDeployment${i}'
+    params: {
+      name: availabilitySetName[i]
+      location: locations[i]
+      lock: {}
+      roleAssignments: []
+      tags: tags
+      platformFaultDomainCount: availabilitySet.platformFaultDomainCount
+      platformUpdateDomainCount: availabilitySet.platformUpdateDomainCount
+      proximityPlacementGroupResourceId: availabilitySet.proximityPlacementGroupResourceId
+    }
+  }
+]
 
 // Data Collection Rule
 module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+  for i in range(0, length(locations)): if (enableVirtualMachine) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'dataCollectionRuleDeployment'
     params: {
@@ -510,7 +511,7 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
 // Recovery Services Vault
 
 module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+  for i in range(0, length(locations)): if (enableRecoveryServiceVault) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'recoveryServiceVaultDeployment${i}'
     params: {
@@ -859,7 +860,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
 // Windows Virtual Machine
 
 module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+  for i in range(0, length(locations)): if (enableVirtualMachine) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'virtualMachineDeploymentWindows${i}'
     params: {

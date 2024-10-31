@@ -14,9 +14,10 @@ param enableNetworkSecurityGroups = true
 param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
-param enableStorageAccount = true
+param enableStorageAccount = false
 
 param enableRecoveryServiceVault = true
+param enableVirtualMachine = true
 
 param dnsServers = [
   '168.63.129.16'
