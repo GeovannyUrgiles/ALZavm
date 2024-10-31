@@ -783,61 +783,61 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
         }
       }
       privateEndpoints: [
-        {
-          name: '${recoveryServiceVaultName[i]}${peSuffix}'
-          customNetworkInterfaceName: '${recoveryServiceVaultName[i]}${nicSuffix}'
-          ipConfigurations: [
-            {
-              name: 'myIpConfig-1'
-              properties: {
-                groupId: 'AzureBackup' // 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-tel1'
-                privateIPAddress: 'Dynamic'
-              }
-            }
-            {
-              name: 'myIPconfig-2'
-              properties: {
-                groupId: 'AzureBackup' // 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-prot2'
-                privateIPAddress: 'Dynamic'
-              }
-            }
-            {
-              name: 'myIPconfig-3'
-              properties: {
-                groupId: 'AzureBackup' // 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-srs1'
-                privateIPAddress: 'Dynamic'
-              }
-            }
-            {
-              name: 'myIPconfig-4'
-              properties: {
-                groupId: 'AzureBackup' // 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-rcm1'
-                privateIPAddress: 'Dynamic'
-              }
-            }
-            {
-              name: 'myIPconfig-5'
-              properties: {
-                groupId: 'AzureBackup' // 'AzureSiteRecovery'
-                memberName: 'SiteRecovery-id1'
-                privateIPAddress: 'Dynamic'
-              }
-            }
-          ]
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.${locationsShort[i]}.backup.windowsazure.com'
-              }
-            ]
-          }
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-          tags: tags
-        }
+        // {
+        //   name: '${recoveryServiceVaultName[i]}${peSuffix}'
+        //   customNetworkInterfaceName: '${recoveryServiceVaultName[i]}${nicSuffix}'
+        //   ipConfigurations: [
+        //     {
+        //       name: 'myIpConfig-1'
+        //       properties: {
+        //         groupId: 'AzureBackup' // 'AzureSiteRecovery'
+        //         memberName: 'SiteRecovery-tel1'
+        //         privateIPAddress: 'Dynamic'
+        //       }
+        //     }
+        //     {
+        //       name: 'myIPconfig-2'
+        //       properties: {
+        //         groupId: 'AzureBackup' // 'AzureSiteRecovery'
+        //         memberName: 'SiteRecovery-prot2'
+        //         privateIPAddress: 'Dynamic'
+        //       }
+        //     }
+        //     {
+        //       name: 'myIPconfig-3'
+        //       properties: {
+        //         groupId: 'AzureBackup' // 'AzureSiteRecovery'
+        //         memberName: 'SiteRecovery-srs1'
+        //         privateIPAddress: 'Dynamic'
+        //       }
+        //     }
+        //     {
+        //       name: 'myIPconfig-4'
+        //       properties: {
+        //         groupId: 'AzureBackup' // 'AzureSiteRecovery'
+        //         memberName: 'SiteRecovery-rcm1'
+        //         privateIPAddress: 'Dynamic'
+        //       }
+        //     }
+        //     {
+        //       name: 'myIPconfig-5'
+        //       properties: {
+        //         groupId: 'AzureBackup' // 'AzureSiteRecovery'
+        //         memberName: 'SiteRecovery-id1'
+        //         privateIPAddress: 'Dynamic'
+        //       }
+        //     }
+        //   ]
+        //   privateDnsZoneGroup: {
+        //     privateDnsZoneGroupConfigs: [
+        //       {
+        //         privateDnsZoneResourceId: '/subscrip  tions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.${locationsShort[i]}.backup.windowsazure.com'
+        //       }
+        //     ] 
+        //   }
+        //   subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+        //   tags: tags
+        // }
       ]
       replicationAlertSettings: {
         customEmailAddresses: [
