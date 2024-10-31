@@ -39,7 +39,7 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 // Paired Regions
 
-param locations = [ // Client should deploy (at minimum) Virtual Networks into both regions to establish future DR capabilities
+param locations = [ // Client should deploy (at minimum) a Virtual Network into each region to establish future DR capabilities
   'centralus' // Primary Region
   // 'eastus2' // Secondary Region
 ]
