@@ -140,6 +140,11 @@ param storageAccountName = [
   'concusdiagsa01'
   'coneus2diagsa01'
 ]
+param appInsightsName = [
+  'concusappis01'
+  'coneus2appis01'
+]
+
 
 // Resource Suffixes
 

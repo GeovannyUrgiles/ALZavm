@@ -42,6 +42,7 @@ param keyVaultName array
 param storageAccountName array
 param dnsForwardingRulesetName array
 param dnsForwardingOutboundRules array
+param appInsightsName array
 
 // DNS Servers
 
@@ -185,7 +186,7 @@ module modComponent 'br/public:avm/res/insights/component:0.4.1' = [
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'componentDeployment${i}'
     params: {
-      name: 'appinsights-${i}'
+      name: appInsightsName[i]
       workspaceResourceId: modWorkspace[i].outputs.resourceId
       location: locations[i]
     }
@@ -413,8 +414,9 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
                   id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
                 }
               ]
-              labels: []
-                // virtualWanHub.defaultRoutesName
+              labels: [
+                virtualWanHub.defaultRoutesName
+              ]
             }
           }
         }
