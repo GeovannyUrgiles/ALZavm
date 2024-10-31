@@ -14,7 +14,7 @@ param enableNetworkSecurityGroups = true
 param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
-param enableStorageAccount = false
+param enableStorageAccount = true
 
 param enableRecoveryServiceVault = true
 param enableVirtualMachine = false
