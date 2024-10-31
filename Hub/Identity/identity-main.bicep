@@ -800,7 +800,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-prot2'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[11].properties.privateIPAddress
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
               }
             }
             {
@@ -808,7 +808,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[12].properties.privateIPAddress //[0+1]
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress //[0+1]
               }
             }
             {
@@ -816,7 +816,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-rcm1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[13].properties.privateIPAddress
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
               }
             }
             {
@@ -824,11 +824,12 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-id1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[14].properties.privateIPAddress
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
               }
             }
           ]
           privateDnsZoneGroup: {
+            name: 'privateDnsZoneGroup'
             privateDnsZoneGroupConfigs: [
               {
                 privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
