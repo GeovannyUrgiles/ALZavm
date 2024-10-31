@@ -729,6 +729,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
     }
     dependsOn: [
       modVirtualNetwork
+      modPrivateDnsZones
     ]
   }
 ]
