@@ -808,7 +808,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[12].properties.privateIPAddress
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[12].properties.privateIPAddress //[0+1]
               }
             }
             {
@@ -831,7 +831,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.backup.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
               }
             ] 
           }
