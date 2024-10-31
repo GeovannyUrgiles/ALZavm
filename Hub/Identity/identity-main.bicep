@@ -351,7 +351,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'// ${environment().suffixes.storage}'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net' // ${environment().suffixes.storage}'
               }
             ]
           }
@@ -505,6 +505,13 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
       location: locations[i]
       tags: tags
     }
+  }
+]
+
+resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
+  for i in range(0, length(locations)): if (enableRecoveryServiceVault) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: virtualNetwork[i].name
   }
 ]
 
@@ -792,7 +799,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-tel1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 20)
               }
             }
             {
@@ -800,7 +807,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-prot2'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 21)
               }
             }
             {
@@ -808,7 +815,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress //[0+1]
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 22)
               }
             }
             {
@@ -816,7 +823,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-rcm1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 23)
               }
             }
             {
@@ -824,7 +831,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-id1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 24)
               }
             }
           ]
