@@ -189,7 +189,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
 
 // Key Vault
 
-module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
+module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
   for i in range(0, length(locations)): if (enableKeyVault) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'vaultDeployment${i}'
@@ -242,7 +242,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.9.0' = [
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink${environment().suffixes.keyvaultDns}'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.${environment().suffixes.keyvaultDns}'
               }
             ]
           }
