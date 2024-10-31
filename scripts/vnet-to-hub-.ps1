@@ -2,12 +2,12 @@ This script creates a connection between the virtual hub and the virtual network
 
 Connect-AzAccount
 
-$resourceGroup = Get-AzResourceGroup -ResourceGroupName "idncusvnet" 
-$virtualWan = Get-AzVirtualWan -ResourceGroupName "TestRG" -Name "TestVWAN1"
-$virtualHub = Get-AzVirtualHub -ResourceGroupName "TestRG" -Name "Hub1"
-$remoteVirtualNetwork = Get-AzVirtualNetwork -Name "VNet1" -ResourceGroupName "TestRG"
+$resourceGroup = Get-AzResourceGroup -ResourceGroupName "concusnetworkrg" 
+$virtualWan = Get-AzVirtualWan -ResourceGroupName "concusnetworkrg" -Name "concusvwan"
+$virtualHub = Get-AzVirtualHub -ResourceGroupName "concusnetworkrg" -Name "concusvwanhub"
+$remoteVirtualNetwork = Get-AzVirtualNetwork -Name "idncusvnet" -ResourceGroupName "idncusnetworkrg"
 
-New-AzVirtualHubVnetConnection -ResourceGroupName $resourceGroup -VirtualHubName $virtualHub -Name "VNet1-connection" -RemoteVirtualNetwork $remoteVirtualNetwork -VirtualWan $virtualWan -AllowBranchToBranchTraffic $true -AllowHubToBranchTraffic $true -AllowVnetToVnetTraffic $true -RoutingConfiguration "Default"
+New-AzVirtualHubVnetConnection -ResourceGroupName $resourceGroup -VirtualHubName $virtualHub -Name "vnet-connection" -RemoteVirtualNetwork $remoteVirtualNetwork -VirtualWan $virtualWan -AllowBranchToBranchTraffic $true -AllowHubToBranchTraffic $true -AllowVnetToVnetTraffic $true -RoutingConfiguration "Default"
  
  
  
