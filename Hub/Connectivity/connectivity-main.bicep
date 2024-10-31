@@ -41,7 +41,7 @@ param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
 param dnsForwardingRulesetName array
-param  dnsForwardingOutboundRules array
+param dnsForwardingOutboundRules array
 
 // DNS Servers
 
@@ -168,7 +168,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
   for i in range(0, length(locations)): if (enableOperationalInsights) {
     scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'workspaceDeployment'
+    name: 'workspaceDeployment${i}'
     params: {
       name: operationalInsightsName[i]
       location: locations[i]
@@ -176,6 +176,37 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
     }
     dependsOn: [
       modResourceGroupNetwork
+    ]
+  }
+]
+
+module modComponent 'br/public:avm/res/insights/component:0.4.1' = [
+  for i in range(0, length(locations)): if (enableOperationalInsights) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'componentDeployment${i}'
+    params: {
+      name: 'appinsights-${i}'
+      workspaceResourceId: modWorkspace[i].outputs.resourceId
+      location: locations[i]
+    }
+    dependsOn: [
+      modWorkspace
+    ]
+  }
+]
+
+module modMonitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = [
+  for i in range(0, length(locations)): if (enableOperationalInsights) {
+    scope: resourceGroup(resourceGroupName_Network[i])
+    name: 'monitoringDeployment${i}'
+    params: {
+      applicationInsightsName: modComponent[i].outputs.name
+      logAnalyticsName: operationalInsightsName[i]
+      location: locations[i]
+    }
+    dependsOn: [
+      modWorkspace
+      modComponent
     ]
   }
 ]

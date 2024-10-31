@@ -286,7 +286,7 @@ param azureFirewallPolicy = {
 // Azure Bastion Properties
 
 param bastion = {
-  sku: 'Standard' // Standard | Basic
+  skuName: 'Standard' // Standard | Basic
   disableCopyPaste: true
   disableVpnEncryption: true
   dnsFirewallProxy: []
