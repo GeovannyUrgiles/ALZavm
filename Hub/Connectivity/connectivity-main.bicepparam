@@ -222,7 +222,7 @@ param ruleCollectionGroups = [
 // Virtual WAN Properties
 
 param virtualWan = {
-  virtualWanSku: 'Standard' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
+  virtualWanSku: 'Standard' // Basic | Standard // Use Basic for Site-to-Ste VPN only to local vnet, Standard for ExpressRoute
   allowBranchToBranchTraffic: true // true | false // Allows traffic between VPN branches
   disableVpnEncryption: false
 }
@@ -238,7 +238,7 @@ param virtualWanHub = {
   enableTelemetry: false
   virtualRouterAsn: 65515
   // defaultRoutesName: 'Default'
-  sku: 'Basic' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
+  sku: 'Standard' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
 }
 
 // VPN Gateway Properties
