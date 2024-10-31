@@ -239,7 +239,6 @@ param availabilitySet = {
 // Virtual Machine Properties (Windows)
 
 param virtualMachine_Windows = {
-  computerName: 'winvm1'
   adminUsername: 'vmadmin'
   enableAutomaticUpdates: true
   encryptionAtHost: false

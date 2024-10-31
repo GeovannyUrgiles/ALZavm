@@ -886,7 +886,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       backupVaultResourceGroup: modResourceGroupNetwork[i].outputs.name
       enableAutomaticUpdates: virtualMachine_Windows.enableAutomaticUpdates
       encryptionAtHost: virtualMachine_Windows.encryptionAtHost
-      osType: 'Windows'
+      osType: virtualMachine_Windows.osType
       vmSize: virtualMachine_Windows.vmSize
       zone: virtualMachine_Windows.zone
       imageReference: virtualMachine_Windows.imageReference
@@ -908,7 +908,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
           enableIPForwarding: virtualMachine_Windows.nicConfigurations.enableIPForwarding
           ipConfigurations: [
             {
-              name: 'ipconfig01'
+              name: 'ipConfig01'
               subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
               privateIpAddressVersion: virtualMachine_Windows.nicConfigurations.privateIpAddressVersion
               privateIPAllocationMethod: virtualMachine_Windows.nicConfigurations.privateIPAllocationMethod
