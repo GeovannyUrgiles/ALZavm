@@ -37,22 +37,22 @@ param locations = [
 // Resource Group Names
 
 param resourceGroupName_Network = [
-  'idnwus2networkrg'
+  'idncusnetworkrg'
   'idneus2networkrg'
 ]
 
 // Resource Group Names (Private DNS)
 
-param resourceGroupName_PrivateDns = 'conwus2dnsrg'
+param resourceGroupName_PrivateDns = 'concusdnsrg'
 
 // Virtual Network Names
 
-var virtualNetworkNamePrimary = 'idnwus2vnet'
+var virtualNetworkNamePrimary = 'idncusvnet'
 var virtualNetworkNameSecondary = 'idneus2vnet'
 
 // Virtual Machine Names
 param virtualMachineName_Windows = [
-  'idnwus2dcvm01'
+  'idncusdcvm01'
   'idneus2dcvm01'
 ]
 
@@ -79,29 +79,29 @@ param virtualNetwork = [
 // Resource Name Arrays
 
 param operationalInsightsName = [
-  'idnwus2oiw'
+  'idncusoiw'
   'idneus2oiw'
 ]
 param uamiName = [
-  'idnwus2mi'
+  'idncusmi'
   'idneus2mi'
 ]
 param keyVaultName = [
-  'idnwus2kv01'
+  'idncuskv01'
   'idneus2kv01'
 ]
 param storageAccountName = [
-  'idnwus2diagsa01'
+  'idncusdiagsa01'
   'idneus2diagsa01'
 ]
 
 param dataCollectionRuleName = [
-  'idnwus2dcr01'
+  'idncusdcr01'
   'idneus2dcr01'
 ]
 
 param recoveryServiceVaultName = [
-  'idnwus2rsv01'
+  'idncusrsv01'
   'idneus2rsv01'
 ]
 // Key Vault Properties
@@ -217,7 +217,7 @@ param roleAssignmentsNetwork = [
 // Availability Set Properties
 
 param availabilitySetName = [
-  'idnwus2avset'
+  'idncusavset'
   'idneus2avset'
 ]
 
