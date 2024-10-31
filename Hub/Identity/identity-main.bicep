@@ -792,7 +792,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-tel1'
-                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[10].properties.privateIPAddress
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[0].properties.privateIPAddress
               }
             }
             {
