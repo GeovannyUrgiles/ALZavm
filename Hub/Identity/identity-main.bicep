@@ -789,7 +789,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
             {
               name: 'myIpConfig-1'
               properties: {
-                groupId: 'AzureSiteRecovery'
+                groupId: 'AzureBackup' // 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-tel1'
                 privateIPAddress: 'Dynamic'
               }
@@ -797,7 +797,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
             {
               name: 'myIPconfig-2'
               properties: {
-                groupId: 'AzureSiteRecovery'
+                groupId: 'AzureBackup' // 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-prot2'
                 privateIPAddress: 'Dynamic'
               }
@@ -805,7 +805,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
             {
               name: 'myIPconfig-3'
               properties: {
-                groupId: 'AzureSiteRecovery'
+                groupId: 'AzureBackup' // 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
                 privateIPAddress: 'Dynamic'
               }
@@ -813,7 +813,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
             {
               name: 'myIPconfig-4'
               properties: {
-                groupId: 'AzureSiteRecovery'
+                groupId: 'AzureBackup' // 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-rcm1'
                 privateIPAddress: 'Dynamic'
               }
@@ -821,7 +821,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
             {
               name: 'myIPconfig-5'
               properties: {
-                groupId: 'AzureSiteRecovery'
+                groupId: 'AzureBackup' // 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-id1'
                 privateIPAddress: 'Dynamic'
               }
@@ -830,7 +830,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.${locationsShort[i]}.backup.windowsazure.com'
               }
             ]
           }
