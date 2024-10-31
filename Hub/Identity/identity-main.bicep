@@ -839,7 +839,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
             name: 'privateDnsZoneGroup'
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.siterecovery.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
               }
             ] 
           }

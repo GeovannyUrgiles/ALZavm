@@ -39,7 +39,8 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 // Paired Regions
 
-param locations = [ // Client should deploy (at minimum) a Virtual Network into each region to establish future DR capabilities
+param locations = [
+  // Client should deploy (at minimum) a Virtual Network into each region to establish future DR capabilities
   'centralus' // Primary Region
   // 'eastus2' // Secondary Region
 ]
@@ -664,7 +665,7 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.azurestaticapps.net'
   // 'privatelink.analysis.windows.net'
   // 'privatelink.azurehdinsight.net'
-  'privatelink.cus.backup.windowsazure.com'  //  Azure Backup - Recovery Services Vault - Be sure to change the regional prefix!!
+  'privatelink.cus.backup.windowsazure.com' //  Azure Backup - Recovery Services Vault - Be sure to change the regional prefix!!
   'privatelink.azure-api.net'
   // 'privatelink.azconfig.io'
   // 'privatelink.azure-devices.net'
@@ -705,6 +706,7 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.search.windows.net'
   // 'privatelink.service.signalr.net'
   // 'privatelink.servicebus.windows.net'
+  'privatelink.siterecovery.windowsazure.com'
   // 'privatelink.sql.azuresynapse.net'
   'privatelink.table.core.windows.net'
   // 'privatelink.table.cosmos.azure.com'
