@@ -1,6 +1,8 @@
 This script creates a connection between the virtual hub and the virtual network. The connection allows traffic to flow between the virtual network and the virtual hub. 
 
-$resourceGroup = Get-AzResourceGroup -ResourceGroupName "TestRG" 
+Connect-AzAccount
+
+$resourceGroup = Get-AzResourceGroup -ResourceGroupName "idncusvnet" 
 $virtualWan = Get-AzVirtualWan -ResourceGroupName "TestRG" -Name "TestVWAN1"
 $virtualHub = Get-AzVirtualHub -ResourceGroupName "TestRG" -Name "Hub1"
 $remoteVirtualNetwork = Get-AzVirtualNetwork -Name "VNet1" -ResourceGroupName "TestRG"

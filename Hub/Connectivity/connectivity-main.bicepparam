@@ -14,8 +14,8 @@ param enableOutboundDns = false // Enables Outbound DNS Forwarding Rules
 param enablePrivateDnsZones = true
 
 // Virtual WAN
-param enableVirtualWan = false
-param enableVirtualHub = false
+param enableVirtualWan = true
+param enableVirtualHub = true
 param enableVpnSite = false
 param enableVpnGateway = false
 param enableAzureFirewall = false
@@ -24,7 +24,7 @@ param enableAzureFirewall = false
 param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
-param enableBastion = false
+param enableBastion = true
 param enableStorageAccount = true
 
 // DNS Servers will be applied to Virtual Networks
