@@ -410,12 +410,12 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
             }
             propagatedRouteTables: {
               ids: [
-                {
-                  id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
-                }
+                // {
+                //   id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+                // }
               ]
               labels: [
-                virtualWanHub.defaultRoutesName
+               // virtualWanHub.defaultRoutesName
               ]
             }
           }
