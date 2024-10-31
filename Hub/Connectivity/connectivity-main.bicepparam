@@ -236,7 +236,7 @@ param virtualWanHub = {
   preferredRoutingGateway: '' // 'VpnGateway' | 'ExpressRoute' | 'None' // (requires Standard SKU)
   enableTelemetry: false
   virtualRouterAsn: 65515
-  // defaultRoutesName: 'Default'
+  defaultRoutesName: 'Default'
   sku: 'Standard' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
 }
 
