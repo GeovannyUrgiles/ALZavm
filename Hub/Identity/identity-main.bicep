@@ -878,7 +878,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
     name: 'virtualMachineDeploymentWindows${i}'
     params: {
       name: virtualMachineName_Windows[i].azureName
-      computerName: (i == 0) ? virtualMachineName_Windows[0].adName : virtualMachineName_Windows[1].adName
+      computerName: virtualMachineName_Windows[i].adName
       adminUsername: virtualMachine_Windows.adminUsername
       adminPassword: 'ThievingCat10!'
       backupPolicyName: virtualMachine_Windows.backupPolicyName
@@ -914,7 +914,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
               privateIPAllocationMethod: virtualMachine_Windows.nicConfigurations.privateIPAllocationMethod
             }
           ]
-          name: '${virtualMachineName_Windows[i]}${nicSuffix}'
+          name: '${virtualMachineName_Windows[i].azureName}${nicSuffix}'
           roleAssignments: []
         }
       ]
@@ -926,7 +926,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
         managedDisk: {
           storageAccountType: virtualMachine_Windows.osDisk.managedDisk.storageAccountType
         }
-        name: '${virtualMachineName_Windows[i]}${nameSeparator}osdisk01'
+        name: '${virtualMachineName_Windows[i].azureName}${nameSeparator}osdisk01'
       }
       dataDisks: [
         {
@@ -938,7 +938,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
           managedDisk: {
             storageAccountType: virtualMachine_Windows.dataDisks.managedDisk.storageAccountType
           }
-          name: '${virtualMachineName_Windows[i]}${nameSeparator}datadisk01'
+          name: '${virtualMachineName_Windows[i].azureName}${nameSeparator}datadisk01'
         }
       ]
       autoShutdownConfig: {
