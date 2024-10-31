@@ -15,6 +15,7 @@ param enableRecoveryServiceVault bool
 param subscriptionId string
 param conSubscriptionId string
 param locations array
+param locationsShort array
 param tags object
 param nameSeparator string
 
@@ -829,7 +830,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.${locationsShort[i]}.backup.windowsazure.com'
               }
             ]
           }

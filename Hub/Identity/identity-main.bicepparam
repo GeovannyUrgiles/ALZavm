@@ -33,6 +33,11 @@ param locations = [
   'centralus' // Primary Region
   // 'eastus2' // Secondary Region
 ]
+param locationsShort = [
+  'cus' // Primary Region
+  // 'eus2' // Secondary Region
+]
+
 
 // Resource Group Names
 
