@@ -365,6 +365,7 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
   name: 'virtualWanDeployment'
   params: {
     name: virtualWanName
+    allowBranchToBranchTraffic: virtualWan.allowBranchToBranchTraffic
     disableVpnEncryption: virtualWan.disableVpnEncryption
     type: virtualWan.virtualWanSku
     location: locations[0]
@@ -388,16 +389,16 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
       addressPrefix: virtualWanHub.addressPrefix
       virtualWanId: modVirtualWan.outputs.resourceId
       sku: virtualWanHub.sku
-      allowBranchToBranchTraffic: virtualWanHub.allowBranchToBranchTraffic
+      // allowBranchToBranchTraffic: virtualWanHub.allowBranchToBranchTraffic
       internetToFirewall: virtualWanHub.internetToFirewall
       privateToFirewall: virtualWanHub.privateToFirewall
       preferredRoutingGateway: virtualWanHub.preferredRoutingGateway
       enableTelemetry: virtualWanHub.enableTelemetry
       virtualRouterAsn: virtualWanHub.virtualRouterAsn
       hubRouteTables: [
-        {
-          name: virtualWanHub.defaultRoutesName
-        }
+        // {
+        //   name: virtualWanHub.defaultRoutesName
+        // }
       ]
       hubVirtualNetworkConnections: [
         for i in range(0, length(locations)): {
