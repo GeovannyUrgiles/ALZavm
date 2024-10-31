@@ -17,7 +17,7 @@ param enableKeyVault = true
 param enableStorageAccount = false
 
 param enableRecoveryServiceVault = true
-param enableVirtualMachine = true
+param enableVirtualMachine = false
 
 param dnsServers = [
   '168.63.129.16'
