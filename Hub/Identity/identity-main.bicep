@@ -854,6 +854,11 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
       }
       tags: tags
     }
+    dependsOn: [
+      modStorageAccount
+      modUserAssignedIdentity
+      modVirtualNetwork
+    ]
   }
 ]
 
