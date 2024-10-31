@@ -788,7 +788,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
           customNetworkInterfaceName: '${recoveryServiceVaultName[i]}${nicSuffix}'
           ipConfigurations: [
             {
-              name: 'myIpConfig-1'
+              name: 'ipConfig-1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-tel1'
@@ -796,7 +796,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               }
             }
             {
-              name: 'myIPconfig-2'
+              name: 'ipConfig-2'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-prot2'
@@ -804,7 +804,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               }
             }
             {
-              name: 'myIPconfig-3'
+              name: 'ipConfig-3'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
@@ -812,7 +812,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               }
             }
             {
-              name: 'myIPconfig-4'
+              name: 'ipConfig-4'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-rcm1'
@@ -820,7 +820,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               }
             }
             {
-              name: 'myIPconfig-5'
+              name: 'ipConfig-5'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-id1'
