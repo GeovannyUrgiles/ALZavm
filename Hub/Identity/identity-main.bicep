@@ -515,10 +515,6 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
   }
 ]
 
-output subnetAddressPrefixes array = [
-  for i in range(0, length(locations)): vnet[i].properties.subnets[1].properties.addressPrefix
-]
-
 // Recovery Services Vault
 
 module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
