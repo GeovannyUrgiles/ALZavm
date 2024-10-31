@@ -792,7 +792,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-tel1'
-                privateIPAddress: 'Dynamic'
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[10].properties.privateIPAddress
               }
             }
             {
@@ -800,7 +800,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-prot2'
-                privateIPAddress: 'Dynamic'
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[11].properties.privateIPAddress
               }
             }
             {
@@ -808,7 +808,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
-                privateIPAddress: 'Dynamic'
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[12].properties.privateIPAddress
               }
             }
             {
@@ -816,7 +816,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-rcm1'
-                privateIPAddress: 'Dynamic'
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[13].properties.privateIPAddress
               }
             }
             {
@@ -824,7 +824,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-id1'
-                privateIPAddress: 'Dynamic'
+                privateIPAddress: modVirtualNetwork[i].outputs.subnetNames[1].properties.privateIPAddresses[14].properties.privateIPAddress
               }
             }
           ]
