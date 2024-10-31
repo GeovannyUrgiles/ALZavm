@@ -40,33 +40,33 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 // Paired Regions
 
 param locations = [ // Client should deploy (at minimum) Virtual Networks into both regions to establish future DR capabilities
-  'westus2' // Primary Region
+  'centralus' // Primary Region
   // 'eastus2' // Secondary Region
 ]
 
 // Resource Group Names
 
 var resourceGroupName_Networks = [
-  'conwus2networkrg'
+  'concusnetworkrg'
   'coneus2networkrg'
 ]
 param resourceGroupName_Network = [
-  'conwus2networkrg'
+  'concusnetworkrg'
   'coneus2networkrg'
 ]
 param resourceGroupName_Bastion = [
-  'conwus2bastionrg'
+  'concusbastionrg'
   'coneus2bastionrg'
 ]
-param resourceGroupName_PrivateDns = 'conwus2dnsrg'
+param resourceGroupName_PrivateDns = 'concusdnsrg'
 
 // Virtual WAN Name
 
-param virtualWanName = 'conwus2vwan'
+param virtualWanName = 'concusvwan'
 
 // Virtual Network Names
 
-var virtualNetworkNamePrimary = 'conwus2vnet'
+var virtualNetworkNamePrimary = 'concusvnet'
 var virtualNetworkNameSecondary = 'coneus2vnet'
 
 // Virtual Network Property Array
@@ -92,51 +92,51 @@ param virtualNetwork = [
 // Resource Name Arrays
 
 param virtualHubName = [
-  'conwus2hub'
+  'concushub'
   'coneus2hub'
 ]
 param vpnGatewayName = [
-  'conwus2vpngw'
+  'concusvpngw'
   'coneus2vpngw'
 ]
 param vpnSiteName = [
-  'conwus2vpnsite'
+  'concusvpnsite'
   'coneus2vpnsite'
 ]
 param firewallName = [
-  'conwus2azfw'
+  'concusazfw'
   'coneus2azfw'
 ]
 param firewallPolicyName = [
-  'conwus2azfwpol'
+  'concusazfwpol'
   'coneus2azfwpol'
 ]
 param bastionName = [
-  'conwus2bh'
+  'concusbh'
   'coneus2bh'
 ]
 param dnsResolverName = [
-  'conwus2dns'
+  'concusdns'
   'coneus2dns'
 ]
 param dnsForwardingRulesetName = [
-  'conwus2dnsfr'
+  'concusdnsfr'
   'coneus2dnsfr'
 ]
 param operationalInsightsName = [
-  'conwus2oiw'
+  'concusoiw'
   'coneus2oiw'
 ]
 param uamiName = [
-  'conwus2mi'
+  'concusmi'
   'coneus2mi'
 ]
 param keyVaultName = [
-  'conwus2kv01'
+  'concuskv01'
   'coneus2kv01'
 ]
 param storageAccountName = [
-  'conwus2diagsa01'
+  'concusdiagsa01'
   'coneus2diagsa01'
 ]
 
