@@ -515,6 +515,10 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
   }
 ]
 
+output subnetAddressPrefixes array = [
+  for i in range(0, length(locations)): vnet[i].properties.subnets[1].properties.addressPrefix
+]
+
 // Recovery Services Vault
 
 module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
@@ -799,7 +803,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-tel1'
-                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 20)
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefix, 20)
               }
             }
             {
@@ -807,7 +811,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-prot2'
-                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 21)
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefix, 21)
               }
             }
             {
@@ -815,7 +819,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-srs1'
-                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 22)
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefix, 22)
               }
             }
             {
@@ -823,7 +827,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-rcm1'
-                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 23)
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefix, 23)
               }
             }
             {
@@ -831,7 +835,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               properties: {
                 groupId: 'AzureSiteRecovery'
                 memberName: 'SiteRecovery-id1'
-                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefixes[0], 24)
+                privateIPAddress: cidrHost(vnet[i].properties.subnets[1].properties.addressPrefix, 24)
               }
             }
           ]
