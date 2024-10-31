@@ -51,6 +51,7 @@ var virtualNetworkNamePrimary = 'idncusvnet'
 var virtualNetworkNameSecondary = 'idneus2vnet'
 
 // Virtual Machine Names
+
 param virtualMachineName_Windows = [
   'idncusdcvm01'
   'idneus2dcvm01'
@@ -71,7 +72,6 @@ param virtualNetwork = [
     addressPrefixes: [
       '10.4.0.0/18' // Secondary Address Prefix
     ]
-
     subnets: [subnets1]
   }
 ]
@@ -94,12 +94,10 @@ param storageAccountName = [
   'idncusdiagsa01'
   'idneus2diagsa01'
 ]
-
 param dataCollectionRuleName = [
   'idncusdcr01'
   'idneus2dcr01'
 ]
-
 param recoveryServiceVaultName = [
   'idncusrsv01'
   'idneus2rsv01'
@@ -134,7 +132,7 @@ param tags = {
   Role: 'DeploymentValidation'
 }
 
-// Resource Group Lock
+// Resource Group Lock properties
 
 param lock = {
   delete: {

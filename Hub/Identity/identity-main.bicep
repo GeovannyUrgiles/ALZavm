@@ -369,24 +369,24 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
   }
 ]
 
-// Availability Set
+// // Availability Set
 
-module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
-    scope: resourceGroup(resourceGroupName_Network[i])
-    name: 'availabilitySetDeployment${i}'
-    params: {
-      name: availabilitySetName[i]
-      location: locations[i]
-      lock: {}
-      roleAssignments: []
-      tags: tags
-      platformFaultDomainCount: availabilitySet.platformFaultDomainCount
-      platformUpdateDomainCount: availabilitySet.platformUpdateDomainCount
-      proximityPlacementGroupResourceId: availabilitySet.proximityPlacementGroupResourceId
-    }
-  }
-]
+// module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
+//   for i in range(0, length(locations)): if (enableVirtualNetwork) {
+//     scope: resourceGroup(resourceGroupName_Network[i])
+//     name: 'availabilitySetDeployment${i}'
+//     params: {
+//       name: availabilitySetName[i]
+//       location: locations[i]
+//       lock: {}
+//       roleAssignments: []
+//       tags: tags
+//       platformFaultDomainCount: availabilitySet.platformFaultDomainCount
+//       platformUpdateDomainCount: availabilitySet.platformUpdateDomainCount
+//       proximityPlacementGroupResourceId: availabilitySet.proximityPlacementGroupResourceId
+//     }
+//   }
+// ]
 
 // Data Collection Rule
 module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
@@ -829,8 +829,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                name: 'cus.backup.windowsazure.com'
-                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.siterecovery.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.cus.backup.windowsazure.com'
               }
             ]
           }
