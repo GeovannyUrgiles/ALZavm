@@ -831,7 +831,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
           privateDnsZoneGroup: {
             privateDnsZoneGroupConfigs: [
               {
-                privateDnsZoneResourceId: '/subscrip  tions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.backup.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
+                privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.backup.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
               }
             ] 
           }
