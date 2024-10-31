@@ -389,7 +389,6 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
       addressPrefix: virtualWanHub.addressPrefix
       virtualWanId: modVirtualWan.outputs.resourceId
       sku: virtualWanHub.sku
-      // allowBranchToBranchTraffic: virtualWanHub.allowBranchToBranchTraffic
       internetToFirewall: virtualWanHub.internetToFirewall
       privateToFirewall: virtualWanHub.privateToFirewall
       preferredRoutingGateway: virtualWanHub.preferredRoutingGateway
@@ -406,7 +405,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
           remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId // /subscription/${subscription}/resourceGroups/${spoke.rg}/providers/Microsoft.Network/virtualNetworks/${spoke.vnet}
           routingConfiguration: {
             associatedRouteTable: {
-             // id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+             id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
             }
             propagatedRouteTables: {
               ids: [

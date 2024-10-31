@@ -231,7 +231,6 @@ param virtualWan = {
 
 param virtualWanHub = {
   addressPrefix: '10.0.0.0/23' // Hub Address Prefix - minimum /24
-  // allowBranchToBranchTraffic: false // true | false // Allows traffic between VPN branches
   internetToFirewall: false
   privateToFirewall: false
   preferredRoutingGateway: '' // 'VpnGateway' | 'ExpressRoute' | 'None' // (requires Standard SKU)
