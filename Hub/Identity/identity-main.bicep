@@ -1015,6 +1015,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       modRecoverServicesVault
       modStorageAccount
       modVirtualNetwork
+      modKeyVault
     ]
   }
 ]
