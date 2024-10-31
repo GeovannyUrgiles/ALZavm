@@ -31,7 +31,7 @@ param conSubscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity
 
 param locations = [
   'centralus' // Primary Region
-  'eastus2' // Secondary Region
+  // 'eastus2' // Secondary Region
 ]
 
 // Resource Group Names
