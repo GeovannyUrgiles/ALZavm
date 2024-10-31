@@ -665,7 +665,6 @@ param privatelinkDnsZoneNames = [
   // 'privatelink.azurestaticapps.net'
   // 'privatelink.analysis.windows.net'
   // 'privatelink.azurehdinsight.net'
-  'privatelink.cus.backup.windowsazure.com' //  Azure Backup - Recovery Services Vault - Be sure to change the regional prefix!!
   'privatelink.azure-api.net'
   // 'privatelink.azconfig.io'
   // 'privatelink.azure-devices.net'

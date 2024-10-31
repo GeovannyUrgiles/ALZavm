@@ -841,7 +841,7 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
               {
                 privateDnsZoneResourceId: '/subscriptions/${conSubscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.siterecovery.windowsazure.com' // .${locationsShort[i]}.backup.windowsazure.com'
               }
-            ] 
+            ]
           }
           subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
           tags: tags
@@ -877,24 +877,19 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'virtualMachineDeploymentWindows${i}'
     params: {
-      name: virtualMachineName_Windows[i]
-      computerName: 'winvm1'
-      adminUsername: 'vmadmin'
+      name: virtualMachineName_Windows[i].azureName
+      computerName: (i == 0) ? virtualMachineName_Windows[0].adName : virtualMachineName_Windows[1].adName
+      adminUsername: virtualMachine_Windows.adminUsername
       adminPassword: 'ThievingCat10!'
-      backupPolicyName: 'VMpolicy'
+      backupPolicyName: virtualMachine_Windows.backupPolicyName
       backupVaultName: recoveryServiceVaultName[i]
       backupVaultResourceGroup: modResourceGroupNetwork[i].outputs.name
-      enableAutomaticUpdates: true
-      encryptionAtHost: false
+      enableAutomaticUpdates: virtualMachine_Windows.enableAutomaticUpdates
+      encryptionAtHost: virtualMachine_Windows.encryptionAtHost
       osType: 'Windows'
       vmSize: virtualMachine_Windows.vmSize
-      zone: 2
-      imageReference: {
-        offer: 'WindowsServer'
-        publisher: 'MicrosoftWindowsServer'
-        sku: '2019-datacenter'
-        version: 'latest'
-      }
+      zone: virtualMachine_Windows.zone
+      imageReference: virtualMachine_Windows.imageReference
       nicConfigurations: [
         {
           deleteOption: virtualMachine_Windows.nicConfigurations.deleteOption
