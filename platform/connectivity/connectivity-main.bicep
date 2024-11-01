@@ -406,18 +406,19 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
           remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId
           routingConfiguration: {
             associatedRouteTable: {
-             id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualHubName[0], 'defaultRouteTable') 
-             // '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
+              id: resourceId(modResourceGroupNetwork[0].outputs.resourceId, 'Microsoft.Network/virtualHubs/hubRouteTables', virtualHubName[0], 'defaultRouteTable')
+              // '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
             }
             propagatedRouteTables: {
               ids: [
                 {
-                  id: resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualHubName[0], 'defaultRouteTable')
+                  id: resourceId(modResourceGroupNetwork[0].outputs.resourceId, 'Microsoft.Network/virtualHubs/hubRouteTables', virtualHubName[0], 'defaultRouteTable')
+                  // resourceId('Microsoft.Network/virtualHubs/hubRouteTables', virtualHubName[0], 'defaultRouteTable')
                   // id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRoutesName}'
                 }
               ]
               labels: [
-               // virtualWanHub.defaultRoutesName
+                // virtualWanHub.defaultRoutesName
               ]
             }
           }
