@@ -16,13 +16,13 @@ targetScope = 'resourceGroup'
 
 // Declare Virtual Hub Parent
 
-resource virtualHubs 'Microsoft.Network/virtualHubs@2021-08-01' existing = {
+resource virtualHubs 'Microsoft.Network/virtualHubs@2024-01-01' existing = {
   name: virtualWanHubName
 }
 
 // Connect Spoke VNets to Vwan Hub
 
-resource hubVirtualNetworkConnections 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnections@2021-05-01' = {
+resource hubVirtualNetworkConnections 'Microsoft.Network/virtualHubs/hubVirtualNetworkConnections@2024-01-01' = {
   name: '${virtualWanHubName}-to-${virtualNetworkSpokeName}'
   parent: virtualHubs
   properties: {

@@ -1057,6 +1057,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
     dependsOn: [
       modDataCollectionRule
       modRecoveryServicesVault
+      modUserAssignedIdentity
       modStorageAccount
       modVirtualNetwork
       modWorkspace
