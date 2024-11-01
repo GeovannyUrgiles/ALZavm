@@ -2,14 +2,14 @@ targetScope = 'subscription'
 
 // Deployment Boolean Parameters
 
-param enableUserAssignedManagedIdentity bool
+param enableIdentity bool
 param enableNetworkSecurityGroups bool
-param enableVirtualNetwork bool
-param enableOperationalInsights bool
+param enableNetwork bool
+param enableMonitoring bool
 param enableKeyVault bool
-param enableStorageAccount bool
-param enableRecoveryServiceVault bool
-param enableVirtualMachine bool
+param enableStorage bool
+param enableSiteRecovery bool
+param enableDomainController bool
 
 // Deployment Options
 
@@ -55,6 +55,9 @@ param nicSuffix string
 // Resource Group Parameters
 
 param resourceGroupName_Network array
+param resourceGroupName_SiteRecovery array
+param resourceGroupName_DomainController array
+param resourceGroupName_Identity array
 
 // Role Assignment Parameters
 
@@ -75,7 +78,7 @@ param securityRulesDefault array
 // Network Resource Group Deployment
 
 module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+  for i in range(0, length(locations)): if (enableNetwork) {
     scope: subscription(subscriptionId)
     name: 'resourceGroupNetworkDeployment${i}'
     params: {
@@ -88,8 +91,49 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
   }
 ]
 
+module modResourceGroupSiteRecovery 'br/public:avm/res/resources/resource-group:0.4.0' = [
+  for i in range(0, length(locations)): if (enableSiteRecovery) {
+    scope: subscription(subscriptionId)
+    name: 'resourceGroupNetworkDeployment${i}'
+    params: {
+      name: resourceGroupName_SiteRecovery[i]
+      tags: tags
+      location: locations[i]
+      // lock: lock
+      roleAssignments: roleAssignmentsNetwork
+    }
+  }
+]
+
+module modResourceGroupDomainController 'br/public:avm/res/resources/resource-group:0.4.0' = [
+  for i in range(0, length(locations)): if (enableDomainController) {
+    scope: subscription(subscriptionId)
+    name: 'resourceGroupNetworkDeployment${i}'
+    params: {
+      name: resourceGroupName_DomainController[i]
+      tags: tags
+      location: locations[i]
+      // lock: lock
+      roleAssignments: roleAssignmentsNetwork
+    }
+  }
+]
+
+module modResourceGroupIdentity 'br/public:avm/res/resources/resource-group:0.4.0' = [
+  for i in range(0, length(locations)): if (enableIdentity) {
+    scope: subscription(subscriptionId)
+    name: 'resourceGroupNetworkDeployment${i}'
+    params: {
+      name: resourceGroupName_Identity[i]
+      tags: tags
+      location: locations[i]
+      // lock: lock
+      roleAssignments: roleAssignmentsNetwork
+    }
+  }
+]
 module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = [
-  for i in range(0, length(locations)): if (enableUserAssignedManagedIdentity) {
+  for i in range(0, length(locations)): if (enableIdentity) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'userAssignedIdentityDeployment${i}'
     params: {
@@ -105,7 +149,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
 
 // Operational Insights Workspace
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
-  for i in range(0, length(locations)): if (enableOperationalInsights) {
+  for i in range(0, length(locations)): if (enableMonitoring) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'workspaceDeployment'
     params: {
@@ -158,7 +202,7 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
 // Virtual Network
 
 module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+  for i in range(0, length(locations)): if (enableNetwork) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'virtualNetworkDeployment${i}'
     params: {
@@ -191,7 +235,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
 
 module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
   for i in range(0, length(locations)): if (enableKeyVault) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+    scope: resourceGroup(resourceGroupName_Identity[i])
     name: 'vaultDeployment${i}'
     params: {
       name: keyVaultName[i]
@@ -260,8 +304,8 @@ module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 // Storage Account
 
 module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
-  for i in range(0, length(locations)): if (enableStorageAccount) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+  for i in range(0, length(locations)): if (enableStorage) {
+    scope: resourceGroup(resourceGroupName_DomainController[i])
     name: 'storageAccountDeployment${i}'
     params: {
       name: storageAccountName[i]
@@ -374,8 +418,8 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
 // // Availability Set
 
 module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
-  for i in range(0, length(locations)): if (enableVirtualMachine) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+  for i in range(0, length(locations)): if (enableDomainController) {
+    scope: resourceGroup(resourceGroupName_DomainController[i])
     name: 'availabilitySetDeployment${i}'
     params: {
       name: availabilitySetName[i]
@@ -392,8 +436,8 @@ module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
 
 // Data Collection Rule
 module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualMachine) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+  for i in range(0, length(locations)): if (enableDomainController) {
+    scope: resourceGroup(resourceGroupName_DomainController[i])
     name: 'dataCollectionRuleDeployment'
     params: {
       dataCollectionRuleProperties: {
@@ -509,7 +553,7 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
 ]
 
 resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
-  for i in range(0, length(locations)): if (enableRecoveryServiceVault) {
+  for i in range(0, length(locations)): if (enableSiteRecovery) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: virtualNetwork[i].name
   }
@@ -517,9 +561,9 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
 
 // Recovery Services Vault
 
-module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
-  for i in range(0, length(locations)): if (enableRecoveryServiceVault) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+module modRecoveryServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
+  for i in range(0, length(locations)): if (enableSiteRecovery) {
+    scope: resourceGroup(resourceGroupName_SiteRecovery[i])
     name: 'recoveryServiceVaultDeployment${i}'
     params: {
       name: recoveryServiceVaultName[i]
@@ -873,8 +917,8 @@ module modRecoverServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1'
 // Windows Virtual Machine
 
 module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.0' = [
-  for i in range(0, length(locations)): if (enableVirtualMachine) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+  for i in range(0, length(locations)): if (enableDomainController) {
+    scope: resourceGroup(resourceGroupName_DomainController[i])
     name: 'virtualMachineDeploymentWindows${i}'
     params: {
       name: virtualMachineName_Windows[i].azureName
@@ -1012,7 +1056,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
     }
     dependsOn: [
       modDataCollectionRule
-      modRecoverServicesVault
+      modRecoveryServicesVault
       modStorageAccount
       modVirtualNetwork
       modKeyVault

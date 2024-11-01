@@ -7,17 +7,16 @@ var version = 'v1.0.0'
 //-// Deployment Options
 
 // Virtual Network
-param enableVirtualNetwork = true
+param enableNetwork = true
 param enableNetworkSecurityGroups = true
 
 // Supporting Resources
-param enableUserAssignedManagedIdentity = true
-param enableOperationalInsights = true
+param enableIdentity = true
+param enableMonitoring = true
 param enableKeyVault = true
-param enableStorageAccount = true
-
-param enableRecoveryServiceVault = true
-param enableVirtualMachine = true
+param enableStorage = true
+param enableSiteRecovery = true
+param enableDomainController = true
 
 param dnsServers = [
   '168.63.129.16'
@@ -45,7 +44,18 @@ param resourceGroupName_Network = [
   'idncusnetworkrg'
   'idneus2networkrg'
 ]
-
+param resourceGroupName_SiteRecovery = [
+  'idncussiterecoveryrg'
+  'idneus2siterecoveryrg'
+]
+param resourceGroupName_DomainController = [
+  'idncusdomaincontrollerrg'
+  'idneus2domaincontrollerrg'
+]
+param resourceGroupName_Identity = [
+  'idncusidentityrg'
+  'idneus2identityrg'
+]
 // Resource Group Names (Private DNS)
 
 param resourceGroupName_PrivateDns = 'concusdnsrg'
@@ -244,7 +254,7 @@ param virtualMachine_Windows = {
   encryptionAtHost: false
   osType: 'Windows'
   backupPolicyName: 'VMpolicy'
-  vmSize: 'Standard_F2s_v2' // Standard_DS1_v2 | Standard_DS2_v2 | Standard_DS3_v2 | Standard_DS4_v2 | Standard_DS5_v2 | Standard_DS11_v2 | Standard_DS12_v2 | Standard_DS13_v2 | Standard_DS14_v2 | Standard_DS15_v2 | Standard_D1_v2 | Standard_D2_v2 | Standard_D3_v2 | Standard_D4_v2 | Standard_D5_v2 | Standard_D11_v2 | Standard_D12_v2 | Standard_D13_v2 | Standard_D14_v2 | Standard_D15_v2 | Standard_D2s_v3 | Standard_D4s_v3 | Standard_D8s_v3 | Standard_D16s_v3 | Standard_D32s_v3 | Standard_D48s_v3 | Standard_D64s_v3 | Standard_D2_v3 | Standard_D4_v3 | Standard_D8_v3 | Standard_D16_v3 | Standard_D32_v3 | Standard_D48_v3 | Standard_D64_v3 | Standard_D2s_v4 | Standard_D4s_v4 | Standard_D8s_v4 | Standard_D16s_v4 | Standard_D32s_v4 | Standard_D48s_v4 | Standard_D64s_v4 | Standard_D2_v4 | Standard_D4_v4 | Standard_D8_v4 | Standard_D16_v4 | Standard_D32_v4 | Standard_D48_v4 | Standard_D64_v4 | Standard_D2ds_v4 | Standard_D4ds_v4 | Standard_D8ds_v4 | Standard_D16ds_v4 | Standard_D32ds_v4 | Standard_D48ds_v4 | Standard_D64ds_v4 | Standard_D2s_v5 | Standard_D4s_v5 | Standard_D8s_v5 | Standard_D16s_v5 | Standard_D32s_v5 | Standard_D48s_v5 | Standard_D64s_v5 | Standard_D2_v5 | Standard_D4_v5 | Standard_D8_v5 | Standard_D16_v5 | Standard_D32_v5 | Standard_D48_v5 | Standard_D64_v5 | Standard_D2ds_v5 | Standard_D4ds_v5 | Standard_D8ds_v5 | Standard_D16ds_v5 | Standard_D32ds_v5 | Standard_D48ds_v5 | Standard_D64ds_v5 | Standard_D2s_v6 |
+  vmSize: 'Standard_DS1_v2' // Standard_DS1_v2 | Standard_DS2_v2 | Standard_DS3_v2 | Standard_DS4_v2 | Standard_DS5_v2 | Standard_DS11_v2 | Standard_DS12_v2 | Standard_DS13_v2 | Standard_DS14_v2 | Standard_DS15_v2 | Standard_D1_v2 | Standard_D2_v2 | Standard_D3_v2 | Standard_D4_v2 | Standard_D5_v2 | Standard_D11_v2 | Standard_D12_v2 | Standard_D13_v2 | Standard_D14_v2 | Standard_D15_v2 | Standard_D2s_v3 | Standard_D4s_v3 | Standard_D8s_v3 | Standard_D16s_v3 | Standard_D32s_v3 | Standard_D48s_v3 | Standard_D64s_v3 | Standard_D2_v3 | Standard_D4_v3 | Standard_D8_v3 | Standard_D16_v3 | Standard_D32_v3 | Standard_D48_v3 | Standard_D64_v3 | Standard_D2s_v4 | Standard_D4s_v4 | Standard_D8s_v4 | Standard_D16s_v4 | Standard_D32s_v4 | Standard_D48s_v4 | Standard_D64s_v4 | Standard_D2_v4 | Standard_D4_v4 | Standard_D8_v4 | Standard_D16_v4 | Standard_D32_v4 | Standard_D48_v4 | Standard_D64_v4 | Standard_D2ds_v4 | Standard_D4ds_v4 | Standard_D8ds_v4 | Standard_D16ds_v4 | Standard_D32ds_v4 | Standard_D48ds_v4 | Standard_D64ds_v4 | Standard_D2s_v5 | Standard_D4s_v5 | Standard_D8s_v5 | Standard_D16s_v5 | Standard_D32s_v5 | Standard_D48s_v5 | Standard_D64s_v5 | Standard_D2_v5 | Standard_D4_v5 | Standard_D8_v5 | Standard_D16_v5 | Standard_D32_v5 | Standard_D48_v5 | Standard_D64_v5 | Standard_D2ds_v5 | Standard_D4ds_v5 | Standard_D8ds_v5 | Standard_D16ds_v5 | Standard_D32ds_v5 | Standard_D48ds_v5 | Standard_D64ds_v5 | Standard_D2s_v6 |
   zone: 2
   imageReference: {
     offer: 'WindowsServer'

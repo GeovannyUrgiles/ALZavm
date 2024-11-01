@@ -415,7 +415,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
                 }
               ]
               labels: [
-                virtualWanHub.defaultRoutesName
+                // virtualWanHub.defaultRoutesName
               ]
             }
           }
