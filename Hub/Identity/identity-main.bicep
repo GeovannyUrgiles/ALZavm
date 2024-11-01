@@ -94,7 +94,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
 module modResourceGroupSiteRecovery 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableSiteRecovery) {
     scope: subscription(subscriptionId)
-    name: 'resourceGroupNetworkDeployment${i}'
+    name: 'resourceGroupASRDeployment${i}'
     params: {
       name: resourceGroupName_SiteRecovery[i]
       tags: tags
@@ -108,7 +108,7 @@ module modResourceGroupSiteRecovery 'br/public:avm/res/resources/resource-group:
 module modResourceGroupDomainController 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableDomainController) {
     scope: subscription(subscriptionId)
-    name: 'resourceGroupNetworkDeployment${i}'
+    name: 'resourceGroupDCDeployment${i}'
     params: {
       name: resourceGroupName_DomainController[i]
       tags: tags
@@ -122,7 +122,7 @@ module modResourceGroupDomainController 'br/public:avm/res/resources/resource-gr
 module modResourceGroupIdentity 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableIdentity) {
     scope: subscription(subscriptionId)
-    name: 'resourceGroupNetworkDeployment${i}'
+    name: 'resourceGroupIdentityDeployment${i}'
     params: {
       name: resourceGroupName_Identity[i]
       tags: tags
