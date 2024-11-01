@@ -927,7 +927,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       adminPassword: 'ThievingCat10!'
       backupPolicyName: virtualMachine_Windows.backupPolicyName
       backupVaultName: recoveryServiceVaultName[i]
-      backupVaultResourceGroup: resourceGroupName_SiteRecovery[i] // modResourceGroupSiteRecovery[i].outputs.name
+      backupVaultResourceGroup: resourceGroupName_SiteRecovery[i]
       enableAutomaticUpdates: virtualMachine_Windows.enableAutomaticUpdates
       encryptionAtHost: virtualMachine_Windows.encryptionAtHost
       osType: virtualMachine_Windows.osType
