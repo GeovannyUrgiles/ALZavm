@@ -23,7 +23,7 @@ stages:
     displayName: 'Virtual Network Connections'
     jobs:
     - deployment: 'Deploy_Connections'
-      environment: 'Dev'
+      environment: 'Prod'
       timeoutInMinutes: '360'
       strategy:
        runOnce:
