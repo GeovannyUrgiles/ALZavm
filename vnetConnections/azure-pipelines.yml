@@ -8,7 +8,7 @@ variables:
     azureServiceConnection: 'ServiceConnection-ELZ'
     location: 'westus2'
     locationShort: 'wus2'
-    templateFile: 'main.bicep'
+    templateFile: 'vnetConnections/main.bicep'
     # parametersFile: 'platform/connectivity/connectivity-main.bicepparam'
     subscriptionId: '82d21ec8-4b6a-4bf0-9716-96b38d9abb43'
     # action: 'what-if'
