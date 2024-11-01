@@ -438,7 +438,7 @@ module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
 module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
   for i in range(0, length(locations)): if (enableDomainController) {
     scope: resourceGroup(resourceGroupName_DomainController[i])
-    name: 'dataCollectionRuleDeployment'
+    name: 'dataCollectionRuleDeployment${i}'
     params: {
       dataCollectionRuleProperties: {
         dataFlows: [
@@ -549,6 +549,10 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
       location: locations[i]
       tags: tags
     }
+    dependsOn: [
+      modWorkspace
+      modResourceGroupDomainController
+    ]
   }
 ]
 
