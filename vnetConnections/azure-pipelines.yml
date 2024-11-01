@@ -40,7 +40,7 @@ stages:
                   inlineScript: |
                     pwd
                     az account set --subscription $(subscriptionId)
-                    az deployment mg -m $(action) --location $(location) --template-file $(templateFile)
+                    az deployment mg -m platform $(action) --location $(location) --template-file $(templateFile)
                     
                     
   
