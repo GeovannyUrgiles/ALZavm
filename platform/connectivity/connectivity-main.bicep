@@ -398,8 +398,8 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
       hubRouteTables: []
       hubVirtualNetworkConnections: [
         for i in range(0, length(locations)): {
-          name: '${virtualNetwork[0].name}-to-${virtualHubName[0]}'
-          remoteVirtualNetworkId: modVirtualNetwork[0].outputs.resourceId
+          name: '${virtualNetwork[i].name}-to-${virtualHubName[0]}'
+          remoteVirtualNetworkId: modVirtualNetwork[i].outputs.resourceId
           routingConfiguration: {
             associatedRouteTable: {
               id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRouteTableName}'
