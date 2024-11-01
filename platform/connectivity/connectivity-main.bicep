@@ -395,11 +395,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
       preferredRoutingGateway: virtualWanHub.preferredRoutingGateway
       enableTelemetry: virtualWanHub.enableTelemetry
       virtualRouterAsn: virtualWanHub.virtualRouterAsn
-      hubRouteTables: [
-        // {
-        //   name: virtualWanHub.defaultRoutesName
-        // }
-      ]
+      hubRouteTables: []
       hubVirtualNetworkConnections: [
         for i in range(0, length(locations)): {
           name: '${virtualNetwork[0].name}-to-${virtualHubName[0]}'
@@ -414,9 +410,7 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
                   id: '${modResourceGroupNetwork[0].outputs.resourceId}/providers/Microsoft.Network/virtualHubs/${virtualHubName[0]}/hubRouteTables/${virtualWanHub.defaultRouteTableName}'
                 }
               ]
-              labels: [
-                // virtualWanHub.defaultRoutesName
-              ]
+              labels: []
             }
           }
         }
