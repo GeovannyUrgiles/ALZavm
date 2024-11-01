@@ -20,10 +20,10 @@ pool:
   
 stages:
   - stage: 'MDP'
-    displayName: 'Deploy Connectivity'
+    displayName: 'Virtual Network Connections'
     jobs:
-    - deployment: 'Deploy_Connectivity'
-      environment: 'Prod'
+    - deployment: 'Deploy_Connections'
+      environment: 'Dev'
       timeoutInMinutes: '360'
       strategy:
        runOnce:
