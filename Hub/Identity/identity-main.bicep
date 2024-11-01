@@ -134,7 +134,7 @@ module modResourceGroupIdentity 'br/public:avm/res/resources/resource-group:0.4.
 ]
 module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = [
   for i in range(0, length(locations)): if (enableIdentity) {
-    scope: resourceGroup(resourceGroupName_Network[i])
+    scope: resourceGroup(resourceGroupName_Identity[i])
     name: 'userAssignedIdentityDeployment${i}'
     params: {
       name: uamiName[i]
@@ -1059,6 +1059,7 @@ module modVirtualMachine_Windows 'br/public:avm/res/compute/virtual-machine:0.8.
       modRecoveryServicesVault
       modStorageAccount
       modVirtualNetwork
+      modWorkspace
       modKeyVault
     ]
   }
