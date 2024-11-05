@@ -96,6 +96,8 @@ type storageAccountType = {
     ipRules: array
   }
 }
+param recoveryServicesVault object
+
 param availabilitySet availabilitySetType
 type availabilitySetType = {
   proximityPlacementGroupResourceId: string
@@ -222,7 +224,7 @@ param subnets1 array
 param securityRulesDefault array
 
 // Network Resource Group Deployment
-
+@description('Deploys a resource group for network resources.')
 module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableNetwork) {
     scope: subscription(subscriptionId)
@@ -236,7 +238,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
     }
   }
 ]
-
+@description('Deploys a resource group for site recovery resources.')
 module modResourceGroupSiteRecovery 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableSiteRecovery) {
     scope: subscription(subscriptionId)
@@ -250,7 +252,7 @@ module modResourceGroupSiteRecovery 'br/public:avm/res/resources/resource-group:
     }
   }
 ]
-
+@description('Deploys a resource group for domain controller resources.')
 module modResourceGroupDomainController 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableDomainController) {
     scope: subscription(subscriptionId)
@@ -264,7 +266,7 @@ module modResourceGroupDomainController 'br/public:avm/res/resources/resource-gr
     }
   }
 ]
-
+@description('Deploys a resource group for identity resources.')
 module modResourceGroupIdentity 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableIdentity) {
     scope: subscription(subscriptionId)
@@ -278,6 +280,7 @@ module modResourceGroupIdentity 'br/public:avm/res/resources/resource-group:0.4.
     }
   }
 ]
+@description('Deploys a user-assigned managed identity.')
 module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = [
   for i in range(0, length(locations)): if (enableIdentity) {
     scope: resourceGroup(resourceGroupName_Identity[i])
@@ -293,7 +296,7 @@ module modUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
   }
 ]
 
-// Operational Insights Workspace
+@description('Deploys a Log Analytics workspace.')
 module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
   for i in range(0, length(locations)): if (enableMonitoring) {
     scope: resourceGroup(resourceGroupName_Network[i])
@@ -310,7 +313,7 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
 ]
 
 // Network Security Groups - Primary Region
-
+@description('Deploys a Network Security Groups (NSG) into the Primary Region.')
 module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-security-group:0.5.0' = [
   for subnet in subnets0: if (enableNetworkSecurityGroups) {
     scope: resourceGroup(resourceGroupName_Network[0])
@@ -328,7 +331,7 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
 ]
 
 // Network Security Groups - Secondary Region
-
+@description('Deploys a Network Security Groups (NSG) into the Secondary Region.')
 module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-security-group:0.5.0' = [
   for subnet in subnets1: if ((enableNetworkSecurityGroups) && length(locations) == 2) {
     scope: resourceGroup(resourceGroupName_Network[1])
@@ -346,7 +349,7 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
 ]
 
 // Virtual Network
-
+@description('Deploys a Virtual Network (VNet).')
 module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
   for i in range(0, length(locations)): if (enableNetwork) {
     scope: resourceGroup(resourceGroupName_Network[i])
@@ -378,7 +381,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
 ]
 
 // Key Vault
-
+@description('Deploys an Azure Key Vault.')
 module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
   for i in range(0, length(locations)): if (enableKeyVault) {
     scope: resourceGroup(resourceGroupName_Identity[i])
@@ -448,7 +451,7 @@ module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 ]
 
 // Storage Account
-
+@description('Deploys a Storage Account.')
 module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
   for i in range(0, length(locations)): if (enableStorage) {
     scope: resourceGroup(resourceGroupName_DomainController[i])
@@ -562,7 +565,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
 ]
 
 // // Availability Set
-
+@description('Deploys an Availability Set for virtual machines.')
 module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
   for i in range(0, length(locations)): if (enableDomainController) {
     scope: resourceGroup(resourceGroupName_DomainController[i])
@@ -581,6 +584,7 @@ module modAvailabilitySet 'br/public:avm/res/compute/availability-set:0.2.0' = [
 ]
 
 // Data Collection Rule
+@description('Deploys a Data Collection Rule for monitoring and diagnostics.')
 module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.4.0' = [
   for i in range(0, length(locations)): if (enableDomainController) {
     scope: resourceGroup(resourceGroupName_DomainController[i])
@@ -702,6 +706,7 @@ module modDataCollectionRule 'br/public:avm/res/insights/data-collection-rule:0.
   }
 ]
 
+@description('References an existing Virtual Network (VNet).')
 resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
   for i in range(0, length(locations)): if (enableSiteRecovery) {
     scope: resourceGroup(resourceGroupName_Network[i])
@@ -710,7 +715,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' existing = [
 ]
 
 // Recovery Services Vault
-
+@description('Deploys a Recovery Services Vault for backup and disaster recovery.')
 module modRecoveryServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1' = [
   for i in range(0, length(locations)): if (enableSiteRecovery) {
     scope: resourceGroup(resourceGroupName_SiteRecovery[i])
@@ -718,242 +723,242 @@ module modRecoveryServicesVault 'br/public:avm/res/recovery-services/vault:0.5.1
     params: {
       name: recoveryServiceVaultName[i]
       backupConfig: {
-        enhancedSecurityState: 'Disabled'
-        softDeleteFeatureState: 'Disabled'
+        enhancedSecurityState: recoveryServicesVault.enhancedSecurityState
+        softDeleteFeatureState: recoveryServicesVault.softDeleteFeatureState
       }
       backupPolicies: [
         {
-          name: 'VMpolicy'
+          name: recoveryServicesVault.backupPolicies[0].name
           properties: {
-            backupManagementType: 'AzureIaasVM'
-            instantRPDetails: {}
-            instantRpRetentionRangeInDays: 2
-            protectedItemsCount: 0
+            backupManagementType: recoveryServicesVault.backupPolicies[0].properties.backupManagementType
+            instantRPDetails: recoveryServicesVault.backupPolicies[0].properties.instantRPDetails
+            instantRpRetentionRangeInDays: recoveryServicesVault.backupPolicies[0].properties.instantRpRetentionRangeInDays
+            protectedItemsCount: recoveryServicesVault.backupPolicies[0].properties.protectedItemsCount
             retentionPolicy: {
               dailySchedule: {
                 retentionDuration: {
-                  count: 180
-                  durationType: 'Days'
+                  count: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.dailySchedule.retentionDuration.count
+                  durationType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.dailySchedule.retentionDuration.durationType
                 }
                 retentionTimes: [
-                  '2019-11-07T07:00:00Z'
+                  recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.dailySchedule.retentionTimes[0]
                 ]
               }
               monthlySchedule: {
                 retentionDuration: {
-                  count: 60
-                  durationType: 'Months'
+                  count: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.monthlySchedule.retentionDuration.count
+                  durationType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.monthlySchedule.retentionDuration.durationType
                 }
-                retentionScheduleFormatType: 'Weekly'
+                retentionScheduleFormatType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.monthlySchedule.retentionScheduleFormatType
                 retentionScheduleWeekly: {
                   daysOfTheWeek: [
-                    'Sunday'
+                    recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.monthlySchedule.retentionScheduleWeekly.daysOfTheWeek[0]
                   ]
                   weeksOfTheMonth: [
-                    'First'
+                    recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.monthlySchedule.retentionScheduleWeekly.weeksOfTheMonth[0]
                   ]
                 }
                 retentionTimes: [
-                  '2019-11-07T07:00:00Z'
+                  recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.monthlySchedule.retentionTimes[0]
                 ]
               }
-              retentionPolicyType: 'LongTermRetentionPolicy'
+              retentionPolicyType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.retentionPolicyType
               weeklySchedule: {
                 daysOfTheWeek: [
-                  'Sunday'
+                  recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.weeklySchedule.daysOfTheWeek[0]
                 ]
                 retentionDuration: {
-                  count: 12
-                  durationType: 'Weeks'
+                  count: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.weeklySchedule.retentionDuration.count
+                  durationType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.weeklySchedule.retentionDuration.durationType
                 }
                 retentionTimes: [
-                  '2019-11-07T07:00:00Z'
+                  recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.weeklySchedule.retentionTimes[0]
                 ]
               }
               yearlySchedule: {
                 monthsOfYear: [
-                  'January'
+                  recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.monthsOfYear[0]
                 ]
                 retentionDuration: {
-                  count: 10
-                  durationType: 'Years'
+                  count: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.retentionDuration.count
+                  durationType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.retentionDuration.durationType
                 }
-                retentionScheduleFormatType: 'Weekly'
+                retentionScheduleFormatType: recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.retentionScheduleFormatType
                 retentionScheduleWeekly: {
                   daysOfTheWeek: [
-                    'Sunday'
+                    recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.retentionScheduleWeekly.daysOfTheWeek[0]
                   ]
                   weeksOfTheMonth: [
-                    'First'
+                    recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.retentionScheduleWeekly.weeksOfTheMonth[0]
                   ]
                 }
                 retentionTimes: [
-                  '2019-11-07T07:00:00Z'
+                  recoveryServicesVault.backupPolicies[0].properties.retentionPolicy.yearlySchedule.retentionTimes[0]
                 ]
               }
             }
             schedulePolicy: {
-              schedulePolicyType: 'SimpleSchedulePolicy'
-              scheduleRunFrequency: 'Daily'
+              schedulePolicyType: recoveryServicesVault.backupPolicies[0].properties.schedulePolicy.schedulePolicyType
+              scheduleRunFrequency: recoveryServicesVault.backupPolicies[0].properties.schedulePolicy.scheduleRunFrequency
               scheduleRunTimes: [
-                '2019-11-07T07:00:00Z'
+                recoveryServicesVault.backupPolicies[0].properties.schedulePolicy.scheduleRunTimes[0]
               ]
-              scheduleWeeklyFrequency: 0
+              scheduleWeeklyFrequency: recoveryServicesVault.backupPolicies[0].properties.schedulePolicy.scheduleWeeklyFrequency
             }
-            timeZone: 'UTC'
+            timeZone: recoveryServicesVault.backupPolicies[0].properties.timeZone
           }
         }
         {
-          name: 'sqlpolicy'
+          name: recoveryServicesVault.backupPolicies[1].name
           properties: {
-            backupManagementType: 'AzureWorkload'
-            protectedItemsCount: 0
+            backupManagementType: recoveryServicesVault.backupPolicies[1].properties.backupManagementType
+            protectedItemsCount: recoveryServiceVaultName[i].backupPolicies[1].properties.protectedItemsCount
             settings: {
-              isCompression: true
-              issqlcompression: true
-              timeZone: 'UTC'
+              isCompression: recoveryServicesVault.backupPolicies[1].properties.settings.isCompression
+              issqlcompression: recoveryServicesVault.backupPolicies[1].properties.settings.issqlcompression
+              timeZone: recoveryServicesVault.backupPolicies[1].properties.settings.timeZone
             }
             subProtectionPolicy: [
               {
-                policyType: 'Full'
+                policyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].policyType
                 retentionPolicy: {
                   monthlySchedule: {
                     retentionDuration: {
-                      count: 60
-                      durationType: 'Months'
+                      count: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.monthlySchedule.retentionDuration.count
+                      durationType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.monthlySchedule.retentionDuration.durationType
                     }
-                    retentionScheduleFormatType: 'Weekly'
+                    retentionScheduleFormatType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.monthlySchedule.retentionScheduleFormatType
                     retentionScheduleWeekly: {
                       daysOfTheWeek: [
-                        'Sunday'
+                        recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.monthlySchedule.retentionScheduleWeekly.daysOfTheWeek[0]
                       ]
                       weeksOfTheMonth: [
-                        'First'
+                        recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.monthlySchedule.retentionScheduleWeekly.weeksOfTheMonth[0]
                       ]
                     }
                     retentionTimes: [
-                      '2019-11-07T22:00:00Z'
+                      recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.monthlySchedule.retentionTimes[0]
                     ]
                   }
-                  retentionPolicyType: 'LongTermRetentionPolicy'
+                  retentionPolicyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.retentionPolicyType
                   weeklySchedule: {
                     daysOfTheWeek: [
-                      'Sunday'
+                      recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.weeklySchedule.daysOfTheWeek[0]
                     ]
                     retentionDuration: {
-                      count: 104
-                      durationType: 'Weeks'
+                      count: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.weeklySchedule.retentionDuration.count
+                      durationType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.weeklySchedule.retentionDuration.durationType
                     }
                     retentionTimes: [
-                      '2019-11-07T22:00:00Z'
+                      recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.weeklySchedule.retentionTimes[0]
                     ]
                   }
                   yearlySchedule: {
                     monthsOfYear: [
-                      'January'
+                      recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.monthsOfYear[0]
                     ]
                     retentionDuration: {
-                      count: 10
-                      durationType: 'Years'
+                      count: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.retentionDuration.count
+                      durationType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.retentionDuration.durationType
                     }
-                    retentionScheduleFormatType: 'Weekly'
+                    retentionScheduleFormatType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.retentionScheduleFormatType
                     retentionScheduleWeekly: {
                       daysOfTheWeek: [
-                        'Sunday'
+                        recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.retentionScheduleWeekly.daysOfTheWeek[0]
                       ]
                       weeksOfTheMonth: [
-                        'First'
+                        recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.retentionScheduleWeekly.weeksOfTheMonth[0]
                       ]
                     }
                     retentionTimes: [
-                      '2019-11-07T22:00:00Z'
+                      recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].retentionPolicy.yearlySchedule.retentionTimes[0]
                     ]
                   }
                 }
                 schedulePolicy: {
-                  schedulePolicyType: 'SimpleSchedulePolicy'
+                  schedulePolicyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].schedulePolicy.schedulePolicyType
                   scheduleRunDays: [
-                    'Sunday'
+                    recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].schedulePolicy.scheduleRunDays[0]
                   ]
-                  scheduleRunFrequency: 'Weekly'
+                  scheduleRunFrequency: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].schedulePolicy.scheduleRunFrequency
                   scheduleRunTimes: [
-                    '2019-11-07T22:00:00Z'
+                    recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].schedulePolicy.scheduleRunTimes[0]
                   ]
-                  scheduleWeeklyFrequency: 0
+                  scheduleWeeklyFrequency: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[0].schedulePolicy.scheduleWeeklyFrequency
                 }
               }
               {
-                policyType: 'Differential'
+                policyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].policyType
                 retentionPolicy: {
                   retentionDuration: {
-                    count: 30
-                    durationType: 'Days'
+                    count: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].retentionPolicy.retentionDuration.count
+                    durationType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].retentionPolicy.retentionDuration.durationType
                   }
-                  retentionPolicyType: 'SimpleRetentionPolicy'
+                  retentionPolicyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].retentionPolicy.retentionPolicyType
                 }
                 schedulePolicy: {
-                  schedulePolicyType: 'SimpleSchedulePolicy'
+                  schedulePolicyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].schedulePolicy.schedulePolicyType
                   scheduleRunDays: [
-                    'Monday'
+                    recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].schedulePolicy.scheduleRunDays[0]
                   ]
-                  scheduleRunFrequency: 'Weekly'
+                  scheduleRunFrequency: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].schedulePolicy.scheduleRunFrequency
                   scheduleRunTimes: [
-                    '2017-03-07T02:00:00Z'
+                    recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].schedulePolicy.scheduleRunTimes[0]
                   ]
-                  scheduleWeeklyFrequency: 0
+                  scheduleWeeklyFrequency: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[1].schedulePolicy.scheduleWeeklyFrequency
                 }
               }
               {
-                policyType: 'Log'
+                policyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[2].policyType
                 retentionPolicy: {
                   retentionDuration: {
-                    count: 15
-                    durationType: 'Days'
+                    count: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[2].retentionPolicy.retentionDuration.count
+                    durationType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[2].retentionPolicy.retentionDuration.durationType
                   }
-                  retentionPolicyType: 'SimpleRetentionPolicy'
+                  retentionPolicyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[2].retentionPolicy.retentionPolicyType
                 }
                 schedulePolicy: {
-                  scheduleFrequencyInMins: 120
-                  schedulePolicyType: 'LogSchedulePolicy'
+                  scheduleFrequencyInMins: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[2].schedulePolicy.scheduleFrequencyInMins
+                  schedulePolicyType: recoveryServicesVault.backupPolicies[1].properties.subProtectionPolicy[2].schedulePolicy.schedulePolicyType
                 }
               }
             ]
-            workLoadType: 'SQLDataBase'
+            workLoadType: recoveryServicesVault.backupPolicies[1].properties.workLoadType
           }
         }
         {
-          name: 'filesharepolicy'
+          name: recoveryServicesVault.backupPolicies[2].name
           properties: {
-            backupManagementType: 'AzureStorage'
-            protectedItemsCount: 0
+            backupManagementType: recoveryServicesVault.backupPolicies[2].properties.backupManagementType
+            protectedItemsCount: recoveryServicesVault.backupPolicies[2].properties.protectedItemsCount
             retentionPolicy: {
               dailySchedule: {
                 retentionDuration: {
-                  count: 30
-                  durationType: 'Days'
+                  count: recoveryServicesVault.backupPolicies[2].properties.retentionPolicy.dailySchedule.retentionDuration.count
+                  durationType: recoveryServicesVault.backupPolicies[2].properties.retentionPolicy.dailySchedule.retentionDuration.durationType
                 }
                 retentionTimes: [
-                  '2019-11-07T04:30:00Z'
+                  recoveryServicesVault.backupPolicies[2].properties.retentionPolicy.dailySchedule.retentionTimes[0]
                 ]
               }
-              retentionPolicyType: 'LongTermRetentionPolicy'
+              retentionPolicyType: recoveryServicesVault.backupPolicies[2].properties.retentionPolicy.retentionPolicyType
             }
             schedulePolicy: {
-              schedulePolicyType: 'SimpleSchedulePolicy'
-              scheduleRunFrequency: 'Daily'
+              schedulePolicyType: recoveryServicesVault.backupPolicies[2].properties.schedulePolicy.schedulePolicyType
+              scheduleRunFrequency: recoveryServicesVault.backupPolicies[2].properties.schedulePolicy.scheduleRunFrequency
               scheduleRunTimes: [
-                '2019-11-07T04:30:00Z'
+                recoveryServicesVault.backupPolicies[2].properties.schedulePolicy.scheduleRunTimes[0]
               ]
-              scheduleWeeklyFrequency: 0
+              scheduleWeeklyFrequency: recoveryServicesVault.backupPolicies[2].properties.schedulePolicy.scheduleWeeklyFrequency
             }
-            timeZone: 'UTC'
-            workloadType: 'AzureFileShare'
+            timeZone: recoveryServicesVault.backupPolicies[2].properties.timeZone
+            workloadType: recoveryServicesVault.backupPolicies[2].properties.workloadType
           }
         }
       ]
       backupStorageConfig: {
-        crossRegionRestoreFlag: true
-        storageModelType: 'GeoRedundant'
+        crossRegionRestoreFlag: recoveryServicesVault.backupStorageConfig.crossRegionRestoreFlag
+        storageModelType: recoveryServicesVault.backupStorageConfig.storageModelType
       }
       diagnosticSettings: [
         {

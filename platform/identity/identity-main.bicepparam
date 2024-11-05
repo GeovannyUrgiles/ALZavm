@@ -126,7 +126,7 @@ param recoveryServiceVaultName = [
 // Key Vault Properties
 
 param keyVault = {
-  sku: 'standard' // standard | premium (lowercase) (premium SKU requires HSM)
+  sku: 'standard'
   accessPolicies: []
   publicNetworkAccess: 'Disabled'
   bypass: 'AzureServices'
@@ -254,7 +254,7 @@ param virtualMachine_Windows = {
   encryptionAtHost: false
   osType: 'Windows'
   backupPolicyName: 'VMpolicy'
-  vmSize: 'Standard_DS1_v2' // Standard_DS1_v2 | Standard_DS2_v2 | Standard_DS3_v2 | Standard_DS4_v2 | Standard_DS5_v2 | Standard_DS11_v2 | Standard_DS12_v2 | Standard_DS13_v2 | Standard_DS14_v2 | Standard_DS15_v2 | Standard_D1_v2 | Standard_D2_v2 | Standard_D3_v2 | Standard_D4_v2 | Standard_D5_v2 | Standard_D11_v2 | Standard_D12_v2 | Standard_D13_v2 | Standard_D14_v2 | Standard_D15_v2 | Standard_D2s_v3 | Standard_D4s_v3 | Standard_D8s_v3 | Standard_D16s_v3 | Standard_D32s_v3 | Standard_D48s_v3 | Standard_D64s_v3 | Standard_D2_v3 | Standard_D4_v3 | Standard_D8_v3 | Standard_D16_v3 | Standard_D32_v3 | Standard_D48_v3 | Standard_D64_v3 | Standard_D2s_v4 | Standard_D4s_v4 | Standard_D8s_v4 | Standard_D16s_v4 | Standard_D32s_v4 | Standard_D48s_v4 | Standard_D64s_v4 | Standard_D2_v4 | Standard_D4_v4 | Standard_D8_v4 | Standard_D16_v4 | Standard_D32_v4 | Standard_D48_v4 | Standard_D64_v4 | Standard_D2ds_v4 | Standard_D4ds_v4 | Standard_D8ds_v4 | Standard_D16ds_v4 | Standard_D32ds_v4 | Standard_D48ds_v4 | Standard_D64ds_v4 | Standard_D2s_v5 | Standard_D4s_v5 | Standard_D8s_v5 | Standard_D16s_v5 | Standard_D32s_v5 | Standard_D48s_v5 | Standard_D64s_v5 | Standard_D2_v5 | Standard_D4_v5 | Standard_D8_v5 | Standard_D16_v5 | Standard_D32_v5 | Standard_D48_v5 | Standard_D64_v5 | Standard_D2ds_v5 | Standard_D4ds_v5 | Standard_D8ds_v5 | Standard_D16ds_v5 | Standard_D32ds_v5 | Standard_D48ds_v5 | Standard_D64ds_v5 | Standard_D2s_v6 |
+  vmSize: 'Standard_DS1_v2'
   zone: 2
   imageReference: {
     offer: 'WindowsServer'
@@ -278,7 +278,7 @@ param virtualMachine_Windows = {
     deleteOption: 'Delete'
     diskSizeGB: 128
     managedDisk: {
-      storageAccountType: 'Standard_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
+      storageAccountType: 'Standard_LRS'
     }
   }
   dataDisks: {
@@ -288,7 +288,7 @@ param virtualMachine_Windows = {
     diskSizeGB: 128
     lun: 0
     managedDisk: {
-      storageAccountType: 'Standard_LRS' // Standard_LRS | Premium_LRS | StandardSSD_LRS | UltraSSD_LRS
+      storageAccountType: 'Standard_LRS'
     }
   }
   autoShutdownConfig: {
@@ -298,7 +298,7 @@ param virtualMachine_Windows = {
     notificationStatus: 'Enabled'
     notificationTimeInMinutes: 30
     status: 'Enabled'
-    timeZone: 'Central Standard Time' // UTC | Central Standard Time | Eastern Standard Time | Pacific Standard Time | Mountain Standard Time
+    timeZone: 'Central Standard Time'
   }
   enableAutoUpdate: true
   patchMode: 'AutomaticByPlatform'
@@ -372,3 +372,254 @@ param storageAccount = {
     ipRules: []
   }
 }
+
+
+param recoveryServicesVault = {
+  backupConfig: {
+        enhancedSecurityState: 'Disabled'
+        softDeleteFeatureState: 'Disabled'
+      }
+      backupPolicies: [
+        {
+          name: 'VMpolicy'
+          properties: {
+            backupManagementType: 'AzureIaasVM'
+            instantRPDetails: {}
+            instantRpRetentionRangeInDays: 2
+            protectedItemsCount: 0
+            retentionPolicy: {
+              dailySchedule: {
+                retentionDuration: {
+                  count: 180
+                  durationType: 'Days'
+                }
+                retentionTimes: [
+                  '2019-11-07T07:00:00Z'
+                ]
+              }
+              monthlySchedule: {
+                retentionDuration: {
+                  count: 60
+                  durationType: 'Months'
+                }
+                retentionScheduleFormatType: 'Weekly'
+                retentionScheduleWeekly: {
+                  daysOfTheWeek: [
+                    'Sunday'
+                  ]
+                  weeksOfTheMonth: [
+                    'First'
+                  ]
+                }
+                retentionTimes: [
+                  '2019-11-07T07:00:00Z'
+                ]
+              }
+              retentionPolicyType: 'LongTermRetentionPolicy'
+              weeklySchedule: {
+                daysOfTheWeek: [
+                  'Sunday'
+                ]
+                retentionDuration: {
+                  count: 12
+                  durationType: 'Weeks'
+                }
+                retentionTimes: [
+                  '2019-11-07T07:00:00Z'
+                ]
+              }
+              yearlySchedule: {
+                monthsOfYear: [
+                  'January'
+                ]
+                retentionDuration: {
+                  count: 10
+                  durationType: 'Years'
+                }
+                retentionScheduleFormatType: 'Weekly'
+                retentionScheduleWeekly: {
+                  daysOfTheWeek: [
+                    'Sunday'
+                  ]
+                  weeksOfTheMonth: [
+                    'First'
+                  ]
+                }
+                retentionTimes: [
+                  '2019-11-07T07:00:00Z'
+                ]
+              }
+            }
+            schedulePolicy: {
+              schedulePolicyType: 'SimpleSchedulePolicy'
+              scheduleRunFrequency: 'Daily'
+              scheduleRunTimes: [
+                '2019-11-07T07:00:00Z'
+              ]
+              scheduleWeeklyFrequency: 0
+            }
+            timeZone: 'UTC'
+          }
+        }
+        {
+          name: 'sqlpolicy'
+          properties: {
+            backupManagementType: 'AzureWorkload'
+            protectedItemsCount: 0
+            settings: {
+              isCompression: true
+              issqlcompression: true
+              timeZone: 'UTC'
+            }
+            subProtectionPolicy: [
+              {
+                policyType: 'Full'
+                retentionPolicy: {
+                  monthlySchedule: {
+                    retentionDuration: {
+                      count: 60
+                      durationType: 'Months'
+                    }
+                    retentionScheduleFormatType: 'Weekly'
+                    retentionScheduleWeekly: {
+                      daysOfTheWeek: [
+                        'Sunday'
+                      ]
+                      weeksOfTheMonth: [
+                        'First'
+                      ]
+                    }
+                    retentionTimes: [
+                      '2019-11-07T22:00:00Z'
+                    ]
+                  }
+                  retentionPolicyType: 'LongTermRetentionPolicy'
+                  weeklySchedule: {
+                    daysOfTheWeek: [
+                      'Sunday'
+                    ]
+                    retentionDuration: {
+                      count: 104
+                      durationType: 'Weeks'
+                    }
+                    retentionTimes: [
+                      '2019-11-07T22:00:00Z'
+                    ]
+                  }
+                  yearlySchedule: {
+                    monthsOfYear: [
+                      'January'
+                    ]
+                    retentionDuration: {
+                      count: 10
+                      durationType: 'Years'
+                    }
+                    retentionScheduleFormatType: 'Weekly'
+                    retentionScheduleWeekly: {
+                      daysOfTheWeek: [
+                        'Sunday'
+                      ]
+                      weeksOfTheMonth: [
+                        'First'
+                      ]
+                    }
+                    retentionTimes: [
+                      '2019-11-07T22:00:00Z'
+                    ]
+                  }
+                }
+                schedulePolicy: {
+                  schedulePolicyType: 'SimpleSchedulePolicy'
+                  scheduleRunDays: [
+                    'Sunday'
+                  ]
+                  scheduleRunFrequency: 'Weekly'
+                  scheduleRunTimes: [
+                    '2019-11-07T22:00:00Z'
+                  ]
+                  scheduleWeeklyFrequency: 0
+                }
+              }
+              {
+                policyType: 'Differential'
+                retentionPolicy: {
+                  retentionDuration: {
+                    count: 30
+                    durationType: 'Days'
+                  }
+                  retentionPolicyType: 'SimpleRetentionPolicy'
+                }
+                schedulePolicy: {
+                  schedulePolicyType: 'SimpleSchedulePolicy'
+                  scheduleRunDays: [
+                    'Monday'
+                  ]
+                  scheduleRunFrequency: 'Weekly'
+                  scheduleRunTimes: [
+                    '2017-03-07T02:00:00Z'
+                  ]
+                  scheduleWeeklyFrequency: 0
+                }
+              }
+              {
+                policyType: 'Log'
+                retentionPolicy: {
+                  retentionDuration: {
+                    count: 15
+                    durationType: 'Days'
+                  }
+                  retentionPolicyType: 'SimpleRetentionPolicy'
+                }
+                schedulePolicy: {
+                  scheduleFrequencyInMins: 120
+                  schedulePolicyType: 'LogSchedulePolicy'
+                }
+              }
+            ]
+            workLoadType: 'SQLDataBase'
+          }
+        }
+        {
+          name: 'filesharepolicy'
+          properties: {
+            backupManagementType: 'AzureStorage'
+            protectedItemsCount: 0
+            retentionPolicy: {
+              dailySchedule: {
+                retentionDuration: {
+                  count: 30
+                  durationType: 'Days'
+                }
+                retentionTimes: [
+                  '2019-11-07T04:30:00Z'
+                ]
+              }
+              retentionPolicyType: 'LongTermRetentionPolicy'
+            }
+            schedulePolicy: {
+              schedulePolicyType: 'SimpleSchedulePolicy'
+              scheduleRunFrequency: 'Daily'
+              scheduleRunTimes: [
+                '2019-11-07T04:30:00Z'
+              ]
+              scheduleWeeklyFrequency: 0
+            }
+            timeZone: 'UTC'
+            workloadType: 'AzureFileShare'
+          }
+        }
+      ]
+      backupStorageConfig: {
+        crossRegionRestoreFlag: true
+        storageModelType: 'GeoRedundant'
+      }
+      monitoringSettings: {
+        azureMonitorAlertSettings: {
+          alertsForAllJobFailures: 'Enabled'
+        }
+        classicAlertSettings: {
+          alertsForCriticalOperations: 'Enabled'
+        }
+      }
+    }
+  
