@@ -52,15 +52,83 @@ param dnsServers array
 
 // Resource Maps
 
-param azureFirewall object
+param azureFirewall azureFirewallType
+type azureFirewallType = {
+  skuName: 'Standard' | 'Premium'
+  numberOfPublicIPs: int
+}
 
-param azureFirewallPolicy object
-param keyVault object
-param bastion object
-param virtualWan object
-param virtualWanHub object
-param vpnGateway object
-param vpnSite object
+param azureFirewallPolicy azureFirewallPolicyType
+type azureFirewallPolicyType = {
+  skuName: 'Standard' | 'Premium'
+  tier: 'Standard' | 'Premium'
+  mode: 'Alert' | 'Deny' | 'Off'
+  numberOfPublicIPs: int
+  allowSqlRedirect: bool
+  autoLearnPrivateRanges: 'Disabled' | 'Enabled'
+}
+param keyVault keyVaultType
+type keyVaultType = {
+  sku: 'standard' | 'premium'
+  accessPolicies: array
+  publicNetworkAccess: 'Enabled' | 'Disabled'
+  bypass: 'AzureServices' | 'None'
+  defaultAction: 'Allow' | 'Deny'
+  ipRules: array
+  virtualNetworkRules: array
+  enablePurgeProtection: bool
+  softDeleteRetentionInDays: int
+  enableRbacAuthorization: bool
+}
+param bastion bastionType
+type bastionType = {
+  skuName: 'Standard' | 'Basic'
+  disableCopyPaste: bool
+  disableVpnEncryption: bool
+  dnsFirewallProxy: array
+  dnsPrivateResolver: array
+  enableFileCopy: bool
+  enableIpConnect: bool
+  enableShareableLink: bool
+  scaleUnits: int
+}
+param virtualWan virtualWanType
+type virtualWanType = {
+  virtualWanSku: 'Basic' | 'Standard'
+  allowBranchToBranchTraffic: bool
+  disableVpnEncryption: bool
+}
+param virtualWanHub virtualWanHubType
+type virtualWanHubType = {
+  addressPrefix: string
+  internetToFirewall: bool
+  privateToFirewall: bool
+  preferredRoutingGateway: 'VpnGateway' | 'ExpressRoute' | 'None' | ''
+  enableTelemetry: bool
+  virtualRouterAsn: int
+  defaultRouteTableName: string
+  sku: 'Basic' | 'Standard'
+}
+param vpnGateway vpnGatewayType
+type vpnGatewayType = {
+  asn: int
+  vpnGatewayScaleUnit: int
+  peerWeight: int
+  isRoutingPreferenceInternet: bool
+  enableBgpRouteTranslationForNat: bool
+  enableTelemetry: bool
+}
+param vpnSite vpnSiteType
+type vpnSiteType = {
+  addressPrefixes: array // Remote VPN Site subnets (if not using BGP)
+  o365Policy: {
+    breakOutCategories: {
+      allow: bool
+      default: bool
+      optimize: bool
+    }
+  }
+}
 param storageAccount storageAccountType
 type storageAccountType = {
   accountTier: 'Standard' | 'Premium'

@@ -227,22 +227,22 @@ param ruleCollectionGroups = [
 // Virtual WAN Properties
 
 param virtualWan = {
-  virtualWanSku: 'Standard' // Basic | Standard // Use Basic for Site-to-Ste VPN only to local vnet, Standard for ExpressRoute
-  allowBranchToBranchTraffic: true // true | false // Allows traffic between VPN branches
+  virtualWanSku: 'Standard'
+  allowBranchToBranchTraffic: true
   disableVpnEncryption: false
 }
 
 // VWAN Hub Properties
 
 param virtualWanHub = {
-  addressPrefix: '10.0.0.0/23' // Hub Address Prefix - minimum /24
+  addressPrefix: '10.0.0.0/23' // Minimum /24
   internetToFirewall: false
   privateToFirewall: false
-  preferredRoutingGateway: '' // 'VpnGateway' | 'ExpressRoute' | 'None' // (requires Standard SKU)
+  preferredRoutingGateway: ''
   enableTelemetry: false
   virtualRouterAsn: 65515
   defaultRouteTableName: 'defaultRouteTable' // Internal naming - do not change unless you have a specific requirement
-  sku: 'Standard' // Basic | Standard // Use Basic for Site-to-Ste VPN, Standard for ExpressRoute
+  sku: 'Standard'
 }
 
 // VPN Gateway Properties
@@ -280,18 +280,18 @@ param azureFirewall = {
 // Azure Firewall Policy Properties
 
 param azureFirewallPolicy = {
-  skuName: 'Standard' // Standard | Premium
-  tier: 'Standard' // Standard | Premium
-  mode: 'Off' // Alert | Deny | Off
+  skuName: 'Standard'
+  tier: 'Standard'
+  mode: 'Off'
   numberOfPublicIPs: 1
-  allowSqlRedirect: false // true | false
-  autoLearnPrivateRanges: 'Disabled' // Disabled | Enabled
+  allowSqlRedirect: false
+  autoLearnPrivateRanges: 'Disabled'
 }
 
 // Azure Bastion Properties
 
 param bastion = {
-  skuName: 'Standard' // Standard | Basic
+  skuName: 'Standard'
   disableCopyPaste: true
   disableVpnEncryption: true
   dnsFirewallProxy: []
@@ -305,7 +305,7 @@ param bastion = {
 // Key Vault Properties
 
 param keyVault = {
-  sku: 'standard' // standard | premium (lowercase) (premium SKU requires HSM)
+  sku: 'standard'
   accessPolicies: []
   publicNetworkAccess: 'Disabled'
   bypass: 'AzureServices'

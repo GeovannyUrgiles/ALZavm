@@ -311,16 +311,16 @@ param virtualMachine_Windows = {
   extensionAntiMalwareConfig: {
     enabled: true
     settings: {
-      AntimalwareEnabled: 'true'
+      AntimalwareEnabled: true
       Exclusions: {
         Extensions: '' //  to exclude, example: '.ext1;.ext2'
         Paths: '' // to exclude, example: 'c:\\excluded-path-1;c:\\excluded-path-2'
         Processes: '' // to exclude, example: 'excludedproc1.exe;excludedproc2.exe'
       }
-      RealtimeProtectionEnabled: 'true'
+      RealtimeProtectionEnabled: true
       ScheduledScanSettings: {
         day: '7'
-        isEnabled: 'true'
+        isEnabled: true
         scanType: 'Quick'
         time: '120'
       }
@@ -340,13 +340,13 @@ param virtualMachine_Windows = {
 // Storage Account Properties (Diagnostics)
 
 param storageAccount = {
-  accountTier: 'Standard' // Standard | Premium
+  accountTier: 'Standard'
   requireInfrastructureEncryption: true
   sasExpirationPeriod: '180.00:00:00'
-  skuName: 'Standard_LRS' // Standard_LRS | Standard_GRS | Standard_RAGRS | Standard_ZRS | Premium_LRS | Premium_ZRS | Premium_GRS | Premium_RAGRS
-  accountReplicationType: 'LRS' // LRS | GRS | RAGRS | ZRS | GZRS | RA_GRS
-  accountKind: 'StorageV2' // Storage | StorageV2 | BlobStorage | BlockBlobStorage
-  accountAccessTier: 'Hot' // Hot | Cool | Archive
+  skuName: 'Standard_LRS'
+  accountReplicationType: 'LRS'
+  accountKind: 'StorageV2'
+  accountAccessTier: 'Hot'
   allowBlobPublicAccess: false
   blobServices: {
     automaticSnapshotPolicyEnabled: true
@@ -367,7 +367,7 @@ param storageAccount = {
   localUsers: []
   managementPolicyRules: []
   networkAcls: {
-    bypass: 'AzureServices' // AzureServices | None
+    bypass: 'AzureServices'
     defaultAction: 'Deny'
     ipRules: []
   }

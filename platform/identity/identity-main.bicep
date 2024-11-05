@@ -42,9 +42,143 @@ param dnsServers array
 // Resource Maps
 
 param keyVault object
-param storageAccount object
-param availabilitySet object
-param virtualMachine_Windows object
+param storageAccount storageAccountType
+type storageAccountType = {
+  accountTier: 'Standard' | 'Premium'
+  requireInfrastructureEncryption: bool
+  sasExpirationPeriod: string
+  skuName:
+    | 'Premium_LRS'
+    | 'Premium_ZRS'
+    | 'Standard_GRS'
+    | 'Standard_GZRS'
+    | 'Standard_LRS'
+    | 'Standard_RAGRS'
+    | 'Standard_RAGZRS'
+    | 'Standard_ZRS'
+  accountReplicationType: 'LRS' | 'GRS' | 'RAGRS' | 'ZRS' | 'GZRS' | 'RA_GRS'
+    accountKind: 'Storage' | 'StorageV2' | 'BlobStorage' | 'BlockBlobStorage'
+  accountAccessTier: 'Hot' | 'Cool' | 'Archive'
+  allowBlobPublicAccess: bool
+  blobServices: {
+    automaticSnapshotPolicyEnabled: bool
+    containerDeleteRetentionPolicyDays: int
+    containerDeleteRetentionPolicyEnabled: bool
+    containers: array
+    deleteRetentionPolicyDays: int
+    deleteRetentionPolicyEnabled: bool
+  }
+  enableHierarchicalNamespace: bool
+  enableNfsV3: bool
+  enableSftp: bool
+  fileServices: {
+    shareDeleteRetentionPolicyDays: int
+    shares: array
+  }
+  largeFileSharesState: 'Enabled' | 'Disabled'
+  localUsers: array
+  managementPolicyRules: array
+  networkAcls: {
+    bypass: 'AzureServices' | 'None'
+    defaultAction: 'Allow' | 'Deny'
+    ipRules: array
+  }
+}
+param availabilitySet availabilitySetType
+type availabilitySetType = {
+  proximityPlacementGroupResourceId: string
+  platformFaultDomainCount: int
+  platformUpdateDomainCount: int
+}
+param virtualMachine_Windows virtualMachineWindowsType
+type virtualMachineWindowsType = {
+  adminUsername: string
+  enableAutomaticUpdates: bool
+  encryptionAtHost: bool
+  osType: 'Windows'
+  backupPolicyName: string
+  vmSize: 'Standard_DS1_v2' | 'Standard_DS2_v2' | 'Standard_DS3_v2' | 'Standard_DS4_v2' | 'Standard_DS5_v2' | 'Standard_DS11_v2' | 'Standard_DS12_v2' | 'Standard_DS13_v2' | 'Standard_DS14_v2' | 'Standard_DS15_v2' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_D15_v2' | 'Standard_D2s_v3' | 'Standard_D4s_v3' | 'Standard_D8s_v3' | 'Standard_D16s_v3' | 'Standard_D32s_v3' | 'Standard_D48s_v3' | 'Standard_D64s_v3' | 'Standard_D2_v3' | 'Standard_D4_v3' | 'Standard_D8_v3' | 'Standard_D16_v3' | 'Standard_D32_v3' | 'Standard_D48_v3' | 'Standard_D64_v3' | 'Standard_D2s_v4' | 'Standard_D4s_v4' | 'Standard_D8s_v4' | 'Standard_D16s_v4' | 'Standard_D32s_v4' | 'Standard_D48s_v4' | 'Standard_D64s_v4' | 'Standard_D2_v4' | 'Standard_D4_v4' | 'Standard_D8_v4' | 'Standard_D16_v4' | 'Standard_D32_v4' | 'Standard_D48_v4' | 'Standard_D64_v4' | 'Standard_D2ds_v4' | 'Standard_D4ds_v4' | 'Standard_D8ds_v4' | 'Standard_D16ds_v4' | 'Standard_D32ds_v4' | 'Standard_D48ds_v4' | 'Standard_D64ds_v4' | 'Standard_D2s_v5' | 'Standard_D4s_v5' | 'Standard_D8s_v5' | 'Standard_D16s_v5' | 'Standard_D32s_v5' | 'Standard_D48s_v5' | 'Standard_D64s_v5' | 'Standard_D2_v5' | 'Standard_D4_v5' | 'Standard_D8_v5' | 'Standard_D16_v5' | 'Standard_D32_v5' | 'Standard_D48_v5' | 'Standard_D64_v5' | 'Standard_D2ds_v5' | 'Standard_D4ds_v5' | 'Standard_D8ds_v5' | 'Standard_D16ds_v5' | 'Standard_D32ds_v5' | 'Standard_D48ds_v5' | 'Standard_D64ds_v5' | 'Standard_D2s_v6'
+  zone: int
+  imageReference: {
+    offer: string
+    publisher: string
+    sku: string
+    version: string
+  }
+  extensionAadJoinConfig: {
+    enabled: bool
+  }
+  nicConfigurations: {
+    deleteOption: 'Delete' | 'Detach'
+    name: string
+    enableIPForwarding: bool
+    privateIpAddressVersion: 'IPv4' | 'IPv6'
+    privateIPAllocationMethod: 'Dynamic' | 'Static'
+  }
+  osDisk: {
+    caching: 'None' | 'ReadOnly' | 'ReadWrite'
+    createOption: 'Attach' | 'FromImage' | 'Empty'
+    deleteOption: 'Delete' | 'Detach'
+    diskSizeGB: int
+    managedDisk: {
+      storageAccountType: 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'
+    }
+  }
+  dataDisks: {
+    caching: 'None' | 'ReadOnly' | 'ReadWrite'
+    createOption: 'Attach' | 'FromImage' | 'Empty'
+    deleteOption: 'Delete' | 'Detach'
+    diskSizeGB: int
+    lun: int
+    managedDisk: {
+      storageAccountType: 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS'
+    }
+  }
+  autoShutdownConfig: {
+    dailyRecurrenceTime: string
+    notificationEmail: string
+    notificationLocale: string
+    notificationStatus: 'Enabled' | 'Disabled'
+    notificationTimeInMinutes: int
+    status: 'Enabled' | 'Disabled'
+    timeZone: 'UTC' | 'Central Standard Time' | 'Eastern Standard Time' | 'Pacific Standard Time' | 'Mountain Standard Time'
+  }
+  enableAutoUpdate: bool
+  patchMode: 'AutomaticByPlatform' | 'AutomaticByOS' | 'Manual'
+  rebootSetting: 'IfRequired' | 'Never'
+  proximityPlacementGroupResourceId: string
+  enableBackup: bool
+  enableMonitoring: bool
+  enableUpdateManagement: bool
+  enableTelemetry: bool
+  extensionAntiMalwareConfig: {
+    enabled: bool
+    settings: {
+      AntimalwareEnabled: bool
+      Exclusions: {
+        Extensions: string
+        Paths: string
+        Processes: string
+      }
+      RealtimeProtectionEnabled: bool
+      ScheduledScanSettings: {
+        day: string
+        isEnabled: bool
+        scanType: 'Quick' | 'Full'
+        time: string
+      }
+    }
+  }
+  extensionDependencyAgentConfig: {
+    enableAMA: bool
+    enabled: bool
+    tags: object
+  }
+  extensionDSCConfig: {
+    enabled: bool
+    tags: object
+  }
+}
 
 // Resource Suffixes
 
