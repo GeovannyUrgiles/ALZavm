@@ -19,7 +19,7 @@ param enableKeyVault bool
 param enableStorageAccount bool
 
 // Deployment Options
-
+@description('Deployment Options')
 param subscriptionId string
 param locations array
 param tags object
@@ -33,6 +33,8 @@ param vpnGatewayName array
 param vpnSiteName array
 param firewallName array
 param firewallPolicyName array
+
+// Resource Arrays
 
 param uamiName array
 param bastionName array
@@ -51,6 +53,7 @@ param dnsServers array
 // Resource Maps
 
 param azureFirewall object
+
 param azureFirewallPolicy object
 param keyVault object
 param bastion object
@@ -58,7 +61,48 @@ param virtualWan object
 param virtualWanHub object
 param vpnGateway object
 param vpnSite object
-param storageAccount object
+param storageAccount storageAccountType
+type storageAccountType = {
+  accountTier: 'Standard' | 'Premium'
+  requireInfrastructureEncryption: bool
+  sasExpirationPeriod: string
+  skuName:
+    | 'Premium_LRS'
+    | 'Premium_ZRS'
+    | 'Standard_GRS'
+    | 'Standard_GZRS'
+    | 'Standard_LRS'
+    | 'Standard_RAGRS'
+    | 'Standard_RAGZRS'
+    | 'Standard_ZRS'
+  accountReplicationType: 'LRS' | 'GRS' | 'RAGRS' | 'ZRS' | 'GZRS' | 'RA_GRS'
+  accountKind: 'Storage' | 'StorageV2' | 'BlobStorage' | 'BlockBlobStorage'
+  accountAccessTier: 'Hot' | 'Cool' | 'Archive'
+  allowBlobPublicAccess: bool
+  blobServices: {
+    automaticSnapshotPolicyEnabled: bool
+    containerDeleteRetentionPolicyDays: int
+    containerDeleteRetentionPolicyEnabled: bool
+    containers: array
+    deleteRetentionPolicyDays: int
+    deleteRetentionPolicyEnabled: bool
+  }
+  enableHierarchicalNamespace: bool
+  enableNfsV3: bool
+  enableSftp: bool
+  fileServices: {
+    shareDeleteRetentionPolicyDays: int
+    shares: array
+  }
+  largeFileSharesState: 'Enabled' | 'Disabled'
+  localUsers: array
+  managementPolicyRules: array
+  networkAcls: {
+    bypass: 'AzureServices' | 'None'
+    defaultAction: 'Allow' | 'Deny'
+    ipRules: array
+  }
+}
 
 // Resource Suffixes
 
@@ -88,11 +132,6 @@ param subnets1 array
 param securityRulesDefault array
 param securityRulesBastion array
 
-// VPN Gateway Site-to-Site
-
-// param vpnSiteLinks array
-// param vpnConnections array
-
 // Firewall Policy Parameters
 
 param ruleCollectionGroups array
@@ -102,7 +141,6 @@ param ruleCollectionGroups array
 param privatelinkDnsZoneNames array
 
 // Network Resource Group Deployment
-
 module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
     scope: subscription(subscriptionId)
@@ -119,6 +157,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
 
 // Bastion Resource Group Deployment
 
+@description('Deploys a resource group for the Bastion host.')
 module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
   for i in range(0, length(locations)): if (enableVirtualNetwork) {
     scope: subscription(subscriptionId)
@@ -181,6 +220,8 @@ module modWorkspace 'br/public:avm/res/operational-insights/workspace:0.7.0' = [
   }
 ]
 
+// Application Insights
+
 module modComponent 'br/public:avm/res/insights/component:0.4.1' = [
   for i in range(0, length(locations)): if (enableOperationalInsights) {
     scope: resourceGroup(resourceGroupName_Network[i])
@@ -195,6 +236,8 @@ module modComponent 'br/public:avm/res/insights/component:0.4.1' = [
     ]
   }
 ]
+
+// Monitoring
 
 module modMonitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = [
   for i in range(0, length(locations)): if (enableOperationalInsights) {
@@ -302,7 +345,7 @@ module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
 ]
 
 // DNS Private Resolver
-
+@description('Deploys a DNS Resolver for managing DNS queries within the network.')
 module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'DnsResolverDeployment'
@@ -334,6 +377,7 @@ module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enabl
 
 // DNS Resolver Forwarder
 
+@description('Deploys a DNS Forwarding Ruleset for outbound DNS resolution.')
 module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = if (enableOutboundDns) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'dnsForwardingRulesetDeployment'
@@ -360,7 +404,7 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
 }
 
 // Virtual WAN - Primary Region Only
-
+@description('Deploys a Virtual WAN for network connectivity.')
 module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableVirtualWan) {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'virtualWanDeployment'
@@ -377,8 +421,8 @@ module modVirtualWan 'br/public:avm/res/network/virtual-wan:0.3.0' = if (enableV
   ]
 }
 
-// Virtual WAN Hub
-
+// Virtual WAN Hub - Primary Region Only (change 0 to i for multi-region)
+@description('Deploys a Virtual Hub for network connectivity.')
 module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
   for i in range(0, length(locations)): if (enableVirtualHub) {
     scope: resourceGroup(resourceGroupName_Network[0])
@@ -512,14 +556,6 @@ module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if 
     allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
     autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
     location: locations[0]
-    //-// Uncomment for Premium SKU
-    // managedIdentities: (enableUserAssignedManagedIdentity) ? {
-    //   userAssignedResourceIds: [
-    //     modUserAssignedIdentity[0].outputs.resourceId
-    //   ]
-    // } : {
-    //   userAssignedResourceIds: []
-    // }
     mode: azureFirewallPolicy.mode
     ruleCollectionGroups: ruleCollectionGroups
     tier: azureFirewallPolicy.tier
@@ -553,7 +589,7 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
 
 // Azure Bastion Host
 
-module bastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
+module modBastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
   for i in range(0, length(locations)): if (enableBastion) {
     scope: resourceGroup(resourceGroupName_Bastion[0])
     name: 'AzureBastionDeployment${i}'
@@ -647,7 +683,7 @@ module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
 
 // Storage Account
 
-module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.1' = [
+module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.3' = [
   for i in range(0, length(locations)): if (enableStorageAccount) {
     scope: resourceGroup(resourceGroupName_Network[i])
     name: 'storageAccountDeployment${i}'

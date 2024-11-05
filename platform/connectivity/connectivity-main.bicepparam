@@ -274,6 +274,7 @@ param vpnSite = {
 param azureFirewall = {
   skuName: 'Standard' // Standard | Premium
   numberOfPublicIPs: 1
+  
 }
 
 // Azure Firewall Policy Properties
@@ -319,13 +320,13 @@ param keyVault = {
 // Storage Account (Diagnostics)
 
 param storageAccount = {
-  accountTier: 'Standard' // Standard | Premium
+  accountTier: 'Standard'
   requireInfrastructureEncryption: true
   sasExpirationPeriod: '180.00:00:00'
-  skuName: 'Standard_LRS' // Standard_LRS | Standard_GRS | Standard_RAGRS | Standard_ZRS | Premium_LRS | Premium_ZRS | Premium_GRS | Premium_RAGRS
-  accountReplicationType: 'LRS' // LRS | GRS | RAGRS | ZRS | GZRS | RA_GRS
-  accountKind: 'StorageV2' // Storage | StorageV2 | BlobStorage | BlockBlobStorage
-  accountAccessTier: 'Hot' // Hot | Cool | Archive
+  skuName: 'Standard_LRS'
+  accountReplicationType: 'LRS'
+  accountKind: 'StorageV2'
+  accountAccessTier: 'Hot'
   allowBlobPublicAccess: false
   blobServices: {
     automaticSnapshotPolicyEnabled: true
@@ -346,7 +347,7 @@ param storageAccount = {
   localUsers: []
   managementPolicyRules: []
   networkAcls: {
-    bypass: 'AzureServices' // AzureServices | None
+    bypass: 'AzureServices'
     defaultAction: 'Deny'
     ipRules: []
   }
