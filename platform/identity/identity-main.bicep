@@ -41,7 +41,19 @@ param dnsServers array
 
 // Resource Maps
 
-param keyVault object
+param keyVault keyVaultType
+type keyVaultType = {
+  sku: 'standard' | 'premium' // standard | premium (lowercase) (premium SKU requires HSM)
+  accessPolicies: array
+  publicNetworkAccess: 'Enabled' | 'Disabled'
+  bypass: 'AzureServices' | 'None'
+  defaultAction: 'Allow' | 'Deny'
+  ipRules: array
+  virtualNetworkRules: array
+  enablePurgeProtection: bool
+  softDeleteRetentionInDays: int
+  enableRbacAuthorization: bool
+}
 param storageAccount storageAccountType
 type storageAccountType = {
   accountTier: 'Standard' | 'Premium'
