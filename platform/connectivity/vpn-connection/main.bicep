@@ -1,3 +1,4 @@
+
 param vpnGatewayName string
 param connectionBandwidth int
 param enableBgp bool
@@ -5,25 +6,25 @@ param enableInternetSecurity bool
 param enableRateLimiting bool
 param ipsecPolicies array
 
-param dhGroup string
-param ikeEncryption string
-param ikeIntegrity string
-param ipsecEncryption string
-param ipsecIntegrity string
-param pfsGroup string
-param saDataSizeKilobytes string
-param saLifeTimeSeconds string
+// param dhGroup string
+// param ikeEncryption string
+// param ikeIntegrity string
+// param ipsecEncryption string
+// param ipsecIntegrity string
+// param pfsGroup string
+// param saDataSizeKilobytes string
+// param saLifeTimeSeconds string
 param remoteVpnSiteResourceId string
 param routingConfiguration object
 param routingWeight int
 param sharedKey string
 param trafficSelectorPolicies array
-param localAddressRanges string
-param remoteAddressRanges string
-param trafficSelectors string
-param localPortRanges string
-param protocol string
-param remotePortRanges string
+// param localAddressRanges string
+// param remoteAddressRanges string
+// param trafficSelectors string
+// param localPortRanges string
+// param protocol string
+// param remotePortRanges string
 param useLocalAzureIpAddress bool
 param usePolicyBasedTrafficSelectors bool
 param vpnConnectionProtocolType string

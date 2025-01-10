@@ -270,22 +270,16 @@ param vpnSite = {
 
 param vpnConnection = {
   connectionBandwidth: 100
-  connectionBandwidthUnits: 'Mbps'
-  connectionProtocol: 'IKEv2'
-  connectionType: 'PolicyBased'
+  //   connectionBandwidthUnits: 'Mbps'
+  //   connectionProtocol: 'IKEv2'
+  //   connectionType: 'PolicyBased'
   enableBgp: false
-  enableInternetSecurity: false
-  enableRateLimiting: false
-  enableDpd: true
-  enablePfsGroup: 'PFS1'
-  enableRouteBased: false
-  ipsecEncryption: 'AES256'
-  ipsecIntegrity: 'SHA256'
-  ipsecLifetime: '3600'
-  ipsecPfsGroup: 'PFS1'
+  //   enableInternetSecurity: false
+  //   enableRateLimiting: false
+  //   enableDpd: true
+  //   enablePfsGroup: 'PFS1'
+  //   enableRouteBased: false
   sharedKey: 'P@ssw0rd'
-  vpnGatewayId: ''
-  vpnSiteId: ''
   ipsecPolicies: [
     {
       dhGroup: 'DHGroup2'
@@ -302,21 +296,20 @@ param vpnConnection = {
       saLifetimeUnits: 'Seconds'
     }
   ]
-  remoteVpnSiteResourceId: ''
-  routingConfiguration: {
-    associatedRouteTable: {id: ''}
-    routingProtocolType: 'Bgp' 
-    propagatedRouteTables: [
-        {
-          id: ''
-        }
-      ]
-  routingWeight:  0
-  trafficSelectorPolicies:  []
-  useLocalAzureIpAddress: false
-  usePolicyBasedTrafficSelectors: false
-  vpnConnectionProtocolType:  'IKEv2'
-  vpnLinkConnections: []
+  //   routingConfiguration: {
+  //     associatedRouteTable: {id: ''}
+  //     routingProtocolType: 'Bgp' 
+  //     propagatedRouteTables: [
+  //         {
+  //           id: ''
+  //         }
+  //       ]
+  //   routingWeight:  0
+  //   trafficSelectorPolicies:  []
+  //   useLocalAzureIpAddress: false
+  //   usePolicyBasedTrafficSelectors: false
+  //   vpnConnectionProtocolType:  'IKEv2'
+  //   vpnLinkConnections: []
 }
 
 // Azure Firewall Properties

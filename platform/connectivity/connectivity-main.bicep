@@ -118,6 +118,7 @@ type vpnGatewayType = {
   enableBgpRouteTranslationForNat: bool
   enableTelemetry: bool
 }
+
 param vpnSite vpnSiteType
 type vpnSiteType = {
   addressPrefixes: array // Remote VPN Site subnets (if not using BGP)
@@ -133,26 +134,26 @@ param vpnConnection vpnConnectionType
 type vpnConnectionType = {
   connectionBandwidth: int
   enableBgp: bool
-  enableInternetSecurity: bool
-  enableRateLimiting: bool
+  // enableInternetSecurity: bool
+  // enableRateLimiting: bool
   ipsecPolicies: array
-  remoteVpnSiteResourceId: string
-  routingConfiguration: {
-    associatedRouteTable: {
-      id: string
-    }
-    propagatedRouteTables: {
-      ids: array
-      labels: array
-    }
-  }
-  routingWeight: int
+  // remoteVpnSiteResourceId: string
+  // routingConfiguration: {
+  //   associatedRouteTable: {
+  //     id: string
+  //   }
+  //   propagatedRouteTables: {
+  //     ids: array
+  //     labels: array
+  //   }
+  // }
+  // routingWeight: int
   sharedKey: string
-  trafficSelectorPolicies: array
-  useLocalAzureIpAddress: bool
-  usePolicyBasedTrafficSelectors: bool
-  vpnConnectionProtocolType: 'IKEv2' | 'IKEv1'
-  vpnLinkConnections: array
+  // trafficSelectorPolicies: array
+  // useLocalAzureIpAddress: bool
+  // usePolicyBasedTrafficSelectors: bool
+  // vpnConnectionProtocolType: 'IKEv2' | 'IKEv1'
+  // vpnLinkConnections: array
 }
 
 param storageAccount storageAccountType
@@ -624,7 +625,7 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
     tags: tags
     bgpSettings: {
       asn: vpnGateway.asn
-      peerweight: vpnGateway.peerweight
+      peerweight: vpnGateway.peerWeight
     }
     isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
     enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
@@ -638,10 +639,11 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
   ]
 }
 
-module vpnConnection 'vpn-connection/main.bicep' = {
+module vpnConnections 'vpn-connection/main.bicep' = {
   scope: resourceGroup(resourceGroupName_Network[0])
   name: 'vpnConnectionDeployment'
   params: {
+    vpnGatewayName: vpnGatewayName[0]
     connectionBandwidth: vpnConnection.connectionBandwidth
     enableBgp: vpnConnection.enableBgp
     enableInternetSecurity: vpnConnection.enableInternetSecurity
@@ -658,7 +660,6 @@ module vpnConnection 'vpn-connection/main.bicep' = {
     vpnLinkConnections: vpnConnection.vpnLinkConnections
   }
 }
-
 
 // Firewall Policy
 module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
