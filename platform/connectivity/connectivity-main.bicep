@@ -129,6 +129,32 @@ type vpnSiteType = {
     }
   }
 }
+param vpnConnection vpnConnectionType
+type vpnConnectionType = {
+  connectionBandwidth: int
+  enableBgp: bool
+  enableInternetSecurity: bool
+  enableRateLimiting: bool
+  ipsecPolicies: array
+  remoteVpnSiteResourceId: string
+  routingConfiguration: {
+    associatedRouteTable: {
+      id: string
+    }
+    propagatedRouteTables: {
+      ids: array
+      labels: array
+    }
+  }
+  routingWeight: int
+  sharedKey: string
+  trafficSelectorPolicies: array
+  useLocalAzureIpAddress: bool
+  usePolicyBasedTrafficSelectors: bool
+  vpnConnectionProtocolType: 'IKEv2' | 'IKEv1'
+  vpnLinkConnections: array
+}
+
 param storageAccount storageAccountType
 type storageAccountType = {
   accountTier: 'Standard' | 'Premium'
@@ -466,9 +492,7 @@ module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.
       }
     ]
   }
-  dependsOn: [
-    modDnsResolver
-  ]
+  dependsOn: []
 }
 
 // Virtual WAN - Primary Region Only
@@ -614,6 +638,28 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
   ]
 }
 
+module vpnConnection 'vpn-connection/main.bicep' = {
+  scope: resourceGroup(resourceGroupName_Network[0])
+  name: 'vpnConnectionDeployment'
+  params: {
+    connectionBandwidth: vpnConnection.connectionBandwidth
+    enableBgp: vpnConnection.enableBgp
+    enableInternetSecurity: vpnConnection.enableInternetSecurity
+    enableRateLimiting: vpnConnection.enableRateLimiting
+    ipsecPolicies: vpnConnection.ipsecPolicies
+    remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+    routingConfiguration: vpnConnection.routingConfiguration
+    routingWeight: vpnConnection.routingWeight
+    sharedKey: vpnConnection.sharedKey
+    trafficSelectorPolicies: vpnConnection.trafficSelectorPolicies
+    useLocalAzureIpAddress: vpnConnection.useLocalAzureIpAddress
+    usePolicyBasedTrafficSelectors: vpnConnection.usePolicyBasedTrafficSelectors
+    vpnConnectionProtocolType: vpnConnection.vpnConnectionProtocolType
+    vpnLinkConnections: vpnConnection.vpnLinkConnections
+  }
+}
+
+
 // Firewall Policy
 module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
   scope: resourceGroup(resourceGroupName_Network[0])
@@ -650,9 +696,7 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
     }
     virtualHubId: modVirtualHub[0].outputs.resourceId
   }
-  dependsOn: [
-    modFirewallPolicy
-  ]
+  dependsOn: []
 }
 
 // Azure Bastion Host

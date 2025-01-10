@@ -145,7 +145,6 @@ param appInsightsName = [
   'coneus2appis01'
 ]
 
-
 // Resource Suffixes
 
 param nameSeparator = '-'
@@ -269,12 +268,65 @@ param vpnSite = {
   }
 }
 
+param vpnConnection = {
+  connectionBandwidth: 100
+  connectionBandwidthUnits: 'Mbps'
+  connectionProtocol: 'IKEv2'
+  connectionType: 'PolicyBased'
+  enableBgp: false
+  enableInternetSecurity: false
+  enableRateLimiting: false
+  enableDpd: true
+  enablePfsGroup: 'PFS1'
+  enableRouteBased: false
+  ipsecEncryption: 'AES256'
+  ipsecIntegrity: 'SHA256'
+  ipsecLifetime: '3600'
+  ipsecPfsGroup: 'PFS1'
+  sharedKey: 'P@ssw0rd'
+  vpnGatewayId: ''
+  vpnSiteId: ''
+  ipsecPolicies: [
+    {
+      dhGroup: 'DHGroup2'
+      ikeEncryption: 'AES256'
+      ikeIntegrity: 'SHA256'
+      ipsecEncryption: 'AES256'
+      ipsecIntegrity: 'SHA256'
+      pfsGroup: 'PFS1'
+      saDataSizeKilobytes: 1024000
+      saDataSizeKilobytesUnits: 'KB'
+      saDataSizePackets: 1024000
+      saDataSizePacketsUnits: 'Packets'
+      saLifetime: '3600'
+      saLifetimeUnits: 'Seconds'
+    }
+  ]
+  remoteVpnSiteResourceId: ''
+  routingConfiguration: {
+    associatedRouteTable: {id: ''}
+    routingProtocolType: 'Bgp' 
+    propagatedRouteTables: [
+        {
+          id: ''
+        }
+      ]
+  routingWeight:  0
+  trafficSelectorPolicies:  []
+  useLocalAzureIpAddress: false
+  usePolicyBasedTrafficSelectors: false
+  vpnConnectionProtocolType:  'IKEv2'
+  vpnLinkConnections: []
+}
+
 // Azure Firewall Properties
 
 param azureFirewall = {
-  skuName: 'Standard' // Standard | Premium
+  skuName: 'Standard'
   numberOfPublicIPs: 1
-  
+  threatIntelMode: 'Alert'
+  threatIntelWhitelist: []
+  threatIntelBlacklist: []
 }
 
 // Azure Firewall Policy Properties

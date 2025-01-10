@@ -97,7 +97,32 @@ type storageAccountType = {
   }
 }
 param recoveryServicesVault object
-
+// type recoveryServicesVaultType = {
+//   sku: 'Standard' | 'Premium'
+//   backupStorageConfig: {
+//     crossRegionRestoreFlag: bool
+//     storageModelType: 'GeoRedundant' | 'LocallyRedundant'
+//   }
+//   monitoringSettings: {
+//     azureMonitorAlertSettings: {
+//       alertsForAllJobFailures: 'Enabled' | 'Disabled'
+//     }
+//     classicAlertSettings: {
+//       alertsForCriticalOperations: 'Enabled' | 'Disabled'
+//     }
+//   }
+//   replicationAlertSettings: {
+//     customEmailAddresses: array<string>
+//     locale: string
+//     sendToOwners: 'Send' | 'DoNotSend'
+//   }
+//   roleAssignments: array
+//   securitySettings: {
+//     immutabilitySettings: {
+//       state: 'Unlocked' | 'Locked'
+//     }
+//   }
+// }
 param availabilitySet availabilitySetType
 type availabilitySetType = {
   proximityPlacementGroupResourceId: string
