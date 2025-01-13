@@ -289,11 +289,11 @@ param vpnConnection = {
       ipsecIntegrity: 'SHA256'
       pfsGroup: 'PFS1'
       saDataSizeKilobytes: 1024000
-      saDataSizeKilobytesUnits: 'KB'
-      saDataSizePackets: 1024000
-      saDataSizePacketsUnits: 'Packets'
-      saLifetime: '3600'
-      saLifetimeUnits: 'Seconds'
+      //saDataSizeKilobytesUnits: 'KB'
+      //saDataSizePackets: 1024000
+      //saDataSizePacketsUnits: 'Packets'
+      //saLifetime: '3600'
+      //saLifetimeUnits: 'Seconds'
     }
   ]
   //   routingConfiguration: {
