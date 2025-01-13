@@ -646,19 +646,25 @@ module vpnConnections 'vpn-connection/main.bicep' = {
     vpnGatewayName: vpnGatewayName[0]
     connectionBandwidth: vpnConnection.connectionBandwidth
     enableBgp: vpnConnection.enableBgp
-    enableInternetSecurity: vpnConnection.enableInternetSecurity
-    enableRateLimiting: vpnConnection.enableRateLimiting
-    ipsecPolicies: vpnConnection.ipsecPolicies
-    remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
-    routingConfiguration: vpnConnection.routingConfiguration
-    routingWeight: vpnConnection.routingWeight
     sharedKey: vpnConnection.sharedKey
-    trafficSelectorPolicies: vpnConnection.trafficSelectorPolicies
-    useLocalAzureIpAddress: vpnConnection.useLocalAzureIpAddress
-    usePolicyBasedTrafficSelectors: vpnConnection.usePolicyBasedTrafficSelectors
-    vpnConnectionProtocolType: vpnConnection.vpnConnectionProtocolType
-    vpnLinkConnections: vpnConnection.vpnLinkConnections
+    ipsecPolicies: vpnConnection.ipsecPolicies
+    // enableInternetSecurity: vpnConnection.enableInternetSecurity
+    // enableRateLimiting: vpnConnection.enableRateLimiting
+    
+    // remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+    // routingConfiguration: vpnConnection.routingConfiguration
+    // routingWeight: vpnConnection.routingWeight
+    
+    // trafficSelectorPolicies: vpnConnection.trafficSelectorPolicies
+    // useLocalAzureIpAddress: vpnConnection.useLocalAzureIpAddress
+    // usePolicyBasedTrafficSelectors: vpnConnection.usePolicyBasedTrafficSelectors
+    // vpnConnectionProtocolType: vpnConnection.vpnConnectionProtocolType
+    // vpnLinkConnections: vpnConnection.vpnLinkConnections
   }
+  dependsOn: [
+    modVpnSite
+    modVpnGateway
+  ]
 }
 
 // Firewall Policy
