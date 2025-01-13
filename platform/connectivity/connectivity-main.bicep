@@ -639,15 +639,19 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
   ]
 }
 
-module vpnConnections 'vpn-connection/main.bicep' = {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'vpnConnectionDeployment'
-  params: {
-    vpnGatewayName: vpnGatewayName[0]
-    connectionBandwidth: vpnConnection.connectionBandwidth
-    enableBgp: vpnConnection.enableBgp
-    sharedKey: vpnConnection.sharedKey
-    ipsecPolicies: vpnConnection.ipsecPolicies
+// VPN Connections
+
+// module vpnConnections 'vpn-connection/main.bicep' = if (enableVpnConnection) {
+//   scope: resourceGroup(resourceGroupName_Network[0])
+//   name: 'vpnConnectionDeployment'
+//   params: {
+//     vpnGatewayName: vpnGatewayName[0]
+//     connectionBandwidth: vpnConnection.connectionBandwidth
+//     enableBgp: vpnConnection.enableBgp
+//     sharedKey: vpnConnection.sharedKey
+//     ipsecPolicies: vpnConnection.ipsecPolicies
+
+
     // enableInternetSecurity: vpnConnection.enableInternetSecurity
     // enableRateLimiting: vpnConnection.enableRateLimiting
     
@@ -660,12 +664,14 @@ module vpnConnections 'vpn-connection/main.bicep' = {
     // usePolicyBasedTrafficSelectors: vpnConnection.usePolicyBasedTrafficSelectors
     // vpnConnectionProtocolType: vpnConnection.vpnConnectionProtocolType
     // vpnLinkConnections: vpnConnection.vpnLinkConnections
-  }
-  dependsOn: [
-    modVpnSite
-    modVpnGateway
-  ]
-}
+
+    
+//   }
+//   dependsOn: [
+//     modVpnSite
+//     modVpnGateway
+//   ]
+// }
 
 // Firewall Policy
 module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
