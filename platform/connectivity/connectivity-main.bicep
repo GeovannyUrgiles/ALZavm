@@ -732,6 +732,7 @@ module modBastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
     }
     dependsOn: [
       modVirtualNetwork
+      modVirtualHub
     ]
   }
 ]
