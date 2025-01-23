@@ -709,7 +709,9 @@ module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (e
     }
     virtualHubId: modVirtualHub[0].outputs.resourceId
   }
-  dependsOn: []
+  dependsOn: [
+    modVirtualHub
+  ]
 }
 
 // Azure Bastion Host
