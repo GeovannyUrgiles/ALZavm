@@ -6,11 +6,18 @@ var version = 'v1.0.0'
 
 //-// Deployment Options
 
+param companyCode = 'alp'
+param locationCodePrimary = 'wus2'
+param locationCodeSecondary = 'eus2'
+param env = 'hub'
+param prefixPrimary = '${companyCode}${env}${locationCodePrimary}'
+param prefixSecondary = '${companyCode}${env}${locationCodeSecondary}'
+
 // Virtual Network
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
 param enableDnsResolver = true
-param enableOutboundDns = true // Enables Outbound DNS Forwarding Rules
+param enableOutboundDns = false // Enables Outbound DNS Forwarding Rules
 param enablePrivateDnsZones = true
 
 // Virtual WAN
@@ -24,7 +31,7 @@ param enableAzureFirewall = true
 param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
-param enableBastion = true
+param enableBastion = false
 param enableStorageAccount = true
 
 // DNS Servers will be applied to Virtual Networks
@@ -41,33 +48,33 @@ param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Su
 
 param locations = [
   // Client should deploy (at minimum) a Virtual Network into each region to establish future DR capabilities
-  'centralus' // Primary Region
-  'eastus2' // Secondary Region
+  'westus2' // Primary Region
+  // 'eastus2' // Secondary Region
 ]
 
 // Resource Group Names
 
 var resourceGroupName_Networks = [
-  'concusnetworkrg'
-  'coneus2networkrg'
+  '${prefixPrimary}networkrg'
+  '${prefixSecondary}networkrg'
 ]
 param resourceGroupName_Network = [
-  'concusnetworkrg'
-  'coneus2networkrg'
+  '${prefixPrimary}networkrg'
+  '${prefixSecondary}networkrg'
 ]
 param resourceGroupName_Bastion = [
-  'concusbastionrg'
-  'coneus2bastionrg'
+  '${prefixPrimary}bastionrg'
+  '${prefixSecondary}bastionrg'
 ]
-param resourceGroupName_PrivateDns = 'concusdnsrg'
+param resourceGroupName_PrivateDns = '${prefixPrimary}dnsrg'
 
 // Virtual WAN Name
 
-param virtualWanName = 'concusvwan'
+param virtualWanName = '${prefixPrimary}vwan'
 
 // Virtual Network Names
 
-var virtualNetworkNamePrimary = 'concusvnet'
+var virtualNetworkNamePrimary = '${prefixPrimary}vnet'
 var virtualNetworkNameSecondary = 'coneus2vnet'
 
 // Virtual Network Property Array
@@ -93,55 +100,55 @@ param virtualNetwork = [
 // Resource Name Arrays
 
 param virtualHubName = [
-  'concushub'
+  '${prefixPrimary}hub'
   'coneus2hub'
 ]
 param vpnGatewayName = [
-  'concusvpngw'
+  '${prefixPrimary}vpngw'
   'coneus2vpngw'
 ]
 param vpnSiteName = [
-  'concusvpnsite'
+  '${prefixPrimary}vpnsite'
   'coneus2vpnsite'
 ]
 param firewallName = [
-  'concusazfw'
+  '${prefixPrimary}azfw'
   'coneus2azfw'
 ]
 param firewallPolicyName = [
-  'concusazfwpol'
+  '${prefixPrimary}azfwpol'
   'coneus2azfwpol'
 ]
 param bastionName = [
-  'concusbh'
+  '${prefixPrimary}bh'
   'coneus2bh'
 ]
 param dnsResolverName = [
-  'concusdns'
+  '${prefixPrimary}dns'
   'coneus2dns'
 ]
 param dnsForwardingRulesetName = [
-  'concusdnsfr'
+  '${prefixPrimary}dnsfr'
   'coneus2dnsfr'
 ]
 param operationalInsightsName = [
-  'concusoiw'
+  '${prefixPrimary}law'
   'coneus2oiw'
 ]
 param uamiName = [
-  'concusmi'
+  '${prefixPrimary}mi'
   'coneus2mi'
 ]
 param keyVaultName = [
-  'concuskv01'
+  '${prefixPrimary}kv01'
   'coneus2kv01'
 ]
 param storageAccountName = [
-  'concusdiagsa01'
+  '${prefixPrimary}diagsa01'
   'coneus2diagsa01'
 ]
 param appInsightsName = [
-  'concusappis01'
+  '${prefixPrimary}appis01'
   'coneus2appis01'
 ]
 
@@ -709,7 +716,7 @@ param privatelinkDnsZoneNames = [
   // 'privatelinks.aznbcontent.net'
   // 'privatelinks.notebooks.azure.net'
   'privatelink.adf.azure.com'
-  'privatelink.azuredatabricks.net'
+  //'privatelink.azuredatabricks.net'
   'privatelink.azure-automation.net'
   'privatelink.azurecr.io'
   'privatelink.azurewebsites.net'
@@ -725,7 +732,7 @@ param privatelinkDnsZoneNames = [
   'privatelink.blob.core.windows.net'
   // 'privatelink.cassandra.cosmos.azure.com'
   'privatelink.cognitiveservices.azure.com'
-  'privatelink.databricks.azure.us'
+  //'privatelink.databricks.azure.us'
   'privatelink.database.windows.net'
   'privatelink.datafactory.azure.net'
   // 'privatelink.dev.azuresynapse.net'
