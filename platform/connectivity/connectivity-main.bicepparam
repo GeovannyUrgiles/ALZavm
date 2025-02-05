@@ -100,63 +100,63 @@ param virtualNetwork = [
 // Resource Name Arrays
 
 param virtualHubName = [
-  '${prefixPrimary}hub'
-  'coneus2hub'
+  '${prefixPrimary}vhub'
+  '${prefixSecondary}vhub'
 ]
 param vpnGatewayName = [
-  '${prefixPrimary}vpngw'
-  'coneus2vpngw'
+  '${prefixPrimary}vpng'
+  '${prefixSecondary}vpng'
 ]
 param vpnSiteName = [
-  '${prefixPrimary}vpnsite'
-  'coneus2vpnsite'
+  '${prefixPrimary}vst'
+  '${prefixSecondary}vst'
 ]
 param firewallName = [
-  '${prefixPrimary}azfw'
-  'coneus2azfw'
+  '${prefixPrimary}afw'
+  '${prefixSecondary}afw'
 ]
 param firewallPolicyName = [
-  '${prefixPrimary}azfwpol'
-  'coneus2azfwpol'
+  '${prefixPrimary}afwp'
+  '${prefixSecondary}afwp'
 ]
 param bastionName = [
-  '${prefixPrimary}bh'
-  'coneus2bh'
+  '${prefixPrimary}bas'
+  '${prefixSecondary}bas'
 ]
 param dnsResolverName = [
-  '${prefixPrimary}dns'
-  'coneus2dns'
+  '${prefixPrimary}dnspr'
+  '${prefixSecondary}dnspr'
 ]
 param dnsForwardingRulesetName = [
-  '${prefixPrimary}dnsfr'
-  'coneus2dnsfr'
+  '${prefixPrimary}dnsfrs'
+  '${prefixSecondary}dnsfrs'
 ]
 param operationalInsightsName = [
-  '${prefixPrimary}law'
-  'coneus2oiw'
+  '${prefixPrimary}log'
+  '${prefixSecondary}log'
 ]
 param uamiName = [
-  '${prefixPrimary}mi'
-  'coneus2mi'
+  '${prefixPrimary}id'
+  '${prefixSecondary}id'
 ]
 param keyVaultName = [
   '${prefixPrimary}kv01'
-  'coneus2kv01'
+  '${prefixSecondary}kv01'
 ]
 param storageAccountName = [
-  '${prefixPrimary}diagsa01'
-  'coneus2diagsa01'
+  '${prefixPrimary}diagst01'
+  '${prefixSecondary}diagst01'
 ]
 param appInsightsName = [
-  '${prefixPrimary}appis01'
-  'coneus2appis01'
+  '${prefixPrimary}appi01'
+  '${prefixSecondary}appi01'
 ]
 
 // Resource Suffixes
 
 param nameSeparator = '-'
 param nsgSuffix = '${nameSeparator}nsg'
-param peSuffix = '${nameSeparator}pe'
+param peSuffix = '${nameSeparator}pep'
 param nicSuffix = '${nameSeparator}nic'
 
 // Default Tags
@@ -417,21 +417,21 @@ param subnets0 = [
     serviceEndpoints: []
   }
   {
-    name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}privateendpointsnet'
     addressPrefix: '10.1.1.0/24'
     delegation: ''
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
-    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsnet'
     addressPrefix: '10.1.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
-    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn'
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsnet'
     addressPrefix: '10.1.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
@@ -449,21 +449,21 @@ param subnets1 = [
     serviceEndpoints: []
   }
   {
-    name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}privateendpointsnet'
     addressPrefix: '10.2.1.0/24'
     delegation: ''
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}privateendpointsn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
-    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsinsnet'
     addressPrefix: '10.2.2.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsinboundsn${nsgSuffix}'
     serviceEndpoints: []
   }
   {
-    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn'
+    name: '${virtualNetworkNameSecondary}${nameSeparator}dnsoutsnet'
     addressPrefix: '10.2.3.0/24'
     delegation: 'Microsoft.Network/dnsResolvers'
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[1]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNameSecondary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
