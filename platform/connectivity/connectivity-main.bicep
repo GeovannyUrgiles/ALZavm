@@ -27,6 +27,13 @@ param nameSeparator string
 
 // Resource Names
 
+param companyCode string
+param locationCodePrimary string
+param locationCodeSecondary string
+param env string
+param prefixPrimary string
+param prefixSecondary string
+
 param virtualWanName string
 param virtualHubName array
 param vpnGatewayName array
@@ -130,6 +137,7 @@ type vpnSiteType = {
     }
   }
 }
+
 param vpnConnection vpnConnectionType
 type vpnConnectionType = {
   connectionBandwidth: int
@@ -254,7 +262,7 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
 
 @description('Deploys a resource group for the Bastion host.')
 module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
-  for i in range(0, length(locations)): if (enableVirtualNetwork) {
+  for i in range(0, length(locations)): if (enableBastion) {
     scope: subscription(subscriptionId)
     name: 'resourceGroupBastionDeployment${i}'
     params: {
@@ -269,7 +277,7 @@ module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0
 
 // Private DNS Resource Group Deployment - Primary Region Only
 
-module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = {
+module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = if (enablePrivateDnsZones) {
   scope: subscription(subscriptionId)
   name: 'resourceGroupDnsZonesDeployment'
   params: {
