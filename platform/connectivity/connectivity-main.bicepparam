@@ -130,7 +130,7 @@ param virtualHubName = [
 // param dnsForwardingRulesetName = [
 //   '${prefixPrimary}dnsfrs'
 //   '${prefixSecondary}dnsfrs'
-]
+//]
 param operationalInsightsName = [
   '${prefixPrimary}log'
   '${prefixSecondary}log'
