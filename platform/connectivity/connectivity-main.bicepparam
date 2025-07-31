@@ -6,7 +6,7 @@ var version = 'v1.0.0'
 
 //-// Deployment Options
 
-param companyCode = 'alp'
+param companyCode = 'nhc'
 param locationCodePrimary = 'wus2'
 param locationCodeSecondary = 'eus2'
 param env = 'hub'
@@ -42,14 +42,14 @@ param enableStorageAccount = true
 
 // Subscription(s)
 
-param subscriptionId = '82d21ec8-4b6a-4bf0-9716-96b38d9abb43' // Connectivity Subscription ID
+param subscriptionId = 'df5957c0-145b-4559-ba68-ec276c0902ce' // Connectivity Subscription ID
 
 // Paired Regions
 
 param locations = [
   // Client should deploy (at minimum) a Virtual Network into each region to establish future DR capabilities
   'westus2' // Primary Region
-  // 'eastus2' // Secondary Region
+  'eastus2' // Secondary Region
 ]
 
 // Resource Group Names
