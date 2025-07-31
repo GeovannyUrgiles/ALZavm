@@ -5,16 +5,16 @@ targetScope = 'subscription'
 param enableUserAssignedManagedIdentity bool
 param enableVirtualHub bool
 param enableVirtualWan bool
-param enableAzureFirewall bool
+//param enableAzureFirewall bool
 param enableVpnSite bool
 param enableNetworkSecurityGroups bool
 param enablePrivateDnsZones bool
-param enableDnsResolver bool
-param enableOutboundDns bool
+//param enableDnsResolver bool
+//param enableOutboundDns bool
 param enableVirtualNetwork bool
-param enableBastion bool
+//param enableBastion bool
 param enableOperationalInsights bool
-param enableVpnGateway bool
+//param enableVpnGateway bool
 param enableKeyVault bool
 param enableStorageAccount bool
 
@@ -36,44 +36,44 @@ param prefixSecondary string
 
 param virtualWanName string
 param virtualHubName array
-param vpnGatewayName array
-param vpnSiteName array
-param firewallName array
-param firewallPolicyName array
+//param vpnGatewayName array
+//param vpnSiteName array
+//param firewallName array
+//param firewallPolicyName array
 
 // Resource Arrays
 
 param uamiName array
-param bastionName array
-param dnsResolverName array
+//param bastionName array
+//param dnsResolverName array
 param operationalInsightsName array
 param keyVaultName array
 param storageAccountName array
-param dnsForwardingRulesetName array
-param dnsForwardingOutboundRules array
+//param dnsForwardingRulesetName array
+//param dnsForwardingOutboundRules array
 param appInsightsName array
 
 // DNS Servers
 
-param dnsServers array
+//param dnsServers array
 
 // Resource Maps
 
-param azureFirewall azureFirewallType
-type azureFirewallType = {
-  skuName: 'Standard' | 'Premium'
-  numberOfPublicIPs: int
-}
+// param azureFirewall azureFirewallType
+// type azureFirewallType = {
+//   skuName: 'Standard' | 'Premium'
+//   numberOfPublicIPs: int
+// }
 
-param azureFirewallPolicy azureFirewallPolicyType
-type azureFirewallPolicyType = {
-  skuName: 'Standard' | 'Premium'
-  tier: 'Standard' | 'Premium'
-  mode: 'Alert' | 'Deny' | 'Off'
-  numberOfPublicIPs: int
-  allowSqlRedirect: bool
-  autoLearnPrivateRanges: 'Disabled' | 'Enabled'
-}
+// param azureFirewallPolicy azureFirewallPolicyType
+// type azureFirewallPolicyType = {
+//   skuName: 'Standard' | 'Premium'
+//   tier: 'Standard' | 'Premium'
+//   mode: 'Alert' | 'Deny' | 'Off'
+//   numberOfPublicIPs: int
+//   allowSqlRedirect: bool
+//   autoLearnPrivateRanges: 'Disabled' | 'Enabled'
+// }
 param keyVault keyVaultType
 type keyVaultType = {
   sku: 'standard' | 'premium'
@@ -87,18 +87,18 @@ type keyVaultType = {
   softDeleteRetentionInDays: int
   enableRbacAuthorization: bool
 }
-param bastion bastionType
-type bastionType = {
-  skuName: 'Standard' | 'Basic'
-  disableCopyPaste: bool
-  disableVpnEncryption: bool
-  dnsFirewallProxy: array
-  dnsPrivateResolver: array
-  enableFileCopy: bool
-  enableIpConnect: bool
-  enableShareableLink: bool
-  scaleUnits: int
-}
+// param bastion bastionType
+// type bastionType = {
+//   skuName: 'Standard' | 'Basic'
+//   disableCopyPaste: bool
+//   disableVpnEncryption: bool
+//   dnsFirewallProxy: array
+//   dnsPrivateResolver: array
+//   enableFileCopy: bool
+//   enableIpConnect: bool
+//   enableShareableLink: bool
+//   scaleUnits: int
+// }
 param virtualWan virtualWanType
 type virtualWanType = {
   virtualWanSku: 'Basic' | 'Standard'
@@ -116,53 +116,53 @@ type virtualWanHubType = {
   defaultRouteTableName: string
   sku: 'Basic' | 'Standard'
 }
-param vpnGateway vpnGatewayType
-type vpnGatewayType = {
-  asn: int
-  vpnGatewayScaleUnit: int
-  peerWeight: int
-  isRoutingPreferenceInternet: bool
-  enableBgpRouteTranslationForNat: bool
-  enableTelemetry: bool
-}
+// param vpnGateway vpnGatewayType
+// type vpnGatewayType = {
+//   asn: int
+//   vpnGatewayScaleUnit: int
+//   peerWeight: int
+//   isRoutingPreferenceInternet: bool
+//   enableBgpRouteTranslationForNat: bool
+//   enableTelemetry: bool
+// }
 
-param vpnSite vpnSiteType
-type vpnSiteType = {
-  addressPrefixes: array // Remote VPN Site subnets (if not using BGP)
-  o365Policy: {
-    breakOutCategories: {
-      allow: bool
-      default: bool
-      optimize: bool
-    }
-  }
-}
+// param vpnSite vpnSiteType
+// type vpnSiteType = {
+//   addressPrefixes: array // Remote VPN Site subnets (if not using BGP)
+//   o365Policy: {
+//     breakOutCategories: {
+//       allow: bool
+//       default: bool
+//       optimize: bool
+//     }
+//   }
+// }
 
-param vpnConnection vpnConnectionType
-type vpnConnectionType = {
-  connectionBandwidth: int
-  enableBgp: bool
-  // enableInternetSecurity: bool
-  // enableRateLimiting: bool
-  ipsecPolicies: array
-  // remoteVpnSiteResourceId: string
-  // routingConfiguration: {
-  //   associatedRouteTable: {
-  //     id: string
-  //   }
-  //   propagatedRouteTables: {
-  //     ids: array
-  //     labels: array
-  //   }
-  // }
-  // routingWeight: int
-  sharedKey: string
-  // trafficSelectorPolicies: array
-  // useLocalAzureIpAddress: bool
-  // usePolicyBasedTrafficSelectors: bool
-  // vpnConnectionProtocolType: 'IKEv2' | 'IKEv1'
-  // vpnLinkConnections: array
-}
+// param vpnConnection vpnConnectionType
+// type vpnConnectionType = {
+//   connectionBandwidth: int
+//   enableBgp: bool
+//   // enableInternetSecurity: bool
+//   // enableRateLimiting: bool
+//   ipsecPolicies: array
+//   // remoteVpnSiteResourceId: string
+//   // routingConfiguration: {
+//   //   associatedRouteTable: {
+//   //     id: string
+//   //   }
+//   //   propagatedRouteTables: {
+//   //     ids: array
+//   //     labels: array
+//   //   }
+//   // }
+//   // routingWeight: int
+//   sharedKey: string
+//   // trafficSelectorPolicies: array
+//   // useLocalAzureIpAddress: bool
+//   // usePolicyBasedTrafficSelectors: bool
+//   // vpnConnectionProtocolType: 'IKEv2' | 'IKEv1'
+//   // vpnLinkConnections: array
+// }
 
 param storageAccount storageAccountType
 type storageAccountType = {
@@ -216,12 +216,12 @@ param nicSuffix string
 // Resource Group Parameters
 
 param resourceGroupName_Network array
-param resourceGroupName_Bastion array
-param resourceGroupName_PrivateDns string
+//param resourceGroupName_Bastion array
+//param resourceGroupName_PrivateDns string
 
 param roleAssignmentsNetwork array
-param roleAssignmentsBastion array
-param roleAssignmentsPrivateDns array
+// param roleAssignmentsBastion array
+// param roleAssignmentsPrivateDns array
 param lock object
 
 // Virtual Network Parameters
@@ -237,11 +237,11 @@ param securityRulesBastion array
 
 // Firewall Policy Parameters
 
-param ruleCollectionGroups array
+//param ruleCollectionGroups array
 
 // Private DNS Parameters
 
-param privatelinkDnsZoneNames array
+//param privatelinkDnsZoneNames array
 
 // Network Resource Group Deployment
 module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0' = [
@@ -260,34 +260,34 @@ module modResourceGroupNetwork 'br/public:avm/res/resources/resource-group:0.4.0
 
 // Bastion Resource Group Deployment
 
-@description('Deploys a resource group for the Bastion host.')
-module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
-  for i in range(0, length(locations)): if (enableBastion) {
-    scope: subscription(subscriptionId)
-    name: 'resourceGroupBastionDeployment${i}'
-    params: {
-      name: resourceGroupName_Bastion[0]
-      tags: tags
-      location: locations[0]
-      // lock: lock
-      roleAssignments: roleAssignmentsBastion
-    }
-  }
-]
+// @description('Deploys a resource group for the Bastion host.')
+// module modResourceGroupBastion 'br/public:avm/res/resources/resource-group:0.4.0' = [
+//   for i in range(0, length(locations)): if (enableBastion) {
+//     scope: subscription(subscriptionId)
+//     name: 'resourceGroupBastionDeployment${i}'
+//     params: {
+//       name: resourceGroupName_Bastion[0]
+//       tags: tags
+//       location: locations[0]
+//       // lock: lock
+//       roleAssignments: roleAssignmentsBastion
+//     }
+//   }
+// ]
 
 // Private DNS Resource Group Deployment - Primary Region Only
 
-module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = if (enablePrivateDnsZones) {
-  scope: subscription(subscriptionId)
-  name: 'resourceGroupDnsZonesDeployment'
-  params: {
-    name: resourceGroupName_PrivateDns
-    tags: tags
-    location: locations[0]
-    // lock: lock
-    roleAssignments: roleAssignmentsPrivateDns
-  }
-}
+// module modResourceGroupDnsZones 'br/public:avm/res/resources/resource-group:0.4.0' = if (enablePrivateDnsZones) {
+//   scope: subscription(subscriptionId)
+//   name: 'resourceGroupDnsZonesDeployment'
+//   params: {
+//     name: resourceGroupName_PrivateDns
+//     tags: tags
+//     location: locations[0]
+//     // lock: lock
+//     roleAssignments: roleAssignmentsPrivateDns
+//   }
+// }
 
 // User Assigned Managed Identity
 
@@ -427,82 +427,82 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
 
 // Private DNS Zones
 
-module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
-  for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
-    scope: resourceGroup(resourceGroupName_PrivateDns)
-    name: '${privatelinkDnsZoneName}Deployment'
-    params: {
-      name: privatelinkDnsZoneName
-      tags: tags
-      virtualNetworkLinks: [
-        for i in range(0, length(locations)): {
-          registrationEnabled: false
-          virtualNetworkResourceId: modVirtualNetwork[i].outputs.resourceId
-        }
-      ]
-    }
-    dependsOn: [
-      modVirtualNetwork
-    ]
-  }
-]
+// module modPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.6.0' = [
+//   for privatelinkDnsZoneName in privatelinkDnsZoneNames: if (enablePrivateDnsZones) {
+//     scope: resourceGroup(resourceGroupName_PrivateDns)
+//     name: '${privatelinkDnsZoneName}Deployment'
+//     params: {
+//       name: privatelinkDnsZoneName
+//       tags: tags
+//       virtualNetworkLinks: [
+//         for i in range(0, length(locations)): {
+//           registrationEnabled: false
+//           virtualNetworkResourceId: modVirtualNetwork[i].outputs.resourceId
+//         }
+//       ]
+//     }
+//     dependsOn: [
+//       modVirtualNetwork
+//     ]
+//   }
+// ]
 
 // DNS Private Resolver
-@description('Deploys a DNS Resolver for managing DNS queries within the network.')
-module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'DnsResolverDeployment'
-  params: {
-    name: dnsResolverName[0]
-    location: locations[0]
-    tags: tags
-    inboundEndpoints: [
-      {
-        name: 'InboundEndpoint-01'
-        subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
-      }
-    ]
-    outboundEndpoints: (enableOutboundDns)
-      ? [
-          {
-            name: 'OutboundEndpoint-01'
-            subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
-          }
-        ]
-      : []
-    virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-  }
-  dependsOn: [
-    modPrivateDnsZones
-    modVirtualNetwork
-  ]
-}
+// @description('Deploys a DNS Resolver for managing DNS queries within the network.')
+// module modDnsResolver 'br/public:avm/res/network/dns-resolver:0.5.0' = if (enableDnsResolver) {
+//   scope: resourceGroup(resourceGroupName_Network[0])
+//   name: 'DnsResolverDeployment'
+//   params: {
+//     name: dnsResolverName[0]
+//     location: locations[0]
+//     tags: tags
+//     inboundEndpoints: [
+//       {
+//         name: 'InboundEndpoint-01'
+//         subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[2]
+//       }
+//     ]
+//     outboundEndpoints: (enableOutboundDns)
+//       ? [
+//           {
+//             name: 'OutboundEndpoint-01'
+//             subnetResourceId: modVirtualNetwork[0].outputs.subnetResourceIds[3]
+//           }
+//         ]
+//       : []
+//     virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+//   }
+//   dependsOn: [
+//     modPrivateDnsZones
+//     modVirtualNetwork
+//   ]
+// }
 
 // DNS Resolver Forwarder
 
-@description('Deploys a DNS Forwarding Ruleset for outbound DNS resolution.')
-module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = if (enableOutboundDns) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'dnsForwardingRulesetDeployment'
-  params: {
-    dnsForwardingRulesetOutboundEndpointResourceIds: [
-      '${modDnsResolver.outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
-    ]
-    name: dnsForwardingRulesetName[0]
-    forwardingRules: dnsForwardingOutboundRules
-    location: locations[0]
-    lock: {}
-    roleAssignments: []
-    tags: tags
-    virtualNetworkLinks: [
-      {
-        name: 'ruleset-to-vnet'
-        virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-      }
-    ]
-  }
-  dependsOn: []
-}
+// @description('Deploys a DNS Forwarding Ruleset for outbound DNS resolution.')
+// module dnsForwardingRuleset 'br/public:avm/res/network/dns-forwarding-ruleset:0.5.0' = if (enableOutboundDns) {
+//   scope: resourceGroup(resourceGroupName_Network[0])
+//   name: 'dnsForwardingRulesetDeployment'
+//   params: {
+//     dnsForwardingRulesetOutboundEndpointResourceIds: [
+//       '${modDnsResolver.outputs.resourceId}/outboundEndpoints/OutboundEndpoint-01'
+//     ]
+//     name: dnsForwardingRulesetName[0]
+//     forwardingRules: dnsForwardingOutboundRules
+//     location: locations[0]
+//     lock: {}
+//     roleAssignments: []
+//     tags: tags
+//     virtualNetworkLinks: [
+//       {
+//         name: 'ruleset-to-vnet'
+//         virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+//       }
+//     ]
+//   }
+//   dependsOn: []
+// }
 
 // Virtual WAN - Primary Region Only
 @description('Deploys a Virtual WAN for network connectivity.')
@@ -569,83 +569,83 @@ module modVirtualHub 'br/public:avm/res/network/virtual-hub:0.2.2' = [
 
 // VPN Site for VWAN-to-VWAN connections
 
-module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'vpnSiteDeployment'
-  params: {
-    name: vpnSiteName[0]
-    virtualWanId: modVirtualWan.outputs.resourceId
-    location: locations[0]
-    tags: tags
-    addressPrefixes: vpnSite.addressPrefixes
-    o365Policy: {
-      breakOutCategories: {
-        allow: vpnSite.o365Policy.breakOutCategories.allow
-        default: vpnSite.o365Policy.breakOutCategories.default
-        optimize: vpnSite.o365Policy.breakOutCategories.optimize
-      }
-    }
-    vpnSiteLinks: [
-      {
-        name: 'DataCenter1'
-        properties: {
-          bgpProperties: {
-            asn: 65010
-            bgpPeeringAddress: '1.1.1.1'
-          }
-          ipAddress: '1.2.3.4'
-          linkProperties: {
-            linkProviderName: 'Verizon'
-            linkSpeedInMbps: 100
-          }
-        }
-      }
-      {
-        name: 'DataCenter2'
-        properties: {
-          bgpProperties: {
-            asn: 65020
-            bgpPeeringAddress: '1.1.1.2'
-          }
-          ipAddress: '1.2.3.5'
-          linkProperties: {
-            linkProviderName: 'Verizon'
-            linkSpeedInMbps: 100
-          }
-        }
-      }
-    ]
-  }
-  dependsOn: [
-    modVirtualHub
-  ]
-}
+// module modVpnSite 'br/public:avm/res/network/vpn-site:0.3.0' = if (enableVpnSite) {
+//   scope: resourceGroup(resourceGroupName_Network[0])
+//   name: 'vpnSiteDeployment'
+//   params: {
+//     name: vpnSiteName[0]
+//     virtualWanId: modVirtualWan.outputs.resourceId
+//     location: locations[0]
+//     tags: tags
+//     addressPrefixes: vpnSite.addressPrefixes
+//     o365Policy: {
+//       breakOutCategories: {
+//         allow: vpnSite.o365Policy.breakOutCategories.allow
+//         default: vpnSite.o365Policy.breakOutCategories.default
+//         optimize: vpnSite.o365Policy.breakOutCategories.optimize
+//       }
+//     }
+//     vpnSiteLinks: [
+//       {
+//         name: 'DataCenter1'
+//         properties: {
+//           bgpProperties: {
+//             asn: 65010
+//             bgpPeeringAddress: '1.1.1.1'
+//           }
+//           ipAddress: '1.2.3.4'
+//           linkProperties: {
+//             linkProviderName: 'Verizon'
+//             linkSpeedInMbps: 100
+//           }
+//         }
+//       }
+//       {
+//         name: 'DataCenter2'
+//         properties: {
+//           bgpProperties: {
+//             asn: 65020
+//             bgpPeeringAddress: '1.1.1.2'
+//           }
+//           ipAddress: '1.2.3.5'
+//           linkProperties: {
+//             linkProviderName: 'Verizon'
+//             linkSpeedInMbps: 100
+//           }
+//         }
+//       }
+//     ]
+//   }
+//   dependsOn: [
+//     modVirtualHub
+//   ]
+// }
 
 // VPN Gateway for Site-to-Site, Point-to-Site or VWAN-to-VWAN
 
-module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
-  scope: (resourceGroup(resourceGroupName_Network[0]))
-  name: 'vpnGatewayDeployment'
-  params: {
-    name: vpnGatewayName[0]
-    virtualHubResourceId: modVirtualHub[0].outputs.resourceId
-    location: locations[0]
-    tags: tags
-    bgpSettings: {
-      asn: vpnGateway.asn
-      peerweight: vpnGateway.peerWeight
-    }
-    isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
-    enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
-    enableTelemetry: vpnGateway.enableTelemetry
-    vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
-    vpnConnections: []
-  }
-  dependsOn: [
-    modVpnSite
-    modVirtualNetwork
-  ]
-}
+// module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableVpnGateway) {
+//   scope: (resourceGroup(resourceGroupName_Network[0]))
+//   name: 'vpnGatewayDeployment'
+//   params: {
+//     name: vpnGatewayName[0]
+//     virtualHubResourceId: modVirtualHub[0].outputs.resourceId
+//     location: locations[0]
+//     tags: tags
+//     bgpSettings: {
+//       asn: vpnGateway.asn
+//       peerweight: vpnGateway.peerWeight
+//     }
+//     isRoutingPreferenceInternet: vpnGateway.isRoutingPreferenceInternet
+//     enableBgpRouteTranslationForNat: vpnGateway.enableBgpRouteTranslationForNat
+//     enableTelemetry: vpnGateway.enableTelemetry
+//     vpnGatewayScaleUnit: vpnGateway.vpnGatewayScaleUnit
+//     vpnConnections: []
+//   }
+//   dependsOn: [
+//     modVpnSite
+//     modVirtualNetwork
+//   ]
+// }
 
 // VPN Connections
 
@@ -660,18 +660,18 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
 //     ipsecPolicies: vpnConnection.ipsecPolicies
 
 
-    // enableInternetSecurity: vpnConnection.enableInternetSecurity
-    // enableRateLimiting: vpnConnection.enableRateLimiting
+//     enableInternetSecurity: vpnConnection.enableInternetSecurity
+//     enableRateLimiting: vpnConnection.enableRateLimiting
     
-    // remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
-    // routingConfiguration: vpnConnection.routingConfiguration
-    // routingWeight: vpnConnection.routingWeight
+//     remoteVpnSiteResourceId: modVpnSite.outputs.resourceId
+//     routingConfiguration: vpnConnection.routingConfiguration
+//     routingWeight: vpnConnection.routingWeight
     
-    // trafficSelectorPolicies: vpnConnection.trafficSelectorPolicies
-    // useLocalAzureIpAddress: vpnConnection.useLocalAzureIpAddress
-    // usePolicyBasedTrafficSelectors: vpnConnection.usePolicyBasedTrafficSelectors
-    // vpnConnectionProtocolType: vpnConnection.vpnConnectionProtocolType
-    // vpnLinkConnections: vpnConnection.vpnLinkConnections
+//     trafficSelectorPolicies: vpnConnection.trafficSelectorPolicies
+//     useLocalAzureIpAddress: vpnConnection.useLocalAzureIpAddress
+//     usePolicyBasedTrafficSelectors: vpnConnection.usePolicyBasedTrafficSelectors
+//     vpnConnectionProtocolType: vpnConnection.vpnConnectionProtocolType
+//     vpnLinkConnections: vpnConnection.vpnLinkConnections
 
     
 //   }
@@ -682,71 +682,71 @@ module modVpnGateway 'br/public:avm/res/network/vpn-gateway:0.1.3' = if (enableV
 // }
 
 // Firewall Policy
-module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'firewallPolicyDeployment'
-  params: {
-    name: firewallPolicyName[0]
-    tags: tags
-    allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
-    autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
-    location: locations[0]
-    mode: azureFirewallPolicy.mode
-    ruleCollectionGroups: ruleCollectionGroups
-    tier: azureFirewallPolicy.tier
-  }
-  dependsOn: [
-    modVirtualHub
-  ]
-}
+// module modFirewallPolicy 'br/public:avm/res/network/firewall-policy:0.1.3' = if (enableAzureFirewall) {
+//   scope: resourceGroup(resourceGroupName_Network[0])
+//   name: 'firewallPolicyDeployment'
+//   params: {
+//     name: firewallPolicyName[0]
+//     tags: tags
+//     allowSqlRedirect: azureFirewallPolicy.allowSqlRedirect
+//     autoLearnPrivateRanges: azureFirewallPolicy.autoLearnPrivateRanges
+//     location: locations[0]
+//     mode: azureFirewallPolicy.mode
+//     ruleCollectionGroups: ruleCollectionGroups
+//     tier: azureFirewallPolicy.tier
+//   }
+//   dependsOn: [
+//     modVirtualHub
+//   ]
+// }
 
 // Azure Firewall
 
-module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall) {
-  scope: resourceGroup(resourceGroupName_Network[0])
-  name: 'azureFirewallDeployment'
-  params: {
-    name: firewallName[0]
-    location: locations[0]
-    tags: tags
-    firewallPolicyId: modFirewallPolicy.outputs.resourceId
-    hubIPAddresses: {
-      publicIPs: {
-        count: azureFirewall.numberOfPublicIPs
-      }
-    }
-    virtualHubId: modVirtualHub[0].outputs.resourceId
-  }
-  dependsOn: [
-    modVirtualHub
-  ]
-}
+// module modAzureFirewall 'br/public:avm/res/network/azure-firewall:0.5.0' = if (enableAzureFirewall) {
+//   scope: resourceGroup(resourceGroupName_Network[0])
+//   name: 'azureFirewallDeployment'
+//   params: {
+//     name: firewallName[0]
+//     location: locations[0]
+//     tags: tags
+//     firewallPolicyId: modFirewallPolicy.outputs.resourceId
+//     hubIPAddresses: {
+//       publicIPs: {
+//         count: azureFirewall.numberOfPublicIPs
+//       }
+//     }
+//     virtualHubId: modVirtualHub[0].outputs.resourceId
+//   }
+//   dependsOn: [
+//     modVirtualHub
+//   ]
+// }
 
 // Azure Bastion Host
 
-module modBastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
-  for i in range(0, length(locations)): if (enableBastion) {
-    scope: resourceGroup(resourceGroupName_Bastion[0])
-    name: 'AzureBastionDeployment${i}'
-    params: {
-      name: bastionName[0]
-      location: locations[0]
-      virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
-      tags: tags
-      disableCopyPaste: bastion.disableCopyPaste
-      enableIpConnect: bastion.enableIpConnect
-      enableFileCopy: bastion.enableFileCopy
-      scaleUnits: bastion.scaleUnits
-      enableShareableLink: bastion.enableShareableLink
-      skuName: bastion.skuName
-    }
-    dependsOn: [
-      modVirtualNetwork
-      modVirtualHub
-      modAzureFirewall
-    ]
-  }
-]
+// module modBastionHost 'br/public:avm/res/network/bastion-host:0.4.0' = [
+//   for i in range(0, length(locations)): if (enableBastion) {
+//     scope: resourceGroup(resourceGroupName_Bastion[0])
+//     name: 'AzureBastionDeployment${i}'
+//     params: {
+//       name: bastionName[0]
+//       location: locations[0]
+//       virtualNetworkResourceId: modVirtualNetwork[0].outputs.resourceId
+//       tags: tags
+//       disableCopyPaste: bastion.disableCopyPaste
+//       enableIpConnect: bastion.enableIpConnect
+//       enableFileCopy: bastion.enableFileCopy
+//       scaleUnits: bastion.scaleUnits
+//       enableShareableLink: bastion.enableShareableLink
+//       skuName: bastion.skuName
+//     }
+//     dependsOn: [
+//       modVirtualNetwork
+//       modVirtualHub
+//       modAzureFirewall
+//     ]
+//   }
+// ]
 
 // Key Vault
 
@@ -928,7 +928,7 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.3' = [
     }
     dependsOn: [
       modVirtualNetwork
-      modPrivateDnsZones
+      //modPrivateDnsZones
     ]
   }
 ]
