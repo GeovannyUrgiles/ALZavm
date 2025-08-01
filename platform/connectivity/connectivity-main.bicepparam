@@ -23,7 +23,7 @@ param enableNetworkSecurityGroups = true
 // Virtual WAN
 param enableVirtualWan = true
 param enableVirtualHub = true
-param enableVpnSite = true
+//param enableVpnSite = true
 // param enableVpnGateway = true
 //param enableAzureFirewall = true
 
@@ -42,7 +42,7 @@ param enableStorageAccount = true
 
 // Subscription(s)
 
-param subscriptionId = 'df5957c0-145b-4559-ba68-ec276c0902ce' // Connectivity Subscription ID
+param subscriptionId = '1b75e35f-044d-4202-8e8f-ad3c8b3c9560' // Connectivity Subscription ID
 
 // Paired Regions
 
