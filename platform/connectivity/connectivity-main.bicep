@@ -6,9 +6,9 @@ param enableUserAssignedManagedIdentity bool
 param enableVirtualHub bool
 param enableVirtualWan bool
 //param enableAzureFirewall bool
-param enableVpnSite bool
+//param enableVpnSite bool
 param enableNetworkSecurityGroups bool
-param enablePrivateDnsZones bool
+//param enablePrivateDnsZones bool
 //param enableDnsResolver bool
 //param enableOutboundDns bool
 param enableVirtualNetwork bool
@@ -233,7 +233,7 @@ param subnets1 array
 // Network Security Group Parameters
 
 param securityRulesDefault array
-param securityRulesBastion array
+//param securityRulesBastion array
 
 // Firewall Policy Parameters
 
@@ -368,7 +368,8 @@ module modNetworkSecurityGroupPrimary 'br/public:avm/res/network/network-securit
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[0]
-      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+      //securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+      securityRules: securityRulesDefault
     }
     dependsOn: [
       modResourceGroupNetwork
@@ -386,7 +387,8 @@ module modNetworkSecurityGroupSecondary 'br/public:avm/res/network/network-secur
       name: toLower('${subnet.name}${nsgSuffix}')
       tags: tags
       location: locations[1]
-      securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+      //securityRules: (subnet.name == 'AzureBastionSubnet') ? securityRulesBastion : securityRulesDefault
+      securityRules: securityRulesDefault
     }
     dependsOn: [
       modResourceGroupNetwork
@@ -405,7 +407,7 @@ module modVirtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = [
       location: locations[i]
       tags: tags
       addressPrefixes: virtualNetwork[i].addressPrefixes
-      dnsServers: dnsServers
+      //dnsServers: dnsServers
       subnets: (i == 0) ? subnets0 : subnets1
       diagnosticSettings: [
         {
@@ -793,24 +795,24 @@ module modKeyVault 'br/public:avm/res/key-vault/vault:0.9.0' = [
         ipRules: keyVault.ipRules
         virtualNetworkRules: keyVault.virtualNetworkRules
       }
-      privateEndpoints: [
-        {
-          tags: tags
-          customDnsConfigs: []
-          name: '${keyVaultName[i]}${peSuffix}'
-          customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}'
-          ipConfigurations: []
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
-              }
-            ]
-          }
-          roleAssignments: []
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-        }
-      ]
+      // privateEndpoints: [
+      //   {
+      //     tags: tags
+      //     customDnsConfigs: []
+      //     name: '${keyVaultName[i]}${peSuffix}'
+      //     customNetworkInterfaceName: '${keyVaultName[i]}${nicSuffix}'
+      //     ipConfigurations: []
+      //     privateDnsZoneGroup: {
+      //       privateDnsZoneGroupConfigs: [
+      //         {
+      //           privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_PrivateDns}/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+      //         }
+      //       ]
+      //     }
+      //     roleAssignments: []
+      //     subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+      //   }
+      // ]
     }
     dependsOn: [
       modVirtualNetwork
@@ -891,35 +893,35 @@ module modStorageAccount 'br/public:avm/res/storage/storage-account:0.14.3' = [
         ]
         shares: storageAccount.fileServices.shares
       }
-      privateEndpoints: [
-        {
-          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}blob'
-          customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}blob'
-          ipConfigurations: []
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
-              }
-            ]
-          }
-          service: 'blob'
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-        }
-        {
-          name: '${storageAccountName[i]}${peSuffix}${nameSeparator}file'
-          customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}file'
-          privateDnsZoneGroup: {
-            privateDnsZoneGroupConfigs: [
-              {
-                privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'
-              }
-            ]
-          }
-          service: 'file'
-          subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
-        }
-      ]
+      // privateEndpoints: [
+      //   {
+      //     name: '${storageAccountName[i]}${peSuffix}${nameSeparator}blob'
+      //     customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}blob'
+      //     ipConfigurations: []
+      //     privateDnsZoneGroup: {
+      //       privateDnsZoneGroupConfigs: [
+      //         {
+      //           privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net'
+      //         }
+      //       ]
+      //     }
+      //     service: 'blob'
+      //     subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+      //   }
+      //   {
+      //     name: '${storageAccountName[i]}${peSuffix}${nameSeparator}file'
+      //     customNetworkInterfaceName: '${storageAccountName[i]}${nicSuffix}${nameSeparator}file'
+      //     privateDnsZoneGroup: {
+      //       privateDnsZoneGroupConfigs: [
+      //         {
+      //           privateDnsZoneResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${modResourceGroupDnsZones.outputs.name}/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net'
+      //         }
+      //       ]
+      //     }
+      //     service: 'file'
+      //     subnetResourceId: modVirtualNetwork[i].outputs.subnetResourceIds[1]
+      //   }
+      // ]
       requireInfrastructureEncryption: storageAccount.requireInfrastructureEncryption
       roleAssignments: []
       sasExpirationPeriod: storageAccount.sasExpirationPeriod
