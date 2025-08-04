@@ -16,29 +16,29 @@ param prefixSecondary = '${companyCode}${env}${locationCodeSecondary}'
 // Virtual Network
 param enableVirtualNetwork = true
 param enableNetworkSecurityGroups = true
-// param enableDnsResolver = true
-// param enableOutboundDns = false // Enables Outbound DNS Forwarding Rules
-// param enablePrivateDnsZones = true
+param enableDnsResolver = true
+param enableOutboundDns = false // Enables Outbound DNS Forwarding Rules
+param enablePrivateDnsZones = true
 
 // Virtual WAN
 param enableVirtualWan = true
 param enableVirtualHub = true
-//param enableVpnSite = true
-// param enableVpnGateway = true
-//param enableAzureFirewall = true
+param enableVpnSite = true
+param enableVpnGateway = true
+param enableAzureFirewall = true
 
 // Supporting Resources
 param enableUserAssignedManagedIdentity = true
 param enableOperationalInsights = true
 param enableKeyVault = true
-// param enableBastion = false
+param enableBastion = false
 param enableStorageAccount = true
 
 // DNS Servers will be applied to Virtual Networks
 
-// param dnsServers = [
-//   '168.63.129.16'
-// ]
+param dnsServers = [
+  '168.63.129.16'
+]
 
 // Subscription(s)
 
@@ -49,7 +49,7 @@ param subscriptionId = '1b75e35f-044d-4202-8e8f-ad3c8b3c9560' // Connectivity Su
 param locations = [
   // Client should deploy (at minimum) a Virtual Network into each region to establish future DR capabilities
   'westus2' // Primary Region
-  'eastus2' // Secondary Region
+  // 'eastus2' // Secondary Region
 ]
 
 // Resource Group Names
@@ -62,11 +62,11 @@ param resourceGroupName_Network = [
   '${prefixPrimary}networkrg'
   '${prefixSecondary}networkrg'
 ]
-// param resourceGroupName_Bastion = [
-//   '${prefixPrimary}bastionrg'
-//   '${prefixSecondary}bastionrg'
-// ]
-// param resourceGroupName_PrivateDns = '${prefixPrimary}dnsrg'
+param resourceGroupName_Bastion = [
+  '${prefixPrimary}bastionrg'
+  '${prefixSecondary}bastionrg'
+]
+param resourceGroupName_PrivateDns = '${prefixPrimary}dnsrg'
 
 // Virtual WAN Name
 
@@ -103,34 +103,34 @@ param virtualHubName = [
   '${prefixPrimary}vhub'
   '${prefixSecondary}vhub'
 ]
-// param vpnGatewayName = [
-//   '${prefixPrimary}vpng'
-//   '${prefixSecondary}vpng'
-// ]
-// param vpnSiteName = [
-//   '${prefixPrimary}vst'
-//   '${prefixSecondary}vst'
-// ]
-// param firewallName = [
-//   '${prefixPrimary}afw'
-//   '${prefixSecondary}afw'
-// ]
-// param firewallPolicyName = [
-//   '${prefixPrimary}afwp'
-//   '${prefixSecondary}afwp'
-// ]
-// param bastionName = [
-//   '${prefixPrimary}bas'
-//   '${prefixSecondary}bas'
-// ]
-// param dnsResolverName = [
-//   '${prefixPrimary}dnspr'
-//   '${prefixSecondary}dnspr'
-// ]
-// param dnsForwardingRulesetName = [
-//   '${prefixPrimary}dnsfrs'
-//   '${prefixSecondary}dnsfrs'
-//]
+param vpnGatewayName = [
+  '${prefixPrimary}vpng'
+  '${prefixSecondary}vpng'
+]
+param vpnSiteName = [
+  '${prefixPrimary}vst'
+  '${prefixSecondary}vst'
+]
+param firewallName = [
+  '${prefixPrimary}afw'
+  '${prefixSecondary}afw'
+]
+param firewallPolicyName = [
+  '${prefixPrimary}afwp'
+  '${prefixSecondary}afwp'
+]
+param bastionName = [
+  '${prefixPrimary}bas'
+  '${prefixSecondary}bas'
+]
+param dnsResolverName = [
+  '${prefixPrimary}dnspr'
+  '${prefixSecondary}dnspr'
+]
+param dnsForwardingRulesetName = [
+  '${prefixPrimary}dnsfrs'
+  '${prefixSecondary}dnsfrs'
+]
 param operationalInsightsName = [
   '${prefixPrimary}log'
   '${prefixSecondary}log'
@@ -182,53 +182,53 @@ param lock = {
 
 // Firewall Policy Groups and Rules
 
-// param ruleCollectionGroups = [
-//   {
-//     name: 'DefaultDnatRuleCollectionGroup'
-//     priority: 100
-//     ruleCollections: [
-//       {
-//         action: {
-//           type: 'Allow'
-//         }
-//         name: 'DefaultDnatRuleCollection'
-//         priority: 110
-//         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-//         rules: []
-//       }
-//     ]
-//   }
-//   {
-//     name: 'DefaultNetworkRuleCollectionGroup'
-//     priority: 200
-//     ruleCollections: [
-//       {
-//         action: {
-//           type: 'Allow'
-//         }
-//         name: 'DefaultNetworkRuleCollection'
-//         priority: 110
-//         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-//         rules: []
-//       }
-//     ]
-//   }
-//   {
-//     name: 'DefaultApplicationRuleCollectionGroup'
-//     priority: 300
-//     ruleCollections: [
-//       {
-//         action: {
-//           type: 'Allow'
-//         }
-//         name: 'DefaultApplicationRuleCollection'
-//         priority: 110
-//         ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
-//         rules: []
-//       }
-//     ]
-//   }
-// ]
+param ruleCollectionGroups = [
+  {
+    name: 'DefaultDnatRuleCollectionGroup'
+    priority: 100
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'DefaultDnatRuleCollection'
+        priority: 110
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: []
+      }
+    ]
+  }
+  {
+    name: 'DefaultNetworkRuleCollectionGroup'
+    priority: 200
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'DefaultNetworkRuleCollection'
+        priority: 110
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: []
+      }
+    ]
+  }
+  {
+    name: 'DefaultApplicationRuleCollectionGroup'
+    priority: 300
+    ruleCollections: [
+      {
+        action: {
+          type: 'Allow'
+        }
+        name: 'DefaultApplicationRuleCollection'
+        priority: 110
+        ruleCollectionType: 'FirewallPolicyFilterRuleCollection'
+        rules: []
+      }
+    ]
+  }
+]
 
 // Virtual WAN Properties
 
@@ -253,106 +253,106 @@ param virtualWanHub = {
 
 // VPN Gateway Properties
 
-// param vpnGateway = {
-//   asn: 65515 // BGP Autonomous System Number
-//   vpnGatewayScaleUnit: 1
-//   peerWeight: 0
-//   isRoutingPreferenceInternet: false
-//   enableBgpRouteTranslationForNat: false
-//   enableTelemetry: false
-// }
+param vpnGateway = {
+  asn: 65515 // BGP Autonomous System Number
+  vpnGatewayScaleUnit: 1
+  peerWeight: 0
+  isRoutingPreferenceInternet: false
+  enableBgpRouteTranslationForNat: false
+  enableTelemetry: false
+}
 
 // VPN Site
 
-// param vpnSite = {
-//   addressPrefixes: [] // Remote VPN Site subnets (if not using BGP)
-//   o365Policy: {
-//     breakOutCategories: {
-//       allow: true
-//       default: true
-//       optimize: true
-//     }
-//   }
-// }
+param vpnSite = {
+  addressPrefixes: [] // Remote VPN Site subnets (if not using BGP)
+  o365Policy: {
+    breakOutCategories: {
+      allow: true
+      default: true
+      optimize: true
+    }
+  }
+}
 
-// param vpnConnection = {
-//   connectionBandwidth: 100
-//   //   connectionBandwidthUnits: 'Mbps'
-//   //   connectionProtocol: 'IKEv2'
-//   //   connectionType: 'PolicyBased'
-//   enableBgp: false
-//   //   enableInternetSecurity: false
-//   //   enableRateLimiting: false
-//   //   enableDpd: true
-//   //   enablePfsGroup: 'PFS1'
-//   //   enableRouteBased: false
-//   sharedKey: 'P@ssw0rd'
-//   ipsecPolicies: [
-//     {
-//       dhGroup: 'DHGroup2'
-//       ikeEncryption: 'AES256'
-//       ikeIntegrity: 'SHA256'
-//       ipsecEncryption: 'AES256'
-//       ipsecIntegrity: 'SHA256'
-//       pfsGroup: 'PFS1'
-//       saDataSizeKilobytes: 1024000
-//       //saDataSizeKilobytesUnits: 'KB'
-//       //saDataSizePackets: 1024000
-//       //saDataSizePacketsUnits: 'Packets'
-//       //saLifetime: '3600'
-//       //saLifetimeUnits: 'Seconds'
-//     }
-//   ]
-//   //   routingConfiguration: {
-//   //     associatedRouteTable: {id: ''}
-//   //     routingProtocolType: 'Bgp' 
-//   //     propagatedRouteTables: [
-//   //         {
-//   //           id: ''
-//   //         }
-//   //       ]
-//   //   routingWeight:  0
-//   //   trafficSelectorPolicies:  []
-//   //   useLocalAzureIpAddress: false
-//   //   usePolicyBasedTrafficSelectors: false
-//   //   vpnConnectionProtocolType:  'IKEv2'
-//   //   vpnLinkConnections: []
-// }
+param vpnConnection = {
+  connectionBandwidth: 100
+  //   connectionBandwidthUnits: 'Mbps'
+  //   connectionProtocol: 'IKEv2'
+  //   connectionType: 'PolicyBased'
+  enableBgp: false
+  //   enableInternetSecurity: false
+  //   enableRateLimiting: false
+  //   enableDpd: true
+  //   enablePfsGroup: 'PFS1'
+  //   enableRouteBased: false
+  sharedKey: 'P@ssw0rd'
+  ipsecPolicies: [
+    {
+      dhGroup: 'DHGroup2'
+      ikeEncryption: 'AES256'
+      ikeIntegrity: 'SHA256'
+      ipsecEncryption: 'AES256'
+      ipsecIntegrity: 'SHA256'
+      pfsGroup: 'PFS1'
+      saDataSizeKilobytes: 1024000
+      //saDataSizeKilobytesUnits: 'KB'
+      //saDataSizePackets: 1024000
+      //saDataSizePacketsUnits: 'Packets'
+      //saLifetime: '3600'
+      //saLifetimeUnits: 'Seconds'
+    }
+  ]
+  //   routingConfiguration: {
+  //     associatedRouteTable: {id: ''}
+  //     routingProtocolType: 'Bgp' 
+  //     propagatedRouteTables: [
+  //         {
+  //           id: ''
+  //         }
+  //       ]
+  //   routingWeight:  0
+  //   trafficSelectorPolicies:  []
+  //   useLocalAzureIpAddress: false
+  //   usePolicyBasedTrafficSelectors: false
+  //   vpnConnectionProtocolType:  'IKEv2'
+  //   vpnLinkConnections: []
+}
 
 // Azure Firewall Properties
 
-// param azureFirewall = {
-//   skuName: 'Standard'
-//   numberOfPublicIPs: 1
-//   threatIntelMode: 'Alert'
-//   threatIntelWhitelist: []
-//   threatIntelBlacklist: []
-// }
+param azureFirewall = {
+  skuName: 'Standard'
+  numberOfPublicIPs: 1
+  // threatIntelMode: 'Alert'
+  // threatIntelWhitelist: []
+  // threatIntelBlacklist: []
+}
 
-// // Azure Firewall Policy Properties
+// Azure Firewall Policy Properties
 
-// param azureFirewallPolicy = {
-//   skuName: 'Standard'
-//   tier: 'Standard'
-//   mode: 'Off'
-//   numberOfPublicIPs: 1
-//   allowSqlRedirect: false
-//   autoLearnPrivateRanges: 'Disabled'
-// }
+param azureFirewallPolicy = {
+  skuName: 'Standard'
+  tier: 'Standard'
+  mode: 'Off'
+  numberOfPublicIPs: 1
+  allowSqlRedirect: false
+  autoLearnPrivateRanges: 'Disabled'
+}
 
 // Azure Bastion Properties
 
-// param bastion = {
-//   skuName: 'Standard'
-//   disableCopyPaste: true
-//   disableVpnEncryption: true
-//   dnsFirewallProxy: []
-//   dnsPrivateResolver: []
-//   enableFileCopy: true
-//   enableIpConnect: true
-//   enableShareableLink: true
-//   scaleUnits: 2
-// }
+param bastion = {
+  skuName: 'Standard'
+  disableCopyPaste: true
+  disableVpnEncryption: true
+  dnsFirewallProxy: []
+  dnsPrivateResolver: []
+  enableFileCopy: true
+  enableIpConnect: true
+  enableShareableLink: true
+  scaleUnits: 2
+}
 
 // Key Vault Properties
 
@@ -423,20 +423,20 @@ param subnets0 = [
     networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}privateendpointsn${nsgSuffix}'
     serviceEndpoints: []
   }
-  // {
-  //   name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsnet'
-  //   addressPrefix: '10.1.2.0/24'
-  //   delegation: 'Microsoft.Network/dnsResolvers'
-  //   networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn${nsgSuffix}'
-  //   serviceEndpoints: []
-  // }
-  // {
-  //   name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsnet'
-  //   addressPrefix: '10.1.3.0/24'
-  //   delegation: 'Microsoft.Network/dnsResolvers'
-  //   networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
-  //   serviceEndpoints: []
-  // }
+  {
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsnet'
+    addressPrefix: '10.1.2.0/24'
+    delegation: 'Microsoft.Network/dnsResolvers'
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsinboundsn${nsgSuffix}'
+    serviceEndpoints: []
+  }
+  {
+    name: '${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsnet'
+    addressPrefix: '10.1.3.0/24'
+    delegation: 'Microsoft.Network/dnsResolvers'
+    networkSecurityGroupResourceId: '/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName_Network[0]}/providers/Microsoft.Network/networkSecurityGroups/${virtualNetworkNamePrimary}${nameSeparator}dnsoutboundsn${nsgSuffix}'
+    serviceEndpoints: []
+  }
 ]
 
 param subnets1 = [
@@ -473,168 +473,168 @@ param subnets1 = [
 
 // DNS Resolver Outbound Ruleset
 
-// param dnsForwardingOutboundRules = [
-//   {
-//     domainName: 'clientdomain.com.' // Add trailing dot
-//     forwardingRuleState: 'Enabled'
-//     name: 'rule1'
-//     targetDnsServers: [
-//       {
-//         ipAddress: '192.168.0.1'
-//         port: 53
-//       }
-//     ]
-//   }
-// ]
+param dnsForwardingOutboundRules = [
+  {
+    domainName: 'clientdomain.com.' // Add trailing dot
+    forwardingRuleState: 'Enabled'
+    name: 'rule1'
+    targetDnsServers: [
+      {
+        ipAddress: '192.168.0.1'
+        port: 53
+      }
+    ]
+  }
+]
 
 // Network Security Group Properties
 
 param securityRulesDefault = []
-// param securityRulesBastion = [
-//   // AzureBastionSubnet Security Rules per Microsoft
-//   {
-//     name: 'AllowHttpsInBound'
-//     properties: {
-//       protocol: 'Tcp'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: 'Internet'
-//       destinationPortRange: '443'
-//       destinationAddressPrefix: '*'
-//       access: 'Allow'
-//       priority: 100
-//       direction: 'Inbound'
-//     }
-//   }
-//   {
-//     name: 'AllowGatewayManagerInBound'
-//     properties: {
-//       protocol: 'Tcp'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: 'GatewayManager'
-//       destinationPortRange: '443'
-//       destinationAddressPrefix: '*'
-//       access: 'Allow'
-//       priority: 110
-//       direction: 'Inbound'
-//     }
-//   }
-//   {
-//     name: 'AllowLoadBalancerInBound'
-//     properties: {
-//       protocol: 'Tcp'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: 'AzureLoadBalancer'
-//       destinationPortRange: '443'
-//       destinationAddressPrefix: '*'
-//       access: 'Allow'
-//       priority: 120
-//       direction: 'Inbound'
-//     }
-//   }
-//   {
-//     name: 'AllowBastionHostCommunicationInBound'
-//     properties: {
-//       protocol: '*'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: 'VirtualNetwork'
-//       destinationPortRanges: [
-//         '8080'
-//         '5701'
-//       ]
-//       destinationAddressPrefix: 'VirtualNetwork'
-//       access: 'Allow'
-//       priority: 130
-//       direction: 'Inbound'
-//     }
-//   }
-//   {
-//     name: 'DenyAllInBound'
-//     properties: {
-//       protocol: '*'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: '*'
-//       destinationPortRange: '*'
-//       destinationAddressPrefix: '*'
-//       access: 'Deny'
-//       priority: 1000
-//       direction: 'Inbound'
-//     }
-//   }
-//   {
-//     name: 'AllowSshRdpOutBound'
-//     properties: {
-//       protocol: 'Tcp'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: '*'
-//       destinationPortRanges: [
-//         '22'
-//         '3389'
-//       ]
-//       destinationAddressPrefix: 'VirtualNetwork'
-//       access: 'Allow'
-//       priority: 100
-//       direction: 'Outbound'
-//     }
-//   }
-//   {
-//     name: 'AllowAzureCloudCommunicationOutBound'
-//     properties: {
-//       protocol: 'Tcp'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: '*'
-//       destinationPortRange: '443'
-//       destinationAddressPrefix: 'AzureCloud'
-//       access: 'Allow'
-//       priority: 110
-//       direction: 'Outbound'
-//     }
-//   }
-//   {
-//     name: 'AllowBastionHostCommunicationOutBound'
-//     properties: {
-//       protocol: '*'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: 'VirtualNetwork'
-//       destinationPortRanges: [
-//         '8080'
-//         '5701'
-//       ]
-//       destinationAddressPrefix: 'VirtualNetwork'
-//       access: 'Allow'
-//       priority: 120
-//       direction: 'Outbound'
-//     }
-//   }
-//   {
-//     name: 'AllowGetSessionInformationOutBound'
-//     properties: {
-//       protocol: '*'
-//       sourcePortRange: '*'
-//       sourceAddressPrefix: '*'
-//       destinationAddressPrefix: 'Internet'
-//       destinationPortRanges: [
-//         '80'
-//         '443'
-//       ]
-//       access: 'Allow'
-//       priority: 130
-//       direction: 'Outbound'
-//     }
-//   }
-//   {
-//     name: 'DenyAllOutBound'
-//     properties: {
-//       protocol: '*'
-//       sourcePortRange: '*'
-//       destinationPortRange: '*'
-//       sourceAddressPrefix: '*'
-//       destinationAddressPrefix: '*'
-//       access: 'Deny'
-//       priority: 1000
-//       direction: 'Outbound'
-//     }
-//   }
-// ]
+param securityRulesBastion = [
+  // AzureBastionSubnet Security Rules per Microsoft
+  {
+    name: 'AllowHttpsInBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'Internet'
+      destinationPortRange: '443'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 100
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowGatewayManagerInBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'GatewayManager'
+      destinationPortRange: '443'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 110
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowLoadBalancerInBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'AzureLoadBalancer'
+      destinationPortRange: '443'
+      destinationAddressPrefix: '*'
+      access: 'Allow'
+      priority: 120
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowBastionHostCommunicationInBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'VirtualNetwork'
+      destinationPortRanges: [
+        '8080'
+        '5701'
+      ]
+      destinationAddressPrefix: 'VirtualNetwork'
+      access: 'Allow'
+      priority: 130
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'DenyAllInBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationPortRange: '*'
+      destinationAddressPrefix: '*'
+      access: 'Deny'
+      priority: 1000
+      direction: 'Inbound'
+    }
+  }
+  {
+    name: 'AllowSshRdpOutBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationPortRanges: [
+        '22'
+        '3389'
+      ]
+      destinationAddressPrefix: 'VirtualNetwork'
+      access: 'Allow'
+      priority: 100
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'AllowAzureCloudCommunicationOutBound'
+    properties: {
+      protocol: 'Tcp'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationPortRange: '443'
+      destinationAddressPrefix: 'AzureCloud'
+      access: 'Allow'
+      priority: 110
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'AllowBastionHostCommunicationOutBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: 'VirtualNetwork'
+      destinationPortRanges: [
+        '8080'
+        '5701'
+      ]
+      destinationAddressPrefix: 'VirtualNetwork'
+      access: 'Allow'
+      priority: 120
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'AllowGetSessionInformationOutBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationAddressPrefix: 'Internet'
+      destinationPortRanges: [
+        '80'
+        '443'
+      ]
+      access: 'Allow'
+      priority: 130
+      direction: 'Outbound'
+    }
+  }
+  {
+    name: 'DenyAllOutBound'
+    properties: {
+      protocol: '*'
+      sourcePortRange: '*'
+      destinationPortRange: '*'
+      sourceAddressPrefix: '*'
+      destinationAddressPrefix: '*'
+      access: 'Deny'
+      priority: 1000
+      direction: 'Outbound'
+    }
+  }
+]
 
 // Role Assignments for Resource Groups
 
@@ -661,7 +661,7 @@ param roleAssignmentsNetwork = [
   // }
 ]
 
-//param roleAssignmentsBastion = [
+param roleAssignmentsBastion = [
   // {
   //   // Network Team
   //   name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
@@ -682,9 +682,9 @@ param roleAssignmentsNetwork = [
   //   principalType: 'ServicePrincipal'
   //   roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
   // }
-//]
+]
 
-//param roleAssignmentsPrivateDns = [
+param roleAssignmentsPrivateDns = [
   // {
   //   // Network Team
   //   name: '3566ddd3-870d-4618-bd22-3d50915a21ef'
@@ -705,71 +705,71 @@ param roleAssignmentsNetwork = [
   //   principalType: 'ServicePrincipal'
   //   roleDefinitionIdOrName: '<roleDefinitionIdOrName>'
   // }
-//]
+]
 
 // Private DNS Zones. This is not a complete list. Deploy only what's required
 
-// param privatelinkDnsZoneNames = [
-//   //'pbidedicated.windows.net'
-//   //'botplinks.botframework.com'
-//   // 'bottoken.botframework.com'
-//   // 'privatelinks.aznbcontent.net'
-//   // 'privatelinks.notebooks.azure.net'
-//   'privatelink.adf.azure.com'
-//   //'privatelink.azuredatabricks.net'
-//   'privatelink.azure-automation.net'
-//   'privatelink.azurecr.io'
-//   'privatelink.azurewebsites.net'
-//   // 'privatelink.azurestaticapps.net'
-//   // 'privatelink.analysis.windows.net'
-//   // 'privatelink.azurehdinsight.net'
-//   'privatelink.azure-api.net'
-//   // 'privatelink.azconfig.io'
-//   // 'privatelink.azure-devices.net'
-//   // 'privatelink.azuresynapse.net'
-//   'privatelink.agentsvc.azure-automation.net'
-//   // 'privatelink.batch.azure.com'
-//   'privatelink.blob.core.windows.net'
-//   // 'privatelink.cassandra.cosmos.azure.com'
-//   'privatelink.cognitiveservices.azure.com'
-//   //'privatelink.databricks.azure.us'
-//   'privatelink.database.windows.net'
-//   'privatelink.datafactory.azure.net'
-//   // 'privatelink.dev.azuresynapse.net'
-//   // 'privatelink.developer.azure-api.net'
-//   'privatelink.dfs.core.windows.net'
-//   // 'privatelink.digitaltwins.azure.net'
-//   // 'privatelink.documents.azure.com'
-//   // 'privatelink.eventgrid.azure.net'
-//   'privatelink.file.core.windows.net'
-//   // 'privatelink.guestconfiguration.azure.com'
-//   // 'privatelink.his.arc.azure.com'
-//   'privatelink.monitor.azure.com'
-//   // 'privatelink.mongo.cosmos.azure.com'
-//   // 'privatelink.mysql.database.azure.com'
-//   // 'privatelink.mariadb.database.azure.com'
-//   // 'privatelink.managedhsm.azure.net'
-//   // 'privatelink.media.azure.net'
-//   // 'privatelink.ods.opinsights.azure.com'
-//   'privatelink.openai.azure.com'
-//   'privatelink.oms.opinsights.azure.com'
-//   // 'privatelink.postgres.database.azure.com'
-//   'privatelink.purview.azure.com'
-//   // 'privatelink.purviewstudio.azure.com'
-//   // 'privatelink.prod.migration.windowsazure.com'
-//   // 'privatelink.pbidedicated.windows.net'
-//   'privatelink.queue.core.windows.net'
-//   // 'privatelink.redis.cache.windows.net'
-//   // 'privatelink.redisenterprise.cache.azure.net'
-//   // 'privatelink.search.windows.net'
-//   // 'privatelink.service.signalr.net'
-//   // 'privatelink.servicebus.windows.net'
-//   'privatelink.siterecovery.windowsazure.com'
-//   // 'privatelink.sql.azuresynapse.net'
-//   'privatelink.table.core.windows.net'
-//   // 'privatelink.table.cosmos.azure.com'
-//   // 'privatelink.tip1.powerquery.microsoft.com'
-//   'privatelink.vaultcore.azure.net'
-//   'privatelink.web.core.windows.net'
-//   // 'privatelink.gremlin.cosmos.azure.com'
-// ]
+param privatelinkDnsZoneNames = [
+  //'pbidedicated.windows.net'
+  //'botplinks.botframework.com'
+  // 'bottoken.botframework.com'
+  // 'privatelinks.aznbcontent.net'
+  // 'privatelinks.notebooks.azure.net'
+  'privatelink.adf.azure.com'
+  //'privatelink.azuredatabricks.net'
+  'privatelink.azure-automation.net'
+  'privatelink.azurecr.io'
+  'privatelink.azurewebsites.net'
+  // 'privatelink.azurestaticapps.net'
+  // 'privatelink.analysis.windows.net'
+  // 'privatelink.azurehdinsight.net'
+  'privatelink.azure-api.net'
+  // 'privatelink.azconfig.io'
+  // 'privatelink.azure-devices.net'
+  // 'privatelink.azuresynapse.net'
+  'privatelink.agentsvc.azure-automation.net'
+  // 'privatelink.batch.azure.com'
+  'privatelink.blob.core.windows.net'
+  // 'privatelink.cassandra.cosmos.azure.com'
+  'privatelink.cognitiveservices.azure.com'
+  //'privatelink.databricks.azure.us'
+  'privatelink.database.windows.net'
+  'privatelink.datafactory.azure.net'
+  // 'privatelink.dev.azuresynapse.net'
+  // 'privatelink.developer.azure-api.net'
+  'privatelink.dfs.core.windows.net'
+  // 'privatelink.digitaltwins.azure.net'
+  // 'privatelink.documents.azure.com'
+  // 'privatelink.eventgrid.azure.net'
+  'privatelink.file.core.windows.net'
+  // 'privatelink.guestconfiguration.azure.com'
+  // 'privatelink.his.arc.azure.com'
+  'privatelink.monitor.azure.com'
+  // 'privatelink.mongo.cosmos.azure.com'
+  // 'privatelink.mysql.database.azure.com'
+  // 'privatelink.mariadb.database.azure.com'
+  // 'privatelink.managedhsm.azure.net'
+  // 'privatelink.media.azure.net'
+  // 'privatelink.ods.opinsights.azure.com'
+  'privatelink.openai.azure.com'
+  'privatelink.oms.opinsights.azure.com'
+  // 'privatelink.postgres.database.azure.com'
+  'privatelink.purview.azure.com'
+  // 'privatelink.purviewstudio.azure.com'
+  // 'privatelink.prod.migration.windowsazure.com'
+  // 'privatelink.pbidedicated.windows.net'
+  'privatelink.queue.core.windows.net'
+  // 'privatelink.redis.cache.windows.net'
+  // 'privatelink.redisenterprise.cache.azure.net'
+  // 'privatelink.search.windows.net'
+  // 'privatelink.service.signalr.net'
+  // 'privatelink.servicebus.windows.net'
+  'privatelink.siterecovery.windowsazure.com'
+  // 'privatelink.sql.azuresynapse.net'
+  'privatelink.table.core.windows.net'
+  // 'privatelink.table.cosmos.azure.com'
+  // 'privatelink.tip1.powerquery.microsoft.com'
+  'privatelink.vaultcore.azure.net'
+  'privatelink.web.core.windows.net'
+  // 'privatelink.gremlin.cosmos.azure.com'
+]

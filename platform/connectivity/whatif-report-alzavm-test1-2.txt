@@ -1,0 +1,1358 @@
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+
+Resource and property changes are indicated with this symbol:
+  + Create
+
+The deployment will update the following scopes:
+
+Scope: /subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560
+
+  + Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-blob [2023-11-01]
+
+      apiVersion:                            "2023-11-01"
+      id:                                    "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/providers/Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-blob"
+      location:                              "[coalesce(null(), reference('/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet', '2020-06-01', 'Full').location)]"
+      name:                                  "alphubwus2diagst01-pep-blob"
+      properties.customNetworkInterfaceName: "alphubwus2diagst01-nic-blob"
+      properties.privateLinkServiceConnections: [
+        0:
+
+          name:                            "alphubwus2diagst01-blob-0"
+          properties.groupIds: [
+            0: "blob"
+          ]
+          properties.privateLinkServiceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01"
+
+      ]
+      properties.subnet.id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-privateendpointsnet"
+      tags.Environment:                      "Non-Prod"
+      tags.hidden-title:                     "v1.0.0"
+      tags.Role:                             "DeploymentValidation"
+      type:                                  "Microsoft.Network/privateEndpoints"
+
+  + Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-blob/privateDnsZoneGroups/default [2023-11-01]
+
+      apiVersion:  "2023-11-01"
+      id:          "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/providers/Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-blob/privateDnsZoneGroups/default"
+      name:        "default"
+      properties.privateDnsZoneConfigs: [
+        0:
+
+          name:                        "privatelink.blob.core.windows.net"
+          properties.privateDnsZoneId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
+
+      ]
+      type:        "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
+
+  + Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-file [2023-11-01]
+
+      apiVersion:                            "2023-11-01"
+      id:                                    "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/providers/Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-file"
+      location:                              "[coalesce(null(), reference('/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet', '2020-06-01', 'Full').location)]"
+      name:                                  "alphubwus2diagst01-pep-file"
+      properties.customNetworkInterfaceName: "alphubwus2diagst01-nic-file"
+      properties.privateLinkServiceConnections: [
+        0:
+
+          name:                            "alphubwus2diagst01-file-1"
+          properties.groupIds: [
+            0: "file"
+          ]
+          properties.privateLinkServiceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01"
+
+      ]
+      properties.subnet.id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-privateendpointsnet"
+      tags.Environment:                      "Non-Prod"
+      tags.hidden-title:                     "v1.0.0"
+      tags.Role:                             "DeploymentValidation"
+      type:                                  "Microsoft.Network/privateEndpoints"
+
+  + Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-file/privateDnsZoneGroups/default [2023-11-01]
+
+      apiVersion:  "2023-11-01"
+      id:          "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/providers/Microsoft.Network/privateEndpoints/alphubwus2diagst01-pep-file/privateDnsZoneGroups/default"
+      name:        "default"
+      properties.privateDnsZoneConfigs: [
+        0:
+
+          name:                        "privatelink.file.core.windows.net"
+          properties.privateDnsZoneId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net"
+
+      ]
+      type:        "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
+
+  + Microsoft.Network/privateEndpoints/alphubwus2kv01-pep [2023-11-01]
+
+      apiVersion:                            "2023-11-01"
+      id:                                    "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/providers/Microsoft.Network/privateEndpoints/alphubwus2kv01-pep"
+      location:                              "[coalesce(null(), reference('/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet', '2020-06-01', 'Full').location)]"
+      name:                                  "alphubwus2kv01-pep"
+      properties.customNetworkInterfaceName: "alphubwus2kv01-nic"
+      properties.privateLinkServiceConnections: [
+        0:
+
+          name:                            "alphubwus2kv01-vault-0"
+          properties.groupIds: [
+            0: "vault"
+          ]
+          properties.privateLinkServiceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.KeyVault/vaults/alphubwus2kv01"
+
+      ]
+      properties.subnet.id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-privateendpointsnet"
+      tags.Environment:                      "Non-Prod"
+      tags.hidden-title:                     "v1.0.0"
+      tags.Role:                             "DeploymentValidation"
+      type:                                  "Microsoft.Network/privateEndpoints"
+
+  + Microsoft.Network/privateEndpoints/alphubwus2kv01-pep/privateDnsZoneGroups/default [2023-11-01]
+
+      apiVersion:  "2023-11-01"
+      id:          "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/providers/Microsoft.Network/privateEndpoints/alphubwus2kv01-pep/privateDnsZoneGroups/default"
+      name:        "default"
+      properties.privateDnsZoneConfigs: [
+        0:
+
+          name:                        "privatelink.vaultcore.azure.net"
+          properties.privateDnsZoneId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net"
+
+      ]
+      type:        "Microsoft.Network/privateEndpoints/privateDnsZoneGroups"
+
+  + resourceGroups/alphubwus2dnsrg [2021-04-01]
+
+      apiVersion:        "2021-04-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg"
+      location:          "westus2"
+      name:              "alphubwus2dnsrg"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Resources/resourceGroups"
+
+  + resourceGroups/alphubwus2networkrg [2021-04-01]
+
+      apiVersion:        "2021-04-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg"
+      location:          "westus2"
+      name:              "alphubwus2networkrg"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Resources/resourceGroups"
+
+Scope: /subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg
+
+  + Microsoft.Network/privateDnsZones/privatelink.adf.azure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.adf.azure.com"
+      location:          "global"
+      name:              "privatelink.adf.azure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.adf.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.adf.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.agentsvc.azure-automation.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.agentsvc.azure-automation.net"
+      location:          "global"
+      name:              "privatelink.agentsvc.azure-automation.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.agentsvc.azure-automation.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.agentsvc.azure-automation.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azure-api.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-api.net"
+      location:          "global"
+      name:              "privatelink.azure-api.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azure-api.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-api.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azure-automation.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
+      location:          "global"
+      name:              "privatelink.azure-automation.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azure-automation.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azurecr.io [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io"
+      location:          "global"
+      name:              "privatelink.azurecr.io"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azurecr.io/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net"
+      location:          "global"
+      name:              "privatelink.azurewebsites.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
+      location:          "global"
+      name:              "privatelink.blob.core.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com"
+      location:          "global"
+      name:              "privatelink.cognitiveservices.azure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.database.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net"
+      location:          "global"
+      name:              "privatelink.database.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.database.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.datafactory.azure.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.datafactory.azure.net"
+      location:          "global"
+      name:              "privatelink.datafactory.azure.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.datafactory.azure.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.datafactory.azure.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net"
+      location:          "global"
+      name:              "privatelink.dfs.core.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net"
+      location:          "global"
+      name:              "privatelink.file.core.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.monitor.azure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.monitor.azure.com"
+      location:          "global"
+      name:              "privatelink.monitor.azure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.monitor.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.monitor.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.oms.opinsights.azure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.oms.opinsights.azure.com"
+      location:          "global"
+      name:              "privatelink.oms.opinsights.azure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.oms.opinsights.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.oms.opinsights.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.openai.azure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com"
+      location:          "global"
+      name:              "privatelink.openai.azure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.openai.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.purview.azure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.purview.azure.com"
+      location:          "global"
+      name:              "privatelink.purview.azure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.purview.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.purview.azure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net"
+      location:          "global"
+      name:              "privatelink.queue.core.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.siterecovery.windowsazure.com [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.siterecovery.windowsazure.com"
+      location:          "global"
+      name:              "privatelink.siterecovery.windowsazure.com"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.siterecovery.windowsazure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.siterecovery.windowsazure.com/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net"
+      location:          "global"
+      name:              "privatelink.table.core.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net"
+      location:          "global"
+      name:              "privatelink.vaultcore.azure.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+  + Microsoft.Network/privateDnsZones/privatelink.web.core.windows.net [2020-06-01]
+
+      apiVersion:        "2020-06-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.web.core.windows.net"
+      location:          "global"
+      name:              "privatelink.web.core.windows.net"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/privateDnsZones"
+
+  + Microsoft.Network/privateDnsZones/privatelink.web.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink [2020-06-01]
+
+      apiVersion:                     "2020-06-01"
+      id:                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2dnsrg/providers/Microsoft.Network/privateDnsZones/privatelink.web.core.windows.net/virtualNetworkLinks/alphubwus2vnet-vnetlink"
+      location:                       "global"
+      name:                           "alphubwus2vnet-vnetlink"
+      properties.registrationEnabled: false
+      properties.virtualNetwork.id:   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:               "Non-Prod"
+      tags.hidden-title:              "v1.0.0"
+      tags.Role:                      "DeploymentValidation"
+      type:                           "Microsoft.Network/privateDnsZones/virtualNetworkLinks"
+
+Scope: /subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg
+
+  + Microsoft.Insights/components/alphubwus2appi01 [2020-02-02]
+
+      apiVersion:                                 "2020-02-02"
+      id:                                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Insights/components/alphubwus2appi01"
+      kind:                                       "web"
+      location:                                   "westus2"
+      name:                                       "alphubwus2appi01"
+      properties.Application_Type:                "web"
+      properties.DisableIpMasking:                true
+      properties.DisableLocalAuth:                false
+      properties.ForceCustomerStorageForProfiler: false
+      properties.publicNetworkAccessForIngestion: "Enabled"
+      properties.publicNetworkAccessForQuery:     "Enabled"
+      properties.RetentionInDays:                 365
+      properties.SamplingPercentage:              100
+      properties.WorkspaceResourceId:             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      type:                                       "Microsoft.Insights/components"
+
+  + Microsoft.KeyVault/vaults/alphubwus2kv01 [2022-07-01]
+
+      apiVersion:                              "2022-07-01"
+      id:                                      "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.KeyVault/vaults/alphubwus2kv01"
+      location:                                "westus2"
+      name:                                    "alphubwus2kv01"
+      properties.createMode:                   "default"
+      properties.enabledForDeployment:         true
+      properties.enabledForDiskEncryption:     true
+      properties.enabledForTemplateDeployment: true
+      properties.enableRbacAuthorization:      true
+      properties.enableSoftDelete:             true
+      properties.networkAcls.bypass:           "AzureServices"
+      properties.networkAcls.defaultAction:    "Deny"
+      properties.publicNetworkAccess:          "Disabled"
+      properties.sku.family:                   "A"
+      properties.sku.name:                     "standard"
+      properties.softDeleteRetentionInDays:    7
+      properties.tenantId:                     "687f51c3-0c5d-4905-84f8-97c683a5b9d1"
+      tags.Environment:                        "Non-Prod"
+      tags.hidden-title:                       "v1.0.0"
+      tags.Role:                               "DeploymentValidation"
+      type:                                    "Microsoft.KeyVault/vaults"
+
+  + Microsoft.KeyVault/vaults/alphubwus2kv01/providers/Microsoft.Insights/diagnosticSettings/customSetting [2021-05-01-preview]
+
+      apiVersion:             "2021-05-01-preview"
+      id:                     "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.KeyVault/vaults/alphubwus2kv01/providers/Microsoft.Insights/diagnosticSettings/customSetting"
+      name:                   "customSetting"
+      properties.logs: [
+        0:
+
+          category: "AzurePolicyEvaluationDetails"
+          enabled:  true
+
+        1:
+
+          category: "AuditEvent"
+          enabled:  true
+
+      ]
+      properties.metrics: [
+        0:
+
+          category: "AllMetrics"
+          enabled:  true
+
+      ]
+      properties.workspaceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      type:                   "Microsoft.Insights/diagnosticSettings"
+
+  + Microsoft.ManagedIdentity/userAssignedIdentities/alphubwus2id [2023-01-31]
+
+      apiVersion:        "2023-01-31"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/alphubwus2id"
+      location:          "westus2"
+      name:              "alphubwus2id"
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.ManagedIdentity/userAssignedIdentities"
+
+  + Microsoft.Network/azureFirewalls/alphubwus2afw [2023-04-01]
+
+      apiVersion:                                "2023-04-01"
+      id:                                        "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/azureFirewalls/alphubwus2afw"
+      location:                                  "westus2"
+      name:                                      "alphubwus2afw"
+      properties.firewallPolicy.id:              "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/firewallPolicies/alphubwus2afwp"
+      properties.hubIPAddresses.publicIPs.count: 1
+      properties.sku.name:                       "AZFW_Hub"
+      properties.sku.tier:                       "Standard"
+      properties.virtualHub.id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualHubs/alphubwus2vhub"
+      tags.Environment:                          "Non-Prod"
+      tags.hidden-title:                         "v1.0.0"
+      tags.Role:                                 "DeploymentValidation"
+      type:                                      "Microsoft.Network/azureFirewalls"
+      zones: [
+        0: 1
+        1: 2
+        2: 3
+      ]
+
+  + Microsoft.Network/dnsResolvers/alphubwus2dnspr [2022-07-01]
+
+      apiVersion:                   "2022-07-01"
+      id:                           "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/dnsResolvers/alphubwus2dnspr"
+      location:                     "westus2"
+      name:                         "alphubwus2dnspr"
+      properties.virtualNetwork.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      tags.Environment:             "Non-Prod"
+      tags.hidden-title:            "v1.0.0"
+      tags.Role:                    "DeploymentValidation"
+      type:                         "Microsoft.Network/dnsResolvers"
+
+  + Microsoft.Network/dnsResolvers/alphubwus2dnspr/inboundEndpoints/InboundEndpoint-01 [2022-07-01]
+
+      apiVersion:        "2022-07-01"
+      id:                "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/dnsResolvers/alphubwus2dnspr/inboundEndpoints/InboundEndpoint-01"
+      location:          "westus2"
+      name:              "InboundEndpoint-01"
+      properties.ipConfigurations: [
+        0:
+
+          privateIpAllocationMethod: "Dynamic"
+          subnet.id:                 "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-dnsinboundsnet"
+
+      ]
+      tags.Environment:  "Non-Prod"
+      tags.hidden-title: "v1.0.0"
+      tags.Role:         "DeploymentValidation"
+      type:              "Microsoft.Network/dnsResolvers/inboundEndpoints"
+
+  + Microsoft.Network/firewallPolicies/alphubwus2afwp [2023-04-01]
+
+      apiVersion:                      "2023-04-01"
+      id:                              "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/firewallPolicies/alphubwus2afwp"
+      location:                        "westus2"
+      name:                            "alphubwus2afwp"
+      properties.sku.tier:             "Standard"
+      properties.sql.allowSqlRedirect: false
+      properties.threatIntelMode:      "Off"
+      tags.Environment:                "Non-Prod"
+      tags.hidden-title:               "v1.0.0"
+      tags.Role:                       "DeploymentValidation"
+      type:                            "Microsoft.Network/firewallPolicies"
+
+  + Microsoft.Network/firewallPolicies/alphubwus2afwp/ruleCollectionGroups/DefaultApplicationRuleCollectionGroup [2023-04-01]
+
+      apiVersion:          "2023-04-01"
+      id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/firewallPolicies/alphubwus2afwp/ruleCollectionGroups/DefaultApplicationRuleCollectionGroup"
+      name:                "DefaultApplicationRuleCollectionGroup"
+      properties.priority: 300
+      properties.ruleCollections: [
+        0:
+
+          action.type:        "Allow"
+          name:               "DefaultApplicationRuleCollection"
+          priority:           110
+          ruleCollectionType: "FirewallPolicyFilterRuleCollection"
+
+      ]
+      type:                "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+
+  + Microsoft.Network/firewallPolicies/alphubwus2afwp/ruleCollectionGroups/DefaultDnatRuleCollectionGroup [2023-04-01]
+
+      apiVersion:          "2023-04-01"
+      id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/firewallPolicies/alphubwus2afwp/ruleCollectionGroups/DefaultDnatRuleCollectionGroup"
+      name:                "DefaultDnatRuleCollectionGroup"
+      properties.priority: 100
+      properties.ruleCollections: [
+        0:
+
+          action.type:        "Allow"
+          name:               "DefaultDnatRuleCollection"
+          priority:           110
+          ruleCollectionType: "FirewallPolicyFilterRuleCollection"
+
+      ]
+      type:                "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+
+  + Microsoft.Network/firewallPolicies/alphubwus2afwp/ruleCollectionGroups/DefaultNetworkRuleCollectionGroup [2023-04-01]
+
+      apiVersion:          "2023-04-01"
+      id:                  "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/firewallPolicies/alphubwus2afwp/ruleCollectionGroups/DefaultNetworkRuleCollectionGroup"
+      name:                "DefaultNetworkRuleCollectionGroup"
+      properties.priority: 200
+      properties.ruleCollections: [
+        0:
+
+          action.type:        "Allow"
+          name:               "DefaultNetworkRuleCollection"
+          priority:           110
+          ruleCollectionType: "FirewallPolicyFilterRuleCollection"
+
+      ]
+      type:                "Microsoft.Network/firewallPolicies/ruleCollectionGroups"
+
+  + Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsinboundsnet-nsg [2023-11-01]
+
+      apiVersion:                 "2023-11-01"
+      id:                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsinboundsnet-nsg"
+      location:                   "westus2"
+      name:                       "alphubwus2vnet-dnsinboundsnet-nsg"
+      properties.flushConnection: false
+      tags.Environment:           "Non-Prod"
+      tags.hidden-title:          "v1.0.0"
+      tags.Role:                  "DeploymentValidation"
+      type:                       "Microsoft.Network/networkSecurityGroups"
+
+  + Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsoutboundsnet-nsg [2023-11-01]
+
+      apiVersion:                 "2023-11-01"
+      id:                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsoutboundsnet-nsg"
+      location:                   "westus2"
+      name:                       "alphubwus2vnet-dnsoutboundsnet-nsg"
+      properties.flushConnection: false
+      tags.Environment:           "Non-Prod"
+      tags.hidden-title:          "v1.0.0"
+      tags.Role:                  "DeploymentValidation"
+      type:                       "Microsoft.Network/networkSecurityGroups"
+
+  + Microsoft.Network/networkSecurityGroups/alphubwus2vnet-privateendpointsnet-nsg [2023-11-01]
+
+      apiVersion:                 "2023-11-01"
+      id:                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-privateendpointsnet-nsg"
+      location:                   "westus2"
+      name:                       "alphubwus2vnet-privateendpointsnet-nsg"
+      properties.flushConnection: false
+      tags.Environment:           "Non-Prod"
+      tags.hidden-title:          "v1.0.0"
+      tags.Role:                  "DeploymentValidation"
+      type:                       "Microsoft.Network/networkSecurityGroups"
+
+  + Microsoft.Network/networkSecurityGroups/azurebastionsubnet-nsg [2023-11-01]
+
+      apiVersion:                 "2023-11-01"
+      id:                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/azurebastionsubnet-nsg"
+      location:                   "westus2"
+      name:                       "azurebastionsubnet-nsg"
+      properties.flushConnection: false
+      properties.securityRules: [
+        0:
+
+          name:                                "AllowAzureCloudCommunicationOutBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "AzureCloud"
+          properties.destinationPortRange:     "443"
+          properties.direction:                "Outbound"
+          properties.priority:                 110
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        1:
+
+          name:                                "AllowBastionHostCommunicationInBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "VirtualNetwork"
+          properties.destinationPortRanges: [
+            0: "8080"
+            1: "5701"
+          ]
+          properties.direction:                "Inbound"
+          properties.priority:                 130
+          properties.protocol:                 "*"
+          properties.sourceAddressPrefix:      "VirtualNetwork"
+          properties.sourcePortRange:          "*"
+
+        2:
+
+          name:                                "AllowBastionHostCommunicationOutBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "VirtualNetwork"
+          properties.destinationPortRanges: [
+            0: "8080"
+            1: "5701"
+          ]
+          properties.direction:                "Outbound"
+          properties.priority:                 120
+          properties.protocol:                 "*"
+          properties.sourceAddressPrefix:      "VirtualNetwork"
+          properties.sourcePortRange:          "*"
+
+        3:
+
+          name:                                "AllowGatewayManagerInBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "443"
+          properties.direction:                "Inbound"
+          properties.priority:                 110
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "GatewayManager"
+          properties.sourcePortRange:          "*"
+
+        4:
+
+          name:                                "AllowGetSessionInformationOutBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "Internet"
+          properties.destinationPortRanges: [
+            0: "80"
+            1: "443"
+          ]
+          properties.direction:                "Outbound"
+          properties.priority:                 130
+          properties.protocol:                 "*"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        5:
+
+          name:                                "AllowHttpsInBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "443"
+          properties.direction:                "Inbound"
+          properties.priority:                 100
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "Internet"
+          properties.sourcePortRange:          "*"
+
+        6:
+
+          name:                                "AllowLoadBalancerInBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "443"
+          properties.direction:                "Inbound"
+          properties.priority:                 120
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "AzureLoadBalancer"
+          properties.sourcePortRange:          "*"
+
+        7:
+
+          name:                                "AllowSshRdpOutBound"
+          properties.access:                   "Allow"
+          properties.destinationAddressPrefix: "VirtualNetwork"
+          properties.destinationPortRanges: [
+            0: "22"
+            1: "3389"
+          ]
+          properties.direction:                "Outbound"
+          properties.priority:                 100
+          properties.protocol:                 "Tcp"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        8:
+
+          name:                                "DenyAllInBound"
+          properties.access:                   "Deny"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "*"
+          properties.direction:                "Inbound"
+          properties.priority:                 1000
+          properties.protocol:                 "*"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+        9:
+
+          name:                                "DenyAllOutBound"
+          properties.access:                   "Deny"
+          properties.destinationAddressPrefix: "*"
+          properties.destinationPortRange:     "*"
+          properties.direction:                "Outbound"
+          properties.priority:                 1000
+          properties.protocol:                 "*"
+          properties.sourceAddressPrefix:      "*"
+          properties.sourcePortRange:          "*"
+
+      ]
+      tags.Environment:           "Non-Prod"
+      tags.hidden-title:          "v1.0.0"
+      tags.Role:                  "DeploymentValidation"
+      type:                       "Microsoft.Network/networkSecurityGroups"
+
+  + Microsoft.Network/virtualHubs/alphubwus2vhub [2023-11-01]
+
+      apiVersion:                            "2023-11-01"
+      id:                                    "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualHubs/alphubwus2vhub"
+      location:                              "westus2"
+      name:                                  "alphubwus2vhub"
+      properties.addressPrefix:              "10.0.0.0/23"
+      properties.allowBranchToBranchTraffic: true
+      properties.sku:                        "Standard"
+      properties.virtualRouterAsn:           65515
+      properties.virtualWan.id:              "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualWans/alphubwus2vwan"
+      tags.Environment:                      "Non-Prod"
+      tags.hidden-title:                     "v1.0.0"
+      tags.Role:                             "DeploymentValidation"
+      type:                                  "Microsoft.Network/virtualHubs"
+
+  + Microsoft.Network/virtualHubs/alphubwus2vhub/hubVirtualNetworkConnections/alphubwus2vnet-to-alphubwus2vhub [2024-01-01]
+
+      apiVersion:                                              "2024-01-01"
+      id:                                                      "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualHubs/alphubwus2vhub/hubVirtualNetworkConnections/alphubwus2vnet-to-alphubwus2vhub"
+      name:                                                    "alphubwus2vnet-to-alphubwus2vhub"
+      properties.enableInternetSecurity:                       true
+      properties.remoteVirtualNetwork.id:                      "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      properties.routingConfiguration.associatedRouteTable.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualHubs/alphubwus2vhub/hubRouteTables/defaultRouteTable"
+      properties.routingConfiguration.propagatedRouteTables.ids: [
+        0:
+
+          id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualHubs/alphubwus2vhub/hubRouteTables/defaultRouteTable"
+
+      ]
+      type:                                                    "Microsoft.Network/virtualHubs/hubVirtualNetworkConnections"
+
+  + Microsoft.Network/virtualNetworks/alphubwus2vnet [2024-01-01]
+
+      apiVersion:                      "2024-01-01"
+      id:                              "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet"
+      location:                        "westus2"
+      name:                            "alphubwus2vnet"
+      properties.addressSpace.addressPrefixes: [
+        0: "10.1.0.0/18"
+      ]
+      properties.dhcpOptions.dnsServers: [
+        0: "168.63.129.16"
+      ]
+      properties.enableDdosProtection: false
+      properties.subnets: [
+        0:
+
+          name:                               "alphubwus2vnet-dnsinboundsnet"
+          properties.addressPrefix:           "10.1.2.0/24"
+          properties.delegations: [
+            0:
+
+              name:                   "Microsoft.Network/dnsResolvers"
+              properties.serviceName: "Microsoft.Network/dnsResolvers"
+
+          ]
+          properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsinboundsn-nsg"
+
+        1:
+
+          name:                               "alphubwus2vnet-dnsoutboundsnet"
+          properties.addressPrefix:           "10.1.3.0/24"
+          properties.delegations: [
+            0:
+
+              name:                   "Microsoft.Network/dnsResolvers"
+              properties.serviceName: "Microsoft.Network/dnsResolvers"
+
+          ]
+          properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsoutboundsn-nsg"
+
+        2:
+
+          name:                               "alphubwus2vnet-privateendpointsnet"
+          properties.addressPrefix:           "10.1.1.0/24"
+          properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-privateendpointsn-nsg"
+
+        3:
+
+          name:                               "AzureBastionSubnet"
+          properties.addressPrefix:           "10.1.0.0/24"
+          properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/AzureBastionSubnet-nsg"
+
+      ]
+      tags.Environment:                "Non-Prod"
+      tags.hidden-title:               "v1.0.0"
+      tags.Role:                       "DeploymentValidation"
+      type:                            "Microsoft.Network/virtualNetworks"
+
+  + Microsoft.Network/virtualNetworks/alphubwus2vnet/providers/Microsoft.Insights/diagnosticSettings/customSetting [2021-05-01-preview]
+
+      apiVersion:             "2021-05-01-preview"
+      id:                     "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/providers/Microsoft.Insights/diagnosticSettings/customSetting"
+      name:                   "customSetting"
+      properties.logs: [
+        0:
+
+          categoryGroup: "allLogs"
+          enabled:       true
+
+      ]
+      properties.metrics: [
+        0:
+
+          category: "AllMetrics"
+          enabled:  true
+
+      ]
+      properties.workspaceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      type:                   "Microsoft.Insights/diagnosticSettings"
+
+  + Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/AzureBastionSubnet [2024-01-01]
+
+      apiVersion:                         "2024-01-01"
+      id:                                 "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/AzureBastionSubnet"
+      name:                               "AzureBastionSubnet"
+      properties.addressPrefix:           "10.1.0.0/24"
+      properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/AzureBastionSubnet-nsg"
+      type:                               "Microsoft.Network/virtualNetworks/subnets"
+
+  + Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-dnsinboundsnet [2024-01-01]
+
+      apiVersion:                         "2024-01-01"
+      id:                                 "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-dnsinboundsnet"
+      name:                               "alphubwus2vnet-dnsinboundsnet"
+      properties.addressPrefix:           "10.1.2.0/24"
+      properties.delegations: [
+        0:
+
+          name:                   "Microsoft.Network/dnsResolvers"
+          properties.serviceName: "Microsoft.Network/dnsResolvers"
+
+      ]
+      properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsinboundsn-nsg"
+      type:                               "Microsoft.Network/virtualNetworks/subnets"
+
+  + Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-dnsoutboundsnet [2024-01-01]
+
+      apiVersion:                         "2024-01-01"
+      id:                                 "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-dnsoutboundsnet"
+      name:                               "alphubwus2vnet-dnsoutboundsnet"
+      properties.addressPrefix:           "10.1.3.0/24"
+      properties.delegations: [
+        0:
+
+          name:                   "Microsoft.Network/dnsResolvers"
+          properties.serviceName: "Microsoft.Network/dnsResolvers"
+
+      ]
+      properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-dnsoutboundsn-nsg"
+      type:                               "Microsoft.Network/virtualNetworks/subnets"
+
+  + Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-privateendpointsnet [2024-01-01]
+
+      apiVersion:                         "2024-01-01"
+      id:                                 "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualNetworks/alphubwus2vnet/subnets/alphubwus2vnet-privateendpointsnet"
+      name:                               "alphubwus2vnet-privateendpointsnet"
+      properties.addressPrefix:           "10.1.1.0/24"
+      properties.networkSecurityGroup.id: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/networkSecurityGroups/alphubwus2vnet-privateendpointsn-nsg"
+      type:                               "Microsoft.Network/virtualNetworks/subnets"
+
+  + Microsoft.Network/virtualWans/alphubwus2vwan [2023-04-01]
+
+      apiVersion:                            "2023-04-01"
+      id:                                    "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualWans/alphubwus2vwan"
+      location:                              "westus2"
+      name:                                  "alphubwus2vwan"
+      properties.allowBranchToBranchTraffic: true
+      properties.disableVpnEncryption:       false
+      properties.type:                       "Standard"
+      tags.Environment:                      "Non-Prod"
+      tags.hidden-title:                     "v1.0.0"
+      tags.Role:                             "DeploymentValidation"
+      type:                                  "Microsoft.Network/virtualWans"
+
+  + Microsoft.Network/vpnGateways/alphubwus2vpng [2023-04-01]
+
+      apiVersion:                                 "2023-04-01"
+      id:                                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/vpnGateways/alphubwus2vpng"
+      location:                                   "westus2"
+      name:                                       "alphubwus2vpng"
+      properties.bgpSettings.asn:                 65515
+      properties.bgpSettings.peerweight:          0
+      properties.enableBgpRouteTranslationForNat: false
+      properties.isRoutingPreferenceInternet:     false
+      properties.virtualHub.id:                   "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Network/virtualHubs/alphubwus2vhub"
+      properties.vpnGatewayScaleUnit:             1
+      tags.Environment:                           "Non-Prod"
+      tags.hidden-title:                          "v1.0.0"
+      tags.Role:                                  "DeploymentValidation"
+      type:                                       "Microsoft.Network/vpnGateways"
+
+  + Microsoft.OperationalInsights/workspaces/alphubwus2log [2022-10-01]
+
+      apiVersion:                                 "2022-10-01"
+      id:                                         "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      location:                                   "westus2"
+      name:                                       "alphubwus2log"
+      properties.forceCmkForQuery:                true
+      properties.publicNetworkAccessForIngestion: "Enabled"
+      properties.publicNetworkAccessForQuery:     "Enabled"
+      properties.retentionInDays:                 30
+      properties.sku.name:                        "PerGB2018"
+      properties.workspaceCapping.dailyQuotaGb:   -1
+      type:                                       "Microsoft.OperationalInsights/workspaces"
+
+  + Microsoft.Storage/storageAccounts/alphubwus2diagst01 [2023-05-01]
+
+      apiVersion:                                                                                                                                                                                     "2023-05-01"
+      id:                                                                                                                                                                                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01"
+      identity.type:                                                                                                                                                                                  "SystemAssigned,UserAssigned"
+      identity.userAssignedIdentities./subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/alphubwus2id: {}
+      kind:                                                                                                                                                                                           "StorageV2"
+      location:                                                                                                                                                                                       "westus2"
+      name:                                                                                                                                                                                           "alphubwus2diagst01"
+      properties.accessTier:                                                                                                                                                                          "Hot"
+      properties.allowBlobPublicAccess:                                                                                                                                                               false
+      properties.allowCrossTenantReplication:                                                                                                                                                         false
+      properties.allowSharedKeyAccess:                                                                                                                                                                true
+      properties.customDomain.useSubDomainName:                                                                                                                                                       false
+      properties.defaultToOAuthAuthentication:                                                                                                                                                        false
+      properties.encryption.keySource:                                                                                                                                                                "Microsoft.Storage"
+      properties.encryption.requireInfrastructureEncryption:                                                                                                                                          true
+      properties.isHnsEnabled:                                                                                                                                                                        false
+      properties.isLocalUserEnabled:                                                                                                                                                                  false
+      properties.isSftpEnabled:                                                                                                                                                                       false
+      properties.largeFileSharesState:                                                                                                                                                                "Enabled"
+      properties.minimumTlsVersion:                                                                                                                                                                   "TLS1_2"
+      properties.networkAcls.bypass:                                                                                                                                                                  "AzureServices"
+      properties.networkAcls.defaultAction:                                                                                                                                                           "Deny"
+      properties.sasPolicy.expirationAction:                                                                                                                                                          "Log"
+      properties.sasPolicy.sasExpirationPeriod:                                                                                                                                                       "180.00:00:00"
+      properties.supportsHttpsTrafficOnly:                                                                                                                                                            true
+      sku.name:                                                                                                                                                                                       "Standard_LRS"
+      tags.Environment:                                                                                                                                                                               "Non-Prod"
+      tags.hidden-title:                                                                                                                                                                              "v1.0.0"
+      tags.Role:                                                                                                                                                                                      "DeploymentValidation"
+      type:                                                                                                                                                                                           "Microsoft.Storage/storageAccounts"
+
+  + Microsoft.Storage/storageAccounts/alphubwus2diagst01/blobServices/default [2022-09-01]
+
+      apiVersion:                                                     "2022-09-01"
+      id:                                                             "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01/blobServices/default"
+      name:                                                           "default"
+      properties.automaticSnapshotPolicyEnabled:                      true
+      properties.containerDeleteRetentionPolicy.allowPermanentDelete: false
+      properties.containerDeleteRetentionPolicy.days:                 10
+      properties.containerDeleteRetentionPolicy.enabled:              true
+      properties.deleteRetentionPolicy.days:                          9
+      properties.deleteRetentionPolicy.enabled:                       true
+      properties.isVersioningEnabled:                                 false
+      properties.lastAccessTimeTrackingPolicy:                        "[if(not(equals(reference('/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01', '2022-09-01', 'full').kind, 'Storage')), createObject('enable', parameters('lastAccessTimeTrackingPolicyEnabled'), 'name', if(equals(parameters('lastAccessTimeTrackingPolicyEnabled'), true()), 'AccessTimeTracking', null()), 'trackingGranularityInDays', if(equals(parameters('lastAccessTimeTrackingPolicyEnabled'), true()), 1, null())), null())]"
+      type:                                                           "Microsoft.Storage/storageAccounts/blobServices"
+
+  + Microsoft.Storage/storageAccounts/alphubwus2diagst01/blobServices/default/providers/Microsoft.Insights/diagnosticSettings/customSetting [2021-05-01-preview]
+
+      apiVersion:             "2021-05-01-preview"
+      id:                     "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01/blobServices/default/providers/Microsoft.Insights/diagnosticSettings/customSetting"
+      name:                   "customSetting"
+      properties.logs: [
+        0:
+
+          categoryGroup: "allLogs"
+          enabled:       true
+
+      ]
+      properties.metrics: [
+        0:
+
+          category: "AllMetrics"
+          enabled:  true
+
+      ]
+      properties.workspaceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      type:                   "Microsoft.Insights/diagnosticSettings"
+
+  + Microsoft.Storage/storageAccounts/alphubwus2diagst01/fileServices/default [2023-04-01]
+
+      apiVersion:                                    "2023-04-01"
+      id:                                            "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01/fileServices/default"
+      name:                                          "default"
+      properties.shareDeleteRetentionPolicy.days:    7
+      properties.shareDeleteRetentionPolicy.enabled: true
+      type:                                          "Microsoft.Storage/storageAccounts/fileServices"
+
+  + Microsoft.Storage/storageAccounts/alphubwus2diagst01/fileServices/default/providers/Microsoft.Insights/diagnosticSettings/customSetting [2021-05-01-preview]
+
+      apiVersion:             "2021-05-01-preview"
+      id:                     "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01/fileServices/default/providers/Microsoft.Insights/diagnosticSettings/customSetting"
+      name:                   "customSetting"
+      properties.logs: [
+        0:
+
+          categoryGroup: "allLogs"
+          enabled:       true
+
+      ]
+      properties.metrics: [
+        0:
+
+          category: "AllMetrics"
+          enabled:  true
+
+      ]
+      properties.workspaceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      type:                   "Microsoft.Insights/diagnosticSettings"
+
+  + Microsoft.Storage/storageAccounts/alphubwus2diagst01/providers/Microsoft.Insights/diagnosticSettings/customSetting [2021-05-01-preview]
+
+      apiVersion:             "2021-05-01-preview"
+      id:                     "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Storage/storageAccounts/alphubwus2diagst01/providers/Microsoft.Insights/diagnosticSettings/customSetting"
+      name:                   "customSetting"
+      properties.metrics: [
+        0:
+
+          category: "AllMetrics"
+          enabled:  true
+
+      ]
+      properties.workspaceId: "/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log"
+      type:                   "Microsoft.Insights/diagnosticSettings"
+
+Resource changes: 82 to create.
+
+Diagnostics (2): 
+/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log (ResourceDeployedMultipleTimes) The resource '/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.OperationalInsights/workspaces/alphubwus2log' is defined multiple times in this deployment. Only the final state of the resource is shown.
+/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Insights/components/alphubwus2appi01 (ResourceDeployedMultipleTimes) The resource '/subscriptions/1b75e35f-044d-4202-8e8f-ad3c8b3c9560/resourceGroups/alphubwus2networkrg/providers/Microsoft.Insights/components/alphubwus2appi01' is defined multiple times in this deployment. Only the final state of the resource is shown.
+
