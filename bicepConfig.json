@@ -1,7 +1,5 @@
 {
   "experimentalFeaturesEnabled": {
-    "paramsFiles": true,
-    "userDefinedTypes": true,
       "extensibility": true
   },
   "analyzers": {
